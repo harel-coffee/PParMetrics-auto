@@ -17,25 +17,11 @@
 
 STATISTIC(PParCounter, "Counts PPar");
 
-namespace 
+namespace  
 {
     
 bool PParMetrics::runOnFunction(Function& F) 
 {
-    DependenceInfo& DA = getAnalysis<DependenceAnalysisWrapperPass>().getDI();
-    for (inst_iterator src_inst = inst_begin(&F); src_inst != inst_end(&F); ++src_inst) {
-        if (isa<StoreInst>(*src_inst) || isa<LoadInst>(*src_inst)) {
-            for (inst_iterator dst_inst = src_inst; dst_inst != inst_end(&F); ++dst_inst) {
-                if (isa<StoreInst>(*dst_inst) || isa<LoadInst>(*dst_inst)) {
-                    if ( std::unique_ptr<Dependence> dep = DA.depends(&*src_inst, &*dst_inst, true) ) 
-                    {
-                        PParCounter++;
-                    }
-                }
-            }
-        }
-    }
-
     return false;
 }
 
@@ -45,7 +31,6 @@ PParMetrics::PParMetrics()
 void PParMetrics::getAnalysisUsage(AnalysisUsage &AU) const 
 {
     AU.setPreservesAll();
-    AU.addRequiredTransitive<DependenceAnalysisWrapperPass>();
 }
 
 char PParMetrics::ID = 0;

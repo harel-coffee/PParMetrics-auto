@@ -5,11 +5,22 @@
 #include <unordered_map>
 #include <functional>
 
-using std::unordered_set;
-using std::unordered_map;
+namespace ppar {
 
-namespace ppar 
-{
+class Dependence {
+    public:
+        Dependence()
+            : Flow(false), Anti(false), Output(false) {}
+        ~Dependence() {}
+    
+        bool isFlow() const { return Flow; }
+        bool isAnti() const { return Anti; }
+        bool isOutput() const { return Output; }
+
+        bool Flow;
+        bool Anti;
+        bool Output;
+};
 
 template <typename NODE>
 class DependenceGraphNode;
@@ -111,8 +122,8 @@ class DependenceGraph {
             Preds.clear();
         }
         
-        using nodes_set = unordered_set<DependenceGraphNode<NODE>,HashNode<NODE>>;
-        using edges_set = unordered_set<DependenceGraphEdge<NODE,EDGE>,HashEdge<NODE,EDGE>>;
+        using nodes_set = std::unordered_set<DependenceGraphNode<NODE>,HashNode<NODE>>;
+        using edges_set = std::unordered_set<DependenceGraphEdge<NODE,EDGE>,HashEdge<NODE,EDGE>>;
 
         using nodes_iterator = typename nodes_set::iterator;
         using const_nodes_iterator = typename nodes_set::const_iterator;
@@ -123,7 +134,6 @@ class DependenceGraph {
         using const_edges_iterator = typename edges_set::const_iterator;
 
         void addNode(const NODE Node);
-
         void addEdge(const NODE From, const NODE To, const EDGE Data);
 
         void addPredecessor(const NODE Node, const NODE Pred);
@@ -169,77 +179,12 @@ class DependenceGraph {
     private:
         nodes_set Nodes; 
         edges_set Edges;
-        unordered_map<DependenceGraphNode<NODE>, nodes_set, HashNode<NODE>> Succs;
-        unordered_map<DependenceGraphNode<NODE>, nodes_set, HashNode<NODE>> Preds;
+        std::unordered_map<DependenceGraphNode<NODE>, nodes_set, HashNode<NODE>> Succs;
+        std::unordered_map<DependenceGraphNode<NODE>, nodes_set, HashNode<NODE>> Preds;
 };
 
-template <typename NODE, typename EDGE>
-bool DependenceGraph<NODE,EDGE>::nodeExists(const NODE Node) const {
-    const_nodes_iterator node_it = Nodes.find(DependenceGraphNode<NODE>(Node)); 
-    if (node_it != Nodes.end()) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-template <typename NODE, typename EDGE>
-void DependenceGraph<NODE,EDGE>::addNode(const NODE Node) {
-    Nodes.insert(DependenceGraphNode<NODE>(Node));
-}
-        
-template <typename NODE, typename EDGE>
-void DependenceGraph<NODE,EDGE>::addEdge(const NODE From, const NODE To, const EDGE Data) {
-    if (nodeExists(From) && nodeExists(To)) {
-        Edges.insert(DependenceGraphEdge<NODE,EDGE>(From, To, Data));
-        addPredecessor(To, From);
-        addSuccessor(From, To);
-    } else {
-        // cannot insert and edge between non-existent nodes
-//        llvm_unreachable("Cannot add an edge between non-existent nodes");
-    }
-}
-
-template <typename NODE, typename EDGE>
-void DependenceGraph<NODE,EDGE>::addPredecessor(const NODE Node, const NODE Pred) {
-    if (nodeExists(Node) && nodeExists(Pred)) {
-        Preds[DependenceGraphNode<NODE>(Node)].insert(DependenceGraphNode<NODE>(Pred));
-    } else {
-        // cannot insert and edge between non-existent nodes
-    }
-}
-
-template <typename NODE, typename EDGE>
-void DependenceGraph<NODE,EDGE>::addSuccessor(const NODE Node, const NODE Succ) {
-    if (nodeExists(Node) && nodeExists(Succ)) {
-        Succs[DependenceGraphNode<NODE>(Node)].insert(DependenceGraphNode<NODE>(Succ));
-    } else {
-        // cannot insert and edge between non-existent nodes
-    }
-} 
-
-template <typename NODE, typename EDGE>
-bool DependenceGraph<NODE,EDGE>::dependsOn(const NODE NodeA, const NODE NodeB) {
-    if (nodeExists(NodeA) && nodeExists(NodeB)) {
-        nodes_set& NodeA_dependants = Succs[DependenceGraphNode<NODE>(NodeA)];
-        DependenceGraphNode<NODE> nodeB(NodeB);
-        for (DependenceGraphNode<NODE>& dependant  : NodeA_dependants) {
-            if( dependant == nodeB) {
-                return true;
-            }
-        }
-        return false;
-    } else {
-        // cannot insert and edge between non-existent nodes
-        return false;
-    }
-}
-
-template <typename NODE, typename EDGE>
-const typename DependenceGraph<NODE,EDGE>::nodes_set& ppar::DependenceGraph<NODE,EDGE>::getDependants(const NODE Node) const {
-    return Succs[DependenceGraphNode<NODE>(Node)];
-}
-
 } // namespace ppar
+
+#include "DependenceGraph_impl.h"
 
 #endif // #ifndef PPAR_DEPENDENCE_GRAPH_H

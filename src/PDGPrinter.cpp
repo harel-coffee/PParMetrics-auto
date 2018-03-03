@@ -1,35 +1,33 @@
-#include "MDGPrinter.h"
+#include "PDGPrinter.h"
 #include "DotPrinter.h"
 
-#include "llvm/IR/Instruction.h"
-#include "llvm/IR/InstIterator.h"
+#include <string>
+using namespace std;
+
+#include "llvm/PassRegistry.h"
 #include "llvm/Support/raw_ostream.h"
 using namespace llvm;
 
-#include <string>
-#include <map>
-using namespace std;
-
-char ppar::MDGPrinter::ID = 0;
-RegisterPass<ppar::MDGPrinter> MDGPrinterRegister("dot-mdg", "Print MDG of a function to 'dot' file");
+char ppar::PDGPrinter::ID = 0;
+RegisterPass<ppar::PDGPrinter> PDGPrinterRegister("dot-pdg", "Print PDG of the function to the 'dot' file");
 
 namespace ppar {
 
-MDGPrinter::MDGPrinter() 
+PDGPrinter::PDGPrinter() 
     : FunctionPass(ID) {}
 
-void MDGPrinter::getAnalysisUsage(AnalysisUsage &AU) const {
+void PDGPrinter::getAnalysisUsage(AnalysisUsage& AU) const {
     AU.setPreservesAll();
-    AU.addRequiredTransitive<MemoryDependenceGraphPass>();
+    AU.addRequired<ProgramDependenceGraphPass>();
 }
 
-bool MDGPrinter::runOnFunction(Function &F) {
-    MemoryDependenceGraphPass& MDG = Pass::getAnalysis<MemoryDependenceGraphPass>();
-    DependenceGraph<Instruction*,llvm::Dependence*>& DG = MDG.getMDG();
+bool PDGPrinter::runOnFunction(Function& F) {
+    ProgramDependenceGraphPass& pdg = Pass::getAnalysis<ProgramDependenceGraphPass>();
+    const DependenceGraph<Instruction*,ppar::Dependence*>& DG = pdg.getPDG();
     DotPrinter Printer;
     map<Instruction*,string> InstrToNodeName;
     
-    for(DependenceGraph<Instruction*,llvm::Dependence*>::nodes_iterator node_it = DG.nodes_begin(); node_it != DG.nodes_end(); node_it++) {
+    for(DependenceGraph<Instruction*,ppar::Dependence*>::const_nodes_iterator node_it = DG.nodes_cbegin(); node_it != DG.nodes_cend(); node_it++) {
         DependenceGraphNode<Instruction*> DepNode = *node_it;
         Instruction* Instr = DepNode.getNode();
         DotNode* Node = new DotNode();
@@ -51,11 +49,11 @@ bool MDGPrinter::runOnFunction(Function &F) {
     }
 
     // print all graph edges
-    for(DependenceGraph<Instruction*,llvm::Dependence*>::edges_iterator edge_it = DG.edges_begin(); edge_it != DG.edges_end(); edge_it++) {
-        DependenceGraphEdge<Instruction*,llvm::Dependence*> DepEdge = *edge_it;
+    for(DependenceGraph<Instruction*,ppar::Dependence*>::const_edges_iterator edge_it = DG.edges_cbegin(); edge_it != DG.edges_cend(); edge_it++) {
+        DependenceGraphEdge<Instruction*,ppar::Dependence*> DepEdge = *edge_it;
         Instruction* From = DepEdge.getFrom();
         Instruction* To = DepEdge.getTo();
-        llvm::Dependence* Data = DepEdge.getData();
+        ppar::Dependence* Data = DepEdge.getData();
         string EdgeName = InstrToNodeName[From] + "->" + InstrToNodeName[To];
         DotEdge* Edge = new DotEdge(EdgeName);
 

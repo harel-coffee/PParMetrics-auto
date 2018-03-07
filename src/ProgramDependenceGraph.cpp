@@ -14,6 +14,7 @@
 using namespace llvm;
 
 #include <vector>
+#include <memory>
 using namespace std;
 
 char ppar::ProgramDependenceGraphPass::ID = 0;
@@ -24,6 +25,7 @@ namespace ppar {
 void ProgramDependenceGraphPass::getAnalysisUsage(AnalysisUsage& AU) const {
     AU.setPreservesAll();
     AU.addRequired<MemoryDependenceGraphPass>();
+    AU.addRequiredTransitive<DependenceAnalysisWrapperPass>();
     AU.addRequired<DataDependenceGraphPass>();
 }
 
@@ -41,13 +43,15 @@ bool ProgramDependenceGraphPass::runOnFunction(Function& F) {
     // copy all DDG edges to the PDG
     for (auto edge_it = ddg.edges_cbegin(); edge_it != ddg.edges_cend(); edge_it++) {
         const DependenceGraphEdge<Instruction*,ppar::Dependence*>& Edge = *edge_it;
-        PDG.addEdge(Edge.getFrom(), Edge.getTo(), Edge.getData());
+        ppar::Dependence* Dep = new ppar::Dependence();
+        *Dep = *(Edge.getData());
+        PDG.addEdge(Edge.getFrom(), Edge.getTo(), Dep);
     }
 
     // copy MDG edges to the PDG
     for (auto edge_it = mdg.edges_cbegin(); edge_it != mdg.edges_cend(); edge_it++) {
         const DependenceGraphEdge<Instruction*,llvm::Dependence*>& Edge = *edge_it;
-        ppar::Dependence* Dep = new ppar::Dependence();
+        ppar::Dependence* Dep(new ppar::Dependence());
         llvm::Dependence* MemDep = Edge.getData();
         
         if (MemDep->isFlow()) {
@@ -56,12 +60,31 @@ bool ProgramDependenceGraphPass::runOnFunction(Function& F) {
             Dep->Anti = true;
         } else if (MemDep->isOutput()){
             Dep->Output = true;
+        } else {
+            Dep->Unknown = true;
         }
 
         PDG.addEdge(Edge.getFrom(), Edge.getTo(), Dep);
     }
 
     return false;
+}
+
+StringRef ProgramDependenceGraphPass::getPassName() const { 
+    return "Program Dependence Graph"; 
+}
+
+void ProgramDependenceGraphPass::releaseMemory() {
+
+    for (auto it = PDG.edges_begin(); it != PDG.edges_end(); it++) {
+        delete it->getData();
+    }
+
+    PDG.clear(); 
+}
+
+const DependenceGraph<llvm::Instruction*,ppar::Dependence*>& ProgramDependenceGraphPass::getPDG() const { 
+    return PDG; 
 }
 
 }

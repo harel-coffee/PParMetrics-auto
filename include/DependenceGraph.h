@@ -4,22 +4,37 @@
 #include <unordered_set>
 #include <unordered_map>
 #include <functional>
+#include <memory>
 
 namespace ppar {
 
 class Dependence {
     public:
-        Dependence()
-            : Flow(false), Anti(false), Output(false) {}
+        Dependence() 
+            : Flow(false), Anti(false), Output(false), Unknown(true) {}
         ~Dependence() {}
-    
+        
+        Dependence(const Dependence& Dep) 
+            : Flow(Dep.Flow), Anti(Dep.Anti), Output(Dep.Output), Unknown(Dep.Unknown) {}
+
+        Dependence& operator=(const Dependence& Dep) {
+            Flow = Dep.Flow;
+            Anti = Dep.Anti;
+            Output = Dep.Output;
+            Unknown = Dep.Unknown;
+
+            return *this;
+        }
+
         bool isFlow() const { return Flow; }
         bool isAnti() const { return Anti; }
         bool isOutput() const { return Output; }
+        bool isUnknown() const { return Unknown; }
 
         bool Flow;
         bool Anti;
         bool Output;
+        bool Unknown;
 };
 
 template <typename NODE>
@@ -38,9 +53,9 @@ struct HashNode {
 template <typename NODE, typename EDGE>
 struct HashEdge {
     size_t operator()(const DependenceGraphEdge<NODE,EDGE>& Edge) const {
-        return ( std::hash<EDGE>()(Edge.getData()) ^ 
-                 std::hash<NODE>()(Edge.getFrom()) ^ 
-                 std::hash<NODE>()(Edge.getTo()) );
+        return ( std::hash<void*>()(static_cast<void*>(Edge.getData())) ^ 
+                 std::hash<void*>()(static_cast<void*>(Edge.getFrom())) ^ 
+                 std::hash<void*>()(static_cast<void*>(Edge.getTo())) );
     }
 };
 
@@ -79,6 +94,18 @@ class DependenceGraphEdge {
     public:
         DependenceGraphEdge(NODE From, NODE To, EDGE Data)
             : From(From), To(To), Data(Data) {}
+
+        DependenceGraphEdge(const DependenceGraphEdge& CopyEdge) {
+            From = CopyEdge.From;
+            To = CopyEdge.To;
+            Data = CopyEdge.Data;
+        }
+
+        DependenceGraphEdge& operator=(const DependenceGraphEdge& AssignEdge) {
+            From = AssignEdge.From;
+            To = AssignEdge.To;
+            Data = std::move(AssignEdge.Data);
+        }
 
         ~DependenceGraphEdge() {}
     
@@ -127,21 +154,18 @@ class DependenceGraph {
 
         using nodes_iterator = typename nodes_set::iterator;
         using const_nodes_iterator = typename nodes_set::const_iterator;
-        using dependant_iterator = typename nodes_set::iterator;
-        using const_dependant_iterator = typename nodes_set::const_iterator;
 
         using edges_iterator = typename edges_set::iterator;
         using const_edges_iterator = typename edges_set::const_iterator;
 
+        using dependant_iterator = typename nodes_set::iterator;
+        using const_dependant_iterator = typename nodes_set::const_iterator;
+
         void addNode(const NODE Node);
-        void addEdge(const NODE From, const NODE To, const EDGE Data);
+        void addEdge(const NODE From, const NODE To, EDGE Data);
 
         void addPredecessor(const NODE Node, const NODE Pred);
         void addSuccessor(const NODE Node, const NODE Succ);
-
-// two really heavyweight operations (we do not need them for now)
-//        inline void removeNode(const NODE Node);
-//        inline void removeEdge(const NODE From, const NODE To);
 
         bool dependsOn(const NODE NodeA, const NODE NodeB);
 

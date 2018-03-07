@@ -2,9 +2,9 @@
 
 #include "llvm/IR/InstIterator.h"
 using namespace llvm;
-using namespace std;
 
 #include <memory>
+using namespace std;
 
 char ppar::MemoryDependenceGraphPass::ID = 0;
 RegisterPass<ppar::MemoryDependenceGraphPass> MDGRegister("mdg", "Print MDG of a function to 'dot' file");
@@ -16,7 +16,7 @@ MemoryDependenceGraphPass::MemoryDependenceGraphPass()
 
 void MemoryDependenceGraphPass::getAnalysisUsage(AnalysisUsage &AU) const {
     AU.setPreservesAll();
-    AU.addRequired<DependenceAnalysisWrapperPass>();
+    AU.addRequiredTransitive<DependenceAnalysisWrapperPass>();
 }
 
 StringRef MemoryDependenceGraphPass::getPassName() const { 
@@ -46,7 +46,7 @@ bool MemoryDependenceGraphPass::runOnFunction(Function &F) {
         if (isa<StoreInst>(*SrcI) || isa<LoadInst>(*SrcI)) {
             for (inst_iterator DstI = SrcI, DstE = inst_end(F); DstI != DstE; ++DstI) {
                 if (isa<StoreInst>(*DstI) || isa<LoadInst>(*DstI)) {
-                    if (llvm::Dependence* D = (DI.depends(&*SrcI, &*DstI, true)).get()) {
+                    if (llvm::Dependence* D = (DI.depends(&*SrcI, &*DstI, true)).release()) {
                         if (D->isFlow() || D->isAnti()) MDG.addEdge(&*SrcI, &*DstI, D);
                     }
                 }

@@ -3,17 +3,17 @@
 #include "llvm/IR/User.h"
 #include "llvm/IR/InstIterator.h"
 #include "llvm/Support/Casting.h"
-
-using namespace std;
 using namespace llvm;
+
+#include <memory>
+using namespace std;
 
 char ppar::DataDependenceGraphPass::ID = 0;
 RegisterPass<ppar::DataDependenceGraphPass> DDGRegister("ddg", "Build Data Dependence Graph");
 
 namespace ppar {
 
-DataDependenceGraphPass::DataDependenceGraphPass() 
-    : FunctionPass(ID) {}
+DataDependenceGraphPass::DataDependenceGraphPass() : FunctionPass(ID) {}
 
 void DataDependenceGraphPass::getAnalysisUsage(AnalysisUsage& AU) const {
     AU.setPreservesAll();
@@ -23,11 +23,12 @@ StringRef DataDependenceGraphPass::getPassName() const {
     return "Data Dependence Graph"; 
 }
 
-void DataDependenceGraphPass::releaseMemory() { 
-    for (ppar::Dependence* dep : DepsPool) {
-        delete dep;
+void DataDependenceGraphPass::releaseMemory() {
+    
+    for (auto it = DDG.edges_begin(); it != DDG.edges_end(); it++) {
+        delete it->getData();
     }
-    DepsPool.clear();
+
     DDG.clear();
 }
 
@@ -36,10 +37,6 @@ const DependenceGraph<Instruction*,ppar::Dependence*>& DataDependenceGraphPass::
 }
 
 bool DataDependenceGraphPass::runOnFunction(Function &F) {
-
-    using llvm::User;
-    using llvm::inst_iterator;
-    using llvm::dyn_cast;
 
     // add nodes
     for (inst_iterator I = inst_begin(F), E = inst_end(F); I != E; I++) {
@@ -52,7 +49,6 @@ bool DataDependenceGraphPass::runOnFunction(Function &F) {
         // every user of an instruction is its user
         for (User* U : I->users()) {
             ppar::Dependence* Dep = new ppar::Dependence();
-            DepsPool.push_back(Dep);
             Dep->Flow = true;
             if (Instruction* Inst = dyn_cast<Instruction>(U)) {
                 DDG.addEdge(&*I, Inst, Dep);

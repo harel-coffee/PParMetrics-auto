@@ -8,6 +8,7 @@ using namespace llvm;
 
 #include <string>
 #include <map>
+#include <memory>
 using namespace std;
 
 char ppar::MDGPrinter::ID = 0;
@@ -52,7 +53,7 @@ bool MDGPrinter::runOnFunction(Function &F) {
 
     // print all graph edges
     for(DependenceGraph<Instruction*,llvm::Dependence*>::edges_iterator edge_it = DG.edges_begin(); edge_it != DG.edges_end(); edge_it++) {
-        DependenceGraphEdge<Instruction*,llvm::Dependence*> DepEdge = *edge_it;
+        const DependenceGraphEdge<Instruction*,llvm::Dependence*>& DepEdge = *edge_it;
         Instruction* From = DepEdge.getFrom();
         Instruction* To = DepEdge.getTo();
         llvm::Dependence* Data = DepEdge.getData();

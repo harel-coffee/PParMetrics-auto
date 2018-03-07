@@ -9,6 +9,8 @@
 #include "llvm/IR/Instruction.h"
 #include "llvm/Analysis/DependenceAnalysis.h"
 
+#include <memory>
+
 namespace ppar {
 
 struct MemoryDependenceGraphPass : public llvm::FunctionPass {

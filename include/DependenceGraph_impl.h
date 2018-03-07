@@ -1,6 +1,8 @@
 #ifndef PPAR_DEPENDENCE_GRAPH_IMPL_H
 #define PPAR_DEPENDENCE_GRAPH_IMPL_H
 
+#include <memory>
+
 namespace ppar {
 
 template <typename NODE, typename EDGE>

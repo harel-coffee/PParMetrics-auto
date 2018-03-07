@@ -17,9 +17,9 @@ struct ProgramDependenceGraphPass : public llvm::FunctionPass {
 
         bool runOnFunction(llvm::Function &F) override;
         void getAnalysisUsage(llvm::AnalysisUsage& AU) const override;
-        llvm::StringRef getPassName() const override { return "Program Dependence Graph"; }
-        void releaseMemory() override { PDG.clear(); }
-        const DependenceGraph<llvm::Instruction*,ppar::Dependence*>& getPDG() const { return PDG; }
+        llvm::StringRef getPassName() const override;
+        void releaseMemory() override;
+        const DependenceGraph<llvm::Instruction*,ppar::Dependence*>& getPDG() const;
 
     private:
         DependenceGraph<llvm::Instruction*,ppar::Dependence*> PDG;

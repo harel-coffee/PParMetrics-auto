@@ -25,7 +25,6 @@ struct DataDependenceGraphPass : public llvm::FunctionPass {
 
     private:
         DependenceGraph<llvm::Instruction*,ppar::Dependence*> DDG;
-        std::vector<ppar::Dependence*> DepsPool;
 };
 
 } // namespace ppar

@@ -1,134 +1,143 @@
 #include "DotPrinter.h"
 
-#include "llvm/Support/raw_ostream.h"
-
 using namespace std;
-using namespace llvm;
 
 namespace ppar {
 
 DotNode::DotNode() {
-    name = "node" + to_string(node_num);
-    node_num++;
-    attributes.clear();
+    Name = "node" + to_string(NodeNum);
+    NodeNum++;
+    Attributes.clear();
 }
 
 DotNode::~DotNode() {
-    attributes.clear();
+    Attributes.clear();
 }
 
-void DotNode::setAttribute(string name, string value) {
-    attributes[name] = value;
+void DotNode::setAttribute(string Name, string Value) {
+    Attributes[Name] = Value;
 }
         
-string DotNode::getAttribute(string name) {
-    unordered_map<string,string>::const_iterator it = attributes.find(name);
-    if (it != attributes.cend()) {
-        return attributes[name];
+string DotNode::getAttribute(string Name) {
+    unordered_map<string,string>::const_iterator it = Attributes.find(Name);
+    if (it != Attributes.cend()) {
+        return Attributes[Name];
     } else {
         return string("");
     }
 }
 
-string DotNode::getName() const { return name; }
+string DotNode::getName() const { return Name; }
 
-void DotNode::print() const {
-    outs() << name << " [";
+void DotNode::print(std::ofstream& DotFile) const {
+    DotFile << Name << " [";
     uint64_t i = 0; 
-    for (unordered_map<string,string>::const_iterator attr_it = attributes.cbegin(); attr_it != attributes.cend(); attr_it++) {
-        if (i != 0 && i != attributes.size()-1) {
+    for (unordered_map<string,string>::const_iterator attr_it = Attributes.cbegin(); attr_it != Attributes.cend(); attr_it++) {
+        if (i != 0) {
             // print attribute delimeter
-            outs() << ",";
+            DotFile << ",";
         }
-        outs() << attr_it->first << "=" << attr_it->second;
+        DotFile << attr_it->first << "=";
+        if (attr_it->first == "label") {
+            DotFile << "\"" << attr_it->second << "\"";
+        } else {
+            DotFile << attr_it->second;
+        }
         i++;
     }
-    outs() << " ]\n";
+    DotFile << " ]\n";
 }
 
-uint64_t DotNode::node_num = 0;
+uint64_t DotNode::NodeNum = 0;
 
-DotEdge::DotEdge(string n) {
-    name = n;
-    attributes.clear();
+DotEdge::DotEdge(string N) {
+    Name = N;
+    Attributes.clear();
 }
 
 DotEdge::~DotEdge() {
-    attributes.clear();
+    Attributes.clear();
 }
 
-void DotEdge::setAttribute(string name, string value) {
-    attributes[name] = value;
+void DotEdge::setAttribute(string Name, string Value) {
+    Attributes[Name] = Value;
 }
         
-string DotEdge::getAttribute(string name) {
-    unordered_map<string,string>::const_iterator it = attributes.find(name);
-    if (it != attributes.cend()) {
-        return attributes[name];
+string DotEdge::getAttribute(string Name) {
+    unordered_map<string,string>::const_iterator it = Attributes.find(Name);
+    if (it != Attributes.cend()) {
+        return Attributes[Name];
     } else {
         return string("");
     }
 }
 
-string DotEdge::getName() const { return name; }
+string DotEdge::getName() const { return Name; }
 
-void DotEdge::print() const {
-    outs() << name << " [";
+void DotEdge::print(std::ofstream& DotFile) const {
+    DotFile << Name << " [";
     uint64_t i = 0; 
-    for (unordered_map<string,string>::const_iterator attr_it = attributes.cbegin(); attr_it != attributes.cend(); attr_it++) {
-        if (i != 0 && i != attributes.size()-1) {
+    for (unordered_map<string,string>::const_iterator attr_it = Attributes.cbegin(); attr_it != Attributes.cend(); attr_it++) {
+        if (i != 0) {
             // print attribute delimeter
-            outs() << ",";
+            DotFile << ",";
         }
-        outs() << attr_it->first << "=" << attr_it->second;
+        DotFile << attr_it->first << "=";
+        if (attr_it->first == "label") {
+            DotFile << "\"" << attr_it->second << "\"";
+        } else {
+            DotFile << attr_it->second;
+        }
         i++;
     }
-    outs() << " ]\n";
+    DotFile << " ]\n";
 }
 
-DotPrinter::DotPrinter() {
-    nodes.clear();
-    edges.clear();
+DotPrinter::DotPrinter(string Name) : FileName(Name) {
+    Nodes.clear();
+    Edges.clear();
 }
 
 DotPrinter::~DotPrinter() {
 
-    for (unordered_map<string,DotNode*>::iterator node_it = nodes.begin(); node_it != nodes.end(); node_it++) {
+    for (unordered_map<string,DotNode*>::iterator node_it = Nodes.begin(); node_it != Nodes.end(); node_it++) {
         delete node_it->second;
     }
 
-    for (unordered_map<string,DotEdge*>::iterator edge_it = edges.begin(); edge_it != edges.end(); edge_it++) {
+    for (unordered_map<string,DotEdge*>::iterator edge_it = Edges.begin(); edge_it != Edges.end(); edge_it++) {
         delete edge_it->second;
     }
 
-    nodes.clear();
-    edges.clear();
+    Nodes.clear();
+    Edges.clear();
 }
 
-void DotPrinter::addNode(string name, DotNode* dotNode) {
-    nodes[name] = dotNode;
+void DotPrinter::addNode(string Name, DotNode* Node) {
+    Nodes[Name] = Node;
 }
 
-void DotPrinter::addEdge(string name, DotEdge* dotEdge) {
-    edges[name] = dotEdge;
+void DotPrinter::addEdge(string Name, DotEdge* Edge) {
+    Edges[Name] = Edge;
 }
 
 void DotPrinter::print() const {
-    outs() << "digraph {\n"; 
-    outs() << "\n"; 
+    std::ofstream DotFile(FileName + ".dot");
+    DotFile << "digraph {\n"; 
+    DotFile << "\n"; 
             
-    for (unordered_map<string,DotNode*>::const_iterator node_it = nodes.cbegin(); node_it != nodes.cend(); node_it++) {
-        node_it->second->print();
+    for (unordered_map<string,DotNode*>::const_iterator node_it = Nodes.cbegin(); node_it != Nodes.cend(); node_it++) {
+        node_it->second->print(DotFile);
     }
             
-    outs() << "\n"; 
+    DotFile << "\n"; 
             
-    for (unordered_map<string,DotEdge*>::const_iterator edge_it = edges.cbegin(); edge_it != edges.cend(); edge_it++) {
-        edge_it->second->print();
+    for (unordered_map<string,DotEdge*>::const_iterator edge_it = Edges.cbegin(); edge_it != Edges.cend(); edge_it++) {
+        edge_it->second->print(DotFile);
     }
 
-    outs() << "\n"; 
-    outs() << "}"; 
+    DotFile << "\n"; 
+    DotFile << "}";
+    DotFile.close();
 }
 
 } // namespace ppar

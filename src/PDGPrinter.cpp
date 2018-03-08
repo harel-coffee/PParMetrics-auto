@@ -24,7 +24,7 @@ void PDGPrinter::getAnalysisUsage(AnalysisUsage& AU) const {
 bool PDGPrinter::runOnFunction(Function& F) {
     ProgramDependenceGraphPass& pdg = Pass::getAnalysis<ProgramDependenceGraphPass>();
     const DependenceGraph<Instruction*,ppar::Dependence*>& DG = pdg.getPDG();
-    DotPrinter Printer;
+    DotPrinter Printer("pdg");
     map<Instruction*,string> InstrToNodeName;
     
     for(DependenceGraph<Instruction*,ppar::Dependence*>::const_nodes_iterator node_it = DG.nodes_cbegin(); node_it != DG.nodes_cend(); node_it++) {
@@ -53,9 +53,27 @@ bool PDGPrinter::runOnFunction(Function& F) {
         DependenceGraphEdge<Instruction*,ppar::Dependence*> DepEdge = *edge_it;
         Instruction* From = DepEdge.getFrom();
         Instruction* To = DepEdge.getTo();
-        ppar::Dependence* Data = DepEdge.getData();
+        ppar::Dependence* Dep = DepEdge.getData();
         string EdgeName = InstrToNodeName[From] + "->" + InstrToNodeName[To];
         DotEdge* Edge = new DotEdge(EdgeName);
+
+        if (Dep->isFlow()) {
+            Edge->setAttribute( /* name = */ string("label"), /* value = */ string("T"));
+            Edge->setAttribute( /* name = */ string("fontcolor"), /* value = */ string("forestgreen"));
+            Edge->setAttribute( /* name = */ string("color"), /* value = */ string("forestgreen"));
+        } else if (Dep->isAnti()) {
+            Edge->setAttribute( /* name = */ string("label"), /* value = */ string("A"));
+            Edge->setAttribute( /* name = */ string("fontcolor"), /* value = */ string("firebrick3"));
+            Edge->setAttribute( /* name = */ string("color"), /* value = */ string("firebrick3"));
+        } else if (Dep->isOutput())   {
+            Edge->setAttribute( /* name = */ string("label"), /* value = */ string("O"));
+            Edge->setAttribute( /* name = */ string("fontcolor"), /* value = */ string("dodgerblue"));
+            Edge->setAttribute( /* name = */ string("color"), /* value = */ string("dodgerblue"));
+        } else {
+            Edge->setAttribute( /* name = */ string("label"), /* value = */ string("U"));
+            Edge->setAttribute( /* name = */ string("fontcolor"), /* value = */ string("gray"));
+            Edge->setAttribute( /* name = */ string("color"), /* value = */ string("gray"));
+        }
 
         Printer.addEdge(Edge->getName(), Edge);
     }

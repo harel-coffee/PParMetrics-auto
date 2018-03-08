@@ -27,7 +27,7 @@ void MDGPrinter::getAnalysisUsage(AnalysisUsage &AU) const {
 bool MDGPrinter::runOnFunction(Function &F) {
     MemoryDependenceGraphPass& MDG = Pass::getAnalysis<MemoryDependenceGraphPass>();
     DependenceGraph<Instruction*,llvm::Dependence*>& DG = MDG.getMDG();
-    DotPrinter Printer;
+    DotPrinter Printer("mdg");
     map<Instruction*,string> InstrToNodeName;
     
     for(DependenceGraph<Instruction*,llvm::Dependence*>::nodes_iterator node_it = DG.nodes_begin(); node_it != DG.nodes_end(); node_it++) {

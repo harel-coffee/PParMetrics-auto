@@ -11,7 +11,9 @@ namespace ppar {
 class Dependence {
     public:
         Dependence() 
-            : Flow(false), Anti(false), Output(false), Unknown(true) {}
+            : Flow(false), Anti(false), Output(false), Unknown(true),
+              Mem(false), Confused(true), Consistent(false),
+              direction(0) {}
         ~Dependence() {}
         
         Dependence(const Dependence& Dep) 
@@ -30,11 +32,20 @@ class Dependence {
         bool isAnti() const { return Anti; }
         bool isOutput() const { return Output; }
         bool isUnknown() const { return Unknown; }
+        
+        bool isMem() const { return Mem; }
+        bool isConfused() const { return Confused; }
+        bool isConsistent() const { return Consistent; }
 
         bool Flow;
         bool Anti;
         bool Output;
         bool Unknown;
+        
+        bool Mem; // obtained from memory dependence analysis
+        bool Confused;
+        bool Consistent;
+        unsigned int direction;
 };
 
 template <typename NODE>

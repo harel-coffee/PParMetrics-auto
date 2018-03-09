@@ -50,6 +50,7 @@ bool DataDependenceGraphPass::runOnFunction(Function &F) {
         for (User* U : I->users()) {
             ppar::Dependence* Dep = new ppar::Dependence();
             Dep->Flow = true;
+            Dep->Mem = false;
             if (Instruction* Inst = dyn_cast<Instruction>(U)) {
                 DDG.addEdge(&*I, Inst, Dep);
             }

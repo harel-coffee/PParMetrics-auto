@@ -2,6 +2,7 @@
 #include "DotPrinter.h"
 
 #include <string>
+#include <algorithm>
 using namespace std;
 
 #include "llvm/PassRegistry.h"
@@ -24,7 +25,7 @@ void PDGPrinter::getAnalysisUsage(AnalysisUsage& AU) const {
 bool PDGPrinter::runOnFunction(Function& F) {
     ProgramDependenceGraphPass& pdg = Pass::getAnalysis<ProgramDependenceGraphPass>();
     const DependenceGraph<Instruction*,ppar::Dependence*>& DG = pdg.getPDG();
-    DotPrinter Printer("pdg");
+    DotPrinter Printer(F.getName().str() + ".pdg");
     map<Instruction*,string> InstrToNodeName;
     
     for(DependenceGraph<Instruction*,ppar::Dependence*>::const_nodes_iterator node_it = DG.nodes_cbegin(); node_it != DG.nodes_cend(); node_it++) {
@@ -36,13 +37,18 @@ bool PDGPrinter::runOnFunction(Function& F) {
         if (Instr->mayReadOrWriteMemory()) {
             // memory reference
             Node->setAttribute( /* name = */ string("shape"), /* value = */ string("ellipse"));
+            Node->setAttribute( /* name = */ string("style"), /* value = */ string("filled"));
+            Node->setAttribute( /* name = */ string("fillcolor"), /* value = */ string("lightcoral"));
         } else {
             Node->setAttribute( /* name = */ string("shape"), /* value = */ string("rectangle"));
+            Node->setAttribute( /* name = */ string("style"), /* value = */ string("filled"));
+            Node->setAttribute( /* name = */ string("fillcolor"), /* value = */ string("lemonchiffon"));
         }
 
         string str;
         raw_string_ostream rso(str);
         Instr->print(rso);
+        std::remove(str.begin(), str.end(), '\"');
         Node->setAttribute( /* name = */ string("label"), /* value = */ str);
 
         Printer.addNode(Node->getName(), Node);
@@ -73,6 +79,26 @@ bool PDGPrinter::runOnFunction(Function& F) {
             Edge->setAttribute( /* name = */ string("label"), /* value = */ string("U"));
             Edge->setAttribute( /* name = */ string("fontcolor"), /* value = */ string("gray"));
             Edge->setAttribute( /* name = */ string("color"), /* value = */ string("gray"));
+        }
+        
+        if (Dep->isMem()) {
+            Edge->setAttribute( /* name = */ string("style"), /* value = */ string("solid"));
+        } else {
+            Edge->setAttribute( /* name = */ string("style"), /* value = */ string("dotted"));
+        }
+        
+        if (Dep->isConfused()) {
+            if (!Dep->isConsistent()) {
+                Edge->setAttribute( /* name = */ string("penwidth"), /* value = */ string("1.0"));
+            } else {
+                Edge->setAttribute( /* name = */ string("penwidth"), /* value = */ string("0.0"));
+            }
+        } else {
+            if (Dep->isConsistent()) {
+                Edge->setAttribute( /* name = */ string("penwidth"), /* value = */ string("2.0"));
+            } else {
+                Edge->setAttribute( /* name = */ string("penwidth"), /* value = */ string("0.0"));
+            }
         }
 
         Printer.addEdge(Edge->getName(), Edge);

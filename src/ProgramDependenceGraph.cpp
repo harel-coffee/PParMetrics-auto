@@ -63,6 +63,19 @@ bool ProgramDependenceGraphPass::runOnFunction(Function& F) {
         } else {
             Dep->Unknown = true;
         }
+        Dep->Mem = true;
+
+        if (MemDep->isConfused()) {
+            Dep->Confused = true;
+        } else {
+            Dep->Confused = false;
+        }
+
+        if (MemDep->isConsistent()) {
+            Dep->Consistent = true;
+        } else {
+            Dep->Consistent = false;
+        }
 
         PDG.addEdge(Edge.getFrom(), Edge.getTo(), Dep);
     }

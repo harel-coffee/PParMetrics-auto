@@ -1,6 +1,8 @@
 #ifndef PPAR_DEPENDENCE_GRAPH_H
 #define PPAR_DEPENDENCE_GRAPH_H
 
+#include <cstdint>
+
 #include <unordered_set>
 #include <unordered_map>
 #include <functional>
@@ -48,16 +50,16 @@ class Dependence {
         unsigned int direction;
 };
 
-template <typename NODE>
+template <typename NODE,EDGE>
 class DependenceGraphNode;
 
 template <typename NODE, typename EDGE>
 class DependenceGraphEdge;
 
-template <typename NODE>
+template <typename NODE,EDGE>
 struct HashNode {
-    size_t operator()(const DependenceGraphNode<NODE>& Node) const {
-        return std::hash<NODE>()(Node.getNode());
+    size_t operator()(const DependenceGraphNode<NODE,EDGE>& Node) const {
+        return std::hash<void*>()(static_cast<void*>(Node.getNode()));
     }
 };
 
@@ -70,23 +72,41 @@ struct HashEdge {
     }
 };
 
-template <typename NODE>
-class DependenceGraphNode {
-    public:
-        DependenceGraphNode(NODE DepNode) 
-            : Node(DepNode) {}
+template <typename NODE,EDGE>
+struct CompareNode {
+    bool operator()(const DependenceGraphNode<NODE,EDGE>& NodeA, const DependenceGraphNode<NODE,EDGE>& NodeB) const {
+        if (NodeA.ProgramOrder > NodeB.ProgramOrder) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+};
 
-        DependenceGraphNode(const DependenceGraphNode& DepNode) 
-            : Node(DepNode.Node) {}
+template <typename NODE,EDGE>
+class DependenceGraphNode {
+
+    friend class CompareNode<NODE>;
+    friend class HashNode<NODE>;
+    friend class DepthFirstSearch_iterator<NODE,EDGE>;
+
+    public:
+        DependenceGraphNode(NODE DepNode, uint64_t Num) 
+            : Node(DepNode), ProgramOrder(Num), NodeColor(WHITE) {}
+
+        DependenceGraphNode(const DependenceGraphNode<NODE,EDGE>& DepNode) 
+            : Node(DepNode.Node), ProgramOrder(DepNode.ProgramOrder), NodeColor(DepNode.NodeColor) {}
 
         ~DependenceGraphNode() {}
 
-        DependenceGraphNode& operator=(const DependenceGraphNode<NODE>& DepNode) {
+        DependenceGraphNode& operator=(const DependenceGraphNode<NODE,EDGE>& DepNode) {
             Node = DepNode.Node;
+            ProgramOrder = DepNode.ProgramOrder;
+            NodeColor = DepNode.NodeColor;
             return *this;
         }
 
-        bool operator==(const DependenceGraphNode<NODE>& DepNode) const {
+        bool operator==(const DependenceGraphNode<NODE,EDGE>& DepNode) const {
             if (Node == DepNode.Node) {
                 return true;
             } else {
@@ -95,9 +115,19 @@ class DependenceGraphNode {
         }
         
         NODE getNode() const { return Node; }
+        uint64_t getProgramOrder() const { return ProgramOrder; }
 
     private:
         NODE Node;
+        uint64_t ProgramOrder;
+
+        enum class Color {
+            GREY,
+            WHITE,
+            BLACK
+        };
+
+        Color NodeColor;
 };
 
 template <typename NODE, typename EDGE>
@@ -140,11 +170,17 @@ class DependenceGraphEdge {
         NODE To;
 };
 
+template <typename NODE, typename EDGE>
+class DepthFirstSearch_iterator;
+
 /*
  * Graph = {N,E} is represented as two sets: N (nodes) and E (edges)
  */
 template <typename NODE, typename EDGE>
 class DependenceGraph {
+
+    friend class DepthFirstSearch_iterator<NODE,EDGE>;
+
     public:
         DependenceGraph() {
             Nodes.clear();
@@ -160,8 +196,11 @@ class DependenceGraph {
             Preds.clear();
         }
         
-        using nodes_set = std::unordered_set<DependenceGraphNode<NODE>,HashNode<NODE>>;
-        using edges_set = std::unordered_set<DependenceGraphEdge<NODE,EDGE>,HashEdge<NODE,EDGE>>;
+        using ordered_nodes_set = std::set<DependenceGraphNode<NODE>,CompareNode<NODE>>;
+        using unordered_nodes_set = std::unordered_set<DependenceGraphNode<NODE>,HashNode<NODE>>;
+        using unordered_edges_set = std::unordered_set<DependenceGraphEdge<NODE,EDGE>,HashEdge<NODE,EDGE>>;
+        using nodes_set = ordered_nodes_set;
+        using edges_set = unordered_edges_set;
 
         using nodes_iterator = typename nodes_set::iterator;
         using const_nodes_iterator = typename nodes_set::const_iterator;
@@ -172,6 +211,8 @@ class DependenceGraph {
         using dependant_iterator = typename nodes_set::iterator;
         using const_dependant_iterator = typename nodes_set::const_iterator;
 
+        using dfs_iterator = DepthFirstSearch_iterator<NODE,EDGE>;
+
         void addNode(const NODE Node);
         void addEdge(const NODE From, const NODE To, EDGE Data);
 
@@ -181,6 +222,9 @@ class DependenceGraph {
         bool dependsOn(const NODE NodeA, const NODE NodeB);
 
         const nodes_set& getDependants(const NODE Node) const;
+
+        dfs_iterator dfs_begin() { return DepthFirstSearch_iterator(this, &(*Nodes.begin())); }
+        dfs_iterator dfs_end() { return DepthFirstSearch_iterator(this, &(*Nodes.end())); }
 
         dependant_iterator child_begin(const NODE Node) 
         { return Succs[DependenceGraphNode<NODE>(Node)].begin(); }
@@ -212,10 +256,72 @@ class DependenceGraph {
         bool nodeExists(const NODE Node) const;
 
     private:
-        nodes_set Nodes; 
+        nodes_set Nodes;
         edges_set Edges;
-        std::unordered_map<DependenceGraphNode<NODE>, nodes_set, HashNode<NODE>> Succs;
-        std::unordered_map<DependenceGraphNode<NODE>, nodes_set, HashNode<NODE>> Preds;
+        std::unordered_map<DependenceGraphNode<NODE>, unordered_nodes_set, HashNode<NODE>> Succs;
+        std::unordered_map<DependenceGraphNode<NODE>, unordered_nodes_set, HashNode<NODE>> Preds;
+};
+
+template <typename NODE, typename EDGE>
+class DependenceGraphSearchInstance {
+    public:
+        DependenceGraphSearchInstance() {
+            State.clear();
+        }
+
+        void updateNodeState(DependenceGraphNode<NODE>& Node, std::unique_ptr<NodeProperties> UpdateTo) {
+            State[Node] = UpdateTo;
+        }
+
+        class NodeProperties {
+            public:
+                NodeProperties() 
+                    : NodeColor(Color::WHITE), TimestampEntry(0), TimestampExit(0), Distance(0) {}
+
+                enum class Color {
+                    WHITE,
+                    GREY,
+                    BLACK
+                };
+
+            private:
+                Color NodeColor;
+                uint64_t TimestampEntry;
+                uint64_t TimestampExit;
+                uint64_t Distance;
+        };
+
+    private:
+        std::unordered_map<DependenceGraphNode<NODE>, std::unique_ptr<NodeProperties>, HashNode<NODE>> State;
+};
+
+template <typename NODE, typename EDGE>
+class DepthFirstSearch_iterator {
+    public:    
+        DepthFirstSearch_iterator(DependenceGraph<NODE,EDGE>& DepGraph, DependenceGraphNode<NODE>* CurrNode) 
+            : DepGraph(DepGraph), CurrentNode(CurrNode) {
+            SearchState
+
+        }
+        ~DepthFirstSearch_iterator();
+
+        DepthFirstSearch_iterator& operator++() {
+            
+            for (DependenceGraph<NODE,EDGE>::dependant_iterator dep_it = DepGraph.child_begin(); dep_it != DepGraph.child_end(); dep_it++) {
+                if (dep_it->
+            }
+
+            return *this;
+        }
+        
+        DependenceGraphNode<NODE>& operator*() {
+            return *CurrentNode;    
+        }
+        
+    private:
+        DependenceGraph<NODE,EDGE>& DepGraph;
+        DependenceGraphNode<NODE>* CurrentNode;
+        DependenceGraphSearchInstance<NODE,EDGE> SearchState;
 };
 
 } // namespace ppar

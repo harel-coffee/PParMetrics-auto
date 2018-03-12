@@ -7,7 +7,7 @@ namespace ppar {
 
 template <typename NODE, typename EDGE>
 bool DependenceGraph<NODE,EDGE>::nodeExists(const NODE Node) const {
-    const_nodes_iterator node_it = Nodes.find(DependenceGraphNode<NODE>(Node)); 
+    const_nodes_iterator node_it = Nodes.find(DependenceGraphNode<NODE,EDGE>(Node)); 
     if (node_it != Nodes.end()) {
         return true;
     } else {
@@ -17,7 +17,7 @@ bool DependenceGraph<NODE,EDGE>::nodeExists(const NODE Node) const {
 
 template <typename NODE, typename EDGE>
 void DependenceGraph<NODE,EDGE>::addNode(const NODE Node) {
-    Nodes.insert(DependenceGraphNode<NODE>(Node));
+    Nodes.insert(DependenceGraphNode<NODE,EDGE>(Node));
 }
         
 template <typename NODE, typename EDGE>
@@ -35,7 +35,7 @@ void DependenceGraph<NODE,EDGE>::addEdge(const NODE From, const NODE To, const E
 template <typename NODE, typename EDGE>
 void DependenceGraph<NODE,EDGE>::addPredecessor(const NODE Node, const NODE Pred) {
     if (nodeExists(Node) && nodeExists(Pred)) {
-        Preds[DependenceGraphNode<NODE>(Node)].insert(DependenceGraphNode<NODE>(Pred));
+        Preds[DependenceGraphNode<NODE,EDGE>(Node)].insert(DependenceGraphNode<NODE,EDGE>(Pred));
     } else {
         // cannot insert and edge between non-existent nodes
     }
@@ -44,7 +44,7 @@ void DependenceGraph<NODE,EDGE>::addPredecessor(const NODE Node, const NODE Pred
 template <typename NODE, typename EDGE>
 void DependenceGraph<NODE,EDGE>::addSuccessor(const NODE Node, const NODE Succ) {
     if (nodeExists(Node) && nodeExists(Succ)) {
-        Succs[DependenceGraphNode<NODE>(Node)].insert(DependenceGraphNode<NODE>(Succ));
+        Succs[DependenceGraphNode<NODE,EDGE>(Node)].insert(DependenceGraphNode<NODE,EDGE>(Succ));
     } else {
         // cannot insert and edge between non-existent nodes
     }
@@ -53,9 +53,9 @@ void DependenceGraph<NODE,EDGE>::addSuccessor(const NODE Node, const NODE Succ) 
 template <typename NODE, typename EDGE>
 bool DependenceGraph<NODE,EDGE>::dependsOn(const NODE NodeA, const NODE NodeB) {
     if (nodeExists(NodeA) && nodeExists(NodeB)) {
-        nodes_set& NodeA_dependants = Succs[DependenceGraphNode<NODE>(NodeA)];
-        DependenceGraphNode<NODE> nodeB(NodeB);
-        for (DependenceGraphNode<NODE>& dependant  : NodeA_dependants) {
+        nodes_set& NodeA_dependants = Succs[DependenceGraphNode<NODE,EDGE>(NodeA)];
+        DependenceGraphNode<NODE,EDGE> nodeB(NodeB);
+        for (DependenceGraphNode<NODE,EDGE>& dependant  : NodeA_dependants) {
             if (dependant == nodeB) {
                 return true;
             }
@@ -69,7 +69,7 @@ bool DependenceGraph<NODE,EDGE>::dependsOn(const NODE NodeA, const NODE NodeB) {
 
 template <typename NODE, typename EDGE>
 const typename DependenceGraph<NODE,EDGE>::nodes_set& ppar::DependenceGraph<NODE,EDGE>::getDependants(const NODE Node) const {
-    return Succs[DependenceGraphNode<NODE>(Node)];
+    return Succs[DependenceGraphNode<NODE,EDGE>(Node)];
 }
 
 } // namespace ppar

@@ -39,9 +39,10 @@ const DependenceGraph<Instruction*,ppar::Dependence*>& DataDependenceGraphPass::
 bool DataDependenceGraphPass::runOnFunction(Function &F) {
 
     // add nodes
-    for (inst_iterator I = inst_begin(F), E = inst_end(F); I != E; I++) {
+    uint64_t ProgramOrder = 0;
+    for (inst_iterator I = inst_begin(F), E = inst_end(F); I != E; I++, ProgramOrder++) {
         Instruction* Inst = &*I;
-        DDG.addNode(Inst);
+        DDG.addNode(Inst, ProgramOrder);
     }
 
     // add edges

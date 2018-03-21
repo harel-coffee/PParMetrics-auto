@@ -28,8 +28,8 @@ bool PDGPrinter::runOnFunction(Function& F) {
     DotPrinter Printer(F.getName().str() + ".pdg");
     map<Instruction*,string> InstrToNodeName;
     
-    for(DependenceGraph<Instruction*,ppar::Dependence*>::const_nodes_iterator node_it = DG.nodes_cbegin(); node_it != DG.nodes_cend(); node_it++) {
-        DependenceGraphNode<Instruction*> DepNode = *node_it;
+    for(DependenceGraph<Instruction*,ppar::Dependence*>::const_node_iterator node_it = DG.nodes_cbegin(); node_it != DG.nodes_cend(); node_it++) {
+        DependenceGraphNode<Instruction*,ppar::Dependence*> DepNode = *node_it;
         Instruction* Instr = DepNode.getNode();
         DotNode* Node = new DotNode();
         InstrToNodeName[Instr] = Node->getName();
@@ -55,7 +55,7 @@ bool PDGPrinter::runOnFunction(Function& F) {
     }
 
     // print all graph edges
-    for(DependenceGraph<Instruction*,ppar::Dependence*>::const_edges_iterator edge_it = DG.edges_cbegin(); edge_it != DG.edges_cend(); edge_it++) {
+    for(DependenceGraph<Instruction*,ppar::Dependence*>::const_edge_iterator edge_it = DG.edges_cbegin(); edge_it != DG.edges_cend(); edge_it++) {
         DependenceGraphEdge<Instruction*,ppar::Dependence*> DepEdge = *edge_it;
         Instruction* From = DepEdge.getFrom();
         Instruction* To = DepEdge.getTo();

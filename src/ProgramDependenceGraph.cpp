@@ -36,8 +36,8 @@ bool ProgramDependenceGraphPass::runOnFunction(Function& F) {
     // data dependence graph consists of all program's instructions ->
     // -> add them to program dependence graph as nodes
     for (auto node_it = ddg.nodes_cbegin(); node_it != ddg.nodes_cend(); node_it++) {
-        const DependenceGraphNode<Instruction*>& Node = *node_it; 
-        PDG.addNode(Node.getNode());
+        const DependenceGraphNode<Instruction*,ppar::Dependence*>& Node = *node_it; 
+        PDG.addNode(Node.getNode(), Node.getProgramOrder());
     }
 
     // copy all DDG edges to the PDG

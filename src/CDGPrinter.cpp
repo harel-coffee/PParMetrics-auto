@@ -1,54 +1,68 @@
+#include "CDGPrinter.h"
+#include "DotPrinter.h"
+
+#include "llvm/IR/Instruction.h"
+#include "llvm/IR/BasicBlock.h"
+#include "llvm/IR/InstIterator.h"
+#include "llvm/Support/raw_ostream.h"
+using namespace llvm;
+
 #include <string>
-using std::string;
-#include <system_error>
-using std::error_code;
+#include <map>
+#include <memory>
+using namespace std;
 
-#include "llvm/IR/Function.h"
-using llvm::Function;
+char ppar::CDGPrinter::ID = 0;
+RegisterPass<ppar::CDGPrinter> CDGPrinterRegister("dot-cdg", "Print CDG of a function to 'dot' file");
 
-#include "llvm/Pass.h"
-using llvm::FunctionPass;
-#include "llvm/PassRegistry.h"
-using llvm::RegisterPass;
+namespace ppar {
 
-#include "llvm/PassAnalysisSupport.h"
-using llvm::AnalysisUsage;
+CDGPrinter::CDGPrinter() 
+ : FunctionPass(ID) {}
 
-#include "CDG.h"
-using icsa::ControlDependenceGraphPass;
+bool CDGPrinter::runOnFunction(Function& F) {
+    ControlDependenceGraphPass& cdg = Pass::getAnalysis<ControlDependenceGraphPass>();
+    const DependenceGraph<BasicBlock*,ppar::Dependence*>& DG = cdg.getCDG();
+    DotPrinter Printer("cdg");
+    map<BasicBlock*,string> BBToNodeName;
+    
+    for (DependenceGraph<BasicBlock*,ppar::Dependence*>::const_node_iterator node_it = DG.nodes_cbegin(); node_it != DG.nodes_cend(); node_it++) {
+        DependenceGraphNode<BasicBlock*,ppar::Dependence*> DepNode = *node_it;
+        BasicBlock* BB = DepNode.getNode();
+        DotNode* Node = new DotNode();
+        BBToNodeName[BB] = Node->getName();
 
-#include "DependenceTraits.h"
-using icsa::DepGraphTraitsWrapper;
+        Node->setAttribute( /* name = */ string("shape"), /* value = */ string("rectangle"));
 
-#include "Util.h"
-using icsa::instructionToFunctionName;
+        string str;
+        raw_string_ostream rso(str);
+        BB->print(rso);
+        Node->setAttribute( /* name = */ string("label"), /* value = */ str);
 
-#include "BasicBlockDOTTraits.h"
-// Defines DOTGraphTraits for DepGraphTraitsWrapper<BasicBlock>.
+        Printer.addNode(Node->getName(), Node);
+    }
 
-namespace icsa {
+    // print all graph edges
+    for (DependenceGraph<BasicBlock*,ppar::Dependence*>::const_edge_iterator edge_it = DG.edges_cbegin(); edge_it != DG.edges_cend(); edge_it++) {
+        const DependenceGraphEdge<BasicBlock*,ppar::Dependence*>& DepEdge = *edge_it;
+        BasicBlock* From = DepEdge.getFrom();
+        BasicBlock* To = DepEdge.getTo();
+        string EdgeName = BBToNodeName[From] + "->" + BBToNodeName[To];
+        DotEdge* Edge = new DotEdge(EdgeName);
 
-struct CDGPrinter : public FunctionPass {
-  static char ID;
-  CDGPrinter() : FunctionPass(ID) {}
+        Printer.addEdge(Edge->getName(), Edge);
+    }
 
-  bool runOnFunction(Function &F) override {
-    ControlDependenceGraphPass &cdg =
-        Pass::getAnalysis<ControlDependenceGraphPass>();
-    DependenceGraph<BasicBlock> G = cdg.getCDG();
-    string FuncName = basicBlockToFunctionName(*G.nodes_begin()->first);
-    DepGraphTraitsWrapper<BasicBlock>(G)
-        .writeToFile("cdg." + FuncName + ".dot");
+    BBToNodeName.clear();
+
+    Printer.print();
+
     return false;
-  }
+}
 
-  void getAnalysisUsage(AnalysisUsage &AU) const override {
+void CDGPrinter::getAnalysisUsage(AnalysisUsage& AU) const {
     AU.setPreservesAll();
     AU.addRequired<ControlDependenceGraphPass>();
-  }
-};
-
-char CDGPrinter::ID = 0;
-RegisterPass<CDGPrinter>
-    CDGPrinterRegister("dot-cdg", "Print CDG of function to 'dot' file");
 }
+
+};

@@ -57,8 +57,8 @@ typename DependenceGraph<NODE,EDGE>::dfs_iterator DependenceGraph<NODE,EDGE>::df
 }
 
 template <typename NODE, typename EDGE>
-void DependenceGraph<NODE,EDGE>::addNode(const NODE Node, uint64_t ProgramOrder) {
-    Nodes.insert(DependenceGraphNode<NODE,EDGE>(Node, ProgramOrder));
+void DependenceGraph<NODE,EDGE>::addNode(const NODE Node) {
+    Nodes.insert(DependenceGraphNode<NODE,EDGE>(Node));
 }
         
 template <typename NODE, typename EDGE>
@@ -99,7 +99,7 @@ void DependenceGraph<NODE,EDGE>::addSuccessor(const DependenceGraphNode<NODE,EDG
 
 template <typename NODE, typename EDGE>
 void DependenceGraph<NODE,EDGE>::dfsTraverse(DepthFirstSearch_callback<NODE,EDGE>* VisitorFunc) const {
-    // SearchSet - is the set of all not yet discovered nodes
+    // SearchSet - is the set of all not yet discovered nodes (whites)
     // (initially equal to the set of all graph nodes - Nodes
     node_set SearchSet(Nodes);
     // Intermediate data structure - nodes reside here in between white (not yet discovered) 
@@ -110,42 +110,49 @@ void DependenceGraph<NODE,EDGE>::dfsTraverse(DepthFirstSearch_callback<NODE,EDGE
     // CurrentTime - DFS tracks traversal time 
     uint64_t CurrentTime = 0;
 
-    while (!SearchSet.empty()) { // we still have undiscovered nodes
-        node_iterator node_it = SearchSet.begin(); // we take nodes in their linear program order
+    while (!SearchSet.empty()) { // we still have undiscovered (white) nodes
+        node_iterator node_it = SearchSet.begin(); // take a random white node
         DependenceGraphNode<NODE,EDGE> Node = *node_it;
         SearchSet.erase(node_it); // node is discovered
         Stack.push(Node);
         while (!Stack.empty()) {
             DependenceGraphNode<NODE,EDGE> CurrentNode(Stack.top()); // process the node at the top of the stack
-            const DependenceGraph<NODE,EDGE>::unordered_node_set& Successors = Succs.at(CurrentNode);
+            const auto it = Succs.find(CurrentNode);
             bool NodeIsProcessed = true; // we finished with the node and all its successors
-            for (typename unordered_node_set::const_iterator succ_it = Successors.cbegin(); succ_it != Successors.cend(); succ_it++) {
-                auto edge_it = Edges.find(DependenceGraphEdge<NODE,EDGE>(CurrentNode.Node, succ_it->Node));
-                if (edge_it == Edges.end()) {
-                    // error inconsistent dependence graph data structure
-                }
-                if (SearchSet.find(*succ_it) != SearchSet.end()) { // WHITE 
-                    // successor has not been discovered yet ->
-                    // hence the node is not yet completely processed
-                    NodeIsProcessed = false;
-                    Stack.push(DependenceGraphNode<NODE,EDGE>(*succ_it));
-                    GreySet.insert(DependenceGraphNode<NODE,EDGE>(*succ_it));
-                    SearchSet.erase(DependenceGraphNode<NODE,EDGE>(*succ_it)); // mark successor as discovered
-                    // since this successor hasn't been visited yet, 
-                    // we mark correcponding edge as of tree edge type
-                    edge_it->Type = DependenceGraphEdge<NODE,EDGE>::EdgeType::TREE;
-                } else if (GreySet.find(*succ_it) != SearchSet.end()) { // GREY
-                    edge_it->Type = DependenceGraphEdge<NODE,EDGE>::EdgeType::BACK;
-                } else { // BLACK
-                    if (DFS_properties[CurrentNode]->TimestampEntry < CurrentTime) {
-                        edge_it->Type = DependenceGraphEdge<NODE,EDGE>::EdgeType::FORWARD;
-                    } else {
-                        edge_it->Type = DependenceGraphEdge<NODE,EDGE>::EdgeType::CROSS;
+            if (it != Succs.end()) {
+                const DependenceGraph<NODE,EDGE>::unordered_node_set& Successors = Succs.at(CurrentNode);
+                for (typename unordered_node_set::const_iterator succ_it = Successors.cbegin(); succ_it != Successors.cend(); succ_it++) {
+                    // mark edge with the corresponding edge type
+                    auto edge_it = Edges.find(DependenceGraphEdge<NODE,EDGE>(CurrentNode.Node, succ_it->Node));
+                    if (edge_it == Edges.end()) {
+                        // error inconsistent dependence graph data structure
+                    }
+                    if (SearchSet.find(*succ_it) != SearchSet.end()) { // WHITE 
+                        // successor has not been discovered yet ->
+                        // hence the node is not yet completely processed
+                        NodeIsProcessed = false;
+                        Stack.push(DependenceGraphNode<NODE,EDGE>(*succ_it));
+                        GreySet.insert(DependenceGraphNode<NODE,EDGE>(*succ_it)); // white turns grey
+                        SearchSet.erase(DependenceGraphNode<NODE,EDGE>(*succ_it)); // mark successor as discovered
+                        // since this successor hasn't been visited yet, 
+                        // we mark corresponding edge as of tree edge type
+                        edge_it->Type = DependenceGraphEdge<NODE,EDGE>::EdgeType::TREE;
+                    } else if (GreySet.find(*succ_it) != SearchSet.end()) { // GREY
+                        edge_it->Type = DependenceGraphEdge<NODE,EDGE>::EdgeType::BACK;
+                        NodeIsProcessed = false;
+                    } else { // BLACK
+                        if (DFS_properties[CurrentNode]->TimestampEntry < CurrentTime) {
+                            edge_it->Type = DependenceGraphEdge<NODE,EDGE>::EdgeType::FORWARD;
+                        } else {
+                            edge_it->Type = DependenceGraphEdge<NODE,EDGE>::EdgeType::CROSS;
+                        }
                     }
                 }
+            } else { // node has no successors
+                NodeIsProcessed = true;
             }
-            if (NodeIsProcessed) { // either successor set is empty or
-                // all of them have been visited
+            if (NodeIsProcessed) { 
+                // either successor set is empty or all of them have been visited
                 Stack.pop();
                 GreySet.erase(CurrentNode); // mark node as black
                 DFS_properties[CurrentNode]->TimestampExit = CurrentTime;

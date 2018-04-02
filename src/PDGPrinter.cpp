@@ -28,7 +28,7 @@ bool PDGPrinter::runOnFunction(Function& F) {
     DotPrinter Printer(F.getName().str() + ".pdg");
     map<Instruction*,string> InstrToNodeName;
     
-    for(DependenceGraph<Instruction*,ppar::Dependence*>::const_node_iterator node_it = DG.nodes_cbegin(); node_it != DG.nodes_cend(); node_it++) {
+    for (DependenceGraph<Instruction*,ppar::Dependence*>::const_node_iterator node_it = DG.nodes_cbegin(); node_it != DG.nodes_cend(); node_it++) {
         DependenceGraphNode<Instruction*,ppar::Dependence*> DepNode = *node_it;
         Instruction* Instr = DepNode.getNode();
         DotNode* Node = new DotNode();

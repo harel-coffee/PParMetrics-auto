@@ -5,10 +5,10 @@
 
 #include "llvm/Pass.h"
 #include "llvm/PassAnalysisSupport.h"
-#include "llvm/IR/Function.h"
-#include "llvm/IR/BasicBlock.h"
-#include "llvm/Analysis/PostDominators.h"
 #include "llvm/IR/Instruction.h"
+#include "llvm/IR/BasicBlock.h"
+#include "llvm/IR/Function.h"
+#include "llvm/Analysis/PostDominators.h"
 #include "llvm/Analysis/DependenceAnalysis.h"
 
 #include <memory>
@@ -21,8 +21,8 @@ struct ControlDependenceGraphPass : public llvm::FunctionPass {
         ControlDependenceGraphPass();
 
         bool runOnFunction(llvm::Function& F) override;
-        void getAnalysisUsage(llvm::AnalysisUsage& Info) const override;
-        const char* getPassName() const override;
+        void getAnalysisUsage(llvm::AnalysisUsage& AU) const override;
+        llvm::StringRef getPassName() const override;
         void releaseMemory() override;
         const DependenceGraph<llvm::BasicBlock*,ppar::Dependence*>& getCDG() const;
 

@@ -17,10 +17,10 @@ class Dependence;
 
 template <typename NODE, typename EDGE> struct HashNode;
 template <typename NODE, typename EDGE> struct HashEdge;
-template <typename NODE, typename EDGE> struct CompareNode;
 
 template <typename NODE, typename EDGE> class DependenceGraphNode;
 template <typename NODE, typename EDGE> class DependenceGraphEdge;
+
 template <typename NODE, typename EDGE> class DependenceGraph;
 
 class DepthFirstSearch_node_properties;
@@ -29,41 +29,124 @@ template <typename NODE, typename EDGE> class DepthFirstSearch_callback;
 class Dependence {
     public:
         Dependence() 
-            : Flow(false), Anti(false), Output(false), Unknown(true),
-              Mem(false), Confused(true), Consistent(false),
-              direction(0) {}
+            : Data(false), Control(false),
+              Flow(false), Anti(false), Output(false),
+              Mem(false), Reg(false),
+              Confused(true), Consistent(false),
+              direction(0),
+              Unknown(true) {}
         ~Dependence() {}
         
-        Dependence(const Dependence& Dep) 
-            : Flow(Dep.Flow), Anti(Dep.Anti), Output(Dep.Output), Unknown(Dep.Unknown) {}
+        Dependence(const Dependence& Dep)
+            : Data(Dep.Data), Control(Dep.Control),
+              Flow(Dep.Flow), Anti(Dep.Anti), Output(Dep.Output),
+              Mem(Dep.Mem), Reg(Dep.Reg),
+              Confused(Dep.Confused), Consistent(Dep.Consistent),
+              direction(Dep.direction),
+              Unknown(Dep.Unknown) {}
 
         Dependence& operator=(const Dependence& Dep) {
+            Data = Dep.Data;
+            Control = Dep.Control;
+
             Flow = Dep.Flow;
             Anti = Dep.Anti;
             Output = Dep.Output;
+
+            Mem = Dep.Mem; 
+            Reg = Dep.Reg;
+
+            Confused = Dep.Confused; 
+            Consistent = Dep.Consistent;
+
+            direction = Dep.direction;
+            
             Unknown = Dep.Unknown;
 
             return *this;
         }
+        
+        bool isUnknown() const { return Unknown; }
+
+        bool isData() const { return Data; }
+        bool isControl() const { return Control; }
 
         bool isFlow() const { return Flow; }
         bool isAnti() const { return Anti; }
         bool isOutput() const { return Output; }
-        bool isUnknown() const { return Unknown; }
         
         bool isMem() const { return Mem; }
+        bool isReg() const { return Reg; }
+
         bool isConfused() const { return Confused; }
         bool isConsistent() const { return Consistent; }
 
+        void setUnknown() {
+            Data = false;
+            Control = false;
+            Mem = false;
+            Reg = false;
+            Unknown = true;
+        }
+
+        void setData() {
+            Data = true;
+            Control = false;
+            Unknown = false;
+        }
+
+        void setControl() {
+            Data = false;
+            Control = true;
+            Unknown = false;
+        }
+
+        void setFlow() { 
+            Flow = true;
+            Anti = false;
+            Output = false;
+        }
+        
+        void setAnti() { 
+            Flow = false;
+            Anti = true; 
+            Output = false;
+        }
+        
+        void setOutput() {
+            Flow = false;
+            Anti = false; 
+            Output = true; 
+        }
+
+        void setMem() { 
+            Mem = true;
+            Reg = false;
+        }
+
+        void setReg() { 
+            Mem = false;
+            Reg = true;
+        }
+
+        // type of dependence
+        bool Data;
+        bool Control;
+
+        // subtype of data dependence
         bool Flow;
         bool Anti;
         bool Output;
-        bool Unknown;
         
+        // source of dependence 
         bool Mem; // obtained from memory dependence analysis
+        bool Reg; // obtained from SSA form
+        
         bool Confused;
         bool Consistent;
         unsigned int direction;
+        
+        bool Unknown;
 };
 
 template <typename NODE, typename EDGE>
@@ -83,35 +166,22 @@ struct HashEdge {
 };
 
 template <typename NODE, typename EDGE>
-struct CompareNode {
-    bool operator()(const DependenceGraphNode<NODE,EDGE>& NodeA, const DependenceGraphNode<NODE,EDGE>& NodeB) const {
-        if (NodeA.ProgramOrder > NodeB.ProgramOrder) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-};
-
-template <typename NODE, typename EDGE>
 class DependenceGraphNode {
 
-    friend class CompareNode<NODE,EDGE>;
     friend class HashNode<NODE,EDGE>;
     friend class DependenceGraph<NODE,EDGE>;
 
     public:
-        DependenceGraphNode(NODE DepNode = nullptr, uint64_t InstrNum = UINT64_MAX) 
-            : Node(DepNode), ProgramOrder(InstrNum) {}
+        DependenceGraphNode(NODE DepNode = nullptr) 
+            : Node(DepNode) {}
 
         DependenceGraphNode(const DependenceGraphNode<NODE,EDGE>& DepNode) 
-            : Node(DepNode.Node), ProgramOrder(DepNode.ProgramOrder) {}
+            : Node(DepNode.Node) {}
 
         ~DependenceGraphNode() {}
 
         DependenceGraphNode& operator=(const DependenceGraphNode<NODE,EDGE>& DepNode) {
             Node = DepNode.Node;
-            ProgramOrder = DepNode.ProgramOrder;
             return *this;
         }
 
@@ -132,11 +202,9 @@ class DependenceGraphNode {
         }
 
         NODE getNode() const { return Node; }
-        uint64_t getProgramOrder() const { return ProgramOrder; }
 
     private:
         NODE Node;
-        uint64_t ProgramOrder;
 };
 
 template <typename NODE, typename EDGE>
@@ -204,10 +272,9 @@ class DependenceGraph {
         DependenceGraph();
         ~DependenceGraph();
         
-        using ordered_node_set = std::set<DependenceGraphNode<NODE,EDGE>,CompareNode<NODE,EDGE>>;
         using unordered_node_set = std::unordered_set<DependenceGraphNode<NODE,EDGE>,HashNode<NODE,EDGE>>;
         using unordered_edge_set = std::unordered_set<DependenceGraphEdge<NODE,EDGE>,HashEdge<NODE,EDGE>>;
-        using node_set = ordered_node_set;
+        using node_set = unordered_node_set;
         using edge_set = unordered_edge_set;
 
         using node_iterator = typename node_set::iterator;
@@ -223,7 +290,7 @@ class DependenceGraph {
 
         static DependenceGraphNode<NODE,EDGE> InvalidNode;
 
-        void addNode(const NODE Node, uint64_t ProgramOrder);
+        void addNode(const NODE Node);
         void addEdge(const NODE From, const NODE To, EDGE Data);
 
         void dfsTraverse(DepthFirstSearch_callback<NODE,EDGE>* VisitorFunc = nullptr) const;
@@ -265,7 +332,7 @@ class DependenceGraph {
         void addSuccessor(const DependenceGraphNode<NODE,EDGE>& Node, const DependenceGraphNode<NODE,EDGE>& Succ);
 
     private:
-        node_set Nodes; // odered by the linear program order
+        node_set Nodes;
         edge_set Edges;
         std::unordered_map<DependenceGraphNode<NODE,EDGE>, unordered_node_set, HashNode<NODE,EDGE>> Succs;
         std::unordered_map<DependenceGraphNode<NODE,EDGE>, unordered_node_set, HashNode<NODE,EDGE>> Preds;
@@ -273,7 +340,7 @@ class DependenceGraph {
         // Depth First Search maintenance
         mutable bool DFS_data_valid;
         mutable std::vector<DependenceGraphNode<NODE,EDGE>> DFS_order;
-        mutable std::map<DependenceGraphNode<NODE,EDGE>,std::unique_ptr<DepthFirstSearch_node_properties>,CompareNode<NODE,EDGE>> DFS_properties;
+        mutable std::unordered_map<DependenceGraphNode<NODE,EDGE>,std::unique_ptr<DepthFirstSearch_node_properties>,HashNode<NODE,EDGE>> DFS_properties;
 };
 
 class DepthFirstSearch_node_properties {

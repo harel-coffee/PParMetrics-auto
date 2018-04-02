@@ -39,10 +39,9 @@ const DependenceGraph<Instruction*,ppar::Dependence*>& DataDependenceGraphPass::
 bool DataDependenceGraphPass::runOnFunction(Function &F) {
 
     // add nodes
-    uint64_t ProgramOrder = 0;
-    for (inst_iterator I = inst_begin(F), E = inst_end(F); I != E; I++, ProgramOrder++) {
+    for (inst_iterator I = inst_begin(F), E = inst_end(F); I != E; I++) {
         Instruction* Inst = &*I;
-        DDG.addNode(Inst, ProgramOrder);
+        DDG.addNode(Inst);
     }
 
     // add edges
@@ -50,8 +49,10 @@ bool DataDependenceGraphPass::runOnFunction(Function &F) {
         // every user of an instruction is its user
         for (User* U : I->users()) {
             ppar::Dependence* Dep = new ppar::Dependence();
-            Dep->Flow = true;
-            Dep->Mem = false;
+            Dep->setData();
+            Dep->setFlow();
+            Dep->setMem();
+
             if (Instruction* Inst = dyn_cast<Instruction>(U)) {
                 DDG.addEdge(&*I, Inst, Dep);
             }

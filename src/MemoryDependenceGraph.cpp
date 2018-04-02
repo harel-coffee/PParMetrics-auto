@@ -35,13 +35,11 @@ bool MemoryDependenceGraphPass::runOnFunction(Function &F) {
     
     DependenceInfo& DI = Pass::getAnalysis<DependenceAnalysisWrapperPass>().getDI();
 
-    uint64_t ProgramOrder = 0; 
     for (inst_iterator I = inst_begin(F), E = inst_end(F); I != E; ++I) {
         if (isa<StoreInst>(*I) || isa<LoadInst>(*I)) {
             Instruction* Inst = &*I;
-            MDG.addNode(Inst, ProgramOrder);
+            MDG.addNode(Inst);
         }
-        ProgramOrder++;
     }
   
     for (inst_iterator SrcI = inst_begin(F), SrcE = inst_end(F); SrcI != SrcE; ++SrcI) {

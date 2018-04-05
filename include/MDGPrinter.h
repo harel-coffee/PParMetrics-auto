@@ -1,6 +1,7 @@
 #ifndef PPAR_MEMORY_DEPENDENCE_GRAPH_PRINTER_H
 #define PPAR_MEMORY_DEPENDENCE_GRAPH_PRINTER_H
 
+#include "ppar_common_includes.h"
 #include "MemoryDependenceGraph.h"
 
 #include "llvm/Pass.h"

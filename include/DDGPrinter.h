@@ -1,7 +1,8 @@
-#ifndef PPAR_MEMORY_DEPENDENCE_GRAPH_PRINTER_H
-#define PPAR_MEMORY_DEPENDENCE_GRAPH_PRINTER_H
+#ifndef PPAR_DATA_DEPENDENCE_GRAPH_PRINTER_H
+#define PPAR_DATA_DEPENDENCE_GRAPH_PRINTER_H
 
-#include "ProgramDependenceGraph.h"
+#include "ppar_common_includes.h"
+#include "DataDependenceGraph.h"
 
 #include "llvm/Pass.h"
 #include "llvm/PassRegistry.h"
@@ -10,11 +11,11 @@
 
 namespace ppar {
 
-struct PDGPrinter : public llvm::FunctionPass {
+struct DDGPrinter : public llvm::FunctionPass {
 
     public:
         static char ID;
-        PDGPrinter();
+        DDGPrinter();
 
         bool runOnFunction(llvm::Function& F) override;
         void getAnalysisUsage(llvm::AnalysisUsage& AU) const override;
@@ -22,4 +23,4 @@ struct PDGPrinter : public llvm::FunctionPass {
 
 } // namespace ppar
 
-#endif // ifndef PPAR_MEMORY_DEPENDENCE_GRAPH_PRINTER_H
+#endif // ifndef PPAR_DATA_DEPENDENCE_GRAPH_PRINTER_H

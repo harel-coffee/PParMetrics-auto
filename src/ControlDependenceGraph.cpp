@@ -18,7 +18,7 @@ using namespace llvm;
 using namespace std;
 
 char ppar::ControlDependenceGraphPass::ID = 0;
-RegisterPass<ppar::ControlDependenceGraphPass> CDGRegister("cdg", "Build Control Dependence Graph");
+RegisterPass<ppar::ControlDependenceGraphPass> CDGRegister("cdg", "Build in-memory Control Dependence Graph of a function");
 
 namespace ppar {
 

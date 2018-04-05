@@ -55,55 +55,59 @@ bool PDGPrinter::runOnFunction(Function& F) {
     }
 
     // print all graph edges
-    for(DependenceGraph<Instruction*,ppar::Dependence*>::const_edge_iterator edge_it = DG.edges_cbegin(); edge_it != DG.edges_cend(); edge_it++) {
-        DependenceGraphEdge<Instruction*,ppar::Dependence*> DepEdge = *edge_it;
-        Instruction* From = DepEdge.getFrom();
-        Instruction* To = DepEdge.getTo();
-        ppar::Dependence* Dep = DepEdge.getData();
-        string EdgeName = InstrToNodeName[From] + "->" + InstrToNodeName[To];
-        DotEdge* Edge = new DotEdge(EdgeName);
-
-        if (Dep->isFlow()) {
-            Edge->setAttribute( /* name = */ string("label"), /* value = */ string("T"));
-            Edge->setAttribute( /* name = */ string("fontcolor"), /* value = */ string("forestgreen"));
-            Edge->setAttribute( /* name = */ string("color"), /* value = */ string("forestgreen"));
-        } else if (Dep->isAnti()) {
-            Edge->setAttribute( /* name = */ string("label"), /* value = */ string("A"));
-            Edge->setAttribute( /* name = */ string("fontcolor"), /* value = */ string("firebrick3"));
-            Edge->setAttribute( /* name = */ string("color"), /* value = */ string("firebrick3"));
-        } else if (Dep->isOutput())   {
-            Edge->setAttribute( /* name = */ string("label"), /* value = */ string("O"));
-            Edge->setAttribute( /* name = */ string("fontcolor"), /* value = */ string("dodgerblue"));
-            Edge->setAttribute( /* name = */ string("color"), /* value = */ string("dodgerblue"));
-        } else {
-            Edge->setAttribute( /* name = */ string("label"), /* value = */ string("U"));
-            Edge->setAttribute( /* name = */ string("fontcolor"), /* value = */ string("gray"));
-            Edge->setAttribute( /* name = */ string("color"), /* value = */ string("gray"));
-        }
+    for (auto edge_it = DG.edges_cbegin(); edge_it != DG.edges_cend(); edge_it++) {
+        const std::pair<Instruction*,Instruction*>& NodePair = edge_it->first;
+        const DependenceGraph<Instruction*,ppar::Dependence*>::edge_set& EdgeSet = edge_it->second; 
         
-        if (Dep->isMem()) {
-            Edge->setAttribute( /* name = */ string("style"), /* value = */ string("solid"));
-        } else {
-            Edge->setAttribute( /* name = */ string("style"), /* value = */ string("dotted"));
-        }
-        
-        if (Dep->isConfused()) {
-            if (!Dep->isConsistent()) {
-                Edge->setAttribute( /* name = */ string("penwidth"), /* value = */ string("1.0"));
-            } else {
-                Edge->setAttribute( /* name = */ string("penwidth"), /* value = */ string("0.0"));
-            }
-        } else {
-            if (Dep->isConsistent()) {
-                Edge->setAttribute( /* name = */ string("penwidth"), /* value = */ string("2.0"));
-            } else {
-                Edge->setAttribute( /* name = */ string("penwidth"), /* value = */ string("0.0"));
-            }
-        }
+        for (const auto DepEdge : EdgeSet) {
+            Instruction* From = DepEdge.getFrom();
+            Instruction* To = DepEdge.getTo();
+            ppar::Dependence* Dep = DepEdge.getData();
+            string EdgeName = InstrToNodeName[From] + "->" + InstrToNodeName[To];
+            DotEdge* Edge = new DotEdge(EdgeName);
 
-        Printer.addEdge(Edge->getName(), Edge);
+            if (Dep->isFlow()) {
+                Edge->setAttribute( /* name = */ string("label"), /* value = */ string("T"));
+                Edge->setAttribute( /* name = */ string("fontcolor"), /* value = */ string("forestgreen"));
+                Edge->setAttribute( /* name = */ string("color"), /* value = */ string("forestgreen"));
+            } else if (Dep->isAnti()) {
+                Edge->setAttribute( /* name = */ string("label"), /* value = */ string("A"));
+                Edge->setAttribute( /* name = */ string("fontcolor"), /* value = */ string("firebrick3"));
+                Edge->setAttribute( /* name = */ string("color"), /* value = */ string("firebrick3"));
+            } else if (Dep->isOutput())   {
+                Edge->setAttribute( /* name = */ string("label"), /* value = */ string("O"));
+                Edge->setAttribute( /* name = */ string("fontcolor"), /* value = */ string("dodgerblue"));
+                Edge->setAttribute( /* name = */ string("color"), /* value = */ string("dodgerblue"));
+            } else {
+                Edge->setAttribute( /* name = */ string("label"), /* value = */ string("U"));
+                Edge->setAttribute( /* name = */ string("fontcolor"), /* value = */ string("gray"));
+                Edge->setAttribute( /* name = */ string("color"), /* value = */ string("gray"));
+            }
+        
+            if (Dep->isMem()) {
+                Edge->setAttribute( /* name = */ string("style"), /* value = */ string("solid"));
+            } else {
+                Edge->setAttribute( /* name = */ string("style"), /* value = */ string("dotted"));
+            }
+        
+            if (Dep->isConfused()) {
+                if (!Dep->isConsistent()) {
+                    Edge->setAttribute( /* name = */ string("penwidth"), /* value = */ string("1.0"));
+                } else {
+                    Edge->setAttribute( /* name = */ string("penwidth"), /* value = */ string("0.0"));
+                }
+            } else {
+                if (Dep->isConsistent()) {
+                    Edge->setAttribute( /* name = */ string("penwidth"), /* value = */ string("2.0"));
+                } else {
+                    Edge->setAttribute( /* name = */ string("penwidth"), /* value = */ string("0.0"));
+                }
+            }
+
+            Printer.addEdge(Edge->getName(), Edge);
+        }
     }
-
+    
     InstrToNodeName.clear();
 
     Printer.print();

@@ -1,10 +1,11 @@
 #ifndef PPAR_DEP_GRAPH_COMPLEXITY_H
 #define PPAR_DEP_GRAPH_COMPLEXITY_H
 
+#include "ppar_common_includes.h"
+
 #include "llvm/Pass.h"
 #include "llvm/IR/Function.h"
 #include "llvm/ADT/Statistic.h"
-#include "llvm/Support/raw_ostream.h"
 using namespace llvm;
 
 #include "DependenceGraph.h"

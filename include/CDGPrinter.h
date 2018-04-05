@@ -1,6 +1,7 @@
 #ifndef PPAR_CONTROL_DEPENDENCE_GRAPH_PRINTER_H
 #define PPAR_CONTROL_DEPENDENCE_GRAPH_PRINTER_H
 
+#include "ppar_common_includes.h"
 #include "ControlDependenceGraph.h"
 
 #include "llvm/Pass.h"

@@ -9,7 +9,7 @@ using namespace llvm;
 using namespace std;
 
 char ppar::DataDependenceGraphPass::ID = 0;
-RegisterPass<ppar::DataDependenceGraphPass> DDGRegister("ddg", "Build Data Dependence Graph");
+RegisterPass<ppar::DataDependenceGraphPass> DDGRegister("ddg", "Build in-memory Data Dependence Graph of a function");
 
 namespace ppar {
 
@@ -24,12 +24,6 @@ StringRef DataDependenceGraphPass::getPassName() const {
 }
 
 void DataDependenceGraphPass::releaseMemory() {
-    
-    for (auto it = DDG.edges_begin(); it != DDG.edges_end(); it++) {
-        delete it->getData();
-    }
-
-    DDG.clear();
 }
 
 const DependenceGraph<Instruction*,ppar::Dependence*>& DataDependenceGraphPass::getDDG() const { 

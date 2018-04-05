@@ -43,16 +43,20 @@ bool CDGPrinter::runOnFunction(Function& F) {
     }
 
     // print all graph edges
-    for (DependenceGraph<BasicBlock*,ppar::Dependence*>::const_edge_iterator edge_it = DG.edges_cbegin(); edge_it != DG.edges_cend(); edge_it++) {
-        const DependenceGraphEdge<BasicBlock*,ppar::Dependence*>& DepEdge = *edge_it;
-        BasicBlock* From = DepEdge.getFrom();
-        BasicBlock* To = DepEdge.getTo();
-        string EdgeName = BBToNodeName[From] + "->" + BBToNodeName[To];
-        DotEdge* Edge = new DotEdge(EdgeName);
+    for (auto edge_it = DG.edges_cbegin(); edge_it != DG.edges_cend(); edge_it++) {
+        const std::pair<BasicBlock*,BasicBlock*>& NodePair = edge_it->first;
+        const DependenceGraph<BasicBlock*,ppar::Dependence*>::edge_set& EdgeSet = edge_it->second;
 
-        Printer.addEdge(Edge->getName(), Edge);
+        for (const auto& DepEdge : EdgeSet) {
+            BasicBlock* From = DepEdge.getFrom();
+            BasicBlock* To = DepEdge.getTo();
+            string EdgeName = BBToNodeName[From] + "->" + BBToNodeName[To];
+            DotEdge* Edge = new DotEdge(EdgeName);
+
+            Printer.addEdge(Edge->getName(), Edge);
+        }
     }
-
+    
     BBToNodeName.clear();
 
     Printer.print();

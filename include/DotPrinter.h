@@ -1,12 +1,12 @@
 #ifndef PPAR_DOT_PRINTER_H
 #define PPAR_DOT_PRINTER_H
 
+#include "ppar_common_includes.h"
+
 #include <unordered_map>
 #include <string>
 #include <fstream>
 #include <iostream>
-
-#include <cstdint>
 
 namespace ppar {
 

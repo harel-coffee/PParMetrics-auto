@@ -1,7 +1,7 @@
 #ifndef PPAR_DEPENDENCE_GRAPH_H
 #define PPAR_DEPENDENCE_GRAPH_H
 
-#include <cstdint>
+#include "ppar_common_includes.h"
 
 #include <unordered_set>
 #include <unordered_map>
@@ -66,6 +66,31 @@ class Dependence {
             return *this;
         }
         
+        bool operator==(const Dependence& Dep) {
+            if (Dep.isData() && this->isData()) {
+                if ( (Dep.isReg() && this->isReg()) ||
+                     (Dep.isMem() && this->isMem()) ) {
+                    if ( (Dep.isFlow() && this->isFlow()) ||
+                         (Dep.isAnti() && this->isAnti()) ||
+                         (Dep.isOutput() && this->isOutput()) ) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            } else if (Dep.isControl() && this->isControl()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        
+        bool operator!=(const Dependence& Dep) {
+            return !(this->operator==(Dep));
+        }
+
         bool isUnknown() const { return Unknown; }
 
         bool isData() const { return Data; }
@@ -159,9 +184,16 @@ struct HashNode {
 template <typename NODE, typename EDGE>
 struct HashEdge {
     size_t operator()(const DependenceGraphEdge<NODE,EDGE>& Edge) const {
-        return ( std::hash<void*>()(static_cast<void*>(Edge.getData())) ^ 
-                 std::hash<void*>()(static_cast<void*>(Edge.getFrom())) ^ 
+        return ( std::hash<void*>()(static_cast<void*>(Edge.getFrom())) ^ 
                  std::hash<void*>()(static_cast<void*>(Edge.getTo())) );
+    }
+};
+
+template <typename NODE, typename EDGE>
+struct HashNodePair {
+    size_t operator()(const std::pair<NODE,NODE>& Pair) const {
+        return ( std::hash<void*>()(static_cast<void*>(Pair.first)) ^ 
+                 std::hash<void*>()(static_cast<void*>(Pair.second)) );
     }
 };
 
@@ -194,11 +226,7 @@ class DependenceGraphNode {
         }
 
         bool operator!=(const DependenceGraphNode<NODE,EDGE>& DepNode) const {
-            if (Node != DepNode.Node) {
-                return true;
-            } else {
-                return false;
-            }
+            return !this->operator==(DepNode);
         }
 
         NODE getNode() const { return Node; }
@@ -235,7 +263,8 @@ class DependenceGraphEdge {
     
         bool operator==(const DependenceGraphEdge<NODE,EDGE>& DepEdge) const {
             if ( (From == DepEdge.From) &&
-                 (To == DepEdge.To) ) {
+                 (To == DepEdge.To) &&
+                 (Data == DepEdge.Data) ) {
                 return true;
             } else {
                 return false;
@@ -320,11 +349,11 @@ class DependenceGraph {
         node_iterator nodes_end() { return Nodes.end(); }
         const_node_iterator nodes_cend() const { return Nodes.cend(); }
 
-        edge_iterator edges_begin() { return Edges.begin(); }
-        const_edge_iterator edges_cbegin() const { return Edges.cbegin(); }
+        auto edges_begin() { return Edges.begin(); }
+        auto edges_cbegin() const { return Edges.cbegin(); }
 
-        edge_iterator edges_end() { return Edges.end(); }
-        const_edge_iterator edges_cend() const { return Edges.cend(); }
+        auto edges_end() { return Edges.end(); }
+        auto edges_cend() const { return Edges.cend(); }
 
     private:
         const DependenceGraphNode<NODE,EDGE>& nodeExists(const NODE Node) const;
@@ -333,7 +362,7 @@ class DependenceGraph {
 
     private:
         node_set Nodes;
-        edge_set Edges;
+        std::unordered_map<std::pair<NODE,NODE>, edge_set, HashNodePair<NODE,EDGE>> Edges;
         std::unordered_map<DependenceGraphNode<NODE,EDGE>, unordered_node_set, HashNode<NODE,EDGE>> Succs;
         std::unordered_map<DependenceGraphNode<NODE,EDGE>, unordered_node_set, HashNode<NODE,EDGE>> Preds;
         
@@ -346,7 +375,7 @@ class DependenceGraph {
 class DepthFirstSearch_node_properties {
     public:
         DepthFirstSearch_node_properties()
-         : TimestampEntry(UINT64_MAX), TimestampExit(UINT64_MAX) {}
+         : TimestampEntry(UINT64_MAX), TimestampExit(UINT64_MAX), Color(NodeColor::WHITE) {}
         ~DepthFirstSearch_node_properties() {}
 
         DepthFirstSearch_node_properties(DepthFirstSearch_node_properties&& DFS_np) {
@@ -360,6 +389,13 @@ class DepthFirstSearch_node_properties {
             return *this;
         }
 
+        enum class NodeColor {
+            WHITE,
+            GREY,
+            BLACK
+        };
+        
+        NodeColor Color;
         uint64_t TimestampEntry;
         uint64_t TimestampExit;
 };

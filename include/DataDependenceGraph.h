@@ -1,6 +1,7 @@
 #ifndef PPAR_DATA_DEPENDENCE_GRAPH_H
 #define PPAR_DATA_DEPENDENCE_GRAPH_H
 
+#include "ppar_common_includes.h"
 #include "DependenceGraph.h"
 
 #include "llvm/Pass.h"

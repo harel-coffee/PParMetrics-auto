@@ -45,54 +45,65 @@ bool ProgramDependenceGraphPass::runOnFunction(Function& F) {
 
     // copy all DDG edges to the PDG
     for (auto edge_it = ddg.edges_cbegin(); edge_it != ddg.edges_cend(); edge_it++) {
-        const DependenceGraphEdge<Instruction*,ppar::Dependence*>& Edge = *edge_it;
-        ppar::Dependence* Dep = new ppar::Dependence();
-        *Dep = *(Edge.getData());
-        PDG.addEdge(Edge.getFrom(), Edge.getTo(), Dep);
+        const std::pair<Instruction*,Instruction*> NodePair = edge_it->first;
+        const DependenceGraph<Instruction*,ppar::Dependence*>::edge_set& EdgeSet = edge_it->second;
+
+        for (const auto& Edge : EdgeSet) {
+            ppar::Dependence* Dep = new ppar::Dependence();
+            *Dep = *(Edge.getData());
+            PDG.addEdge(Edge.getFrom(), Edge.getTo(), Dep);
+        }
     }
 
     // copy MDG edges to the PDG
     for (auto edge_it = mdg.edges_cbegin(); edge_it != mdg.edges_cend(); edge_it++) {
-        const DependenceGraphEdge<Instruction*,llvm::Dependence*>& Edge = *edge_it;
-        ppar::Dependence* Dep(new ppar::Dependence());
-        llvm::Dependence* MemDep = Edge.getData();
-        
-        if (MemDep->isFlow()) {
-            Dep->setFlow();
-        } else if (MemDep->isAnti()) {
-            Dep->setAnti();
-        } else if (MemDep->isOutput()){
-            Dep->setOutput();
-        } else {
-            Dep->setUnknown();
-        }
-        Dep->setMem();
+        const std::pair<Instruction*,Instruction*> NodePair = edge_it->first;
+        const DependenceGraph<Instruction*,llvm::Dependence*>::edge_set& EdgeSet = edge_it->second;
+        for (const auto& Edge : EdgeSet) {
+            ppar::Dependence* Dep(new ppar::Dependence());
+            llvm::Dependence* MemDep = Edge.getData();
 
-        if (MemDep->isConfused()) {
-            Dep->Confused = true;
-        } else {
-            Dep->Confused = false;
-        }
+            if (MemDep->isFlow()) {
+                Dep->setFlow();
+            } else if (MemDep->isAnti()) {
+                Dep->setAnti();
+            } else if (MemDep->isOutput()){
+                Dep->setOutput();
+            } else {
+                Dep->setUnknown();
+            }
+            Dep->setMem();
 
-        if (MemDep->isConsistent()) {
-            Dep->Consistent = true;
-        } else {
-            Dep->Consistent = false;
-        }
+            if (MemDep->isConfused()) {
+                Dep->Confused = true;
+            } else {
+                Dep->Confused = false;
+            }
 
-        PDG.addEdge(Edge.getFrom(), Edge.getTo(), Dep);
+            if (MemDep->isConsistent()) {
+                Dep->Consistent = true;
+            } else {
+                Dep->Consistent = false;
+            }
+            
+            PDG.addEdge(Edge.getFrom(), Edge.getTo(), Dep);
+        }
     }
 
     // For each dependence in the CDG: construct a dependence from the last
     // instruction of the source basic block to the each instruction in the
     // target basic block
     for (auto edge_it = cdg.edges_cbegin(); edge_it != cdg.edges_cend(); ++edge_it) {
-        const Instruction& source = edge_it->getFrom()->back();
-        for (BasicBlock::const_iterator it = edge_it->getTo()->begin(); it != edge_it->getTo()->end(); ++it) {
-            ppar::Dependence* Dep(new ppar::Dependence());
-            Dep->setControl();
-            PDG.addEdge(const_cast<Instruction*>(&source), const_cast<Instruction*>(&*it), Dep);
-        } 
+        const std::pair<BasicBlock*,BasicBlock*> NodePair = edge_it->first;
+        const DependenceGraph<BasicBlock*,ppar::Dependence*>::edge_set& EdgeSet = edge_it->second;
+        for (const auto& Edge : EdgeSet) {
+            const Instruction& source = Edge.getFrom()->back();
+            for (BasicBlock::const_iterator it = Edge.getTo()->begin(); it != Edge.getTo()->end(); ++it) {
+                ppar::Dependence* Dep(new ppar::Dependence());
+                Dep->setControl();
+                PDG.addEdge(const_cast<Instruction*>(&source), const_cast<Instruction*>(&*it), Dep);
+            } 
+        }
     }
 
     return false;
@@ -103,12 +114,6 @@ StringRef ProgramDependenceGraphPass::getPassName() const {
 }
 
 void ProgramDependenceGraphPass::releaseMemory() {
-
-    for (auto it = PDG.edges_begin(); it != PDG.edges_end(); it++) {
-        delete it->getData();
-    }
-
-    PDG.clear(); 
 }
 
 const DependenceGraph<llvm::Instruction*,ppar::Dependence*>& ProgramDependenceGraphPass::getPDG() const { 

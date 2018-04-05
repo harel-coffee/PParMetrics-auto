@@ -1,6 +1,8 @@
 #ifndef PPAR_DEPENDENCE_GRAPH_H
 #define PPAR_DEPENDENCE_GRAPH_H
 
+#define DEBUG_TYPE "dep-graph"
+
 #include "ppar_common_includes.h"
 
 #include <unordered_set>
@@ -10,6 +12,8 @@
 #include <functional>
 #include <memory>
 #include <vector>
+#include <string>
+#include <sstream>
 
 namespace ppar {
 

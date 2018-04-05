@@ -11,8 +11,6 @@ using namespace llvm;
 #include "DependenceGraph.h"
 #include "ProgramDependenceGraph.h"
 
-#define DEBUG_TYPE "dep-graph-complexity"
-
 namespace ppar {
    
     class DepGraphComplexity : public FunctionPass {

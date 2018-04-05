@@ -111,7 +111,11 @@ void DependenceGraph<NODE,EDGE>::dfsTraverse(DepthFirstSearch_callback<NODE,EDGE
     std::stack<DependenceGraphNode<NODE,EDGE>> Stack;
     // CurrentTime - DFS tracks traversal time 
     uint64_t CurrentTime = 0;
-   
+  
+    DEBUG(
+        llvm::dbgs() << "[[" << CurrentTime << "] new DFS traversal]\n";
+    );
+
     DFS_properties.clear();
     for (const_node_iterator node_it = Nodes.cbegin(); node_it != Nodes.cend(); node_it++) {
         DFS_properties[*node_it] = std::make_unique<DepthFirstSearch_node_properties>();
@@ -119,11 +123,33 @@ void DependenceGraph<NODE,EDGE>::dfsTraverse(DepthFirstSearch_callback<NODE,EDGE
  
     while (!SearchSet.empty()) { // we still have undiscovered (white) nodes
         Stack.push(*SearchSet.begin());
+
+        DEBUG(
+            std::string str;
+            llvm::raw_string_ostream rso(str);
+            ((SearchSet.begin())->getNode())->print(rso);
+            llvm::dbgs() << "[[" << CurrentTime << "] new DFS tree: root(" << str << ")]\n";
+        );
+
         while (!Stack.empty()) {
             bool NodeIsProcessed = true; // we are done with the node and all its successors
             DependenceGraphNode<NODE,EDGE> CurrentNode(Stack.top());
             DepthFirstSearch_node_properties* Node_props = DFS_properties[CurrentNode].get();
-        
+
+            DEBUG(
+                std::string str;
+                llvm::raw_string_ostream rso(str);
+                (CurrentNode.getNode())->print(rso);
+
+                if (Node_props->Color == DepthFirstSearch_node_properties::NodeColor::WHITE) {
+                    llvm::dbgs() << "[" << CurrentTime << "] taking the node off the stack: WHITE " << str << "\n";
+                } else if (Node_props->Color == DepthFirstSearch_node_properties::NodeColor::GREY) {
+                    llvm::dbgs() << "[" << CurrentTime << "] taking the node off the stack: GREY " << str << "\n";
+                } else {
+                    llvm::dbgs() << "[" << CurrentTime << "] taking the node off the stack: BLACK " << str << "\n";
+                }
+            );
+
             if (Node_props->Color == DepthFirstSearch_node_properties::NodeColor::WHITE) {
                 Node_props->Color = DepthFirstSearch_node_properties::NodeColor::GREY;
                 DFS_properties[CurrentNode]->TimestampEntry = CurrentTime;
@@ -132,6 +158,13 @@ void DependenceGraph<NODE,EDGE>::dfsTraverse(DepthFirstSearch_callback<NODE,EDGE
                      (VisitorFunc->CallOrder == DepthFirstSearch_callback<NODE,EDGE>::Order::PRE) ) {
                     VisitorFunc->operator()();
                 }
+
+                DEBUG(
+                    std::string str;
+                    llvm::raw_string_ostream rso(str);
+                    (CurrentNode.getNode())->print(rso);
+                    llvm::dbgs() << "[" << CurrentTime << "] discovered new node WHITE->GREY: " << str << "\n";
+                );
             }
 
             const auto it = Succs.find(CurrentNode);
@@ -153,20 +186,50 @@ void DependenceGraph<NODE,EDGE>::dfsTraverse(DepthFirstSearch_callback<NODE,EDGE
                         // since this successor hasn't been visited yet, 
                         // we mark corresponding edge as of tree edge type
                         Type = DependenceGraphEdge<NODE,EDGE>::EdgeType::TREE;
+        
+                        DEBUG(
+                            std::string str;
+                            llvm::raw_string_ostream rso(str);
+                            ((*succ_it).getNode())->print(rso);
+                            llvm::dbgs() << "[" << CurrentTime << "] found successor: WHITE " << str << "\n";
+                        );
+
                     } else if (SuccNodeColor == DepthFirstSearch_node_properties::NodeColor::GREY) {
                         Type = DependenceGraphEdge<NODE,EDGE>::EdgeType::BACK;
-                        NodeIsProcessed = false;
+
+                        DEBUG(
+                            std::string str;
+                            llvm::raw_string_ostream rso(str);
+                            ((*succ_it).getNode())->print(rso);
+                            llvm::dbgs() << "[" << CurrentTime << "] found successor: GREY " << str << "\n";
+                        );
+
                     } else { // BLACK
                         if (DFS_properties[CurrentNode]->TimestampEntry < CurrentTime) {
                             Type = DependenceGraphEdge<NODE,EDGE>::EdgeType::FORWARD;
                         } else {
                             Type = DependenceGraphEdge<NODE,EDGE>::EdgeType::CROSS;
                         }
+
+                        DEBUG(
+                            std::string str;
+                            llvm::raw_string_ostream rso(str);
+                            ((*succ_it).getNode())->print(rso);
+                            llvm::dbgs() << "[" << CurrentTime << "] found successor: BLACK " << str << "\n";
+                        );
+
                     }
                     for (auto& edge : EdgesSet) {
                         edge.Type = Type;
                     }
                 }
+            } else {
+                DEBUG(
+                    std::string str;
+                    llvm::raw_string_ostream rso(str);
+                    (CurrentNode.getNode())->print(rso);
+                    llvm::dbgs() << "node has no successors: " << str << "\n";
+                );
             }
 
             if (NodeIsProcessed) {
@@ -179,6 +242,14 @@ void DependenceGraph<NODE,EDGE>::dfsTraverse(DepthFirstSearch_callback<NODE,EDGE
                      (VisitorFunc->CallOrder == DepthFirstSearch_callback<NODE,EDGE>::Order::POST)) {
                     VisitorFunc->operator()();
                 }
+
+                DEBUG(
+                    std::string str;
+                    llvm::raw_string_ostream rso(str);
+                    (CurrentNode.getNode())->print(rso);
+                    llvm::dbgs() << "[" << CurrentTime << "] node is processed: -> BLACK " << str << "\n";
+                );
+
             }
             
             CurrentTime++;

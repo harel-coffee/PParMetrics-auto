@@ -3,6 +3,8 @@
 
 #include <cstdint> // integer type system used in the project
 
+#include <stdexcept>
+
 #include "llvm/Support/Debug.h"
 #include "llvm/Support/ErrorHandling.h"
 #include "llvm/Support/raw_ostream.h"

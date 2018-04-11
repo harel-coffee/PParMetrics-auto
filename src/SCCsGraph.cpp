@@ -10,6 +10,7 @@ bool SCCsGraphPass::runOnFunction(Function& F) {
     const Graph<Instruction*,ppar::Dependence*>& pdg = Pass::getAnalysis<ProgramDependenceGraphPass>().getPDG();
 
     pdg.findSCCs();
+    pdg.buildComponentGraph();
 
     return false;
 }

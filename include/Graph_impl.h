@@ -311,6 +311,7 @@ void Graph<NODE,EDGE>::findSCCs() const {
             Stack.pop();
 
             CurrentSCC->addNode(CurrentNode.getNode());
+            NodeToSCCs_addr[CurrentNode] =  CurrentSCC;
 /*            const auto preds_it = Preds.find(CurrentNode);
             if (preds_it != Preds.end()) {
                 const Graph<NODE,EDGE>::unordered_node_set& Predecessors = Preds.at(CurrentNode);
@@ -368,6 +369,65 @@ void Graph<NODE,EDGE>::findSCCs() const {
     }
 
     SCCs_data_valid = true;
+}
+
+template <typename NODE, typename EDGE>
+void Graph<NODE,EDGE>::buildComponentGraph() const {
+
+    ComponentGraph_valid = false;
+
+    // compute finishing times of nodes in DFS traversal
+    if (!SCCs_data_valid) {
+        findSCCs();
+    }
+
+    if (ComponentGraph == nullptr) {
+        ComponentGraph = new Graph<NODE,EDGE>();
+    } else {
+        llvm_unreachable("Component Graph has already been built");
+    }
+  
+    // roots of found SCCs are the nodes of the CG
+    for (auto scc_it : SCCs) {
+        ComponentGraph->addNode((scc_it.first).getNode());
+    }
+
+    // connect nodes, representing graph's SCCs with edges;
+    // if there is an edge from some node of the SCC1 to some node of SCC2,
+    // then we connect root of SCC1 to root of SCC2; 
+    // if there are multiple such edges, then the resulting edge accumulates
+    // all the edges together;
+    for (auto scc_it : SCCs) {
+        Graph<NODE,EDGE>* CurrentSCC = scc_it.second;
+        for (Graph<NODE,EDGE>::node_iterator node_it = CurrentSCC->nodes_begin(); node_it != CurrentSCC->nodes_end(); node_it++) {
+            GraphNode<NODE,EDGE> Node(*node_it); 
+            const auto succs_it = Succs.find(Node);
+            if (succs_it != Succs.end()) { // check all outgoing edges
+                const Graph<NODE,EDGE>::unordered_node_set& Successors = Succs.at(Node);
+                for (typename unordered_node_set::const_iterator succ_it = Successors.cbegin(); succ_it != Successors.cend(); succ_it++) {
+                    Graph<NODE,EDGE>* SuccSCC = NodeToSCCs_addr[*succ_it];
+                    if (CurrentSCC != SuccSCC) { // we need to add cumulative edge to the CG
+                        const auto edges_it = Edges.find(std::make_pair(Node.Node, succ_it->Node));
+                        if (edges_it != Edges.end()) {
+                            const Graph<NODE,EDGE>::edge_set& EdgeSet = edges_it->second;
+                            ppar::Dependence* Dep = new ppar::Dependence();
+                            Dep->setUnknown();
+                            for (const auto& Edge : EdgeSet) {
+                                Dep->operator+=(*(Edge.getData()));
+                            }
+                            ComponentGraph->addEdge((CurrentSCC->getRoot()).getNode(),
+                                                (SuccSCC->getRoot()).getNode(),
+                                                Dep);
+                        } else {
+                            llvm_unreachable("Inconsistent dependence graph data structure: edge does not exist");
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    ComponentGraph_valid = true;
 }
 
 template <typename NODE, typename EDGE>

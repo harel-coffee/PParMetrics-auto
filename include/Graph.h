@@ -91,6 +91,27 @@ class Dependence {
             return !(this->operator==(Dep));
         }
 
+        Dependence& operator+=(const Dependence& Dep){
+            if (Dep.isData() && !this->isData()) {
+                this->setData();
+                if (Dep.isReg()) {
+                    this->setReg();
+                } else if (Dep.isMem()) {
+                    this->setMem();
+                }
+                if (Dep.isFlow()) {
+                    this->setFlow();
+                } else if (Dep.isAnti()) {
+                    this->setAnti();
+                } else if (Dep.isOutput()) {
+                    this->setOutput();
+                }
+            } else if (Dep.isControl() && !this->isControl()) {
+                this->setControl();
+            } 
+            return *this;
+        }
+
         bool isUnknown() const { return Unknown; }
 
         bool isData() const { return Data; }
@@ -111,46 +132,39 @@ class Dependence {
             Control = false;
             Mem = false;
             Reg = false;
+            Flow = false;
+            Anti = false;
+            Output = false;
             Unknown = true;
         }
 
         void setData() {
             Data = true;
-            Control = false;
             Unknown = false;
         }
 
         void setControl() {
-            Data = false;
             Control = true;
             Unknown = false;
         }
 
         void setFlow() { 
             Flow = true;
-            Anti = false;
-            Output = false;
         }
         
         void setAnti() { 
-            Flow = false;
             Anti = true; 
-            Output = false;
         }
         
         void setOutput() {
-            Flow = false;
-            Anti = false; 
             Output = true; 
         }
 
         void setMem() { 
             Mem = true;
-            Reg = false;
         }
 
         void setReg() { 
-            Mem = false;
             Reg = true;
         }
 
@@ -345,6 +359,7 @@ class Graph {
         void dfsTraverse(DFS_callback<NODE,EDGE>* VisitorFunc = nullptr) const;
         
         void findSCCs() const;
+        void buildComponentGraph() const;
 
         const unordered_node_set& getDependants(const NODE Node) const;
 
@@ -397,11 +412,16 @@ class Graph {
                                     /* value: node properties */ std::unique_ptr<DFS_node_properties>,
                                     /* hash function */ typename GraphNode<NODE,EDGE>::hash> DFS_properties;
 
-        // Strongly Connected Components (SCCs) maintenance
+        // Strongly Connected Components (SCCs) and Component Graph (CG) maintenance
         mutable bool SCCs_data_valid;
         mutable std::unordered_map< /* key: root node */ GraphNode<NODE,EDGE>, 
                                     /* value: SCC */ Graph<NODE,EDGE>*,
                                     /* hash function */ typename GraphNode<NODE,EDGE>::hash> SCCs;
+        mutable std::unordered_map< /* key: node */ GraphNode<NODE,EDGE>, 
+                                    /* value: SCC */ Graph<NODE,EDGE>*,
+                                    /* hash function */ typename GraphNode<NODE,EDGE>::hash> NodeToSCCs_addr;
+        mutable bool ComponentGraph_valid;
+        mutable Graph<NODE,EDGE>* ComponentGraph;
 };
 
 class DFS_node_properties {

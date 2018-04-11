@@ -26,12 +26,12 @@ void MDGPrinter::getAnalysisUsage(AnalysisUsage &AU) const {
 
 bool MDGPrinter::runOnFunction(Function &F) {
     MemoryDependenceGraphPass& MDG = Pass::getAnalysis<MemoryDependenceGraphPass>();
-    DependenceGraph<Instruction*,llvm::Dependence*>& DG = MDG.getMDG();
+    Graph<Instruction*,llvm::Dependence*>& DG = MDG.getMDG();
     DotPrinter Printer("mdg");
     map<Instruction*,string> InstrToNodeName;
     
-    for(DependenceGraph<Instruction*,llvm::Dependence*>::node_iterator node_it = DG.nodes_begin(); node_it != DG.nodes_end(); node_it++) {
-        DependenceGraphNode<Instruction*,llvm::Dependence*> DepNode = *node_it;
+    for(Graph<Instruction*,llvm::Dependence*>::node_iterator node_it = DG.nodes_begin(); node_it != DG.nodes_end(); node_it++) {
+        GraphNode<Instruction*,llvm::Dependence*> DepNode = *node_it;
         Instruction* Instr = DepNode.getNode();
         DotNode* Node = new DotNode();
         InstrToNodeName[Instr] = Node->getName();
@@ -54,7 +54,7 @@ bool MDGPrinter::runOnFunction(Function &F) {
     // print all graph edges
     for (auto edge_it = DG.edges_cbegin(); edge_it != DG.edges_cend(); edge_it++) {
         const std::pair<Instruction*,Instruction*>& NodePair = edge_it->first;
-        const DependenceGraph<Instruction*,llvm::Dependence*>::edge_set& EdgeSet = edge_it->second;
+        const Graph<Instruction*,llvm::Dependence*>::edge_set& EdgeSet = edge_it->second;
 
         for (const auto& DepEdge : EdgeSet) {
             Instruction* From = DepEdge.getFrom();

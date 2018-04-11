@@ -22,12 +22,12 @@ DDGPrinter::DDGPrinter()
 
 bool DDGPrinter::runOnFunction(Function& F) {
     DataDependenceGraphPass& ddg = Pass::getAnalysis<DataDependenceGraphPass>();
-    const DependenceGraph<Instruction*,ppar::Dependence*>& DG = ddg.getDDG();
+    const Graph<Instruction*,ppar::Dependence*>& DG = ddg.getDDG();
     DotPrinter Printer("ddg");
     map<Instruction*,string> InstrToNodeName;
     
-    for (DependenceGraph<Instruction*,ppar::Dependence*>::const_node_iterator node_it = DG.nodes_cbegin(); node_it != DG.nodes_cend(); node_it++) {
-        DependenceGraphNode<Instruction*,ppar::Dependence*> DepNode = *node_it;
+    for (Graph<Instruction*,ppar::Dependence*>::const_node_iterator node_it = DG.nodes_cbegin(); node_it != DG.nodes_cend(); node_it++) {
+        GraphNode<Instruction*,ppar::Dependence*> DepNode = *node_it;
         Instruction* Instr = DepNode.getNode();
         DotNode* Node = new DotNode();
         InstrToNodeName[Instr] = Node->getName();
@@ -45,7 +45,7 @@ bool DDGPrinter::runOnFunction(Function& F) {
     // print all graph edges
     for (auto edge_it = DG.edges_cbegin(); edge_it != DG.edges_cend(); edge_it++) {
         const std::pair<Instruction*,Instruction*>& NodePair = edge_it->first;
-        const DependenceGraph<Instruction*,ppar::Dependence*>::edge_set& EdgeSet = edge_it->second;
+        const Graph<Instruction*,ppar::Dependence*>::edge_set& EdgeSet = edge_it->second;
 
         for (const auto& DepEdge : EdgeSet) {
             Instruction* From = DepEdge.getFrom();

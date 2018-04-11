@@ -27,14 +27,12 @@ void MemoryDependenceGraphPass::releaseMemory() {
     MDG.clear(); 
 }
 
-DependenceGraph<Instruction*,llvm::Dependence*>& MemoryDependenceGraphPass::getMDG() { 
+Graph<Instruction*,llvm::Dependence*>& MemoryDependenceGraphPass::getMDG() { 
     return MDG;
 }
 
 bool MemoryDependenceGraphPass::runOnFunction(Function &F) {
-    
     DependenceInfo& DI = Pass::getAnalysis<DependenceAnalysisWrapperPass>().getDI();
-
     vector<Instruction*> MemRefs;
 
     for (inst_iterator I = inst_begin(F), E = inst_end(F); I != E; ++I) {

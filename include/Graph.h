@@ -19,16 +19,12 @@ namespace ppar {
 
 class Dependence;
 
-template <typename NODE, typename EDGE> struct HashNode;
-template <typename NODE, typename EDGE> struct HashEdge;
+template <typename NODE, typename EDGE> class GraphNode;
+template <typename NODE, typename EDGE> class GraphEdge;
+template <typename NODE, typename EDGE> class Graph;
 
-template <typename NODE, typename EDGE> class DependenceGraphNode;
-template <typename NODE, typename EDGE> class DependenceGraphEdge;
-
-template <typename NODE, typename EDGE> class DependenceGraph;
-
-class DepthFirstSearch_node_properties;
-template <typename NODE, typename EDGE> class DepthFirstSearch_callback;
+class DFS_node_properties;
+template <typename NODE, typename EDGE> class DFS_callback;
 
 class Dependence {
     public:
@@ -179,49 +175,32 @@ class Dependence {
 };
 
 template <typename NODE, typename EDGE>
-struct HashNode {
-    size_t operator()(const DependenceGraphNode<NODE,EDGE>& Node) const {
-        return std::hash<void*>()(static_cast<void*>(Node.getNode()));
-    }
-};
+class GraphNode {
 
-template <typename NODE, typename EDGE>
-struct HashEdge {
-    size_t operator()(const DependenceGraphEdge<NODE,EDGE>& Edge) const {
-        return ( std::hash<void*>()(static_cast<void*>(Edge.getFrom())) ^ 
-                 std::hash<void*>()(static_cast<void*>(Edge.getTo())) );
-    }
-};
-
-template <typename NODE, typename EDGE>
-struct HashNodePair {
-    size_t operator()(const std::pair<NODE,NODE>& Pair) const {
-        return ( std::hash<void*>()(static_cast<void*>(Pair.first)) ^ 
-                 std::hash<void*>()(static_cast<void*>(Pair.second)) );
-    }
-};
-
-template <typename NODE, typename EDGE>
-class DependenceGraphNode {
-
-    friend class HashNode<NODE,EDGE>;
-    friend class DependenceGraph<NODE,EDGE>;
+    friend class Graph<NODE,EDGE>;
 
     public:
-        DependenceGraphNode(NODE DepNode = nullptr) 
+        GraphNode(NODE DepNode = nullptr) 
             : Node(DepNode) {}
 
-        DependenceGraphNode(const DependenceGraphNode<NODE,EDGE>& DepNode) 
+        GraphNode(const GraphNode<NODE,EDGE>& DepNode) 
             : Node(DepNode.Node) {}
 
-        ~DependenceGraphNode() {}
+        ~GraphNode() {}
 
-        DependenceGraphNode& operator=(const DependenceGraphNode<NODE,EDGE>& DepNode) {
+        struct Hash_Node {
+            size_t operator()(const GraphNode<NODE,EDGE>& Node) const {
+                return std::hash<void*>()(static_cast<void*>(Node.getNode()));
+            }
+        };
+        using hash = Hash_Node;
+
+        GraphNode& operator=(const GraphNode<NODE,EDGE>& DepNode) {
             Node = DepNode.Node;
             return *this;
         }
 
-        bool operator==(const DependenceGraphNode<NODE,EDGE>& DepNode) const {
+        bool operator==(const GraphNode<NODE,EDGE>& DepNode) const {
             if (Node == DepNode.Node) {
                 return true;
             } else {
@@ -229,7 +208,7 @@ class DependenceGraphNode {
             }
         }
 
-        bool operator!=(const DependenceGraphNode<NODE,EDGE>& DepNode) const {
+        bool operator!=(const GraphNode<NODE,EDGE>& DepNode) const {
             return !this->operator==(DepNode);
         }
 
@@ -240,32 +219,39 @@ class DependenceGraphNode {
 };
 
 template <typename NODE, typename EDGE>
-class DependenceGraphEdge {
+class GraphEdge {
 
-    friend class HashEdge<NODE,EDGE>;
-    friend class DependenceGraph<NODE,EDGE>;
+    friend class Graph<NODE,EDGE>;
 
     public:
-        DependenceGraphEdge(NODE From = nullptr, NODE To = nullptr, EDGE Data = nullptr)
+        GraphEdge(NODE From = nullptr, NODE To = nullptr, EDGE Data = nullptr)
             : From(From), To(To), Data(Data), Type(EdgeType::UNDEFINED) {}
 
-        DependenceGraphEdge(const DependenceGraphEdge& CopyEdge) {
+        GraphEdge(const GraphEdge& CopyEdge) {
             From = CopyEdge.From;
             To = CopyEdge.To;
             Data = CopyEdge.Data;
             Type = CopyEdge.Type;
         }
 
-        DependenceGraphEdge& operator=(const DependenceGraphEdge& AssignEdge) {
+        GraphEdge& operator=(const GraphEdge& AssignEdge) {
             From = AssignEdge.From;
             To = AssignEdge.To;
             Data = AssignEdge.Data;
             Type = AssignEdge.Type;
         }
 
-        ~DependenceGraphEdge() {}
-    
-        bool operator==(const DependenceGraphEdge<NODE,EDGE>& DepEdge) const {
+        ~GraphEdge() {}
+ 
+        struct Hash_Edge {
+            size_t operator()(const GraphEdge<NODE,EDGE>& Edge) const {
+                return ( std::hash<void*>()(static_cast<void*>(Edge.getFrom())) ^ 
+                         std::hash<void*>()(static_cast<void*>(Edge.getTo())) );
+            }
+        };
+        using hash = Hash_Edge;
+
+        bool operator==(const GraphEdge<NODE,EDGE>& DepEdge) const {
             if ( (From == DepEdge.From) &&
                  (To == DepEdge.To) &&
                  (Data == DepEdge.Data) ) {
@@ -299,14 +285,14 @@ class DependenceGraphEdge {
  * Graph = {N,E} is represented as two sets: N (nodes) and E (edges)
  */
 template <typename NODE, typename EDGE>
-class DependenceGraph {
+class Graph {
 
     public:
-        DependenceGraph();
-        ~DependenceGraph();
+        Graph();
+        ~Graph();
         
-        using unordered_node_set = std::unordered_set<DependenceGraphNode<NODE,EDGE>,HashNode<NODE,EDGE>>;
-        using unordered_edge_set = std::unordered_set<DependenceGraphEdge<NODE,EDGE>,HashEdge<NODE,EDGE>>;
+        using unordered_node_set = std::unordered_set<GraphNode<NODE,EDGE>, typename GraphNode<NODE,EDGE>::hash>;
+        using unordered_edge_set = std::unordered_set<GraphEdge<NODE,EDGE>, typename GraphEdge<NODE,EDGE>::hash>;
         using node_set = unordered_node_set;
         using edge_set = unordered_edge_set;
 
@@ -319,31 +305,63 @@ class DependenceGraph {
         using dependant_iterator = typename unordered_node_set::iterator;
         using const_dependant_iterator = typename unordered_node_set::const_iterator;
 
-        using dfs_iterator = typename std::vector<DependenceGraphNode<NODE,EDGE>>::iterator;
+        using dfs_iterator = typename std::vector<GraphNode<NODE,EDGE>>::iterator;
 
-        static DependenceGraphNode<NODE,EDGE> InvalidNode;
+        static GraphNode<NODE,EDGE> InvalidNode;
+
+        struct Hash_Graph {
+            size_t operator()(const Graph<NODE,EDGE>*& Graph) const {
+                return std::hash<void*>()(static_cast<void*>((Graph->getRoot()).getNode()));
+            }
+        };
+        using hash = Hash_Graph;
+        
+        struct Hash_NodePair {
+            size_t operator()(const std::pair<NODE,NODE>& Pair) const {
+                return ( std::hash<void*>()(static_cast<void*>(Pair.first)) ^ 
+                         std::hash<void*>()(static_cast<void*>(Pair.second)) );
+            }
+        };
+       
+        bool operator!=(const Graph& G) {
+            if (this->Root == G.Root) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        GraphNode<NODE,EDGE> getRoot() const {
+            return Root;
+        }
+
+        void setRoot(const NODE Node) {
+            Root = GraphNode<NODE,EDGE>(Node);
+        }
 
         void addNode(const NODE Node);
         void addEdge(const NODE From, const NODE To, EDGE Data);
 
-        void dfsTraverse(DepthFirstSearch_callback<NODE,EDGE>* VisitorFunc = nullptr) const;
+        void dfsTraverse(DFS_callback<NODE,EDGE>* VisitorFunc = nullptr) const;
+        
+        void findSCCs() const;
 
         const unordered_node_set& getDependants(const NODE Node) const;
 
-        dfs_iterator dfs_begin(DepthFirstSearch_callback<NODE,EDGE>* VisitorFunc); 
-        dfs_iterator dfs_end(DepthFirstSearch_callback<NODE,EDGE>* VisitorFunc); 
+        dfs_iterator dfs_begin(DFS_callback<NODE,EDGE>* VisitorFunc); 
+        dfs_iterator dfs_end(DFS_callback<NODE,EDGE>* VisitorFunc); 
 
         dependant_iterator child_begin(const NODE Node) 
-        { return Succs[DependenceGraphNode<NODE,EDGE>(Node)].begin(); }
+        { return Succs[GraphNode<NODE,EDGE>(Node)].begin(); }
 
         dependant_iterator child_end(const NODE Node)
-        { return Succs[DependenceGraphNode<NODE,EDGE>(Node)].end(); }
+        { return Succs[GraphNode<NODE,EDGE>(Node)].end(); }
         
         const_dependant_iterator child_cbegin(const NODE Node) const
-        { return Succs[DependenceGraphNode<NODE,EDGE>(Node)].cbegin(); }
+        { return Succs[GraphNode<NODE,EDGE>(Node)].cbegin(); }
         
         const_dependant_iterator child_cend(const NODE Node) const
-        { return Succs[DependenceGraphNode<NODE,EDGE>(Node)].cend(); }
+        { return Succs[GraphNode<NODE,EDGE>(Node)].cend(); }
 
         void clear() { Nodes.clear(); Edges.clear(); Succs.clear(); Preds.clear(); }
 
@@ -360,34 +378,44 @@ class DependenceGraph {
         auto edges_cend() const { return Edges.cend(); }
 
     private:
-        const DependenceGraphNode<NODE,EDGE>& nodeExists(const NODE Node) const;
-        void addPredecessor(const DependenceGraphNode<NODE,EDGE>& Node, const DependenceGraphNode<NODE,EDGE>& Pred);
-        void addSuccessor(const DependenceGraphNode<NODE,EDGE>& Node, const DependenceGraphNode<NODE,EDGE>& Succ);
+        const GraphNode<NODE,EDGE>& nodeExists(const NODE Node) const;
+        void addPredecessor(const GraphNode<NODE,EDGE>& Node, const GraphNode<NODE,EDGE>& Pred);
+        void addSuccessor(const GraphNode<NODE,EDGE>& Node, const GraphNode<NODE,EDGE>& Succ);
 
     private:
+        // Graph representation
+        GraphNode<NODE,EDGE> Root;
         node_set Nodes;
-        std::unordered_map<std::pair<NODE,NODE>, edge_set, HashNodePair<NODE,EDGE>> Edges;
-        std::unordered_map<DependenceGraphNode<NODE,EDGE>, unordered_node_set, HashNode<NODE,EDGE>> Succs;
-        std::unordered_map<DependenceGraphNode<NODE,EDGE>, unordered_node_set, HashNode<NODE,EDGE>> Preds;
-        
-        // Depth First Search maintenance
+        std::unordered_map<std::pair<NODE,NODE>, edge_set, Hash_NodePair> Edges;
+        std::unordered_map<GraphNode<NODE,EDGE>, unordered_node_set, typename GraphNode<NODE,EDGE>::hash> Succs;
+        std::unordered_map<GraphNode<NODE,EDGE>, unordered_node_set, typename GraphNode<NODE,EDGE>::hash> Preds;
+
+        // Depth First Search (DFS) maintenance
         mutable bool DFS_data_valid;
-        mutable std::vector<DependenceGraphNode<NODE,EDGE>> DFS_order;
-        mutable std::unordered_map<DependenceGraphNode<NODE,EDGE>,std::unique_ptr<DepthFirstSearch_node_properties>,HashNode<NODE,EDGE>> DFS_properties;
+        mutable std::vector<GraphNode<NODE,EDGE>> DFS_order;
+        mutable std::unordered_map< /* key: node */ GraphNode<NODE,EDGE>,
+                                    /* value: node properties */ std::unique_ptr<DFS_node_properties>,
+                                    /* hash function */ typename GraphNode<NODE,EDGE>::hash> DFS_properties;
+
+        // Strongly Connected Components (SCCs) maintenance
+        mutable bool SCCs_data_valid;
+        mutable std::unordered_map< /* key: root node */ GraphNode<NODE,EDGE>, 
+                                    /* value: SCC */ Graph<NODE,EDGE>*,
+                                    /* hash function */ typename GraphNode<NODE,EDGE>::hash> SCCs;
 };
 
-class DepthFirstSearch_node_properties {
+class DFS_node_properties {
     public:
-        DepthFirstSearch_node_properties()
+        DFS_node_properties()
          : TimestampEntry(UINT64_MAX), TimestampExit(UINT64_MAX), Color(NodeColor::WHITE) {}
-        ~DepthFirstSearch_node_properties() {}
+        ~DFS_node_properties() {}
 
-        DepthFirstSearch_node_properties(DepthFirstSearch_node_properties&& DFS_np) {
+        DFS_node_properties(DFS_node_properties&& DFS_np) {
             TimestampEntry = DFS_np.TimestampEntry;
             TimestampExit = DFS_np.TimestampExit;
         }
 
-        DepthFirstSearch_node_properties& operator=(DepthFirstSearch_node_properties&& DFS_np) {
+        DFS_node_properties& operator=(DFS_node_properties&& DFS_np) {
             TimestampEntry = DFS_np.TimestampEntry;
             TimestampExit = DFS_np.TimestampExit;
             return *this;
@@ -405,9 +433,9 @@ class DepthFirstSearch_node_properties {
 };
 
 template <typename NODE, typename EDGE>
-class DepthFirstSearch_callback {
+class DFS_callback {
 
-    friend class DependenceGraph<NODE,EDGE>;
+    friend class Graph<NODE,EDGE>;
 
     public:
         enum class Order {
@@ -415,7 +443,7 @@ class DepthFirstSearch_callback {
             POST
         };
     
-        DepthFirstSearch_callback(Order CO = Order::POST) : CallOrder(CO) {}
+        DFS_callback(Order CO = Order::POST) : CallOrder(CO) {}
 
         virtual void operator()() = 0;
 
@@ -425,6 +453,6 @@ class DepthFirstSearch_callback {
 
 } // namespace ppar
 
-#include "DependenceGraph_impl.h"
+#include "Graph_impl.h"
 
 #endif // #ifndef PPAR_DEPENDENCE_GRAPH_H

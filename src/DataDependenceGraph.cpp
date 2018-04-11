@@ -26,7 +26,7 @@ StringRef DataDependenceGraphPass::getPassName() const {
 void DataDependenceGraphPass::releaseMemory() {
 }
 
-const DependenceGraph<Instruction*,ppar::Dependence*>& DataDependenceGraphPass::getDDG() const { 
+Graph<Instruction*,ppar::Dependence*>& DataDependenceGraphPass::getDDG() { 
     return DDG; 
 }
 
@@ -45,7 +45,7 @@ bool DataDependenceGraphPass::runOnFunction(Function &F) {
             ppar::Dependence* Dep = new ppar::Dependence();
             Dep->setData();
             Dep->setFlow();
-            Dep->setMem();
+            Dep->setReg();
 
             if (Instruction* Inst = dyn_cast<Instruction>(U)) {
                 DDG.addEdge(&*I, Inst, Dep);

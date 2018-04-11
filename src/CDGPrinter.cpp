@@ -22,12 +22,12 @@ CDGPrinter::CDGPrinter()
 
 bool CDGPrinter::runOnFunction(Function& F) {
     ControlDependenceGraphPass& cdg = Pass::getAnalysis<ControlDependenceGraphPass>();
-    const DependenceGraph<BasicBlock*,ppar::Dependence*>& DG = cdg.getCDG();
+    const Graph<BasicBlock*,ppar::Dependence*>& DG = cdg.getCDG();
     DotPrinter Printer("cdg");
     map<BasicBlock*,string> BBToNodeName;
     
-    for (DependenceGraph<BasicBlock*,ppar::Dependence*>::const_node_iterator node_it = DG.nodes_cbegin(); node_it != DG.nodes_cend(); node_it++) {
-        DependenceGraphNode<BasicBlock*,ppar::Dependence*> DepNode = *node_it;
+    for (Graph<BasicBlock*,ppar::Dependence*>::const_node_iterator node_it = DG.nodes_cbegin(); node_it != DG.nodes_cend(); node_it++) {
+        GraphNode<BasicBlock*,ppar::Dependence*> DepNode = *node_it;
         BasicBlock* BB = DepNode.getNode();
         DotNode* Node = new DotNode();
         BBToNodeName[BB] = Node->getName();
@@ -45,7 +45,7 @@ bool CDGPrinter::runOnFunction(Function& F) {
     // print all graph edges
     for (auto edge_it = DG.edges_cbegin(); edge_it != DG.edges_cend(); edge_it++) {
         const std::pair<BasicBlock*,BasicBlock*>& NodePair = edge_it->first;
-        const DependenceGraph<BasicBlock*,ppar::Dependence*>::edge_set& EdgeSet = edge_it->second;
+        const Graph<BasicBlock*,ppar::Dependence*>::edge_set& EdgeSet = edge_it->second;
 
         for (const auto& DepEdge : EdgeSet) {
             BasicBlock* From = DepEdge.getFrom();

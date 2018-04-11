@@ -7,15 +7,15 @@ static RegisterPass<ppar::DepGraphComplexity> CCmplx("ccomp", "computes cyclomat
 
 namespace ppar {
    
-class DGComplexity : public DepthFirstSearch_callback<Instruction*,ppar::Dependence*> {
+class DGComplexity : public DFS_callback<Instruction*,ppar::Dependence*> {
     public:
-        DGComplexity() : DepthFirstSearch_callback<Instruction*,ppar::Dependence*>(DepthFirstSearch_callback::Order::POST), Complexity(0) {}
+        DGComplexity() : DFS_callback<Instruction*,ppar::Dependence*>(DFS_callback::Order::POST), Complexity(0) {}
         void operator()() override { Complexity++; }
         uint64_t Complexity;
 };
 
 bool DepGraphComplexity::runOnFunction(Function& F) {
-    const DependenceGraph<Instruction*,ppar::Dependence*>& pdg = Pass::getAnalysis<ProgramDependenceGraphPass>().getPDG();
+    const Graph<Instruction*,ppar::Dependence*>& pdg = Pass::getAnalysis<ProgramDependenceGraphPass>().getPDG();
     DGComplexity DGComp;
 
     pdg.dfsTraverse(&DGComp);

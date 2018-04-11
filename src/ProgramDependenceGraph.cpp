@@ -25,28 +25,28 @@ namespace ppar {
 
 void ProgramDependenceGraphPass::getAnalysisUsage(AnalysisUsage& AU) const {
     AU.setPreservesAll();
-    AU.addRequiredTransitive<DependenceAnalysisWrapperPass>();
+//    AU.addRequiredTransitive<DependenceAnalysisWrapperPass>();
     AU.addRequired<DataDependenceGraphPass>();
     AU.addRequired<MemoryDependenceGraphPass>();
     AU.addRequired<ControlDependenceGraphPass>();
 }
 
 bool ProgramDependenceGraphPass::runOnFunction(Function& F) {
-    const DependenceGraph<Instruction*,llvm::Dependence*>& mdg = Pass::getAnalysis<MemoryDependenceGraphPass>().getMDG();
-    const DependenceGraph<Instruction*,ppar::Dependence*>& ddg = Pass::getAnalysis<DataDependenceGraphPass>().getDDG();
-    const DependenceGraph<BasicBlock*,ppar::Dependence*>& cdg = Pass::getAnalysis<ControlDependenceGraphPass>().getCDG();
+    const Graph<Instruction*,llvm::Dependence*>& mdg = Pass::getAnalysis<MemoryDependenceGraphPass>().getMDG();
+    const Graph<Instruction*,ppar::Dependence*>& ddg = Pass::getAnalysis<DataDependenceGraphPass>().getDDG();
+    const Graph<BasicBlock*,ppar::Dependence*>& cdg = Pass::getAnalysis<ControlDependenceGraphPass>().getCDG();
 
     // data dependence graph consists of all program's instructions ->
     // -> add them to program dependence graph as nodes
     for (auto node_it = ddg.nodes_cbegin(); node_it != ddg.nodes_cend(); node_it++) {
-        const DependenceGraphNode<Instruction*,ppar::Dependence*>& Node = *node_it; 
+        const GraphNode<Instruction*,ppar::Dependence*>& Node = *node_it; 
         PDG.addNode(Node.getNode());
     }
 
     // copy all DDG edges to the PDG
     for (auto edge_it = ddg.edges_cbegin(); edge_it != ddg.edges_cend(); edge_it++) {
         const std::pair<Instruction*,Instruction*> NodePair = edge_it->first;
-        const DependenceGraph<Instruction*,ppar::Dependence*>::edge_set& EdgeSet = edge_it->second;
+        const Graph<Instruction*,ppar::Dependence*>::edge_set& EdgeSet = edge_it->second;
 
         for (const auto& Edge : EdgeSet) {
             ppar::Dependence* Dep = new ppar::Dependence();
@@ -58,7 +58,7 @@ bool ProgramDependenceGraphPass::runOnFunction(Function& F) {
     // copy MDG edges to the PDG
     for (auto edge_it = mdg.edges_cbegin(); edge_it != mdg.edges_cend(); edge_it++) {
         const std::pair<Instruction*,Instruction*> NodePair = edge_it->first;
-        const DependenceGraph<Instruction*,llvm::Dependence*>::edge_set& EdgeSet = edge_it->second;
+        const Graph<Instruction*,llvm::Dependence*>::edge_set& EdgeSet = edge_it->second;
         for (const auto& Edge : EdgeSet) {
             ppar::Dependence* Dep(new ppar::Dependence());
             llvm::Dependence* MemDep = Edge.getData();
@@ -95,7 +95,7 @@ bool ProgramDependenceGraphPass::runOnFunction(Function& F) {
     // target basic block
     for (auto edge_it = cdg.edges_cbegin(); edge_it != cdg.edges_cend(); ++edge_it) {
         const std::pair<BasicBlock*,BasicBlock*> NodePair = edge_it->first;
-        const DependenceGraph<BasicBlock*,ppar::Dependence*>::edge_set& EdgeSet = edge_it->second;
+        const Graph<BasicBlock*,ppar::Dependence*>::edge_set& EdgeSet = edge_it->second;
         for (const auto& Edge : EdgeSet) {
             const Instruction& source = Edge.getFrom()->back();
             for (BasicBlock::const_iterator it = Edge.getTo()->begin(); it != Edge.getTo()->end(); ++it) {
@@ -116,7 +116,7 @@ StringRef ProgramDependenceGraphPass::getPassName() const {
 void ProgramDependenceGraphPass::releaseMemory() {
 }
 
-const DependenceGraph<llvm::Instruction*,ppar::Dependence*>& ProgramDependenceGraphPass::getPDG() const { 
+const Graph<llvm::Instruction*,ppar::Dependence*>& ProgramDependenceGraphPass::getPDG() const { 
     return PDG; 
 }
 

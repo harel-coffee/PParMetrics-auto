@@ -1,5 +1,5 @@
-#ifndef PPAR_DEP_GRAPH_COMPLEXITY_H
-#define PPAR_DEP_GRAPH_COMPLEXITY_H
+#ifndef SCCS_GRAPH_PASS_H
+#define SCCS_GRAPH_PASS_H
 
 #include "ppar_common_includes.h"
 
@@ -8,19 +8,16 @@
 #include "llvm/ADT/Statistic.h"
 using namespace llvm;
 
-#include "Graph.h"
-#include "ProgramDependenceGraph.h"
-
 namespace ppar {
    
-    class DepGraphComplexity : public FunctionPass {
+    class SCCsGraphPass : public FunctionPass {
     public:
         static char ID; 
-        DepGraphComplexity();
+        SCCsGraphPass();
         bool runOnFunction(Function& F) override;
         void getAnalysisUsage(AnalysisUsage& AU) const override;
     };
 
 } // namespace ppar
 
-#endif // #ifndef PPAR_DEP_GRAPH_COMPLEXITY_H
+#endif // #ifndef SCCS_GRAPH_PASS_H

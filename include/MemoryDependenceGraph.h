@@ -1,7 +1,8 @@
 #ifndef PPAR_MEMORY_DEPENDENCE_GRAPH_H
 #define PPAR_MEMORY_DEPENDENCE_GRAPH_H
 
-#include "DependenceGraph.h"
+#include "ppar_common_includes.h"
+#include "Graph.h"
 
 #include "llvm/Pass.h"
 #include "llvm/PassAnalysisSupport.h"
@@ -22,10 +23,10 @@ struct MemoryDependenceGraphPass : public llvm::FunctionPass {
         void getAnalysisUsage(llvm::AnalysisUsage& AU) const override;
         llvm::StringRef getPassName() const override;
         void releaseMemory() override;
-        DependenceGraph<llvm::Instruction*,llvm::Dependence*>& getMDG();
+        Graph<llvm::Instruction*,llvm::Dependence*>& getMDG();
     
     private:
-        DependenceGraph<llvm::Instruction*,llvm::Dependence*> MDG;
+        Graph<llvm::Instruction*,llvm::Dependence*> MDG;
 };
 
 } // namespace ppar

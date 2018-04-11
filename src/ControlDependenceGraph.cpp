@@ -38,7 +38,7 @@ void ControlDependenceGraphPass::releaseMemory() {
     CDG.clear(); 
 }
 
-const DependenceGraph<llvm::BasicBlock*,ppar::Dependence*>& ControlDependenceGraphPass::getCDG() const { 
+Graph<llvm::BasicBlock*,ppar::Dependence*>& ControlDependenceGraphPass::getCDG() { 
     return CDG; 
 }
 

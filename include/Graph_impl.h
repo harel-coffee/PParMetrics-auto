@@ -29,6 +29,20 @@ Graph<NODE,EDGE>::Graph() {
 template <typename NODE, typename EDGE>
 Graph<NODE,EDGE>::~Graph() {
 
+    if (DFS_data_valid) {
+        DFS_order.clear();
+        DFS_properties.clear();
+    }
+
+    if (SCCs_data_valid) {
+
+    }
+
+    if (ComponentGraph_valid) {
+
+    }
+
+
     for (auto edge_it = Edges.begin(); edge_it != Edges.end(); edge_it++) {
         edge_set& EdgeSet = edge_it->second;
         for (auto& edge : EdgeSet) {

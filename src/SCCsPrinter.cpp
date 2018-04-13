@@ -1,4 +1,4 @@
-#include "PDGPrinter.h"
+#include "SCCsPrinter.h"
 #include "DotPrinter.h"
 
 #include <string>
@@ -9,23 +9,29 @@ using namespace std;
 #include "llvm/Support/raw_ostream.h"
 using namespace llvm;
 
-char ppar::PDGPrinter::ID = 0;
-RegisterPass<ppar::PDGPrinter> PDGPrinterRegister("dot-pdg", "Print PDG of the function to the 'dot' file");
+char ppar::SCCsPrinter::ID = 0;
+RegisterPass<ppar::SCCsPrinter> SCCsPrinterRegister("dot-sccs", "Print SCCs of PDG of the function to the 'dot' file");
 
 namespace ppar {
 
-PDGPrinter::PDGPrinter() 
+SCCsPrinter::SCCsPrinter() 
     : FunctionPass(ID) {}
 
-void PDGPrinter::getAnalysisUsage(AnalysisUsage& AU) const {
+void SCCsPrinter::getAnalysisUsage(AnalysisUsage& AU) const {
     AU.setPreservesAll();
-    AU.addRequired<ProgramDependenceGraphPass>();
+    AU.addRequired<SCCsGraphPass>();
 }
 
-bool PDGPrinter::runOnFunction(Function& F) {
-    ProgramDependenceGraphPass& pdg = Pass::getAnalysis<ProgramDependenceGraphPass>();
-    const Graph<Instruction*,ppar::Dependence*>& DG = pdg.getPDG();
-    DotPrinter Printer(F.getName().str() + ".pdg");
+bool SCCsPrinter::runOnFunction(Function& F) {
+
+    // get Program Dependence Graph (PDG) with SCCs-related information
+    SCCsGraphPass& sccs = Pass::getAnalysis<SCCsGraphPass>();
+    const Graph<Instruction*,ppar::Dependence*>& DG = sccs.getPDG();
+
+    // print PDG with marked SCCs    
+    DotPrinter Printer(F.getName().str() + ".pdg.sccs");
+    DotDiGraph& DotGraph = Printer.getGraph();
+
     map<Instruction*,string> InstrToNodeName;
     
     for (Graph<Instruction*,ppar::Dependence*>::const_node_iterator node_it = DG.nodes_cbegin(); node_it != DG.nodes_cend(); node_it++) {
@@ -51,7 +57,7 @@ bool PDGPrinter::runOnFunction(Function& F) {
         std::remove(str.begin(), str.end(), '\"');
         Node->setAttribute( /* name = */ string("label"), /* value = */ str);
 
-        Printer.getGraph().addNode(Node->getName(), Node);
+        Printer.addNode(Node->getName(), Node);
     }
 
     // print all graph edges
@@ -104,7 +110,7 @@ bool PDGPrinter::runOnFunction(Function& F) {
                 }
             }
 
-            Printer.getGraph().addEdge(Edge->getName(), Edge);
+            Printer.addEdge(Edge->getName(), Edge);
         }
     }
     

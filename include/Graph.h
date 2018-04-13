@@ -304,7 +304,8 @@ class Graph {
     public:
         Graph();
         ~Graph();
-        
+
+        // data structures for storing and working with graph nodes and edges
         using unordered_node_set = std::unordered_set<GraphNode<NODE,EDGE>, typename GraphNode<NODE,EDGE>::hash>;
         using unordered_edge_set = std::unordered_set<GraphEdge<NODE,EDGE>, typename GraphEdge<NODE,EDGE>::hash>;
         using node_set = unordered_node_set;
@@ -319,8 +320,15 @@ class Graph {
         using dependant_iterator = typename unordered_node_set::iterator;
         using const_dependant_iterator = typename unordered_node_set::const_iterator;
 
+        // Depth-First-Search (DFS) support
         using dfs_iterator = typename std::vector<GraphNode<NODE,EDGE>>::iterator;
 
+        // Strongly Connected Components (SCCs) support
+        using sccs_set = std::unordered_map<GraphNode<NODE,EDGE>, Graph<NODE,EDGE>*, typename GraphNode<NODE,EDGE>::hash>;
+        using sccs_iterator = typename sccs_set::iterator;
+        using const_sccs_iterator = typename sccs_set::const_iterator;
+
+        // returned from various graph methods
         static GraphNode<NODE,EDGE> InvalidNode;
 
         struct Hash_Graph {
@@ -337,12 +345,16 @@ class Graph {
             }
         };
        
-        bool operator!=(const Graph& G) {
+        bool operator==(const Graph& G) {
             if (this->Root == G.Root) {
                 return true;
             } else {
                 return false;
             }
+        }
+
+        bool operator!=(const Graph& G) {
+            return !(this->operator==(G)); 
         }
 
         GraphNode<NODE,EDGE> getRoot() const {

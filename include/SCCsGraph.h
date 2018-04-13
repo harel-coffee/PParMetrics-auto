@@ -16,6 +16,8 @@ namespace ppar {
         SCCsGraphPass();
         bool runOnFunction(Function& F) override;
         void getAnalysisUsage(AnalysisUsage& AU) const override;
+        
+        const Graph<llvm::Instruction*,ppar::Dependence*>& getPDG() const;
     };
 
 } // namespace ppar

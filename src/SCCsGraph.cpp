@@ -5,7 +5,12 @@ char ppar::SCCsGraphPass::ID = 0;
 static RegisterPass<ppar::SCCsGraphPass> SCCsGraph("sccs", "splits the PDG into its Strongly Connected Components (SCCs)");
 
 namespace ppar {
-   
+
+const Graph<llvm::Instruction*,ppar::Dependence*>& SCCsGraphPass::getPDG() const { 
+    const Graph<Instruction*,ppar::Dependence*>& PDG = Pass::getAnalysis<ProgramDependenceGraphPass>().getPDG();
+    return PDG; 
+}
+  
 bool SCCsGraphPass::runOnFunction(Function& F) {
     const Graph<Instruction*,ppar::Dependence*>& pdg = Pass::getAnalysis<ProgramDependenceGraphPass>().getPDG();
 

@@ -39,7 +39,7 @@ bool CDGPrinter::runOnFunction(Function& F) {
         BB->print(rso);
         Node->setAttribute( /* name = */ string("label"), /* value = */ str);
 
-        Printer.addNode(Node->getName(), Node);
+        Printer.getGraph().addNode(Node->getName(), Node);
     }
 
     // print all graph edges
@@ -53,7 +53,7 @@ bool CDGPrinter::runOnFunction(Function& F) {
             string EdgeName = BBToNodeName[From] + "->" + BBToNodeName[To];
             DotEdge* Edge = new DotEdge(EdgeName);
 
-            Printer.addEdge(Edge->getName(), Edge);
+            Printer.getGraph().addEdge(Edge->getName(), Edge);
         }
     }
     

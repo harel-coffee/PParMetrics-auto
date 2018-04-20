@@ -29,19 +29,10 @@ Graph<NODE,EDGE>::Graph() {
 template <typename NODE, typename EDGE>
 Graph<NODE,EDGE>::~Graph() {
 
-    if (DFS_data_valid) {
-        DFS_order.clear();
-        DFS_properties.clear();
-    }
-
-    if (SCCs_data_valid) {
-
-    }
-
     if (ComponentGraph_valid) {
-
+        delete ComponentGraph;
+        ComponentGraph_valid = false;
     }
-
 
     for (auto edge_it = Edges.begin(); edge_it != Edges.end(); edge_it++) {
         edge_set& EdgeSet = edge_it->second;
@@ -57,9 +48,60 @@ Graph<NODE,EDGE>::~Graph() {
     Succs.clear();
     Preds.clear();
 
-    DFS_data_valid = false;
-    DFS_order.clear();
-    DFS_properties.clear();
+    if (DFS_data_valid) {
+        DFS_order.clear();
+        DFS_properties.clear();
+        DFS_data_valid = false;
+    }
+
+    if (SCCs_data_valid) {
+        SCCs_data_valid = false;
+        NodeToSCCs_addr.clear();
+        for (auto scc_it = SCCs.begin(); scc_it != SCCs.end(); scc_it++) {
+            if (scc_it->second != nullptr) {
+                delete scc_it->second;
+            }
+        }
+        SCCs.clear();
+    }
+}
+
+template <typename NODE, typename EDGE>
+void Graph<NODE,EDGE>::clear() {
+
+    Root = InvalidNode; 
+    
+    Nodes.clear();
+
+    for (auto edge_it = Edges.begin(); edge_it != Edges.end(); edge_it++) {
+        edge_set& EdgeSet = edge_it->second;
+        for (auto& edge : EdgeSet) {
+            if (edge.Data != nullptr) {
+                delete edge.Data;
+            }
+        }
+    }
+    Edges.clear();
+
+    Succs.clear();
+    Preds.clear();
+
+    if (DFS_data_valid) {
+        DFS_order.clear();
+        DFS_properties.clear();
+        DFS_data_valid = false;
+    }
+
+    if (SCCs_data_valid) {
+        SCCs_data_valid = false;
+        NodeToSCCs_addr.clear();
+        for (auto scc_it = SCCs.begin(); scc_it != SCCs.end(); scc_it++) {
+            if (scc_it->second != nullptr) {
+                delete scc_it->second;
+            }
+        }
+        SCCs.clear();
+    }
 }
 
 template <typename NODE, typename EDGE>
@@ -326,40 +368,6 @@ void Graph<NODE,EDGE>::findSCCs() const {
 
             CurrentSCC->addNode(CurrentNode.getNode());
             NodeToSCCs_addr[CurrentNode] =  CurrentSCC;
-/*            const auto preds_it = Preds.find(CurrentNode);
-            if (preds_it != Preds.end()) {
-                const Graph<NODE,EDGE>::unordered_node_set& Predecessors = Preds.at(CurrentNode);
-                for (typename unordered_node_set::const_iterator pred_it = Predecessors.cbegin(); pred_it != Predecessors.cend(); pred_it++) {
-                    // mark edge with the corresponding edge type
-                    const edge_set& EdgesSet = Edges.at(std::make_pair(CurrentNode.Node, pred_it->Node));
-                    if (EdgesSet.empty()) {
-                        llvm_unreachable("Inconsistent dependence graph data structure: edge does not exist");
-                    } else {
-                        for (auto& Edge : EdgesSet) {
-                            ppar::Dependence* Dep = new ppar::Dependence();
-                            *Dep = *(Edge.getData());
-                            CurrentSCC->addEdge(pred_it->getNode(), CurrentNode.getNode(), Dep);
-                        }
-                    }
-                }
-            }
-            const auto succs_it = Succs.find(CurrentNode);
-            if (succs_it != Succs.end()) {
-                const Graph<NODE,EDGE>::unordered_node_set& Successors = Succs.at(CurrentNode);
-                for (typename unordered_node_set::const_iterator succ_it = Successors.cbegin(); succ_it != Successors.cend(); succ_it++) {
-                    // mark edge with the corresponding edge type
-                    const edge_set& EdgesSet = Edges.at(std::make_pair(CurrentNode.Node, succ_it->Node));
-                    if (EdgesSet.empty()) {
-                        llvm_unreachable("Inconsistent dependence graph data structure: edge does not exist");
-                    } else {
-                        for (auto& Edge : EdgesSet) {
-                            ppar::Dependence* Dep = new ppar::Dependence();
-                            *Dep = *(Edge.getData());
-                            CurrentSCC->addEdge(CurrentNode.getNode(), succ_it->getNode(), Dep);
-                        }
-                    }
-                }
-            }*/
             
             DFS_node_properties* Node_props = DFS_properties[CurrentNode].get();
 
@@ -387,6 +395,11 @@ void Graph<NODE,EDGE>::findSCCs() const {
 
 template <typename NODE, typename EDGE>
 void Graph<NODE,EDGE>::buildComponentGraph() const {
+    
+    if (ComponentGraph_valid) {
+        delete ComponentGraph;
+        ComponentGraph = nullptr;
+    }
 
     ComponentGraph_valid = false;
 
@@ -394,13 +407,13 @@ void Graph<NODE,EDGE>::buildComponentGraph() const {
     if (!SCCs_data_valid) {
         findSCCs();
     }
-
+ 
     if (ComponentGraph == nullptr) {
         ComponentGraph = new Graph<NODE,EDGE>();
     } else {
-        llvm_unreachable("Component Graph has already been built");
+        llvm_unreachable("Component Graph memory allocation: CG pointer must be nullptr!");
     }
-  
+
     // roots of found SCCs are the nodes of the CG
     for (auto scc_it : SCCs) {
         ComponentGraph->addNode((scc_it.first).getNode());

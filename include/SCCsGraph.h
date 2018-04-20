@@ -2,6 +2,7 @@
 #define SCCS_GRAPH_PASS_H
 
 #include "ppar_common_includes.h"
+#include "Graph.h"
 
 #include "llvm/Pass.h"
 #include "llvm/IR/Function.h"

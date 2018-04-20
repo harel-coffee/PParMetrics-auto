@@ -27,8 +27,6 @@ string DotNode::getAttribute(string Name) {
     }
 }
 
-string DotNode::getName() const { return Name; }
-
 void DotNode::print(std::ofstream& DotFile) const {
     DotFile << Name << " [";
     uint64_t i = 0; 
@@ -72,8 +70,6 @@ string DotEdge::getAttribute(string Name) {
     }
 }
 
-string DotEdge::getName() const { return Name; }
-
 void DotEdge::print(std::ofstream& DotFile) const {
     DotFile << Name << " [";
     uint64_t i = 0; 
@@ -93,84 +89,25 @@ void DotEdge::print(std::ofstream& DotFile) const {
     DotFile << " ]\n";
 }
 
-DotSubGraph::DotSubGraph(DotDiGraph& Parent) 
- : ParentGraph(Parent) {
-    Name = "cluster" + to_string(SubGraphNum);
-    SubGraphNum++;
-    Attributes.clear();
-    Nodes.clear();
-    Edges.clear();
-}
+uint64_t DotGraph::SubGraphNum = 0;
 
-DotSubGraph::~DotSubGraph() {
+DotGraph::DotGraph(GraphType Type, DotGraph* ParentGraph)
+ : Type(Type), Graph(ParentGraph) {
     
-    for (unordered_map<string,DotNode*>::const_iterator node_it = Nodes.cbegin(); node_it != Nodes.cend(); node_it++) {
-        if (node_it->second != nullptr) {
-            delete node_it->second;   
-        }
-    }
-            
-    for (unordered_map<string,DotEdge*>::const_iterator edge_it = Edges.cbegin(); edge_it != Edges.cend(); edge_it++) {
-        if (edge_it->second != nullptr) {
-            delete edge_it->second;   
-        }
+    if (Type == GraphType::DIRECTED_GRAPH) {
+        Name = "G";
+    } else {
+        Name = "cluster" + to_string(SubGraphNum);
+        SubGraphNum++;
     }
 
-    Nodes.clear();
-    Edges.clear();
-}
-
-void DotSubGraph::addNode(string Name, DotNode* Node) {
-    Nodes[Name] = Node;
-}
-
-void DotSubGraph::addEdge(string Name, DotEdge* Edge) {
-    Edges[Name] = Edge;
-}
-
-void DotSubGraph::print(std::ofstream& DotFile) const {
-    DotFile << "subgraph " << Name << " {\n"; 
-    DotFile << "\n"; 
-
-    for (unordered_map<string,string>::const_iterator attr_it = Attributes.cbegin(); attr_it != Attributes.cend(); attr_it++) {
-        DotFile << attr_it->first << "=";
-        if (attr_it->first == "label") {
-            DotFile << "\"" << attr_it->second << "\"";
-        } else {
-            DotFile << attr_it->second;
-        }
-        DotFile << ";\n";
-    }
-      
-    DotFile << "\n"; 
-
-    // print the top-level nodes
-    for (unordered_map<string,DotNode*>::const_iterator node_it = Nodes.cbegin(); node_it != Nodes.cend(); node_it++) {
-        node_it->second->print(DotFile);
-    }
-            
-    DotFile << "\n"; 
-            
-    // print the top-level edges
-    for (unordered_map<string,DotEdge*>::const_iterator edge_it = Edges.cbegin(); edge_it != Edges.cend(); edge_it++) {
-        edge_it->second->print(DotFile);
-    }
-
-    DotFile << "\n"; 
-    DotFile << "}";
-}
-
-uint64_t DotSubGraph::SubGraphNum = 0;
-
-DotDiGraph::DotDiGraph(DotPrinter& Printer, string GraphName) 
- : Name(GraphName), Printer(Printer) {
     Attributes.clear();
     Nodes.clear();
     Edges.clear();
     SubGraphs.clear();
 }
 
-DotDiGraph::~DotDiGraph() {
+DotGraph::~DotGraph() {
     
     for (unordered_map<string,DotNode*>::const_iterator node_it = Nodes.cbegin(); node_it != Nodes.cend(); node_it++) {
         if (node_it->second != nullptr) {
@@ -184,7 +121,7 @@ DotDiGraph::~DotDiGraph() {
         }
     }
 
-    for (unordered_map<string,DotSubGraph*>::const_iterator subgraph_it = SubGraphs.cbegin(); subgraph_it != SubGraphs.cend(); subgraph_it++) {
+    for (unordered_map<string,DotGraph*>::const_iterator subgraph_it = SubGraphs.cbegin(); subgraph_it != SubGraphs.cend(); subgraph_it++) {
         if (subgraph_it->second != nullptr) {
             delete subgraph_it->second;   
         }
@@ -195,20 +132,26 @@ DotDiGraph::~DotDiGraph() {
     SubGraphs.clear();
 }
 
-void DotDiGraph::addNode(string Name, DotNode* Node) {
+void DotGraph::addNode(string Name, DotNode* Node) {
     Nodes[Name] = Node;
 }
 
-void DotDiGraph::addEdge(string Name, DotEdge* Edge) {
+void DotGraph::addEdge(string Name, DotEdge* Edge) {
     Edges[Name] = Edge;
 }
 
-void DotDiGraph::addSubGraph(string Name, DotSubGraph* SubGraph) {
+void DotGraph::addSubGraph(string Name, DotGraph* SubGraph) {
     SubGraphs[Name] = SubGraph;
 }
 
-void DotDiGraph::print(std::ofstream& DotFile) const {
-    DotFile << "digraph " << GraphName << " {\n"; 
+void DotGraph::print(std::ofstream& DotFile) const {
+
+    // print graph's name
+    if (this->Type == GraphType::DIRECTED_GRAPH) {
+        DotFile << "digraph " << Name << " {\n"; 
+    } else if (this->Type == GraphType::SUBGRAPH) {
+        DotFile << "subgraph" << Name << " {\n"; 
+    }
     DotFile << "\n"; 
 
     for (unordered_map<string,string>::const_iterator attr_it = Attributes.cbegin(); attr_it != Attributes.cend(); attr_it++) {
@@ -220,34 +163,31 @@ void DotDiGraph::print(std::ofstream& DotFile) const {
         }
         DotFile << ";\n";
     }
-      
     DotFile << "\n"; 
 
     // print the top-level nodes
     for (unordered_map<string,DotNode*>::const_iterator node_it = Nodes.cbegin(); node_it != Nodes.cend(); node_it++) {
         node_it->second->print(DotFile);
     }
-            
     DotFile << "\n"; 
             
     // print the top-level edges
     for (unordered_map<string,DotEdge*>::const_iterator edge_it = Edges.cbegin(); edge_it != Edges.cend(); edge_it++) {
         edge_it->second->print(DotFile);
     }
-
     DotFile << "\n"; 
 
     // print constituent subgraphs
-    for (unordered_map<string,DotSubGraph*>::const_iterator subgraph_it = SubGraphs.cbegin(); subgraph_it != SubGraphs.cend(); subgraph_it++) {
+    for (unordered_map<string,DotGraph*>::const_iterator subgraph_it = SubGraphs.cbegin(); subgraph_it != SubGraphs.cend(); subgraph_it++) {
         subgraph_it->second->print(DotFile);
     }
-
     DotFile << "\n"; 
+    
     DotFile << "}";
 }
 
 DotPrinter::DotPrinter(string Name) 
- : Graph(string("G")), FileName(Name) {}
+ : Graph(DotGraph::GraphType::DIRECTED_GRAPH), FileName(Name) {}
 
 DotPrinter::~DotPrinter() {}
 

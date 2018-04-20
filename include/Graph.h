@@ -378,6 +378,18 @@ class Graph {
         dfs_iterator dfs_begin(DFS_callback<NODE,EDGE>* VisitorFunc); 
         dfs_iterator dfs_end(DFS_callback<NODE,EDGE>* VisitorFunc); 
 
+        sccs_iterator sccs_begin()
+        { return SCCs.begin(); }
+        
+        sccs_iterator sccs_end()
+        { return SCCs.end(); }
+
+        const_sccs_iterator sccs_cbegin() const 
+        { return SCCs.cbegin(); }
+        
+        const_sccs_iterator sccs_cend() const
+        { return SCCs.cend(); }
+
         dependant_iterator child_begin(const NODE Node) 
         { return Succs[GraphNode<NODE,EDGE>(Node)].begin(); }
 
@@ -390,8 +402,6 @@ class Graph {
         const_dependant_iterator child_cend(const NODE Node) const
         { return Succs[GraphNode<NODE,EDGE>(Node)].cend(); }
 
-        void clear() { Nodes.clear(); Edges.clear(); Succs.clear(); Preds.clear(); }
-
         node_iterator nodes_begin() { return Nodes.begin(); }
         const_node_iterator nodes_cbegin() const { return Nodes.cbegin(); }
 
@@ -403,6 +413,16 @@ class Graph {
 
         auto edges_end() { return Edges.end(); }
         auto edges_cend() const { return Edges.cend(); }
+    
+        Graph<NODE,EDGE>* getComponentGraph() const {
+            if (ComponentGraph_valid) {
+                return ComponentGraph;    
+            } else {
+                return nullptr;
+            }
+        }
+
+        void clear();
 
     private:
         const GraphNode<NODE,EDGE>& nodeExists(const NODE Node) const;

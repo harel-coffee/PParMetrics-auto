@@ -1,45 +1,20 @@
-#include "ControlDependenceGraph.h"
-
-#include "llvm/PassSupport.h"
-#include "llvm/Analysis/PostDominators.h"
-#include "llvm/IR/BasicBlock.h"
-#include "llvm/IR/Dominators.h"
-#include "llvm/IR/Function.h"
-#include "llvm/IR/CFG.h"
-#include "llvm/IR/InstIterator.h"
-using namespace llvm;
-
-#include <memory>
-#include <map>
-#include <vector>
-#include <stack>
-#include <set>
-#include <utility>
-using namespace std;
-
-char ppar::ControlDependenceGraphPass::ID = 0;
-RegisterPass<ppar::ControlDependenceGraphPass> CDGRegister("cdg", "Build in-memory Control Dependence Graph of a function");
+#ifndef PPAR_CONTROL_DEPENDENCE_GRAPH_PASS_SPEC_H
+#define PPAR_CONTROL_DEPENDENCE_GRAPH_PASS_SPEC_H
 
 namespace ppar {
 
-ControlDependenceGraphPass::ControlDependenceGraphPass() 
- : FunctionPass(ID) {}
+template<>
+char GraphPass<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphPass>::ID = 0;
 
-void ControlDependenceGraphPass::getAnalysisUsage(AnalysisUsage& AU) const {
+template <>
+void GraphPass<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphPass>::getAnalysisUsage(llvm::AnalysisUsage& AU) const {
     AU.setPreservesAll();
     AU.addRequired<PostDominatorTreeWrapperPass>();
 }
 
-StringRef ControlDependenceGraphPass::getPassName() const {
-    return "Control Dependence Graph";
-}
-
-void ControlDependenceGraphPass::releaseMemory() { 
-    CDG.clear(); 
-}
-
-Graph<llvm::BasicBlock*,ppar::Dependence*>& ControlDependenceGraphPass::getCDG() { 
-    return CDG; 
+template <>
+llvm::StringRef GraphPass<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphPass>::getPassName() const {
+    return ControlDependenceGraphPass::getPassName();
 }
 
 // Depth-first search the post-dominator tree in order to construct a top-down
@@ -101,7 +76,8 @@ getPostDomFrontier(const PostDominatorTree& pdt,
     return Result;
 }
 
-bool ControlDependenceGraphPass::runOnFunction(Function& F) {
+template <>
+bool GraphPass<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphPass>::runOnFunction(Function& F) {
     const PostDominatorTree& pdt = Pass::getAnalysis<PostDominatorTreeWrapperPass>().getPostDomTree();
     stack<const DomTreeNode*> bottom_up_traversal = getBottomUpTraversal(pdt);
     map<const BasicBlock*, set<const BasicBlock*>> post_dom_frontier = getPostDomFrontier(pdt, std::move(bottom_up_traversal));
@@ -109,7 +85,7 @@ bool ControlDependenceGraphPass::runOnFunction(Function& F) {
     // Reverse the post_dom_frontier map and store as a graph.
     for (auto& kv : post_dom_frontier) {
         const BasicBlock* Node = kv.first;
-        CDG.addNode(const_cast<BasicBlock*>(Node));
+        getGraph().addNode(const_cast<BasicBlock*>(Node));
     }
   
     for (auto& kv : post_dom_frontier) {
@@ -117,7 +93,7 @@ bool ControlDependenceGraphPass::runOnFunction(Function& F) {
         for (const BasicBlock* From : kv.second) {
             ppar::Dependence* Dep = new ppar::Dependence();
             Dep->setControl();
-            CDG.addEdge(const_cast<BasicBlock*>(From), 
+            getGraph().addEdge(const_cast<BasicBlock*>(From), 
                         const_cast<BasicBlock*>(To), 
                         Dep);
         }
@@ -127,3 +103,5 @@ bool ControlDependenceGraphPass::runOnFunction(Function& F) {
 }
 
 } // namespace ppar
+
+#endif // #ifndef PPAR_CONTROL_DEPENDENCE_GRAPH_PASS_SPEC_H

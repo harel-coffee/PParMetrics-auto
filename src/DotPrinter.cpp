@@ -146,11 +146,12 @@ void DotGraph::addSubGraph(string Name, DotGraph* SubGraph) {
 
 void DotGraph::print(std::ofstream& DotFile) const {
 
+    DotFile << "\n"; 
     // print graph's name
     if (this->Type == GraphType::DIRECTED_GRAPH) {
         DotFile << "digraph " << Name << " {\n"; 
     } else if (this->Type == GraphType::SUBGRAPH) {
-        DotFile << "subgraph" << Name << " {\n"; 
+        DotFile << "subgraph " << Name << " {\n"; 
     }
     DotFile << "\n"; 
 
@@ -184,6 +185,7 @@ void DotGraph::print(std::ofstream& DotFile) const {
     DotFile << "\n"; 
     
     DotFile << "}";
+    DotFile << "\n"; 
 }
 
 DotPrinter::DotPrinter(string Name) 

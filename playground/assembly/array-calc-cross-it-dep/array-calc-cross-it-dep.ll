@@ -8,47 +8,48 @@ target triple = "x86_64-unknown-linux-gnu"
 
 ; Function Attrs: noinline norecurse nounwind optnone uwtable
 define i32 @main() local_unnamed_addr #0 {
-  %1 = alloca i32, align 4
-  %2 = alloca i32, align 4
-  store i32 0, i32* %1, align 4
-  store i32 1, i32* %2, align 4
-  br label %3
+entry:
+  %retval = alloca i32, align 4
+  %i = alloca i32, align 4
+  store i32 0, i32* %retval, align 4
+  store i32 1, i32* %i, align 4
+  br label %for.cond
 
-; <label>:3:                                      ; preds = %25, %0
-  %4 = load i32, i32* %2, align 4
-  %5 = icmp ult i32 %4, 100
-  br i1 %5, label %6, label %28
+for.cond:                                         ; preds = %for.inc, %entry
+  %0 = load i32, i32* %i, align 4
+  %cmp = icmp ult i32 %0, 100
+  br i1 %cmp, label %for.body, label %for.end
 
-; <label>:6:                                      ; preds = %3
-  %7 = load i32, i32* %2, align 4
-  %8 = zext i32 %7 to i64
-  %9 = getelementptr inbounds [100 x i32], [100 x i32]* @_ZL1a, i64 0, i64 %8
-  %10 = load i32, i32* %9, align 4
-  %11 = load i32, i32* %2, align 4
-  %12 = zext i32 %11 to i64
-  %13 = add i32 %10, 0
-  %14 = load i32, i32* %2, align 4
-  %15 = zext i32 %14 to i64
-  %16 = getelementptr inbounds [100 x i32], [100 x i32]* @_ZL1c, i64 0, i64 %15
-  store i32 %13, i32* %16, align 4
-  %17 = load i32, i32* %2, align 4
-  %18 = sub i32 %17, 1
-  %19 = zext i32 %18 to i64
-  %20 = getelementptr inbounds [100 x i32], [100 x i32]* @_ZL1c, i64 0, i64 %19
-  %21 = load i32, i32* %20, align 4
-  %22 = load i32, i32* %2, align 4
-  %23 = zext i32 %22 to i64
-  %24 = getelementptr inbounds [100 x i32], [100 x i32]* @_ZL1a, i64 0, i64 %23
-  store i32 %21, i32* %24, align 4
-  br label %25
+for.body:                                         ; preds = %for.cond
+  %1 = load i32, i32* %i, align 4
+  %idxprom = zext i32 %1 to i64
+  %arrayidx = getelementptr inbounds [100 x i32], [100 x i32]* @_ZL1a, i64 0, i64 %idxprom
+  %2 = load i32, i32* %arrayidx, align 4
+  %3 = load i32, i32* %i, align 4
+  %idxprom1 = zext i32 %3 to i64
+  %add = add i32 %2, 0
+  %4 = load i32, i32* %i, align 4
+  %idxprom3 = zext i32 %4 to i64
+  %arrayidx4 = getelementptr inbounds [100 x i32], [100 x i32]* @_ZL1c, i64 0, i64 %idxprom3
+  store i32 %add, i32* %arrayidx4, align 4
+  %5 = load i32, i32* %i, align 4
+  %sub = sub i32 %5, 1
+  %idxprom5 = zext i32 %sub to i64
+  %arrayidx6 = getelementptr inbounds [100 x i32], [100 x i32]* @_ZL1c, i64 0, i64 %idxprom5
+  %6 = load i32, i32* %arrayidx6, align 4
+  %7 = load i32, i32* %i, align 4
+  %idxprom7 = zext i32 %7 to i64
+  %arrayidx8 = getelementptr inbounds [100 x i32], [100 x i32]* @_ZL1a, i64 0, i64 %idxprom7
+  store i32 %6, i32* %arrayidx8, align 4
+  br label %for.inc
 
-; <label>:25:                                     ; preds = %6
-  %26 = load i32, i32* %2, align 4
-  %27 = add i32 %26, 1
-  store i32 %27, i32* %2, align 4
-  br label %3
+for.inc:                                          ; preds = %for.body
+  %8 = load i32, i32* %i, align 4
+  %inc = add i32 %8, 1
+  store i32 %inc, i32* %i, align 4
+  br label %for.cond
 
-; <label>:28:                                     ; preds = %3
+for.end:                                          ; preds = %for.cond
   ret i32 0
 }
 
@@ -58,4 +59,4 @@ attributes #0 = { noinline norecurse nounwind optnone uwtable "correctly-rounded
 !llvm.ident = !{!1}
 
 !0 = !{i32 1, !"wchar_size", i32 4}
-!1 = !{!"clang version 6.0.0 (https://git.llvm.org/git/clang.git/ 75a36832b158dc653cbf481c4c6ae05f4acbbff8) (https://github.com/llvm-mirror/llvm.git 138d74f09c10f1f47b37659de24cde3939f95873)"}
+!1 = !{!"clang version 6.0.0 (https://git.llvm.org/git/clang.git/ ff0c0d8ab3e316bb6e2741fedb3b545e198eab7a) (https://git.llvm.org/git/llvm.git/ 089d4c0c490687db6c75f1d074e99c4d42936a50)"}

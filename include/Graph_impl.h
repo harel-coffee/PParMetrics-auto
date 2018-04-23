@@ -139,7 +139,7 @@ void Graph<NODE,EDGE>::addEdge(const NODE From, const NODE To, const EDGE Data) 
         addPredecessor(ToNode, FromNode);
         addSuccessor(FromNode, ToNode);
     } else {
-        // cannot insert and edge between non-existent nodes
+        // cannot insert an edge between non-existent nodes
         llvm_unreachable("Cannot add an edge between non-existent nodes");
     }
 }
@@ -167,7 +167,7 @@ void Graph<NODE,EDGE>::addSuccessor(const GraphNode<NODE,EDGE>& Node, const Grap
 template <typename NODE, typename EDGE>
 void Graph<NODE,EDGE>::dfsTraverse(DFS_callback<NODE,EDGE>* VisitorFunc) const {
     // SearchSet - is the set of all not yet discovered nodes (whites)
-    // (initially equal to the set of all graph nodes - Nodes
+    // (initially equal to the set of all graph nodes - Nodes)
     node_set SearchSet(Nodes);
     // Stack - is used for the iterative DFS algorithm
     std::stack<GraphNode<NODE,EDGE>> Stack;
@@ -185,6 +185,7 @@ void Graph<NODE,EDGE>::dfsTraverse(DFS_callback<NODE,EDGE>* VisitorFunc) const {
  
     while (!SearchSet.empty()) { // we still have undiscovered (white) nodes
         Stack.push(*SearchSet.begin());
+        DFS_properties[GraphNode<NODE,EDGE>(*SearchSet.begin())]->Color = DFS_node_properties::NodeColor::SILVER;
 
         DEBUG(
             std::string str;
@@ -205,16 +206,19 @@ void Graph<NODE,EDGE>::dfsTraverse(DFS_callback<NODE,EDGE>* VisitorFunc) const {
 
                 if (Node_props->Color == DFS_node_properties::NodeColor::WHITE) {
                     llvm::dbgs() << "[" << CurrentTime << "] taking the node off the stack: WHITE " << str << "\n";
+                } else if (Node_props->Color == DFS_node_properties::NodeColor::SILVER) {
+                    llvm::dbgs() << "[" << CurrentTime << "] taking the node off the stack: SILVER " << str << "\n";
                 } else if (Node_props->Color == DFS_node_properties::NodeColor::GREY) {
                     llvm::dbgs() << "[" << CurrentTime << "] taking the node off the stack: GREY " << str << "\n";
-                } else {
+                } else if (Node_props->Color == DFS_node_properties::NodeColor::BLACK) {
                     llvm::dbgs() << "[" << CurrentTime << "] taking the node off the stack: BLACK " << str << "\n";
                 }
+
             );
 
-            if (Node_props->Color == DFS_node_properties::NodeColor::WHITE) {
+            if (Node_props->Color == DFS_node_properties::NodeColor::SILVER) {
                 Node_props->Color = DFS_node_properties::NodeColor::GREY;
-                DFS_properties[CurrentNode]->TimestampEntry = CurrentTime;
+                DFS_properties[CurrentNode]->TimestampEntry = CurrentTime++;
                 SearchSet.erase(CurrentNode); // node is discovered
                 if ( VisitorFunc != nullptr &&
                      (VisitorFunc->CallOrder == DFS_callback<NODE,EDGE>::Order::PRE) ) {
@@ -245,6 +249,7 @@ void Graph<NODE,EDGE>::dfsTraverse(DFS_callback<NODE,EDGE>* VisitorFunc) const {
                         // hence the node is not yet completely processed
                         NodeIsProcessed = false;
                         Stack.push(GraphNode<NODE,EDGE>(*succ_it));
+                        DFS_properties[GraphNode<NODE,EDGE>(*succ_it)]->Color = DFS_node_properties::NodeColor::SILVER;
                         // since this successor hasn't been visited yet, 
                         // we mark corresponding edge as of tree edge type
                         Type = GraphEdge<NODE,EDGE>::EdgeType::TREE;
@@ -256,6 +261,13 @@ void Graph<NODE,EDGE>::dfsTraverse(DFS_callback<NODE,EDGE>* VisitorFunc) const {
                             llvm::dbgs() << "[" << CurrentTime << "] found successor: WHITE " << str << "\n";
                         );
 
+                    } else if (SuccNodeColor == DFS_node_properties::NodeColor::SILVER) {
+                        DEBUG(
+                            std::string str;
+                            llvm::raw_string_ostream rso(str);
+                            ((*succ_it).getNode())->print(rso);
+                            llvm::dbgs() << "[" << CurrentTime << "] found successor: SILVER " << str << "\n";
+                        );
                     } else if (SuccNodeColor == DFS_node_properties::NodeColor::GREY) {
                         Type = GraphEdge<NODE,EDGE>::EdgeType::BACK;
 
@@ -266,7 +278,7 @@ void Graph<NODE,EDGE>::dfsTraverse(DFS_callback<NODE,EDGE>* VisitorFunc) const {
                             llvm::dbgs() << "[" << CurrentTime << "] found successor: GREY " << str << "\n";
                         );
 
-                    } else { // BLACK
+                    } else if (SuccNodeColor == DFS_node_properties::NodeColor::BLACK) {
                         if (DFS_properties[CurrentNode]->TimestampEntry < CurrentTime) {
                             Type = GraphEdge<NODE,EDGE>::EdgeType::FORWARD;
                         } else {
@@ -279,10 +291,12 @@ void Graph<NODE,EDGE>::dfsTraverse(DFS_callback<NODE,EDGE>* VisitorFunc) const {
                             ((*succ_it).getNode())->print(rso);
                             llvm::dbgs() << "[" << CurrentTime << "] found successor: BLACK " << str << "\n";
                         );
-
                     }
-                    for (auto& edge : EdgesSet) {
-                        edge.Type = Type;
+                    
+                    if (SuccNodeColor != DFS_node_properties::NodeColor::SILVER) {
+                        for (auto& edge : EdgesSet) {
+                            edge.Type = Type;
+                        }
                     }
                 }
             } else {
@@ -298,7 +312,7 @@ void Graph<NODE,EDGE>::dfsTraverse(DFS_callback<NODE,EDGE>* VisitorFunc) const {
                 // we won't ever return to it in the current traversal
                 Stack.pop();
                 DFS_order.push_back(CurrentNode);
-                DFS_properties[CurrentNode]->TimestampExit = CurrentTime;
+                DFS_properties[CurrentNode]->TimestampExit = CurrentTime++;
                 DFS_properties[CurrentNode]->Color = DFS_node_properties::NodeColor::BLACK;
                 if ( VisitorFunc != nullptr &&
                      (VisitorFunc->CallOrder == DFS_callback<NODE,EDGE>::Order::POST)) {
@@ -311,10 +325,7 @@ void Graph<NODE,EDGE>::dfsTraverse(DFS_callback<NODE,EDGE>* VisitorFunc) const {
                     (CurrentNode.getNode())->print(rso);
                     llvm::dbgs() << "[" << CurrentTime << "] node is processed: -> BLACK " << str << "\n";
                 );
-
             }
-            
-            CurrentTime++;
         }
     }
 

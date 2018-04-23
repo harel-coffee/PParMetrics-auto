@@ -27,6 +27,7 @@ class DFS_node_properties;
 template <typename NODE, typename EDGE> class DFS_callback;
 
 class Dependence {
+
     public:
         Dependence() 
             : Data(false), Control(false),
@@ -171,20 +172,18 @@ class Dependence {
         // type of dependence
         bool Data;
         bool Control;
-
         // subtype of data dependence
         bool Flow;
         bool Anti;
         bool Output;
-        
         // source of dependence 
         bool Mem; // obtained from memory dependence analysis
         bool Reg; // obtained from SSA form
-        
+        // types of memory dependences        
         bool Confused;
         bool Consistent;
         unsigned int direction;
-        
+        // default 
         bool Unknown;
 };
 
@@ -422,6 +421,14 @@ class Graph {
             }
         }
 
+        auto& getDFS_properties() const {
+            return DFS_properties;    
+        }
+
+        const auto& getEdges() const {
+            return Edges;    
+        }
+
         void clear();
 
     private:
@@ -475,6 +482,7 @@ class DFS_node_properties {
 
         enum class NodeColor {
             WHITE,
+            SILVER, 
             GREY,
             BLACK
         };

@@ -1,46 +1,38 @@
-#include "ProgramDependenceGraph.h"
-#include "MemoryDependenceGraph.h"
-#include "DataDependenceGraph.h"
-#include "ControlDependenceGraph.h"
-
-#include "llvm/PassSupport.h"
-#include "llvm/IR/InstIterator.h"
-#include "llvm/IR/Function.h"
-#include "llvm/IR/User.h"
-#include "llvm/Support/Casting.h"
-#include "llvm/ADT/GraphTraits.h"
-#include "llvm/ADT/SmallVector.h"
-#include "llvm/IR/Instructions.h"
-#include "llvm/Analysis/DependenceAnalysis.h"
-using namespace llvm;
-
-#include <vector>
-#include <memory>
-using namespace std;
-
-char ppar::ProgramDependenceGraphPass::ID = 0;
-RegisterPass<ppar::ProgramDependenceGraphPass> PDGRegister("pdg", "Build Program Dependence Graph");
+#ifndef PPAR_PROGRAM_DEPENDENCE_GRAPH_PASS_SPEC_H
+#define PPAR_PROGRAM_DEPENDENCE_GRAPH_PASS_SPEC_H
 
 namespace ppar {
 
-void ProgramDependenceGraphPass::getAnalysisUsage(AnalysisUsage& AU) const {
+template <>
+char GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraphPass>::ID = 0;
+
+template <>
+void GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraphPass>::getAnalysisUsage(llvm::AnalysisUsage& AU) const {
     AU.setPreservesAll();
-//    AU.addRequiredTransitive<DependenceAnalysisWrapperPass>();
-    AU.addRequired<DataDependenceGraphPass>();
-    AU.addRequired<MemoryDependenceGraphPass>();
-    AU.addRequired<ControlDependenceGraphPass>();
+    AU.addRequired<GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphPass>>();
+    AU.addRequired<GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::DataDependenceGraphPass>>();
+    AU.addRequired<GraphPass<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphPass>>();
 }
 
-bool ProgramDependenceGraphPass::runOnFunction(Function& F) {
-    const Graph<Instruction*,llvm::Dependence*>& mdg = Pass::getAnalysis<MemoryDependenceGraphPass>().getMDG();
-    const Graph<Instruction*,ppar::Dependence*>& ddg = Pass::getAnalysis<DataDependenceGraphPass>().getDDG();
-    const Graph<BasicBlock*,ppar::Dependence*>& cdg = Pass::getAnalysis<ControlDependenceGraphPass>().getCDG();
+template <>
+llvm::StringRef GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraphPass>::getPassName() const {
+    return ProgramDependenceGraphPass::getPassName();
+}
+
+template <>
+bool GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraphPass>::runOnFunction(Function& F) {
+    const Graph<Instruction*,llvm::Dependence*>& mdg =
+        Pass::getAnalysis<GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphPass>>().getGraph();
+    const Graph<Instruction*,ppar::Dependence*>& ddg =
+        Pass::getAnalysis<GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::DataDependenceGraphPass>>().getGraph();
+    const Graph<BasicBlock*,ppar::Dependence*>& cdg =
+        Pass::getAnalysis<GraphPass<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphPass>>().getGraph();
 
     // data dependence graph consists of all program's instructions ->
     // -> add them to program dependence graph as nodes
     for (auto node_it = ddg.nodes_cbegin(); node_it != ddg.nodes_cend(); node_it++) {
         const GraphNode<Instruction*,ppar::Dependence*>& Node = *node_it; 
-        PDG.addNode(Node.getNode());
+        getGraph().addNode(Node.getNode());
     }
 
     // copy all DDG edges to the PDG
@@ -51,7 +43,7 @@ bool ProgramDependenceGraphPass::runOnFunction(Function& F) {
         for (const auto& Edge : EdgeSet) {
             ppar::Dependence* Dep = new ppar::Dependence();
             *Dep = *(Edge.getData());
-            PDG.addEdge(Edge.getFrom(), Edge.getTo(), Dep);
+            getGraph().addEdge(Edge.getFrom(), Edge.getTo(), Dep);
         }
     }
 
@@ -63,6 +55,7 @@ bool ProgramDependenceGraphPass::runOnFunction(Function& F) {
             ppar::Dependence* Dep(new ppar::Dependence());
             llvm::Dependence* MemDep = Edge.getData();
 
+            Dep->setData();
             if (MemDep->isFlow()) {
                 Dep->setFlow();
             } else if (MemDep->isAnti()) {
@@ -86,7 +79,7 @@ bool ProgramDependenceGraphPass::runOnFunction(Function& F) {
                 Dep->Consistent = false;
             }
             
-            PDG.addEdge(Edge.getFrom(), Edge.getTo(), Dep);
+            getGraph().addEdge(Edge.getFrom(), Edge.getTo(), Dep);
         }
     }
 
@@ -101,23 +94,16 @@ bool ProgramDependenceGraphPass::runOnFunction(Function& F) {
             for (BasicBlock::const_iterator it = Edge.getTo()->begin(); it != Edge.getTo()->end(); ++it) {
                 ppar::Dependence* Dep(new ppar::Dependence());
                 Dep->setControl();
-                PDG.addEdge(const_cast<Instruction*>(&source), const_cast<Instruction*>(&*it), Dep);
+                getGraph().addEdge(const_cast<Instruction*>(&source), const_cast<Instruction*>(&*it), Dep);
             } 
         }
     }
 
     return false;
-}
 
-StringRef ProgramDependenceGraphPass::getPassName() const { 
-    return "Program Dependence Graph"; 
-}
-
-void ProgramDependenceGraphPass::releaseMemory() {
-}
-
-const Graph<llvm::Instruction*,ppar::Dependence*>& ProgramDependenceGraphPass::getPDG() const { 
-    return PDG; 
-}
 
 }
+
+} // namespace ppar
+
+#endif // #ifndef PPAR_PROGRAM_DEPENDENCE_GRAPH_PASS_SPEC_H

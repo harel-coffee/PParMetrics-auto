@@ -25,8 +25,17 @@ struct MemoryDependenceGraphPass {
         static llvm::StringRef getGraphPassDotPrintOptionDesc()
         { return "Print Memory Dependence Graph (MDG) of the given function F into a DOT-formatted file"; }
 
-        static std::string getDOTFileExtension()
-        { return ".mdg.dot"; } 
+        static std::string getDotFileExtension()
+        { return ".mdg.dot"; }
+
+        static std::string getDFSDotFileExtension()
+        { return ".mdg.dfs.dot"; } 
+
+        static std::string getSCCsDotFileExtension()
+        { return ".mdg.sccs.dot"; }
+
+        static std::string getCGDotFileExtension()
+        { return ".mdg.cg.dot"; } 
 };
 
 struct DataDependenceGraphPass {
@@ -48,8 +57,17 @@ struct DataDependenceGraphPass {
         static llvm::StringRef getGraphPassDotPrintOptionDesc()
         { return "Print Data Dependence Graph (DDG) of the given function F into a DOT-formatted file"; }
 
-        static std::string getDOTFileExtension()
-        { return ".ddg.dot"; } 
+        static std::string getDotFileExtension()
+        { return ".ddg.dot"; }
+
+        static std::string getDFSDotFileExtension()
+        { return ".ddg.dfs.dot"; } 
+
+        static std::string getSCCsDotFileExtension()
+        { return ".ddg.sccs.dot"; }
+
+        static std::string getCGDotFileExtension()
+        { return ".ddg.cg.dot"; } 
 };
 
 struct ControlDependenceGraphPass {
@@ -71,8 +89,17 @@ struct ControlDependenceGraphPass {
         static llvm::StringRef getGraphPassDotPrintOptionDesc()
         { return "Print Control Dependence Graph (CDG) of the given function F into a DOT-formatted file"; }
 
-        static std::string getDOTFileExtension()
-        { return ".cdg.dot"; } 
+        static std::string getDotFileExtension()
+        { return ".cdg.dot"; }
+
+        static std::string getDFSDotFileExtension()
+        { return ".cdg.dfs.dot"; } 
+
+        static std::string getSCCsDotFileExtension()
+        { return ".cdg.sccs.dot"; }
+
+        static std::string getCGDotFileExtension()
+        { return ".cdg.cg.dot"; } 
 };
 
 struct ProgramDependenceGraphPass {
@@ -94,8 +121,17 @@ struct ProgramDependenceGraphPass {
         static llvm::StringRef getGraphPassDotPrintOptionDesc()
         { return "Print Program Dependence Graph (PDG) of the given function F into a DOT-formatted file"; }
 
-        static std::string getDOTFileExtension()
-        { return ".pdg.dot"; } 
+        static std::string getDotFileExtension()
+        { return ".pdg.dot"; }
+
+        static std::string getDFSDotFileExtension()
+        { return ".pdg.dfs.dot"; } 
+
+        static std::string getSCCsDotFileExtension()
+        { return ".pdg.sccs.dot"; }
+
+        static std::string getCGDotFileExtension()
+        { return ".pdg.cg.dot"; } 
 };
 
 } // namespace ppar

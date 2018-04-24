@@ -1,0 +1,28 @@
+
+digraph G {
+
+
+node52 [fillcolor=grey,label="[15/16]  %idxprom = zext i32 %1 to i64",shape=rectangle,style=filled ]
+node51 [fillcolor=grey,label="[17/18]  %add = add i32 0, 0",shape=rectangle,style=filled ]
+node50 [fillcolor=grey,label="[27/28]  %idxprom1 = zext i32 %2 to i64",shape=rectangle,style=filled ]
+node49 [fillcolor=lemonchiffon,label="[0/1]  br label %for.inc",shape=ellipse,style=filled ]
+node48 [fillcolor=lemonchiffon,label="[11/12]  br label %for.cond",shape=ellipse,style=filled ]
+node53 [fillcolor=lemonchiffon,label="[38/39]  ret i32 0",shape=ellipse,style=filled ]
+node43 [fillcolor=lightcoral,label="[32/33]  store i32 0, i32* %retval, align 4",shape=ellipse,style=filled ]
+node42 [fillcolor=lemonchiffon,label="[34/35]  br label %for.cond",shape=ellipse,style=filled ]
+node44 [fillcolor=grey,label="[36/37]  %retval = alloca i32, align 4",shape=rectangle,style=filled ]
+node45 [fillcolor=lightcoral,label="[2/31]  %2 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node46 [fillcolor=grey,label="[40/41]  %i = alloca i32, align 4",shape=rectangle,style=filled ]
+node47 [fillcolor=grey,label="[5/6]  %idxprom3 = zext i32 %3 to i64",shape=rectangle,style=filled ]
+
+node45->node49 [color=gold,label="C",fontcolor=gold ]
+node45->node50 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
+node45->node48 [color=gold,label="C",fontcolor=gold ]
+node45->node52 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
+node45->node47 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
+node45->node51 [color=gold,label="C",fontcolor=gold ]
+node44->node43 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
+node46->node45 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
+
+
+}

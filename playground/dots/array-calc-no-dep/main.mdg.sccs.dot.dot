@@ -1,0 +1,52 @@
+
+digraph G {
+
+
+
+
+
+subgraph cluster1 {
+
+
+node25 [fillcolor=lightcoral,label="[14/15]  store i32 0, i32* %retval, align 4",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster0 {
+
+
+node24 [fillcolor=lightcoral,label="[6/7]  %2 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node19 [fillcolor=lightcoral,label="[0/13]  %4 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node21 [fillcolor=lightcoral,label="[11/12]  store i32 %inc, i32* %i, align 4",shape=ellipse,style=filled ]
+node23 [fillcolor=lightcoral,label="[4/5]  %0 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node20 [fillcolor=lightcoral,label="[1/10]  store i32 0, i32* %i, align 4",shape=ellipse,style=filled ]
+node18 [fillcolor=lightcoral,label="[8/9]  %3 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node22 [fillcolor=lightcoral,label="[2/3]  %1 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+
+node24->node21 [ ]
+node24->node20 [ ]
+node23->node21 [ ]
+node23->node20 [ ]
+node20->node18 [ ]
+node21->node23 [ ]
+node18->node20 [ ]
+node19->node20 [ ]
+node18->node21 [ ]
+node20->node23 [ ]
+node19->node21 [ ]
+node21->node18 [ ]
+node20->node24 [ ]
+node21->node22 [ ]
+node21->node19 [ ]
+node20->node19 [ ]
+node20->node22 [ ]
+node22->node20 [ ]
+node21->node24 [ ]
+node22->node21 [ ]
+
+
+}
+
+}

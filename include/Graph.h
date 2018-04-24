@@ -15,6 +15,8 @@
 #include <string>
 #include <sstream>
 
+#include "llvm/Analysis/DependenceAnalysis.h"
+
 namespace ppar {
 
 class Dependence;
@@ -110,6 +112,19 @@ class Dependence {
             } else if (Dep.isControl() && !this->isControl()) {
                 this->setControl();
             } 
+            return *this;
+        }
+        
+        Dependence& operator+=(const llvm::Dependence& Dep){
+            this->setData();
+            this->setMem();
+            if (Dep.isFlow()) {
+                this->setFlow();
+            } else if (Dep.isAnti()) {
+                this->setAnti();
+            } else if (Dep.isOutput()) {
+                this->setOutput();
+            }
             return *this;
         }
 
@@ -462,6 +477,9 @@ class Graph {
         mutable bool ComponentGraph_valid;
         mutable Graph<NODE,EDGE>* ComponentGraph;
 };
+
+template <typename NODE, typename EDGE>
+EDGE mergeEdges(const typename Graph<NODE,EDGE>::edge_set& EdgeSet);
 
 class DFS_node_properties {
     public:

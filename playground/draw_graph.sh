@@ -36,6 +36,9 @@ opt -O3 $1.ll -o $1.bc
 llvm-dis $1.bc -o $1.ll
 mv $1.ll ./assembly/$1/$1.ll
 rm -rf $1.bc
+opt -load /home/s1736883/Work/PParMetrics-build/libppar.so -dot-ddg ./assembly/$1/$1.ll
+opt -load /home/s1736883/Work/PParMetrics-build/libppar.so -dot-mdg ./assembly/$1/$1.ll
+opt -load /home/s1736883/Work/PParMetrics-build/libppar.so -dot-cdg ./assembly/$1/$1.ll
 opt -load /home/s1736883/Work/PParMetrics-build/libppar.so -dot-pdg ./assembly/$1/$1.ll
 mv *.dot ./dots/$1
 cd ./dots/$1

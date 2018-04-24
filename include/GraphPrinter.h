@@ -26,8 +26,15 @@ struct GraphPrinter : public llvm::FunctionPass {
         llvm::StringRef getPassName() const;
         void releaseMemory() override {}
 
+        typedef enum class GraphPrintType {
+            PRINT_REGULAR,
+            PRINT_DFS
+        } PrintType;
+
     private:
-        void printDOTGraph(llvm::Function& F);
+        void printDOTGraph(llvm::Function& F, PrintType Type = PrintType::PRINT_REGULAR);
+        void printSCCsDOTGraph(llvm::Function& F);
+        void printComponentGraph(llvm::Function& F);
 
         void buildDotNode(NODE N, DotNode* Node);
         void buildDotEdge(EDGE Dep, DotEdge* Edge); 

@@ -30,8 +30,9 @@ $_ZN9list_nodeC2Ev = comdat any
 
 ; Function Attrs: noinline uwtable
 define internal fastcc void @__cxx_global_var_init() unnamed_addr #0 section ".text.startup" {
+entry:
   tail call void @_ZNSt8ios_base4InitC1Ev(%"class.std::ios_base::Init"* nonnull @_ZStL8__ioinit)
-  %1 = tail call i32 @__cxa_atexit(void (i8*)* bitcast (void (%"class.std::ios_base::Init"*)* @_ZNSt8ios_base4InitD1Ev to void (i8*)*), i8* getelementptr inbounds (%"class.std::ios_base::Init", %"class.std::ios_base::Init"* @_ZStL8__ioinit, i64 0, i32 0), i8* nonnull @__dso_handle) #3
+  %0 = tail call i32 @__cxa_atexit(void (i8*)* bitcast (void (%"class.std::ios_base::Init"*)* @_ZNSt8ios_base4InitD1Ev to void (i8*)*), i8* getelementptr inbounds (%"class.std::ios_base::Init", %"class.std::ios_base::Init"* @_ZStL8__ioinit, i64 0, i32 0), i8* nonnull @__dso_handle) #3
   ret void
 }
 
@@ -45,137 +46,139 @@ declare i32 @__cxa_atexit(void (i8*)*, i8*, i8*) local_unnamed_addr #3
 
 ; Function Attrs: noinline norecurse optnone uwtable
 define i32 @main() local_unnamed_addr #4 personality i8* bitcast (i32 (...)* @__gxx_personality_v0 to i8*) {
-  %1 = alloca i32, align 4
-  %2 = alloca %struct.list_node, align 8
-  %3 = alloca %struct.list_node*, align 8
-  %4 = alloca i32, align 4
-  %5 = alloca i8*
-  %6 = alloca i32
-  %7 = alloca i32, align 4
-  %8 = alloca %struct.list_node*, align 8
-  store i32 0, i32* %1, align 4
-  call void @_ZN9list_nodeC2Ev(%struct.list_node* %2)
-  store %struct.list_node* %2, %struct.list_node** %3, align 8
-  store i32 1, i32* %4, align 4
-  br label %9
+entry:
+  %retval = alloca i32, align 4
+  %begin = alloca %struct.list_node, align 8
+  %list_it = alloca %struct.list_node*, align 8
+  %i = alloca i32, align 4
+  %exn.slot = alloca i8*
+  %ehselector.slot = alloca i32
+  %sum = alloca i32, align 4
+  %prev_it = alloca %struct.list_node*, align 8
+  store i32 0, i32* %retval, align 4
+  call void @_ZN9list_nodeC2Ev(%struct.list_node* %begin)
+  store %struct.list_node* %begin, %struct.list_node** %list_it, align 8
+  store i32 1, i32* %i, align 4
+  br label %for.cond
 
-; <label>:9:                                      ; preds = %24, %0
-  %10 = load i32, i32* %4, align 4
-  %11 = icmp ult i32 %10, 100
-  br i1 %11, label %12, label %27
+for.cond:                                         ; preds = %for.inc, %entry
+  %0 = load i32, i32* %i, align 4
+  %cmp = icmp ult i32 %0, 100
+  br i1 %cmp, label %for.body, label %for.end
 
-; <label>:12:                                     ; preds = %9
-  %13 = call i8* @_Znwm(i64 16) #8
-  %14 = bitcast i8* %13 to %struct.list_node*
-  call void @_ZN9list_nodeC2Ev(%struct.list_node* %14)
-  br label %15
+for.body:                                         ; preds = %for.cond
+  %call = call i8* @_Znwm(i64 16) #8
+  %1 = bitcast i8* %call to %struct.list_node*
+  call void @_ZN9list_nodeC2Ev(%struct.list_node* %1)
+  br label %invoke.cont
 
-; <label>:15:                                     ; preds = %12
-  %16 = load %struct.list_node*, %struct.list_node** %3, align 8
-  %17 = getelementptr inbounds %struct.list_node, %struct.list_node* %16, i32 0, i32 1
-  store %struct.list_node* %14, %struct.list_node** %17, align 8
-  %18 = load i32, i32* %4, align 4
-  %19 = load %struct.list_node*, %struct.list_node** %3, align 8
-  %20 = getelementptr inbounds %struct.list_node, %struct.list_node* %19, i32 0, i32 0
-  store i32 %18, i32* %20, align 8
-  %21 = load %struct.list_node*, %struct.list_node** %3, align 8
-  %22 = getelementptr inbounds %struct.list_node, %struct.list_node* %21, i32 0, i32 1
-  %23 = load %struct.list_node*, %struct.list_node** %22, align 8
-  store %struct.list_node* %23, %struct.list_node** %3, align 8
-  br label %24
+invoke.cont:                                      ; preds = %for.body
+  %2 = load %struct.list_node*, %struct.list_node** %list_it, align 8
+  %next = getelementptr inbounds %struct.list_node, %struct.list_node* %2, i32 0, i32 1
+  store %struct.list_node* %1, %struct.list_node** %next, align 8
+  %3 = load i32, i32* %i, align 4
+  %4 = load %struct.list_node*, %struct.list_node** %list_it, align 8
+  %value = getelementptr inbounds %struct.list_node, %struct.list_node* %4, i32 0, i32 0
+  store i32 %3, i32* %value, align 8
+  %5 = load %struct.list_node*, %struct.list_node** %list_it, align 8
+  %next1 = getelementptr inbounds %struct.list_node, %struct.list_node* %5, i32 0, i32 1
+  %6 = load %struct.list_node*, %struct.list_node** %next1, align 8
+  store %struct.list_node* %6, %struct.list_node** %list_it, align 8
+  br label %for.inc
 
-; <label>:24:                                     ; preds = %15
-  %25 = load i32, i32* %4, align 4
-  %26 = add i32 %25, 1
-  store i32 %26, i32* %4, align 4
-  br label %9
+for.inc:                                          ; preds = %invoke.cont
+  %7 = load i32, i32* %i, align 4
+  %inc = add i32 %7, 1
+  store i32 %inc, i32* %i, align 4
+  br label %for.cond
 
-; <label>:27:                                     ; preds = %9
-  store i32 0, i32* %7, align 4
-  store %struct.list_node* %2, %struct.list_node** %3, align 8
-  br label %28
+for.end:                                          ; preds = %for.cond
+  store i32 0, i32* %sum, align 4
+  store %struct.list_node* %begin, %struct.list_node** %list_it, align 8
+  br label %while.cond
 
-; <label>:28:                                     ; preds = %31, %27
-  %29 = load %struct.list_node*, %struct.list_node** %3, align 8
-  %30 = icmp ne %struct.list_node* %29, null
-  br i1 %30, label %31, label %40
+while.cond:                                       ; preds = %while.body, %for.end
+  %8 = load %struct.list_node*, %struct.list_node** %list_it, align 8
+  %cmp2 = icmp ne %struct.list_node* %8, null
+  br i1 %cmp2, label %while.body, label %while.end
 
-; <label>:31:                                     ; preds = %28
-  %32 = load %struct.list_node*, %struct.list_node** %3, align 8
-  %33 = getelementptr inbounds %struct.list_node, %struct.list_node* %32, i32 0, i32 0
-  %34 = load i32, i32* %33, align 8
-  %35 = load i32, i32* %7, align 4
-  %36 = add nsw i32 %35, %34
-  store i32 %36, i32* %7, align 4
-  %37 = load %struct.list_node*, %struct.list_node** %3, align 8
-  %38 = getelementptr inbounds %struct.list_node, %struct.list_node* %37, i32 0, i32 1
-  %39 = load %struct.list_node*, %struct.list_node** %38, align 8
-  store %struct.list_node* %39, %struct.list_node** %3, align 8
-  br label %28
+while.body:                                       ; preds = %while.cond
+  %9 = load %struct.list_node*, %struct.list_node** %list_it, align 8
+  %value3 = getelementptr inbounds %struct.list_node, %struct.list_node* %9, i32 0, i32 0
+  %10 = load i32, i32* %value3, align 8
+  %11 = load i32, i32* %sum, align 4
+  %add = add nsw i32 %11, %10
+  store i32 %add, i32* %sum, align 4
+  %12 = load %struct.list_node*, %struct.list_node** %list_it, align 8
+  %next4 = getelementptr inbounds %struct.list_node, %struct.list_node* %12, i32 0, i32 1
+  %13 = load %struct.list_node*, %struct.list_node** %next4, align 8
+  store %struct.list_node* %13, %struct.list_node** %list_it, align 8
+  br label %while.cond
 
-; <label>:40:                                     ; preds = %28
-  store %struct.list_node* %2, %struct.list_node** %3, align 8
-  br label %41
+while.end:                                        ; preds = %while.cond
+  store %struct.list_node* %begin, %struct.list_node** %list_it, align 8
+  br label %while.cond5
 
-; <label>:41:                                     ; preds = %59, %40
-  %42 = load %struct.list_node*, %struct.list_node** %3, align 8
-  %43 = getelementptr inbounds %struct.list_node, %struct.list_node* %42, i32 0, i32 1
-  %44 = load %struct.list_node*, %struct.list_node** %43, align 8
-  %45 = icmp ne %struct.list_node* %44, null
-  br i1 %45, label %46, label %60
+while.cond5:                                      ; preds = %if.end, %while.end
+  %14 = load %struct.list_node*, %struct.list_node** %list_it, align 8
+  %next6 = getelementptr inbounds %struct.list_node, %struct.list_node* %14, i32 0, i32 1
+  %15 = load %struct.list_node*, %struct.list_node** %next6, align 8
+  %cmp7 = icmp ne %struct.list_node* %15, null
+  br i1 %cmp7, label %while.body8, label %while.end11
 
-; <label>:46:                                     ; preds = %41
-  %47 = load %struct.list_node*, %struct.list_node** %3, align 8
-  store %struct.list_node* %47, %struct.list_node** %8, align 8
-  %48 = load %struct.list_node*, %struct.list_node** %3, align 8
-  %49 = getelementptr inbounds %struct.list_node, %struct.list_node* %48, i32 0, i32 1
-  %50 = load %struct.list_node*, %struct.list_node** %49, align 8
-  store %struct.list_node* %50, %struct.list_node** %3, align 8
-  %51 = load %struct.list_node*, %struct.list_node** %8, align 8
-  %52 = icmp ne %struct.list_node* %51, %2
-  br i1 %52, label %53, label %59
+while.body8:                                      ; preds = %while.cond5
+  %16 = load %struct.list_node*, %struct.list_node** %list_it, align 8
+  store %struct.list_node* %16, %struct.list_node** %prev_it, align 8
+  %17 = load %struct.list_node*, %struct.list_node** %list_it, align 8
+  %next9 = getelementptr inbounds %struct.list_node, %struct.list_node* %17, i32 0, i32 1
+  %18 = load %struct.list_node*, %struct.list_node** %next9, align 8
+  store %struct.list_node* %18, %struct.list_node** %list_it, align 8
+  %19 = load %struct.list_node*, %struct.list_node** %prev_it, align 8
+  %cmp10 = icmp ne %struct.list_node* %19, %begin
+  br i1 %cmp10, label %if.then, label %if.end
 
-; <label>:53:                                     ; preds = %46
-  %54 = load %struct.list_node*, %struct.list_node** %8, align 8
-  %55 = icmp eq %struct.list_node* %54, null
-  br i1 %55, label %58, label %56
+if.then:                                          ; preds = %while.body8
+  %20 = load %struct.list_node*, %struct.list_node** %prev_it, align 8
+  %isnull = icmp eq %struct.list_node* %20, null
+  br i1 %isnull, label %delete.end, label %delete.notnull
 
-; <label>:56:                                     ; preds = %53
-  %57 = bitcast %struct.list_node* %54 to i8*
-  call void @_ZdlPv(i8* %57) #9
-  br label %58
+delete.notnull:                                   ; preds = %if.then
+  %21 = bitcast %struct.list_node* %20 to i8*
+  call void @_ZdlPv(i8* %21) #9
+  br label %delete.end
 
-; <label>:58:                                     ; preds = %56, %53
-  br label %59
+delete.end:                                       ; preds = %delete.notnull, %if.then
+  br label %if.end
 
-; <label>:59:                                     ; preds = %58, %46
-  br label %41
+if.end:                                           ; preds = %delete.end, %while.body8
+  br label %while.cond5
 
-; <label>:60:                                     ; preds = %41
-  %61 = load %struct.list_node*, %struct.list_node** %3, align 8
-  %62 = icmp eq %struct.list_node* %61, null
-  br i1 %62, label %65, label %63
+while.end11:                                      ; preds = %while.cond5
+  %22 = load %struct.list_node*, %struct.list_node** %list_it, align 8
+  %isnull12 = icmp eq %struct.list_node* %22, null
+  br i1 %isnull12, label %delete.end14, label %delete.notnull13
 
-; <label>:63:                                     ; preds = %60
-  %64 = bitcast %struct.list_node* %61 to i8*
-  call void @_ZdlPv(i8* %64) #9
-  br label %65
+delete.notnull13:                                 ; preds = %while.end11
+  %23 = bitcast %struct.list_node* %22 to i8*
+  call void @_ZdlPv(i8* %23) #9
+  br label %delete.end14
 
-; <label>:65:                                     ; preds = %63, %60
-  %66 = load i32, i32* %7, align 4
-  %67 = call dereferenceable(272) %"class.std::basic_ostream"* @_ZNSolsEi(%"class.std::basic_ostream"* @_ZSt4cout, i32 %66)
+delete.end14:                                     ; preds = %delete.notnull13, %while.end11
+  %24 = load i32, i32* %sum, align 4
+  %call15 = call dereferenceable(272) %"class.std::basic_ostream"* @_ZNSolsEi(%"class.std::basic_ostream"* @_ZSt4cout, i32 %24)
   ret i32 0
 }
 
 ; Function Attrs: noinline nounwind optnone uwtable
-define linkonce_odr void @_ZN9list_nodeC2Ev(%struct.list_node*) unnamed_addr #5 comdat align 2 {
-  %2 = alloca %struct.list_node*, align 8
-  store %struct.list_node* %0, %struct.list_node** %2, align 8
-  %3 = load %struct.list_node*, %struct.list_node** %2, align 8
-  %4 = getelementptr inbounds %struct.list_node, %struct.list_node* %3, i32 0, i32 0
-  store i32 0, i32* %4, align 8
-  %5 = getelementptr inbounds %struct.list_node, %struct.list_node* %3, i32 0, i32 1
-  store %struct.list_node* null, %struct.list_node** %5, align 8
+define linkonce_odr void @_ZN9list_nodeC2Ev(%struct.list_node* %this) unnamed_addr #5 comdat align 2 {
+entry:
+  %this.addr = alloca %struct.list_node*, align 8
+  store %struct.list_node* %this, %struct.list_node** %this.addr, align 8
+  %this1 = load %struct.list_node*, %struct.list_node** %this.addr, align 8
+  %value = getelementptr inbounds %struct.list_node, %struct.list_node* %this1, i32 0, i32 0
+  store i32 0, i32* %value, align 8
+  %next = getelementptr inbounds %struct.list_node, %struct.list_node* %this1, i32 0, i32 1
+  store %struct.list_node* null, %struct.list_node** %next, align 8
   ret void
 }
 
@@ -191,6 +194,7 @@ declare dereferenceable(272) %"class.std::basic_ostream"* @_ZNSolsEi(%"class.std
 
 ; Function Attrs: noinline uwtable
 define internal void @_GLOBAL__sub_I_linked_list_traversal.cpp() #0 section ".text.startup" {
+entry:
   tail call fastcc void @__cxx_global_var_init()
   ret void
 }
@@ -210,4 +214,4 @@ attributes #9 = { builtin nounwind }
 !llvm.ident = !{!1}
 
 !0 = !{i32 1, !"wchar_size", i32 4}
-!1 = !{!"clang version 6.0.0 (https://git.llvm.org/git/clang.git/ 75a36832b158dc653cbf481c4c6ae05f4acbbff8) (https://github.com/llvm-mirror/llvm.git 138d74f09c10f1f47b37659de24cde3939f95873)"}
+!1 = !{!"clang version 6.0.0 (https://git.llvm.org/git/clang.git/ ff0c0d8ab3e316bb6e2741fedb3b545e198eab7a) (https://git.llvm.org/git/llvm.git/ 089d4c0c490687db6c75f1d074e99c4d42936a50)"}

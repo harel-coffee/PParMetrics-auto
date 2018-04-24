@@ -448,14 +448,10 @@ void Graph<NODE,EDGE>::buildComponentGraph() const {
                         const auto edges_it = Edges.find(std::make_pair(Node.Node, succ_it->Node));
                         if (edges_it != Edges.end()) {
                             const Graph<NODE,EDGE>::edge_set& EdgeSet = edges_it->second;
-                            ppar::Dependence* Dep = new ppar::Dependence();
-                            Dep->setUnknown();
-                            for (const auto& Edge : EdgeSet) {
-                                Dep->operator+=(*(Edge.getData()));
-                            }
+                            EDGE Dep = mergeEdges<NODE,EDGE>(EdgeSet);
                             ComponentGraph->addEdge((CurrentSCC->getRoot()).getNode(),
-                                                (SuccSCC->getRoot()).getNode(),
-                                                Dep);
+                                                    (SuccSCC->getRoot()).getNode(),
+                                                    Dep);
                         } else {
                             llvm_unreachable("Inconsistent dependence graph data structure: edge does not exist");
                         }
@@ -471,6 +467,12 @@ void Graph<NODE,EDGE>::buildComponentGraph() const {
 template <typename NODE, typename EDGE>
 const typename Graph<NODE,EDGE>::unordered_node_set& ppar::Graph<NODE,EDGE>::getDependants(const NODE Node) const {
     return Succs[GraphNode<NODE,EDGE>(Node)];
+}
+
+template <typename NODE, typename EDGE>
+EDGE mergeEdges(const typename Graph<NODE,EDGE>::edge_set& EdgeSet) {
+    llvm_unreachable("Unimplemented template specialization!");
+    return nullptr;
 }
 
 } // namespace ppar

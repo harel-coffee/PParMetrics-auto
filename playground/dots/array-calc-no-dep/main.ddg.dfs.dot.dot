@@ -1,0 +1,44 @@
+
+digraph G {
+
+
+node40 [fillcolor=lightcoral,label="[35/36]  %2 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node38 [fillcolor=grey,label="[38/39]  %add = add i32 0, 0",shape=rectangle,style=filled ]
+node41 [fillcolor=lemonchiffon,label="[40/41]  br label %for.inc",shape=ellipse,style=filled ]
+node37 [fillcolor=lightcoral,label="[21/24]  %1 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node26 [fillcolor=lightcoral,label="[10/11]  store i32 0, i32* %i, align 4",shape=ellipse,style=filled ]
+node24 [fillcolor=lemonchiffon,label="[6/7]  br label %for.cond",shape=ellipse,style=filled ]
+node25 [fillcolor=lemonchiffon,label="[8/9]  br label %for.cond",shape=ellipse,style=filled ]
+node23 [fillcolor=lightcoral,label="[4/5]  %4 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node29 [fillcolor=grey,label="[16/19]  %retval = alloca i32, align 4",shape=rectangle,style=filled ]
+node35 [fillcolor=grey,label="[32/33]  %idxprom3 = zext i32 %3 to i64",shape=rectangle,style=filled ]
+node21 [fillcolor=lightcoral,label="[0/1]  store i32 %inc, i32* %i, align 4",shape=ellipse,style=filled ]
+node33 [fillcolor=lightcoral,label="[31/34]  %3 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node22 [fillcolor=grey,label="[2/3]  %inc = add i32 %4, 1",shape=rectangle,style=filled ]
+node28 [fillcolor=lemonchiffon,label="[14/15]  ret i32 0",shape=ellipse,style=filled ]
+node30 [fillcolor=grey,label="[20/37]  %i = alloca i32, align 4",shape=rectangle,style=filled ]
+node32 [fillcolor=grey,label="[26/29]  %cmp = icmp ult i32 %0, 100",shape=rectangle,style=filled ]
+node39 [fillcolor=lightcoral,label="[17/18]  store i32 0, i32* %retval, align 4",shape=ellipse,style=filled ]
+node31 [fillcolor=lightcoral,label="[25/30]  %0 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node27 [fillcolor=grey,label="[12/13]  %idxprom1 = zext i32 %2 to i64",shape=rectangle,style=filled ]
+node36 [fillcolor=grey,label="[22/23]  %idxprom = zext i32 %1 to i64",shape=rectangle,style=filled ]
+node34 [fillcolor=lemonchiffon,label="[27/28]  br i1 %cmp, label %for.body, label %for.end",shape=ellipse,style=filled ]
+
+node30->node37 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node30->node23 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node30->node40 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node29->node39 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node30->node21 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node30->node26 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node31->node32 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node33->node35 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node30->node33 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node22->node21 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node30->node31 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node37->node36 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node23->node22 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node40->node27 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node32->node34 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+
+
+}

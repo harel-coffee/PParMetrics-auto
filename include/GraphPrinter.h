@@ -15,7 +15,10 @@
 namespace ppar {
 
 template <typename NODE, typename EDGE, typename PASS>
-struct GraphPrinter : public llvm::FunctionPass {
+struct GraphPrinter;
+
+template <typename NODE, typename EDGE, typename PASS>
+struct GraphPrinter<NODE*,EDGE*,PASS> : public llvm::FunctionPass {
 
     public:
         static char ID;
@@ -36,8 +39,8 @@ struct GraphPrinter : public llvm::FunctionPass {
         void printSCCsDOTGraph(llvm::Function& F);
         void printComponentGraph(llvm::Function& F);
 
-        void buildDotNode(NODE N, DotNode* Node);
-        void buildDotEdge(EDGE Dep, DotEdge* Edge); 
+        void buildDotNode(const NODE* N, DotNode* Node);
+        void buildDotEdge(const EDGE* Dep, DotEdge* Edge); 
 };
 
 } // namespace ppar

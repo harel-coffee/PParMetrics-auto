@@ -13,7 +13,7 @@ void GraphPrinter<llvm::Instruction*,ppar::Dependence*,ppar::DataDependenceGraph
 }
 
 template <>
-void GraphPrinter<llvm::Instruction*,ppar::Dependence*,ppar::DataDependenceGraphPass>::buildDotNode(llvm::Instruction* Instr, DotNode* Node) {
+void GraphPrinter<llvm::Instruction*,ppar::Dependence*,ppar::DataDependenceGraphPass>::buildDotNode(const llvm::Instruction* Instr, DotNode* Node) {
     if (Instr->mayReadOrWriteMemory()) {
         // memory reference
         Node->setAttribute( /* name = */ string("shape"), /* value = */ string("ellipse"));
@@ -37,7 +37,7 @@ void GraphPrinter<llvm::Instruction*,ppar::Dependence*,ppar::DataDependenceGraph
 }
 
 template <>
-void GraphPrinter<llvm::Instruction*,ppar::Dependence*,ppar::DataDependenceGraphPass>::buildDotEdge(ppar::Dependence* Dep, DotEdge* Edge) {
+void GraphPrinter<llvm::Instruction*,ppar::Dependence*,ppar::DataDependenceGraphPass>::buildDotEdge(const ppar::Dependence* Dep, DotEdge* Edge) {
     // Flow + Reg data dependence
     Edge->setAttribute( /* name = */ string("label"), /* value = */ string("T"));
     Edge->setAttribute( /* name = */ string("fontcolor"), /* value = */ string("forestgreen"));

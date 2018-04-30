@@ -5,6 +5,8 @@
 
 #include "ppar_common_includes.h"
 
+#include <cstring>
+
 #include <unordered_set>
 #include <unordered_map>
 #include <set>
@@ -15,6 +17,10 @@
 #include <string>
 #include <sstream>
 
+#include "llvm/Pass.h"
+#include "llvm/PassAnalysisSupport.h"
+#include "llvm/IR/Function.h"
+#include "llvm/IR/Instruction.h"
 #include "llvm/Analysis/DependenceAnalysis.h"
 
 namespace ppar {
@@ -203,32 +209,40 @@ class Dependence {
 };
 
 template <typename NODE, typename EDGE>
-class GraphNode {
+class GraphNode; // template parameters must be pointers!
 
-    friend class Graph<NODE,EDGE>;
-
+template <typename NODE, typename EDGE>
+class GraphNode<NODE*,EDGE*> {
+    
     public:
-        GraphNode(NODE DepNode = nullptr) 
-            : Node(DepNode) {}
+        using node_t = NODE;
+        using node_ptr_t = NODE*;
+        using edge_t = EDGE;
+        using edge_ptr_t = EDGE*;
+        
+        friend class Graph<NODE*,EDGE*>;
+    
+        GraphNode(const NODE* DepNode = nullptr) 
+         : Node(DepNode) {}
 
-        GraphNode(const GraphNode<NODE,EDGE>& DepNode) 
-            : Node(DepNode.Node) {}
+        GraphNode(const GraphNode<NODE*,EDGE*>& DepNode) 
+         : Node(DepNode.Node) {}
 
         ~GraphNode() {}
 
         struct Hash_Node {
-            size_t operator()(const GraphNode<NODE,EDGE>& Node) const {
-                return std::hash<void*>()(static_cast<void*>(Node.getNode()));
+            size_t operator()(const GraphNode<NODE*,EDGE*>& Node) const {
+                return std::hash<const void*>()(static_cast<const void*>(Node.getNode()));
             }
         };
         using hash = Hash_Node;
 
-        GraphNode& operator=(const GraphNode<NODE,EDGE>& DepNode) {
+        GraphNode& operator=(const GraphNode<NODE*,EDGE*>& DepNode) {
             Node = DepNode.Node;
             return *this;
         }
 
-        bool operator==(const GraphNode<NODE,EDGE>& DepNode) const {
+        bool operator==(const GraphNode<NODE*,EDGE*>& DepNode) const {
             if (Node == DepNode.Node) {
                 return true;
             } else {
@@ -236,23 +250,34 @@ class GraphNode {
             }
         }
 
-        bool operator!=(const GraphNode<NODE,EDGE>& DepNode) const {
+        bool operator!=(const GraphNode<NODE*,EDGE*>& DepNode) const {
             return !this->operator==(DepNode);
         }
 
-        NODE getNode() const { return Node; }
+        const NODE* getNode() const { return Node; }
 
     private:
-        NODE Node;
+        const NODE* Node;
 };
 
 template <typename NODE, typename EDGE>
-class GraphEdge {
+class GraphEdge;
 
-    friend class Graph<NODE,EDGE>;
+template <typename NODE, typename EDGE>
+class GraphEdge<NODE*,EDGE*> {
 
     public:
-        GraphEdge(NODE From = nullptr, NODE To = nullptr, EDGE Data = nullptr)
+        using node_t = NODE;
+        using node_ptr_t = NODE*;
+        using edge_t = EDGE;
+        using edge_ptr_t = EDGE*;
+
+        friend class Graph<NODE*,EDGE*>;
+
+        GraphEdge(const NODE* From = nullptr, const NODE* To = nullptr, EDGE* Data = nullptr)
+            : From(From), To(To), Data(Data), Type(EdgeType::UNDEFINED) {}
+
+        GraphEdge(NODE* From = nullptr, NODE* To = nullptr, EDGE* Data = nullptr)
             : From(From), To(To), Data(Data), Type(EdgeType::UNDEFINED) {}
 
         GraphEdge(const GraphEdge& CopyEdge) {
@@ -272,14 +297,14 @@ class GraphEdge {
         ~GraphEdge() {}
  
         struct Hash_Edge {
-            size_t operator()(const GraphEdge<NODE,EDGE>& Edge) const {
-                return ( std::hash<void*>()(static_cast<void*>(Edge.getFrom())) ^ 
-                         std::hash<void*>()(static_cast<void*>(Edge.getTo())) );
+            size_t operator()(const GraphEdge<NODE*,EDGE*>& Edge) const {
+                return ( std::hash<const void*>()(static_cast<const void*>(Edge.getFrom())) ^ 
+                         std::hash<const void*>()(static_cast<const void*>(Edge.getTo())) );
             }
         };
         using hash = Hash_Edge;
 
-        bool operator==(const GraphEdge<NODE,EDGE>& DepEdge) const {
+        bool operator==(const GraphEdge<NODE*,EDGE*>& DepEdge) const {
             if ( (From == DepEdge.From) &&
                  (To == DepEdge.To) &&
                  (Data == DepEdge.Data) ) {
@@ -289,10 +314,9 @@ class GraphEdge {
             }
         }
 
-        EDGE getData() const { return Data; }
-        NODE getFrom() const { return From; }
-        NODE getTo() const { return To; }
-        NODE getType() const { return Type; }
+        EDGE* getData() const { return Data; }
+        const NODE* getFrom() const { return From; }
+        const NODE* getTo() const { return To; }
 
         enum class EdgeType {
             TREE,
@@ -301,27 +325,38 @@ class GraphEdge {
             CROSS,
             UNDEFINED
         };
+        
+        EdgeType getType() const { return Type; }
 
     private:
-        EDGE Data;
-        NODE From;
-        NODE To;
+        EDGE* Data;
+        const NODE* From;
+        const NODE* To;
         mutable EdgeType Type;
 };
 
 /*
  * Graph = {N,E} is represented as two sets: N (nodes) and E (edges)
  */
+
 template <typename NODE, typename EDGE>
-class Graph {
+class Graph;
+
+template <typename NODE, typename EDGE>
+class Graph<NODE*,EDGE*> {
 
     public:
-        Graph();
+        using node_t = NODE;
+        using node_ptr_t = NODE*;
+        using edge_t = EDGE;
+        using edge_ptr_t = EDGE*;
+
+        Graph(llvm::Pass* GraphPass);
         ~Graph();
 
         // data structures for storing and working with graph nodes and edges
-        using unordered_node_set = std::unordered_set<GraphNode<NODE,EDGE>, typename GraphNode<NODE,EDGE>::hash>;
-        using unordered_edge_set = std::unordered_set<GraphEdge<NODE,EDGE>, typename GraphEdge<NODE,EDGE>::hash>;
+        using unordered_node_set = std::unordered_set<GraphNode<NODE*,EDGE*>, typename GraphNode<NODE*,EDGE*>::hash>;
+        using unordered_edge_set = std::unordered_set<GraphEdge<NODE*,EDGE*>, typename GraphEdge<NODE*,EDGE*>::hash>;
         using node_set = unordered_node_set;
         using edge_set = unordered_edge_set;
 
@@ -335,30 +370,33 @@ class Graph {
         using const_dependant_iterator = typename unordered_node_set::const_iterator;
 
         // Depth-First-Search (DFS) support
-        using dfs_iterator = typename std::vector<GraphNode<NODE,EDGE>>::iterator;
+        using dfs_iterator = typename std::vector<GraphNode<NODE*,EDGE*>>::iterator;
 
         // Strongly Connected Components (SCCs) support
-        using sccs_set = std::unordered_map<GraphNode<NODE,EDGE>, Graph<NODE,EDGE>*, typename GraphNode<NODE,EDGE>::hash>;
+        using sccs_set = std::unordered_map<GraphNode<NODE*,EDGE*>, 
+                                            Graph<NODE*,EDGE*>*, 
+                                            typename GraphNode<NODE*,EDGE*>::hash>;
         using sccs_iterator = typename sccs_set::iterator;
         using const_sccs_iterator = typename sccs_set::const_iterator;
 
         // returned from various graph methods
-        static GraphNode<NODE,EDGE> InvalidNode;
+        static GraphNode<NODE*,EDGE*> InvalidNode;
 
         struct Hash_Graph {
-            size_t operator()(const Graph<NODE,EDGE>*& Graph) const {
-                return std::hash<void*>()(static_cast<void*>((Graph->getRoot()).getNode()));
+            size_t operator()(const Graph<NODE*,EDGE*>*& Graph) const {
+                return std::hash<const void*>()(static_cast<const void*>((Graph->getRoot()).getNode()));
             }
         };
         using hash = Hash_Graph;
         
         struct Hash_NodePair {
-            size_t operator()(const std::pair<NODE,NODE>& Pair) const {
-                return ( std::hash<void*>()(static_cast<void*>(Pair.first)) ^ 
-                         std::hash<void*>()(static_cast<void*>(Pair.second)) );
+            size_t operator()(const std::pair<const NODE*,const NODE*>& Pair) const {
+                return ( std::hash<const void*>()(static_cast<const void*>(Pair.first)) ^ 
+                         std::hash<const void*>()(static_cast<const void*>(Pair.second)) );
             }
         };
-       
+
+
         bool operator==(const Graph& G) {
             if (this->Root == G.Root) {
                 return true;
@@ -371,26 +409,26 @@ class Graph {
             return !(this->operator==(G)); 
         }
 
-        GraphNode<NODE,EDGE> getRoot() const {
+        GraphNode<NODE*,EDGE*> getRoot() const {
             return Root;
         }
 
-        void setRoot(const NODE Node) {
-            Root = GraphNode<NODE,EDGE>(Node);
+        void setRoot(const NODE* Node) {
+            Root = GraphNode<NODE*,EDGE*>(Node);
         }
 
-        void addNode(const NODE Node);
-        void addEdge(const NODE From, const NODE To, EDGE Data);
+        void addNode(const NODE* Node);
+        void addEdge(const NODE* From, const NODE* To, EDGE* Data);
 
-        void dfsTraverse(DFS_callback<NODE,EDGE>* VisitorFunc = nullptr) const;
+        void dfsTraverse(DFS_callback<NODE*,EDGE*>* VisitorFunc = nullptr) const;
         
         void findSCCs() const;
         void buildComponentGraph() const;
 
-        const unordered_node_set& getDependants(const NODE Node) const;
+        const unordered_node_set& getDependants(const NODE* Node) const;
 
-        dfs_iterator dfs_begin(DFS_callback<NODE,EDGE>* VisitorFunc); 
-        dfs_iterator dfs_end(DFS_callback<NODE,EDGE>* VisitorFunc); 
+        dfs_iterator dfs_begin(DFS_callback<NODE*,EDGE*>* VisitorFunc); 
+        dfs_iterator dfs_end(DFS_callback<NODE*,EDGE*>* VisitorFunc); 
 
         sccs_iterator sccs_begin()
         { return SCCs.begin(); }
@@ -404,17 +442,17 @@ class Graph {
         const_sccs_iterator sccs_cend() const
         { return SCCs.cend(); }
 
-        dependant_iterator child_begin(const NODE Node) 
-        { return Succs[GraphNode<NODE,EDGE>(Node)].begin(); }
+        dependant_iterator child_begin(const NODE* Node) 
+        { return Succs[GraphNode<NODE*,EDGE*>(Node)].begin(); }
 
-        dependant_iterator child_end(const NODE Node)
-        { return Succs[GraphNode<NODE,EDGE>(Node)].end(); }
+        dependant_iterator child_end(const NODE* Node)
+        { return Succs[GraphNode<NODE*,EDGE*>(Node)].end(); }
         
-        const_dependant_iterator child_cbegin(const NODE Node) const
-        { return Succs[GraphNode<NODE,EDGE>(Node)].cbegin(); }
+        const_dependant_iterator child_cbegin(const NODE* Node) const
+        { return Succs[GraphNode<NODE*,EDGE*>(Node)].cbegin(); }
         
-        const_dependant_iterator child_cend(const NODE Node) const
-        { return Succs[GraphNode<NODE,EDGE>(Node)].cend(); }
+        const_dependant_iterator child_cend(const NODE* Node) const
+        { return Succs[GraphNode<NODE*,EDGE*>(Node)].cend(); }
 
         node_iterator nodes_begin() { return Nodes.begin(); }
         const_node_iterator nodes_cbegin() const { return Nodes.cbegin(); }
@@ -428,7 +466,7 @@ class Graph {
         auto edges_end() { return Edges.end(); }
         auto edges_cend() const { return Edges.cend(); }
     
-        Graph<NODE,EDGE>* getComponentGraph() const {
+        Graph<NODE*,EDGE*>* getComponentGraph() const {
             if (ComponentGraph_valid) {
                 return ComponentGraph;    
             } else {
@@ -447,39 +485,79 @@ class Graph {
         void clear();
 
     private:
-        const GraphNode<NODE,EDGE>& nodeExists(const NODE Node) const;
-        void addPredecessor(const GraphNode<NODE,EDGE>& Node, const GraphNode<NODE,EDGE>& Pred);
-        void addSuccessor(const GraphNode<NODE,EDGE>& Node, const GraphNode<NODE,EDGE>& Succ);
+        const GraphNode<NODE*,EDGE*>& nodeExists(const NODE* Node) const;
+        void addPredecessor(const GraphNode<NODE*,EDGE*>& Node, const GraphNode<NODE*,EDGE*>& Pred);
+        void addSuccessor(const GraphNode<NODE*,EDGE*>& Node, const GraphNode<NODE*,EDGE*>& Succ);
 
     private:
+        // Pass, building the graph
+        llvm::Pass* GraphPass;
         // Graph representation
-        GraphNode<NODE,EDGE> Root;
+        GraphNode<NODE*,EDGE*> Root;
         node_set Nodes;
-        std::unordered_map<std::pair<NODE,NODE>, edge_set, Hash_NodePair> Edges;
-        std::unordered_map<GraphNode<NODE,EDGE>, unordered_node_set, typename GraphNode<NODE,EDGE>::hash> Succs;
-        std::unordered_map<GraphNode<NODE,EDGE>, unordered_node_set, typename GraphNode<NODE,EDGE>::hash> Preds;
+        std::unordered_map<std::pair<const NODE*,const NODE*>, edge_set, Hash_NodePair> Edges;
+        std::unordered_map<GraphNode<NODE*,EDGE*>, unordered_node_set, typename GraphNode<NODE*,EDGE*>::hash> Succs;
+        std::unordered_map<GraphNode<NODE*,EDGE*>, unordered_node_set, typename GraphNode<NODE*,EDGE*>::hash> Preds;
 
         // Depth First Search (DFS) maintenance
         mutable bool DFS_data_valid;
-        mutable std::vector<GraphNode<NODE,EDGE>> DFS_order;
-        mutable std::unordered_map< /* key: node */ GraphNode<NODE,EDGE>,
+        mutable std::vector<GraphNode<NODE*,EDGE*>> DFS_order;
+        mutable std::unordered_map< /* key: node */ GraphNode<NODE*,EDGE*>,
                                     /* value: node properties */ std::unique_ptr<DFS_node_properties>,
-                                    /* hash function */ typename GraphNode<NODE,EDGE>::hash> DFS_properties;
+                                    /* hash function */ typename GraphNode<NODE*,EDGE*>::hash> DFS_properties;
 
         // Strongly Connected Components (SCCs) and Component Graph (CG) maintenance
         mutable bool SCCs_data_valid;
-        mutable std::unordered_map< /* key: root node */ GraphNode<NODE,EDGE>, 
-                                    /* value: SCC */ Graph<NODE,EDGE>*,
-                                    /* hash function */ typename GraphNode<NODE,EDGE>::hash> SCCs;
-        mutable std::unordered_map< /* key: node */ GraphNode<NODE,EDGE>, 
-                                    /* value: SCC */ Graph<NODE,EDGE>*,
-                                    /* hash function */ typename GraphNode<NODE,EDGE>::hash> NodeToSCCs_addr;
+        mutable std::unordered_map< /* key: root node */ GraphNode<NODE*,EDGE*>, 
+                                    /* value: SCC */ Graph<NODE*,EDGE*>*,
+                                    /* hash function */ typename GraphNode<NODE*,EDGE*>::hash> SCCs;
+        mutable std::unordered_map< /* key: node */ GraphNode<NODE*,EDGE*>, 
+                                    /* value: SCC */ Graph<NODE*,EDGE*>*,
+                                    /* hash function */ typename GraphNode<NODE*,EDGE*>::hash> NodeToSCCs_addr;
         mutable bool ComponentGraph_valid;
-        mutable Graph<NODE,EDGE>* ComponentGraph;
+        mutable Graph<NODE*,EDGE*>* ComponentGraph;
 };
 
-template <typename NODE, typename EDGE>
-EDGE mergeEdges(const typename Graph<NODE,EDGE>::edge_set& EdgeSet);
+template<typename NODE,typename EDGE>
+struct EdgeCopier;
+
+template<typename NODE,typename EDGE>
+struct EdgeCopier<NODE*,EDGE*> {
+    public:
+        EdgeCopier(llvm::Pass* Pass) 
+         : GraphPass(Pass) {}
+                
+        EDGE* operator()(const GraphEdge<NODE*,EDGE*>& Edge) {
+            EDGE* Dep = new EDGE();
+            *Dep = *(Edge.getData());
+            return Dep;
+        }
+
+        llvm::Pass* GraphPass;
+};
+
+template<typename NODE>
+struct EdgeCopier<NODE*,llvm::Dependence*> {
+    public:
+        EdgeCopier(llvm::Pass* GraphPass) {
+            if (llvm::DependenceAnalysisWrapperPass* DepAnalysisPass = GraphPass->getAnalysisIfAvailable<llvm::DependenceAnalysisWrapperPass>()) {
+                DepAnalysisWrapperPass = DepAnalysisPass;
+            } else {
+                llvm_unreachable("Cannot create Graph<NODE,llvm::Dependence*>::EdgeCopier since llvm::DependenceAnalysisWrapperPass is not available!");
+            }
+        }
+
+        llvm::Dependence* operator()(const GraphEdge<NODE*,llvm::Dependence*>& Edge) {
+            if (llvm::Dependence* Dep = ((DepAnalysisWrapperPass->getDI()).depends(const_cast<NODE*>(Edge.getFrom()), 
+                                                                                   const_cast<NODE*>(Edge.getTo()), true)).release()) {
+                return Dep;
+            } else {
+                llvm_unreachable("Graph<NODE,llvm::Dependence*>::EdgeCopier failed to copy the edge!");
+            }
+        }
+ 
+        llvm::DependenceAnalysisWrapperPass* DepAnalysisWrapperPass;
+};
 
 class DFS_node_properties {
     public:

@@ -13,7 +13,7 @@ void GraphPrinter<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGra
 }
 
 template <>
-void GraphPrinter<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphPass>::buildDotNode(llvm::Instruction* Instr, DotNode* Node) {
+void GraphPrinter<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphPass>::buildDotNode(const llvm::Instruction* Instr, DotNode* Node) {
     if (Instr->mayReadOrWriteMemory()) {
         // memory reference
         Node->setAttribute( /* name = */ string("shape"), /* value = */ string("ellipse"));
@@ -38,7 +38,7 @@ void GraphPrinter<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGra
 }
 
 template <>
-void GraphPrinter<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphPass>::buildDotEdge(llvm::Dependence* Dep, DotEdge* Edge) {}
+void GraphPrinter<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphPass>::buildDotEdge(const llvm::Dependence* Dep, DotEdge* Edge) {}
 
 } // namespace ppar
 

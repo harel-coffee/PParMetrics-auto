@@ -12,7 +12,10 @@
 namespace ppar {
 
 template <typename NODE, typename EDGE, typename PASS>
-struct GraphPass : public llvm::FunctionPass {
+struct GraphPass;
+
+template <typename NODE, typename EDGE, typename PASS>
+struct GraphPass<NODE*,EDGE*,PASS> : public llvm::FunctionPass {
     public:
         static char ID;
         GraphPass();
@@ -21,10 +24,10 @@ struct GraphPass : public llvm::FunctionPass {
         void getAnalysisUsage(llvm::AnalysisUsage& AU) const override;
         llvm::StringRef getPassName() const;
         void releaseMemory() override;
-        Graph<NODE,EDGE>& getGraph();
+        Graph<NODE*,EDGE*>& getGraph();
 
     private:
-        Graph<NODE,EDGE> G;
+        Graph<NODE*,EDGE*> G;
 };
 
 } // namespace ppar

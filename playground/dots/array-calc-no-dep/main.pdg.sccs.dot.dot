@@ -5,142 +5,19 @@ digraph G {
 
 
 
-subgraph cluster11 {
+subgraph cluster16 {
 
 
-node74 [fillcolor=lemonchiffon,label="[34/35]  br label %for.cond",shape=ellipse,style=filled ]
-
-
-
-}
-
-subgraph cluster10 {
-
-
-node73 [fillcolor=lightcoral,label="[32/33]  store i32 0, i32* %retval, align 4",shape=ellipse,style=filled ]
+node106 [fillcolor=grey,label="[6/9]  %idxprom3 = zext i32 %5 to i64",shape=rectangle,style=filled ]
 
 
 
 }
 
-subgraph cluster9 {
+subgraph cluster17 {
 
 
-node72 [fillcolor=grey,label="[36/37]  %retval = alloca i32, align 4",shape=rectangle,style=filled ]
-
-
-
-}
-
-subgraph cluster8 {
-
-
-node71 [fillcolor=lightcoral,label="[24/25]  %4 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
-node68 [fillcolor=lightcoral,label="[3/26]  store i32 0, i32* %i, align 4",shape=ellipse,style=filled ]
-node69 [fillcolor=lightcoral,label="[29/30]  store i32 %inc, i32* %i, align 4",shape=ellipse,style=filled ]
-node63 [fillcolor=lightcoral,label="[4/7]  %3 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
-node62 [fillcolor=grey,label="[13/14]  %inc = add i32 %4, 1",shape=rectangle,style=filled ]
-node64 [fillcolor=grey,label="[9/20]  %cmp = icmp ult i32 %0, 100",shape=rectangle,style=filled ]
-node65 [fillcolor=lightcoral,label="[2/31]  %2 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
-node66 [fillcolor=lightcoral,label="[22/23]  %1 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
-node70 [fillcolor=lemonchiffon,label="[10/19]  br i1 %cmp, label %for.body, label %for.end",shape=ellipse,style=filled ]
-node67 [fillcolor=lightcoral,label="[8/21]  %0 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
-
-node71->node69 [style=solid,color=firebrick3,label="A",penwidth=2.0,fontcolor=firebrick3 ]
-node71->node68 [style=solid,color=firebrick3,label="A",penwidth=2.0,fontcolor=firebrick3 ]
-node71->node62 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
-node70->node71 [color=gold,label="C",fontcolor=gold ]
-node70->node66 [color=gold,label="C",fontcolor=gold ]
-node70->node64 [color=gold,label="C",fontcolor=gold ]
-node70->node62 [color=gold,label="C",fontcolor=gold ]
-node69->node71 [style=solid,color=forestgreen,label="T",penwidth=2.0,fontcolor=forestgreen ]
-node69->node66 [style=solid,color=forestgreen,label="T",penwidth=2.0,fontcolor=forestgreen ]
-node69->node65 [style=solid,color=forestgreen,label="T",penwidth=2.0,fontcolor=forestgreen ]
-node70->node63 [color=gold,label="C",fontcolor=gold ]
-node69->node63 [style=solid,color=forestgreen,label="T",penwidth=2.0,fontcolor=forestgreen ]
-node70->node67 [color=gold,label="C",fontcolor=gold ]
-node67->node69 [style=solid,color=firebrick3,label="A",penwidth=2.0,fontcolor=firebrick3 ]
-node65->node69 [style=solid,color=firebrick3,label="A",penwidth=2.0,fontcolor=firebrick3 ]
-node65->node68 [style=solid,color=firebrick3,label="A",penwidth=2.0,fontcolor=firebrick3 ]
-node70->node69 [color=gold,label="C",fontcolor=gold ]
-node70->node65 [color=gold,label="C",fontcolor=gold ]
-node68->node63 [style=solid,color=forestgreen,label="T",penwidth=2.0,fontcolor=forestgreen ]
-node68->node66 [style=solid,color=forestgreen,label="T",penwidth=2.0,fontcolor=forestgreen ]
-node64->node70 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
-node69->node67 [style=solid,color=forestgreen,label="T",penwidth=2.0,fontcolor=forestgreen ]
-node66->node69 [style=solid,color=firebrick3,label="A",penwidth=2.0,fontcolor=firebrick3 ]
-node70->node70 [color=gold,label="C",fontcolor=gold ]
-node62->node69 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
-node63->node68 [style=solid,color=firebrick3,label="A",penwidth=2.0,fontcolor=firebrick3 ]
-node66->node68 [style=solid,color=firebrick3,label="A",penwidth=2.0,fontcolor=firebrick3 ]
-node67->node64 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
-node63->node69 [style=solid,color=firebrick3,label="A",penwidth=2.0,fontcolor=firebrick3 ]
-node67->node68 [style=solid,color=firebrick3,label="A",penwidth=2.0,fontcolor=firebrick3 ]
-node68->node65 [style=solid,color=forestgreen,label="T",penwidth=2.0,fontcolor=forestgreen ]
-node68->node67 [style=solid,color=forestgreen,label="T",penwidth=2.0,fontcolor=forestgreen ]
-node68->node71 [style=solid,color=forestgreen,label="T",penwidth=2.0,fontcolor=forestgreen ]
-
-
-}
-
-subgraph cluster7 {
-
-
-node61 [fillcolor=grey,label="[40/41]  %i = alloca i32, align 4",shape=rectangle,style=filled ]
-
-
-
-}
-
-subgraph cluster6 {
-
-
-node60 [fillcolor=grey,label="[5/6]  %idxprom3 = zext i32 %3 to i64",shape=rectangle,style=filled ]
-
-
-
-}
-
-subgraph cluster0 {
-
-
-node54 [fillcolor=lemonchiffon,label="[0/1]  br label %for.inc",shape=ellipse,style=filled ]
-
-
-
-}
-
-subgraph cluster5 {
-
-
-node59 [fillcolor=lemonchiffon,label="[38/39]  ret i32 0",shape=ellipse,style=filled ]
-
-
-
-}
-
-subgraph cluster1 {
-
-
-node55 [fillcolor=lemonchiffon,label="[11/12]  br label %for.cond",shape=ellipse,style=filled ]
-
-
-
-}
-
-subgraph cluster2 {
-
-
-node56 [fillcolor=grey,label="[27/28]  %idxprom1 = zext i32 %2 to i64",shape=rectangle,style=filled ]
-
-
-
-}
-
-subgraph cluster3 {
-
-
-node57 [fillcolor=grey,label="[15/16]  %idxprom = zext i32 %1 to i64",shape=rectangle,style=filled ]
+node107 [fillcolor=lightcoral,label="[0/5]  %2 = load i32, i32* %arrayidx, align 4",shape=ellipse,style=filled ]
 
 
 
@@ -149,7 +26,190 @@ node57 [fillcolor=grey,label="[15/16]  %idxprom = zext i32 %1 to i64",shape=rect
 subgraph cluster4 {
 
 
-node58 [fillcolor=grey,label="[17/18]  %add = add i32 0, 0",shape=rectangle,style=filled ]
+node84 [fillcolor=grey,label="[44/47]  %retval = alloca i32, align 4",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster3 {
+
+
+node83 [fillcolor=lemonchiffon,label="[52/53]  ret i32 0",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster2 {
+
+
+node82 [fillcolor=grey,label="[19/20]  %arrayidx2 = getelementptr inbounds [100 x i32], [100 x i32]* %b, i64 0, i64 %idxprom1",shape=rectangle,style=filled ]
+node80 [fillcolor=grey,label="[11/12]  %idxprom1 = zext i32 %3 to i64",shape=rectangle,style=filled ]
+node81 [fillcolor=lightcoral,label="[31/32]  %4 = load i32, i32* %arrayidx2, align 4",shape=ellipse,style=filled ]
+
+node80->node82 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
+node82->node81 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
+
+
+}
+
+subgraph cluster1 {
+
+
+node79 [fillcolor=grey,label="[50/51]  %b = alloca [100 x i32], align 16",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster12 {
+
+
+node93 [fillcolor=lightcoral,label="[45/46]  store i32 0, i32* %retval, align 4",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster5 {
+
+
+node85 [fillcolor=lemonchiffon,label="[41/42]  br label %for.inc",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster0 {
+
+
+node78 [fillcolor=lightcoral,label="[2/3]  store i32 %add, i32* %arrayidx4, align 4",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster6 {
+
+
+node86 [fillcolor=grey,label="[54/55]  %a = alloca [100 x i32], align 16",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster14 {
+
+
+node104 [fillcolor=lightcoral,label="[35/36]  %6 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node103 [fillcolor=lightcoral,label="[22/23]  store i32 0, i32* %i, align 4",shape=ellipse,style=filled ]
+node102 [fillcolor=lightcoral,label="[39/40]  %5 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node101 [fillcolor=lightcoral,label="[27/28]  %0 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node96 [fillcolor=lightcoral,label="[37/38]  store i32 %inc, i32* %i, align 4",shape=ellipse,style=filled ]
+node97 [fillcolor=lightcoral,label="[21/24]  %3 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node95 [fillcolor=grey,label="[29/30]  %inc = add i32 %6, 1",shape=rectangle,style=filled ]
+node98 [fillcolor=grey,label="[25/26]  %cmp = icmp ult i32 %0, 100",shape=rectangle,style=filled ]
+node99 [fillcolor=lemonchiffon,label="[10/43]  br i1 %cmp, label %for.body, label %for.end",shape=ellipse,style=filled ]
+node100 [fillcolor=lightcoral,label="[33/34]  %1 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+
+node99->node99 [color=gold,label="C",fontcolor=gold ]
+node104->node95 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
+node99->node95 [color=gold,label="C",fontcolor=gold ]
+node99->node98 [color=gold,label="C",fontcolor=gold ]
+node98->node99 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
+node101->node103 [style=solid,color=firebrick3,label="A",penwidth=2.0,fontcolor=firebrick3 ]
+node103->node97 [style=solid,color=forestgreen,label="T",penwidth=2.0,fontcolor=forestgreen ]
+node95->node96 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
+node104->node96 [style=solid,color=firebrick3,label="A",penwidth=2.0,fontcolor=firebrick3 ]
+node99->node100 [color=gold,label="C",fontcolor=gold ]
+node96->node102 [style=solid,color=forestgreen,label="T",penwidth=2.0,fontcolor=forestgreen ]
+node97->node96 [style=solid,color=firebrick3,label="A",penwidth=2.0,fontcolor=firebrick3 ]
+node102->node103 [style=solid,color=firebrick3,label="A",penwidth=2.0,fontcolor=firebrick3 ]
+node97->node103 [style=solid,color=firebrick3,label="A",penwidth=2.0,fontcolor=firebrick3 ]
+node100->node96 [style=solid,color=firebrick3,label="A",penwidth=2.0,fontcolor=firebrick3 ]
+node96->node101 [style=solid,color=forestgreen,label="T",penwidth=2.0,fontcolor=forestgreen ]
+node103->node100 [style=solid,color=forestgreen,label="T",penwidth=2.0,fontcolor=forestgreen ]
+node99->node96 [color=gold,label="C",fontcolor=gold ]
+node101->node96 [style=solid,color=firebrick3,label="A",penwidth=2.0,fontcolor=firebrick3 ]
+node104->node103 [style=solid,color=firebrick3,label="A",penwidth=2.0,fontcolor=firebrick3 ]
+node96->node104 [style=solid,color=forestgreen,label="T",penwidth=2.0,fontcolor=forestgreen ]
+node99->node101 [color=gold,label="C",fontcolor=gold ]
+node102->node96 [style=solid,color=firebrick3,label="A",penwidth=2.0,fontcolor=firebrick3 ]
+node103->node104 [style=solid,color=forestgreen,label="T",penwidth=2.0,fontcolor=forestgreen ]
+node103->node102 [style=solid,color=forestgreen,label="T",penwidth=2.0,fontcolor=forestgreen ]
+node96->node97 [style=solid,color=forestgreen,label="T",penwidth=2.0,fontcolor=forestgreen ]
+node100->node103 [style=solid,color=firebrick3,label="A",penwidth=2.0,fontcolor=firebrick3 ]
+node99->node104 [color=gold,label="C",fontcolor=gold ]
+node103->node101 [style=solid,color=forestgreen,label="T",penwidth=2.0,fontcolor=forestgreen ]
+node101->node98 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
+node99->node102 [color=gold,label="C",fontcolor=gold ]
+node96->node100 [style=solid,color=forestgreen,label="T",penwidth=2.0,fontcolor=forestgreen ]
+node99->node97 [color=gold,label="C",fontcolor=gold ]
+
+
+}
+
+subgraph cluster7 {
+
+
+node87 [fillcolor=grey,label="[7/8]  %arrayidx4 = getelementptr inbounds [100 x i32], [100 x i32]* %c, i64 0, i64 %idxprom3",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster8 {
+
+
+node88 [fillcolor=lemonchiffon,label="[48/49]  br label %for.cond",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster9 {
+
+
+node89 [fillcolor=grey,label="[56/57]  %c = alloca [100 x i32], align 16",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster10 {
+
+
+node90 [fillcolor=grey,label="[58/59]  %i = alloca i32, align 4",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster11 {
+
+
+node92 [fillcolor=grey,label="[15/16]  %arrayidx = getelementptr inbounds [100 x i32], [100 x i32]* %a, i64 0, i64 %idxprom",shape=rectangle,style=filled ]
+node91 [fillcolor=grey,label="[13/14]  %idxprom = zext i32 %1 to i64",shape=rectangle,style=filled ]
+
+node91->node92 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
+
+
+}
+
+subgraph cluster13 {
+
+
+node94 [fillcolor=grey,label="[1/4]  %add = add i32 %2, %4",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster15 {
+
+
+node105 [fillcolor=lemonchiffon,label="[17/18]  br label %for.cond",shape=ellipse,style=filled ]
 
 
 

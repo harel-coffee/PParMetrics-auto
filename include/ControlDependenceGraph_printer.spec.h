@@ -13,7 +13,7 @@ void GraphPrinter<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGra
 }
 
 template <>
-void GraphPrinter<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphPass>::buildDotNode(llvm::BasicBlock* BB, DotNode* Node) {
+void GraphPrinter<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphPass>::buildDotNode(const llvm::BasicBlock* BB, DotNode* Node) {
     Node->setAttribute( /* name = */ string("shape"), /* value = */ string("rectangle"));
 
     string str;
@@ -23,7 +23,7 @@ void GraphPrinter<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGra
 }
 
 template <>
-void GraphPrinter<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphPass>::buildDotEdge(ppar::Dependence* Dep, DotEdge* Edge) {}
+void GraphPrinter<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphPass>::buildDotEdge(const ppar::Dependence* Dep, DotEdge* Edge) {}
 
 } // namespace ppar
 

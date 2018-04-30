@@ -37,7 +37,7 @@ bool GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraph
 
     // copy all DDG edges to the PDG
     for (auto edge_it = ddg.edges_cbegin(); edge_it != ddg.edges_cend(); edge_it++) {
-        const std::pair<Instruction*,Instruction*> NodePair = edge_it->first;
+        const std::pair<const Instruction*,const Instruction*> NodePair = edge_it->first;
         const Graph<Instruction*,ppar::Dependence*>::edge_set& EdgeSet = edge_it->second;
 
         for (const auto& Edge : EdgeSet) {
@@ -49,7 +49,7 @@ bool GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraph
 
     // copy MDG edges to the PDG
     for (auto edge_it = mdg.edges_cbegin(); edge_it != mdg.edges_cend(); edge_it++) {
-        const std::pair<Instruction*,Instruction*> NodePair = edge_it->first;
+        const std::pair<const Instruction*,const Instruction*> NodePair = edge_it->first;
         const Graph<Instruction*,llvm::Dependence*>::edge_set& EdgeSet = edge_it->second;
         for (const auto& Edge : EdgeSet) {
             ppar::Dependence* Dep(new ppar::Dependence());
@@ -87,7 +87,7 @@ bool GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraph
     // instruction of the source basic block to the each instruction in the
     // target basic block
     for (auto edge_it = cdg.edges_cbegin(); edge_it != cdg.edges_cend(); ++edge_it) {
-        const std::pair<BasicBlock*,BasicBlock*> NodePair = edge_it->first;
+        const std::pair<const BasicBlock*,const BasicBlock*> NodePair = edge_it->first;
         const Graph<BasicBlock*,ppar::Dependence*>::edge_set& EdgeSet = edge_it->second;
         for (const auto& Edge : EdgeSet) {
             const Instruction& source = Edge.getFrom()->back();

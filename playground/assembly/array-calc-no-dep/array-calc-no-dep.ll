@@ -7,6 +7,9 @@ target triple = "x86_64-unknown-linux-gnu"
 define i32 @main() local_unnamed_addr #0 {
 entry:
   %retval = alloca i32, align 4
+  %a = alloca [100 x i32], align 16
+  %b = alloca [100 x i32], align 16
+  %c = alloca [100 x i32], align 16
   %i = alloca i32, align 4
   store i32 0, i32* %retval, align 4
   store i32 0, i32* %i, align 4
@@ -20,16 +23,22 @@ for.cond:                                         ; preds = %for.inc, %entry
 for.body:                                         ; preds = %for.cond
   %1 = load i32, i32* %i, align 4
   %idxprom = zext i32 %1 to i64
-  %2 = load i32, i32* %i, align 4
-  %idxprom1 = zext i32 %2 to i64
-  %add = add i32 0, 0
+  %arrayidx = getelementptr inbounds [100 x i32], [100 x i32]* %a, i64 0, i64 %idxprom
+  %2 = load i32, i32* %arrayidx, align 4
   %3 = load i32, i32* %i, align 4
-  %idxprom3 = zext i32 %3 to i64
+  %idxprom1 = zext i32 %3 to i64
+  %arrayidx2 = getelementptr inbounds [100 x i32], [100 x i32]* %b, i64 0, i64 %idxprom1
+  %4 = load i32, i32* %arrayidx2, align 4
+  %add = add i32 %2, %4
+  %5 = load i32, i32* %i, align 4
+  %idxprom3 = zext i32 %5 to i64
+  %arrayidx4 = getelementptr inbounds [100 x i32], [100 x i32]* %c, i64 0, i64 %idxprom3
+  store i32 %add, i32* %arrayidx4, align 4
   br label %for.inc
 
 for.inc:                                          ; preds = %for.body
-  %4 = load i32, i32* %i, align 4
-  %inc = add i32 %4, 1
+  %6 = load i32, i32* %i, align 4
+  %inc = add i32 %6, 1
   store i32 %inc, i32* %i, align 4
   br label %for.cond
 

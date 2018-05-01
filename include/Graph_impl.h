@@ -27,16 +27,16 @@ Graph<NODE*,EDGE*>::Graph(llvm::Pass* GPass) {
     SCCs_data_valid = false;
     SCCs.clear();
 
-    ComponentGraph_valid = false;
+    CG_data_valid = false;
     ComponentGraph = nullptr;
 }
 
 template <typename NODE, typename EDGE>
 Graph<NODE*,EDGE*>::~Graph() {
 
-    if (ComponentGraph_valid) {
+    if (CG_data_valid) {
         delete ComponentGraph;
-        ComponentGraph_valid = false;
+        CG_data_valid = false;
     }
 
     for (auto edge_it = Edges.begin(); edge_it != Edges.end(); edge_it++) {
@@ -76,9 +76,9 @@ void Graph<NODE*,EDGE*>::clear() {
 
     Root = InvalidNode; 
 
-    if (ComponentGraph_valid) {
+    if (CG_data_valid) {
         delete ComponentGraph;
-        ComponentGraph_valid = false;
+        CG_data_valid = false;
     }
 
     Nodes.clear();
@@ -412,7 +412,9 @@ void Graph<NODE*,EDGE*>::findSCCs() const {
             Stack.pop();
 
             CurrentSCC->addNode(CurrentNode.getNode());
-            NodeToSCCs_addr[CurrentNode] =  CurrentSCC;
+
+            NodeToSCCs_addr[CurrentNode] = CurrentSCC;
+            NodeToSCCRoot[CurrentNode] = SCC_root;
     
             DEBUG(
                 std::string str;
@@ -478,12 +480,12 @@ void Graph<NODE*,EDGE*>::findSCCs() const {
 template <typename NODE, typename EDGE>
 void Graph<NODE*,EDGE*>::buildComponentGraph() const {
     
-    if (ComponentGraph_valid) {
+    if (CG_data_valid) {
         delete ComponentGraph;
         ComponentGraph = nullptr;
     }
 
-    ComponentGraph_valid = false;
+    CG_data_valid = false;
 
     // compute finishing times of nodes in DFS traversal
     if (!SCCs_data_valid) {
@@ -536,7 +538,7 @@ void Graph<NODE*,EDGE*>::buildComponentGraph() const {
         }
     }
 
-    ComponentGraph_valid = true;
+    CG_data_valid = true;
 }
 
 template <typename NODE, typename EDGE>

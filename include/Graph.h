@@ -419,6 +419,28 @@ class Graph<NODE*,EDGE*> {
 
         void addNode(const NODE* Node);
         void addEdge(const NODE* From, const NODE* To, EDGE* Data);
+        
+        GraphNode<NODE*,EDGE*> getNode(const NODE* Node) {
+            const_node_iterator node_it = Nodes.find(GraphNode<NODE*,EDGE*>(Node)); 
+            if (node_it != Nodes.end()) {
+                return *node_it;
+            } else {
+                return Graph<NODE*,EDGE*>::InvalidNode;
+            }
+        }
+
+        bool nodeHasIncomingEdges(GraphNode<NODE*,EDGE*> Node) {
+            auto preds_it = Preds.find(Node);
+            if (preds_it != Preds.end()) {
+                if (!Preds[Node].empty()) {
+                    return true; 
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
 
         void dfsTraverse(DFS_callback<NODE*,EDGE*>* VisitorFunc = nullptr) const;
         
@@ -465,10 +487,34 @@ class Graph<NODE*,EDGE*> {
 
         auto edges_end() { return Edges.end(); }
         auto edges_cend() const { return Edges.cend(); }
-    
+  
+        // 
+        // Queries related to computed Strongly Connected Components (SCCs), 
+        // Component Graph (CG), etc.
+        //
+        bool isSCCsDataValid() const { return SCCs_data_valid; }
+        bool isDFSDataValid() const { return DFS_data_valid; }
+        bool isComponentGraphDataValid() const { return CG_data_valid; }
+
+        Graph<NODE*,EDGE*>* nodeToSCC(NODE* Node) const {
+            if (SCCs_data_valid) {
+                return NodeToSCCs_addr[GraphNode<NODE*,EDGE*>(Node)];
+            } else {
+                return nullptr;
+            }
+        }
+
+        GraphNode<NODE*,EDGE*> getSCCRoot(NODE* Node) const {
+            if (SCCs_data_valid) {
+                return NodeToSCCRoot[GraphNode<NODE*,EDGE*>(Node)];
+            } else {
+                return InvalidNode;
+            }
+        }
+
         Graph<NODE*,EDGE*>* getComponentGraph() const {
-            if (ComponentGraph_valid) {
-                return ComponentGraph;    
+            if (CG_data_valid) {
+                return ComponentGraph;
             } else {
                 return nullptr;
             }
@@ -514,7 +560,10 @@ class Graph<NODE*,EDGE*> {
         mutable std::unordered_map< /* key: node */ GraphNode<NODE*,EDGE*>, 
                                     /* value: SCC */ Graph<NODE*,EDGE*>*,
                                     /* hash function */ typename GraphNode<NODE*,EDGE*>::hash> NodeToSCCs_addr;
-        mutable bool ComponentGraph_valid;
+        mutable std::unordered_map< /* key: node */ GraphNode<NODE*,EDGE*>, 
+                                    /* value: SCC */ GraphNode<NODE*,EDGE*>,
+                                    /* hash function */ typename GraphNode<NODE*,EDGE*>::hash> NodeToSCCRoot;
+        mutable bool CG_data_valid;
         mutable Graph<NODE*,EDGE*>* ComponentGraph;
 };
 

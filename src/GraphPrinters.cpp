@@ -1,7 +1,7 @@
 #include "GraphPrinter.h"
 #include "GraphPass.h"
 #include "ppar_common_includes.h"
-#include "CustomGraphPasses.h"
+#include "GraphPasses.h"
 #include "DotPrinter.h"
 
 #include "llvm/IR/Function.h"

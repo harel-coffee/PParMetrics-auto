@@ -2,31 +2,18 @@
 digraph G {
 
 
-node4 [label="
-for.cond:                                         ; preds = %for.inc, %entry
-  %0 = load i32, i32* %i, align 4
-  %cmp = icmp ult i32 %0, 100
-  br i1 %cmp, label %for.body, label %for.end
+node14 [label="[2/3]
+for.end:                                          ; preds = %for.cond
+  ret i32 0
 ",shape=rectangle ]
-node0 [label="
+node13 [label="[0/1]
 for.inc:                                          ; preds = %for.body
   %6 = load i32, i32* %i, align 4
   %inc = add i32 %6, 1
   store i32 %inc, i32* %i, align 4
   br label %for.cond
 ",shape=rectangle ]
-node3 [label="
-entry:
-  %retval = alloca i32, align 4
-  %a = alloca [100 x i32], align 16
-  %b = alloca [100 x i32], align 16
-  %c = alloca [100 x i32], align 16
-  %i = alloca i32, align 4
-  store i32 0, i32* %retval, align 4
-  store i32 0, i32* %i, align 4
-  br label %for.cond
-",shape=rectangle ]
-node2 [label="
+node12 [label="[4/5]
 for.body:                                         ; preds = %for.cond
   %1 = load i32, i32* %i, align 4
   %idxprom = zext i32 %1 to i64
@@ -43,14 +30,26 @@ for.body:                                         ; preds = %for.cond
   store i32 %add, i32* %arrayidx4, align 4
   br label %for.inc
 ",shape=rectangle ]
-node1 [label="
-for.end:                                          ; preds = %for.cond
-  ret i32 0
+node10 [label="[6/7]
+entry:
+  %retval = alloca i32, align 4
+  %a = alloca [100 x i32], align 16
+  %b = alloca [100 x i32], align 16
+  %c = alloca [100 x i32], align 16
+  %i = alloca i32, align 4
+  store i32 0, i32* %retval, align 4
+  store i32 0, i32* %i, align 4
+  br label %for.cond
+",shape=rectangle ]
+node11 [label="[8/9]
+for.cond:                                         ; preds = %for.inc, %entry
+  %0 = load i32, i32* %i, align 4
+  %cmp = icmp ult i32 %0, 100
+  br i1 %cmp, label %for.body, label %for.end
 ",shape=rectangle ]
 
-node4->node2 [ ]
-node4->node0 [ ]
-node4->node4 [ ]
+node11->node13 [ ]
+node11->node12 [ ]
 
 
 }

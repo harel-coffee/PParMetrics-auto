@@ -1,4 +1,4 @@
-#include "CustomGraphPasses.h"
+#include "GraphPasses.h"
 
 #include "llvm/IR/CFG.h"
 #include "llvm/IR/Dominators.h"

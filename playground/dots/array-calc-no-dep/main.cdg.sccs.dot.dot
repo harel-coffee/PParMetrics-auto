@@ -2,20 +2,13 @@
 digraph G {
 
 
-node4 [label="
-for.cond:                                         ; preds = %for.inc, %entry
-  %0 = load i32, i32* %i, align 4
-  %cmp = icmp ult i32 %0, 100
-  br i1 %cmp, label %for.body, label %for.end
-",shape=rectangle ]
-node0 [label="
-for.inc:                                          ; preds = %for.body
-  %6 = load i32, i32* %i, align 4
-  %inc = add i32 %6, 1
-  store i32 %inc, i32* %i, align 4
-  br label %for.cond
-",shape=rectangle ]
-node3 [label="
+
+
+
+subgraph cluster4 {
+
+
+node19 [label="[6/7]
 entry:
   %retval = alloca i32, align 4
   %a = alloca [100 x i32], align 16
@@ -26,7 +19,30 @@ entry:
   store i32 0, i32* %i, align 4
   br label %for.cond
 ",shape=rectangle ]
-node2 [label="
+
+
+
+}
+
+subgraph cluster3 {
+
+
+node18 [label="[8/9]
+for.cond:                                         ; preds = %for.inc, %entry
+  %0 = load i32, i32* %i, align 4
+  %cmp = icmp ult i32 %0, 100
+  br i1 %cmp, label %for.body, label %for.end
+",shape=rectangle ]
+
+node18->node18 [ ]
+
+
+}
+
+subgraph cluster2 {
+
+
+node17 [label="[4/5]
 for.body:                                         ; preds = %for.cond
   %1 = load i32, i32* %i, align 4
   %idxprom = zext i32 %1 to i64
@@ -43,14 +59,36 @@ for.body:                                         ; preds = %for.cond
   store i32 %add, i32* %arrayidx4, align 4
   br label %for.inc
 ",shape=rectangle ]
-node1 [label="
+
+
+
+}
+
+subgraph cluster0 {
+
+
+node15 [label="[0/1]
+for.inc:                                          ; preds = %for.body
+  %6 = load i32, i32* %i, align 4
+  %inc = add i32 %6, 1
+  store i32 %inc, i32* %i, align 4
+  br label %for.cond
+",shape=rectangle ]
+
+
+
+}
+
+subgraph cluster1 {
+
+
+node16 [label="[2/3]
 for.end:                                          ; preds = %for.cond
   ret i32 0
 ",shape=rectangle ]
 
-node4->node2 [ ]
-node4->node0 [ ]
-node4->node4 [ ]
 
+
+}
 
 }

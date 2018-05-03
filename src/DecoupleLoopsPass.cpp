@@ -49,6 +49,10 @@ bool DecoupleLoopsPass::runOnFunction(llvm::Function& F) {
     // get computed information about function loops and dependencies
     const DependenceGraph& PDG = (Pass::getAnalysis<PDGPass>()).getGraph();
     const LoopInfo& LI = (Pass::getAnalysis<LoopInfoWrapperPass>()).getLoopInfo();
+    
+    DEBUG(
+        llvm::dbgs() << "[ Decouple Loops Function Pass ] " + F.getName() + "\n";
+    );
 
     if (!PDG.isSCCsDataValid() || !PDG.isComponentGraphDataValid()) {
         PDG.findSCCs();
@@ -63,7 +67,20 @@ bool DecoupleLoopsPass::runOnFunction(llvm::Function& F) {
     }
 
     // prepare LoopDependenceInfo for information collection
+    int i = 0;
+    std::map<const Loop*,std::string> LoopAddrToName;
     for (Loop* L : LI) {
+        LoopAddrToName[L] = std::string("loop") + std::to_string(i);
+        i++;
+        
+        DEBUG(
+            std::string str;
+            llvm::raw_string_ostream rso(str);
+            llvm::dbgs() << "new loop identified: " + LoopAddrToName[L] +"\n";
+            L->dump();
+            llvm::dbgs() << "\n";
+        );
+
         LoopsDepInfo[L] = std::make_unique<LoopDependenceInfo>();
     }
 
@@ -71,14 +88,26 @@ bool DecoupleLoopsPass::runOnFunction(llvm::Function& F) {
     for (Function::iterator bb_it = F.begin(); bb_it != F.end(); ++bb_it) {
         Loop* InnermostL = LI.getLoopFor(&(*bb_it));
         if (InnermostL != nullptr) { 
-            // current basic block is within the loop, so
-            // all SCC formed out of that BB instructions belong to the loop
+            // current basic block is within the loop, so all SCCs
+            // formed out of that BB instructions belong to the loop
             for (BasicBlock::iterator inst_it = bb_it->begin(); inst_it != bb_it->end(); ++inst_it) {
                 DependenceGraph* SCC = PDG.nodeToSCC(&(*inst_it));
                 LoopsDepInfo[InnermostL]->addSCC(SCC);
+                DEBUG(
+                    std::string str;
+                    llvm::raw_string_ostream rso(str);
+                    (SCC->getRoot()).getNode()->print(rso);
+                    llvm::dbgs() <<  LoopAddrToName[InnermostL] << ": added SCC(" << SCC << ") root: " << str << "\n";
+                );
                 if (!CGraph->nodeHasIncomingEdges(SCC->getRoot())) {
+                    DEBUG(
+                        llvm::dbgs() << "SCC(" << SCC << ") is the iterator of the " << LoopAddrToName[InnermostL] + "\n";
+                    );
                     LoopsDepInfo[InnermostL]->addIteratorSCC(SCC);
                 } else {
+                    DEBUG(
+                        llvm::dbgs() << "added SCC(" << SCC << ") is the workload of the " << LoopAddrToName[InnermostL] + "\n";
+                    );
                     LoopsDepInfo[InnermostL]->addPayloadSCC(SCC);
                 }
             }
@@ -86,6 +115,9 @@ bool DecoupleLoopsPass::runOnFunction(llvm::Function& F) {
             for (BasicBlock::iterator inst_it = bb_it->begin(); inst_it != bb_it->end(); ++inst_it) {
                 DependenceGraph* SCC = PDG.nodeToSCC(&(*inst_it));
                 ScalarCode.push_back(SCC);
+                DEBUG(
+                    llvm::dbgs() << "SCC(" << SCC << ") is the scalar code\n";
+                );
             }
         }
     }

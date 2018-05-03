@@ -529,6 +529,32 @@ class Graph<NODE*,EDGE*> {
         }
 
         void clear();
+ 
+        // Queries related to general graph properties (nodes and edges number, etc.)
+        //
+
+        // Graph size queries
+        uint64_t getNodesNumber() const { return Nodes.size(); }
+        uint64_t getEdgesNumber() const { return Edges.size(); }
+        uint64_t getMultiEdgesNumber() const { 
+            uint64_t Num = 0;
+            for (const auto it = Edges.cbegin(); it = Edges.cend(); ++it) {
+                Num += (it->second).size();
+            }
+            return Num; 
+        }
+        uint64_t getEdgesNumber_Type(typename GraphEdge<NODE*,EDGE*>::EdgeType Type) const { 
+            uint64_t Num = 0;
+            for (const auto it = Edges.cbegin(); it = Edges.cend(); ++it) {
+                edge_set& EdgeSet = it->second;
+                for (auto& edge : EdgeSet) {
+                    if (edge.getType() == Type) {
+                        Num++;
+                    }
+                }
+            }
+            return Num; 
+        }
 
     private:
         const GraphNode<NODE*,EDGE*>& nodeExists(const NODE* Node) const;

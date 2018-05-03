@@ -11,6 +11,9 @@
 #include "llvm/IR/Function.h"
 #include "llvm/IR/Instruction.h"
 
+#undef DEBUG_TYPE
+#define DEBUG_TYPE "decouple-loops"
+
 namespace ppar {
 
 class LoopDependenceInfo {

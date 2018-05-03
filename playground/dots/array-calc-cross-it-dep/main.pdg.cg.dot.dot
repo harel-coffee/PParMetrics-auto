@@ -1,0 +1,30 @@
+
+digraph G {
+
+
+node79 [fillcolor=grey,label="[53/54]  %idxprom3 = zext i32 %4 to i64",shape=rectangle,style=filled ]
+node78 [fillcolor=lightcoral,label="[37/38]  store i32 %6, i32* %arrayidx8, align 4",shape=ellipse,style=filled ]
+node77 [fillcolor=grey,label="[62/65]  %retval = alloca i32, align 4",shape=rectangle,style=filled ]
+node75 [fillcolor=lemonchiffon,label="[27/28]  br label %for.inc",shape=ellipse,style=filled ]
+node74 [fillcolor=lemonchiffon,label="[29/30]  br label %for.cond",shape=ellipse,style=filled ]
+node76 [fillcolor=grey,label="[41/42]  %arrayidx6 = getelementptr inbounds [100 x i32], [100 x i32]* @_ZL1c, i64 0, i64 %idxprom5",shape=rectangle,style=filled ]
+node69 [fillcolor=grey,label="[60/61]  %i = alloca i32, align 4",shape=rectangle,style=filled ]
+node73 [fillcolor=lemonchiffon,label="[66/67]  ret i32 0",shape=ellipse,style=filled ]
+node68 [fillcolor=lemonchiffon,label="[58/59]  br label %for.cond",shape=ellipse,style=filled ]
+node70 [fillcolor=grey,label="[3/4]  %idxprom1 = zext i32 %3 to i64",shape=rectangle,style=filled ]
+node71 [fillcolor=lightcoral,label="[63/64]  store i32 0, i32* %retval, align 4",shape=ellipse,style=filled ]
+node72 [fillcolor=lightcoral,label="[0/57]  %4 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+
+node72->node74 [color=gold,label="C",fontcolor=gold ]
+node77->node71 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
+node76->node78 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
+node72->node79 [color=gold,label="C",fontcolor=gold ]
+node69->node72 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
+node72->node78 [color=gold,label="C",fontcolor=gold ]
+node72->node70 [color=gold,label="C",fontcolor=gold ]
+node72->node75 [color=gold,label="C",fontcolor=gold ]
+node79->node78 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
+node72->node76 [color=gold,label="C",fontcolor=gold ]
+
+
+}

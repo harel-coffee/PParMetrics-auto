@@ -29,8 +29,7 @@ node27 [fillcolor=lightcoral,label="[5/6]  %0 = load i32, i32* %i, align 4",shap
 node28 [fillcolor=lightcoral,label="[7/8]  %5 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
 
 node27->node25 [ ]
-node25->node28 [ ]
-node28->node25 [ ]
+node25->node26 [ ]
 node24->node26 [ ]
 node25->node29 [ ]
 node24->node28 [ ]
@@ -41,13 +40,14 @@ node29->node25 [ ]
 node24->node27 [ ]
 node24->node29 [ ]
 node28->node24 [ ]
-node25->node26 [ ]
 node23->node24 [ ]
 node27->node24 [ ]
 node26->node25 [ ]
 node23->node25 [ ]
 node24->node23 [ ]
 node25->node23 [ ]
+node28->node25 [ ]
+node25->node28 [ ]
 
 
 }

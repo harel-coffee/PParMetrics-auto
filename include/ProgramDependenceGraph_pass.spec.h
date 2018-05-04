@@ -21,6 +21,11 @@ llvm::StringRef GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDepe
 
 template <>
 bool GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraphPass>::runOnFunction(Function& F) {
+
+    if (F.isDeclaration()) return false;
+
+    createGraph(F);
+
     const Graph<Instruction*,llvm::Dependence*>& mdg =
         Pass::getAnalysis<GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphPass>>().getGraph();
     const Graph<Instruction*,ppar::Dependence*>& ddg =

@@ -78,6 +78,11 @@ getPostDomFrontier(const PostDominatorTree& pdt,
 
 template <>
 bool GraphPass<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphPass>::runOnFunction(Function& F) {
+    
+    if (F.isDeclaration()) return false;
+   
+    createGraph(F); 
+
     const PostDominatorTree& pdt = Pass::getAnalysis<PostDominatorTreeWrapperPass>().getPostDomTree();
     stack<const DomTreeNode*> bottom_up_traversal = getBottomUpTraversal(pdt);
     map<const BasicBlock*, set<const BasicBlock*>> post_dom_frontier = getPostDomFrontier(pdt, std::move(bottom_up_traversal));

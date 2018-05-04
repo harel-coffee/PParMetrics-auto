@@ -201,6 +201,9 @@ void GraphPrinter<NODE*,EDGE*,PASS>::printComponentGraph(Function& F) {
 
 template <typename NODE, typename EDGE, typename PASS>
 bool GraphPrinter<NODE*,EDGE*,PASS>::runOnFunction(llvm::Function& F) {
+
+    if (F.isDeclaration()) return false;
+
     // print original graph + original augmented with DFS timestamps
     printDOTGraph(F);
     printDOTGraph(F, PrintType::PRINT_DFS);

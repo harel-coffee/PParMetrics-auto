@@ -5,37 +5,10 @@ digraph G {
 
 
 
-subgraph cluster89 {
-
-
-node365 [fillcolor=lightcoral,label="[21/22]  store %struct.list_node* %13, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
-
-
-
-}
-
-subgraph cluster88 {
-
-
-node364 [fillcolor=lightcoral,label="[48/53]  %10 = load i32, i32* %value3, align 8",shape=ellipse,style=filled ]
-
-
-
-}
-
-subgraph cluster87 {
-
-
-node363 [fillcolor=lightcoral,label="[161/166]  %20 = load %struct.list_node*, %struct.list_node** %prev_it, align 8",shape=ellipse,style=filled ]
-
-
-
-}
-
 subgraph cluster86 {
 
 
-node362 [fillcolor=grey,label="[26/29]  %next = getelementptr inbounds %struct.list_node, %struct.list_node* %2, i32 0, i32 1",shape=rectangle,style=filled ]
+node353 [fillcolor=grey,label="[12/13]  %isnull12 = icmp eq %struct.list_node* %22, null",shape=rectangle,style=filled ]
 
 
 
@@ -44,7 +17,7 @@ node362 [fillcolor=grey,label="[26/29]  %next = getelementptr inbounds %struct.l
 subgraph cluster85 {
 
 
-node361 [fillcolor=lightcoral,label="[30/31]  store %struct.list_node* %18, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node352 [fillcolor=lightcoral,label="[17/18]  store %struct.list_node* %13, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -53,7 +26,7 @@ node361 [fillcolor=lightcoral,label="[30/31]  store %struct.list_node* %18, %str
 subgraph cluster81 {
 
 
-node357 [fillcolor=grey,label="[162/165]  %isnull = icmp eq %struct.list_node* %20, null",shape=rectangle,style=filled ]
+node348 [fillcolor=lightcoral,label="[26/27]  store %struct.list_node* %18, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -62,7 +35,7 @@ node357 [fillcolor=grey,label="[162/165]  %isnull = icmp eq %struct.list_node* %
 subgraph cluster84 {
 
 
-node360 [fillcolor=lightcoral,label="[32/33]  store i32 %3, i32* %value, align 8",shape=ellipse,style=filled ]
+node351 [fillcolor=lightcoral,label="[34/39]  %10 = load i32, i32* %value3, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -71,7 +44,7 @@ node360 [fillcolor=lightcoral,label="[32/33]  store i32 %3, i32* %value, align 8
 subgraph cluster38 {
 
 
-node314 [fillcolor=grey,label="[156/157]  %21 = bitcast %struct.list_node* %20 to i8*",shape=rectangle,style=filled ]
+node305 [fillcolor=lightcoral,label="[137/142]  %8 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -80,7 +53,7 @@ node314 [fillcolor=grey,label="[156/157]  %21 = bitcast %struct.list_node* %20 t
 subgraph cluster73 {
 
 
-node349 [fillcolor=lightcoral,label="[46/55]  %9 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node340 [fillcolor=lightcoral,label="[44/47]  %6 = load %struct.list_node*, %struct.list_node** %next1, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -89,7 +62,7 @@ node349 [fillcolor=lightcoral,label="[46/55]  %9 = load %struct.list_node*, %str
 subgraph cluster12 {
 
 
-node286 [fillcolor=lemonchiffon,label="[170/171]  br label %for.cond",shape=ellipse,style=filled ]
+node279 [fillcolor=lightcoral,label="[123/124]  %16 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -98,7 +71,7 @@ node286 [fillcolor=lemonchiffon,label="[170/171]  br label %for.cond",shape=elli
 subgraph cluster21 {
 
 
-node295 [fillcolor=lightcoral,label="[148/149]  %19 = load %struct.list_node*, %struct.list_node** %prev_it, align 8",shape=ellipse,style=filled ]
+node288 [fillcolor=grey,label="[15/20]  %next4 = getelementptr inbounds %struct.list_node, %struct.list_node* %12, i32 0, i32 1",shape=rectangle,style=filled ]
 
 
 
@@ -107,7 +80,7 @@ node295 [fillcolor=lightcoral,label="[148/149]  %19 = load %struct.list_node*, %
 subgraph cluster24 {
 
 
-node298 [fillcolor=lemonchiffon,label="[176/177]  br label %delete.end",shape=ellipse,style=filled ]
+node291 [fillcolor=lemonchiffon,label="[168/169]  br label %delete.end",shape=ellipse,style=filled ]
 
 
 
@@ -116,7 +89,7 @@ node298 [fillcolor=lemonchiffon,label="[176/177]  br label %delete.end",shape=el
 subgraph cluster26 {
 
 
-node300 [fillcolor=lightcoral,label="[1/2]  %call15 = call dereferenceable(272) %"class.std::basic_ostream"* @_ZNSolsEi(%"class.std::basic_ostream"* @_ZSt4cout, i32 %24)",shape=ellipse,style=filled ]
+node293 [fillcolor=lemonchiffon,label="[164/165]  br label %invoke.cont",shape=ellipse,style=filled ]
 
 
 
@@ -125,7 +98,7 @@ node300 [fillcolor=lightcoral,label="[1/2]  %call15 = call dereferenceable(272) 
 subgraph cluster29 {
 
 
-node303 [fillcolor=lemonchiffon,label="[150/151]  br label %while.cond",shape=ellipse,style=filled ]
+node296 [fillcolor=lemonchiffon,label="[170/171]  br label %if.end",shape=ellipse,style=filled ]
 
 
 
@@ -134,7 +107,7 @@ node303 [fillcolor=lemonchiffon,label="[150/151]  br label %while.cond",shape=el
 subgraph cluster18 {
 
 
-node292 [fillcolor=lightcoral,label="[95/104]  %14 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node285 [fillcolor=lemonchiffon,label="[144/145]  br label %for.cond",shape=ellipse,style=filled ]
 
 
 
@@ -143,7 +116,7 @@ node292 [fillcolor=lightcoral,label="[95/104]  %14 = load %struct.list_node*, %s
 subgraph cluster22 {
 
 
-node296 [fillcolor=lemonchiffon,label="[172/173]  br label %invoke.cont",shape=ellipse,style=filled ]
+node289 [fillcolor=lemonchiffon,label="[160/161]  br label %while.cond",shape=ellipse,style=filled ]
 
 
 
@@ -152,7 +125,7 @@ node296 [fillcolor=lemonchiffon,label="[172/173]  br label %invoke.cont",shape=e
 subgraph cluster46 {
 
 
-node322 [fillcolor=grey,label="[158/159]  %ehselector.slot = alloca i32",shape=rectangle,style=filled ]
+node313 [fillcolor=grey,label="[146/151]  %sum = alloca i32, align 4",shape=rectangle,style=filled ]
 
 
 
@@ -161,7 +134,7 @@ node322 [fillcolor=grey,label="[158/159]  %ehselector.slot = alloca i32",shape=r
 subgraph cluster31 {
 
 
-node305 [fillcolor=lightcoral,label="[111/112]  %2 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node298 [fillcolor=grey,label="[130/131]  %next1 = getelementptr inbounds %struct.list_node, %struct.list_node* %5, i32 0, i32 1",shape=rectangle,style=filled ]
 
 
 
@@ -170,7 +143,7 @@ node305 [fillcolor=lightcoral,label="[111/112]  %2 = load %struct.list_node*, %s
 subgraph cluster30 {
 
 
-node304 [fillcolor=lemonchiffon,label="[152/153]  br label %while.cond",shape=ellipse,style=filled ]
+node297 [fillcolor=lightcoral,label="[60/61]  %call = call i8* @_Znwm(i64 16) #8",shape=ellipse,style=filled ]
 
 
 
@@ -179,7 +152,7 @@ node304 [fillcolor=lemonchiffon,label="[152/153]  br label %while.cond",shape=el
 subgraph cluster6 {
 
 
-node280 [fillcolor=lemonchiffon,label="[8/9]  br i1 %isnull12, label %delete.end14, label %delete.notnull13",shape=ellipse,style=filled ]
+node271 [fillcolor=grey,label="[8/9]  %23 = bitcast %struct.list_node* %22 to i8*",shape=rectangle,style=filled ]
 
 
 
@@ -188,7 +161,7 @@ node280 [fillcolor=lemonchiffon,label="[8/9]  br i1 %isnull12, label %delete.end
 subgraph cluster44 {
 
 
-node320 [fillcolor=grey,label="[96/103]  %next6 = getelementptr inbounds %struct.list_node, %struct.list_node* %14, i32 0, i32 1",shape=rectangle,style=filled ]
+node311 [fillcolor=lightcoral,label="[105/106]  store %struct.list_node* %16, %struct.list_node** %prev_it, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -197,7 +170,7 @@ node320 [fillcolor=grey,label="[96/103]  %next6 = getelementptr inbounds %struct
 subgraph cluster27 {
 
 
-node301 [fillcolor=grey,label="[118/121]  %cmp2 = icmp ne %struct.list_node* %8, null",shape=rectangle,style=filled ]
+node294 [fillcolor=grey,label="[108/109]  %exn.slot = alloca i8*",shape=rectangle,style=filled ]
 
 
 
@@ -206,7 +179,7 @@ node301 [fillcolor=grey,label="[118/121]  %cmp2 = icmp ne %struct.list_node* %8,
 subgraph cluster14 {
 
 
-node288 [fillcolor=grey,label="[90/123]  %list_it = alloca %struct.list_node*, align 8",shape=rectangle,style=filled ]
+node281 [fillcolor=lightcoral,label="[77/78]  %3 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
 
 
 
@@ -215,12 +188,8 @@ node288 [fillcolor=grey,label="[90/123]  %list_it = alloca %struct.list_node*, a
 subgraph cluster32 {
 
 
-node308 [fillcolor=grey,label="[128/129]  %inc = add i32 %7, 1",shape=rectangle,style=filled ]
-node306 [fillcolor=lightcoral,label="[127/130]  %7 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
-node307 [fillcolor=lightcoral,label="[131/132]  store i32 %inc, i32* %i, align 4",shape=ellipse,style=filled ]
+node299 [fillcolor=lemonchiffon,label="[158/159]  br label %while.cond5",shape=ellipse,style=filled ]
 
-node306->node308 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
-node308->node307 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
 
 
 }
@@ -228,7 +197,7 @@ node308->node307 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen
 subgraph cluster20 {
 
 
-node294 [fillcolor=grey,label="[146/147]  %exn.slot = alloca i8*",shape=rectangle,style=filled ]
+node287 [fillcolor=grey,label="[138/141]  %cmp2 = icmp ne %struct.list_node* %8, null",shape=rectangle,style=filled ]
 
 
 
@@ -237,7 +206,7 @@ node294 [fillcolor=grey,label="[146/147]  %exn.slot = alloca i8*",shape=rectangl
 subgraph cluster3 {
 
 
-node277 [fillcolor=lightcoral,label="[0/3]  %24 = load i32, i32* %sum, align 4",shape=ellipse,style=filled ]
+node268 [fillcolor=lightcoral,label="[0/3]  %24 = load i32, i32* %sum, align 4",shape=ellipse,style=filled ]
 
 
 
@@ -246,7 +215,7 @@ node277 [fillcolor=lightcoral,label="[0/3]  %24 = load i32, i32* %sum, align 4",
 subgraph cluster58 {
 
 
-node334 [fillcolor=lightcoral,label="[109/110]  %5 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node325 [fillcolor=lightcoral,label="[111/112]  store i32 0, i32* %retval, align 4",shape=ellipse,style=filled ]
 
 
 
@@ -255,7 +224,7 @@ node334 [fillcolor=lightcoral,label="[109/110]  %5 = load %struct.list_node*, %s
 subgraph cluster5 {
 
 
-node279 [fillcolor=lightcoral,label="[6/7]  call void @_ZdlPv(i8* %23) #9",shape=ellipse,style=filled ]
+node270 [fillcolor=lightcoral,label="[6/7]  call void @_ZdlPv(i8* %23) #9",shape=ellipse,style=filled ]
 
 
 
@@ -264,7 +233,7 @@ node279 [fillcolor=lightcoral,label="[6/7]  call void @_ZdlPv(i8* %23) #9",shape
 subgraph cluster16 {
 
 
-node290 [fillcolor=lightcoral,label="[113/116]  %4 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node283 [fillcolor=lightcoral,label="[127/128]  %22 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -273,7 +242,7 @@ node290 [fillcolor=lightcoral,label="[113/116]  %4 = load %struct.list_node*, %s
 subgraph cluster62 {
 
 
-node338 [fillcolor=lightcoral,label="[74/75]  call void @_ZdlPv(i8* %21) #9",shape=ellipse,style=filled ]
+node329 [fillcolor=grey,label="[62/63]  %value = getelementptr inbounds %struct.list_node, %struct.list_node* %4, i32 0, i32 0",shape=rectangle,style=filled ]
 
 
 
@@ -282,7 +251,7 @@ node338 [fillcolor=lightcoral,label="[74/75]  call void @_ZdlPv(i8* %21) #9",sha
 subgraph cluster82 {
 
 
-node358 [fillcolor=lightcoral,label="[38/39]  store %struct.list_node* %6, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node349 [fillcolor=grey,label="[22/25]  %next = getelementptr inbounds %struct.list_node, %struct.list_node* %2, i32 0, i32 1",shape=rectangle,style=filled ]
 
 
 
@@ -291,7 +260,7 @@ node358 [fillcolor=lightcoral,label="[38/39]  store %struct.list_node* %6, %stru
 subgraph cluster23 {
 
 
-node297 [fillcolor=lemonchiffon,label="[174/175]  br label %while.cond5",shape=ellipse,style=filled ]
+node290 [fillcolor=lemonchiffon,label="[162/163]  br label %while.cond",shape=ellipse,style=filled ]
 
 
 
@@ -300,7 +269,7 @@ node297 [fillcolor=lemonchiffon,label="[174/175]  br label %while.cond5",shape=e
 subgraph cluster13 {
 
 
-node287 [fillcolor=lightcoral,label="[70/71]  %call = call i8* @_Znwm(i64 16) #8",shape=ellipse,style=filled ]
+node280 [fillcolor=grey,label="[86/93]  %next6 = getelementptr inbounds %struct.list_node, %struct.list_node* %14, i32 0, i32 1",shape=rectangle,style=filled ]
 
 
 
@@ -309,8 +278,12 @@ node287 [fillcolor=lightcoral,label="[70/71]  %call = call i8* @_Znwm(i64 16) #8
 subgraph cluster10 {
 
 
-node284 [fillcolor=lightcoral,label="[105/108]  %16 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node277 [fillcolor=grey,label="[72/73]  %inc = add i32 %7, 1",shape=rectangle,style=filled ]
+node275 [fillcolor=lightcoral,label="[71/74]  %7 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node276 [fillcolor=lightcoral,label="[75/76]  store i32 %inc, i32* %i, align 4",shape=ellipse,style=filled ]
 
+node275->node277 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node277->node276 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
 
 
 }
@@ -318,7 +291,7 @@ node284 [fillcolor=lightcoral,label="[105/108]  %16 = load %struct.list_node*, %
 subgraph cluster83 {
 
 
-node359 [fillcolor=lightcoral,label="[18/25]  %12 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node350 [fillcolor=lightcoral,label="[99/104]  %20 = load %struct.list_node*, %struct.list_node** %prev_it, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -327,7 +300,7 @@ node359 [fillcolor=lightcoral,label="[18/25]  %12 = load %struct.list_node*, %st
 subgraph cluster8 {
 
 
-node282 [fillcolor=lightcoral,label="[12/15]  %22 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node273 [fillcolor=lightcoral,label="[16/19]  %13 = load %struct.list_node*, %struct.list_node** %next4, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -336,7 +309,7 @@ node282 [fillcolor=lightcoral,label="[12/15]  %22 = load %struct.list_node*, %st
 subgraph cluster52 {
 
 
-node328 [fillcolor=lemonchiffon,label="[99/100]  br i1 %cmp7, label %while.body8, label %while.end11",shape=ellipse,style=filled ]
+node319 [fillcolor=lightcoral,label="[147/148]  %11 = load i32, i32* %sum, align 4",shape=ellipse,style=filled ]
 
 
 
@@ -345,7 +318,7 @@ node328 [fillcolor=lemonchiffon,label="[99/100]  br i1 %cmp7, label %while.body8
 subgraph cluster56 {
 
 
-node332 [fillcolor=grey,label="[92/93]  %next9 = getelementptr inbounds %struct.list_node, %struct.list_node* %17, i32 0, i32 1",shape=rectangle,style=filled ]
+node323 [fillcolor=lightcoral,label="[81/82]  store i32 1, i32* %i, align 4",shape=ellipse,style=filled ]
 
 
 
@@ -354,7 +327,7 @@ node332 [fillcolor=grey,label="[92/93]  %next9 = getelementptr inbounds %struct.
 subgraph cluster9 {
 
 
-node283 [fillcolor=lemonchiffon,label="[16/17]  br label %if.end",shape=ellipse,style=filled ]
+node274 [fillcolor=grey,label="[94/107]  %prev_it = alloca %struct.list_node*, align 8",shape=rectangle,style=filled ]
 
 
 
@@ -363,7 +336,7 @@ node283 [fillcolor=lemonchiffon,label="[16/17]  br label %if.end",shape=ellipse,
 subgraph cluster19 {
 
 
-node293 [fillcolor=lemonchiffon,label="[124/125]  ret void",shape=ellipse,style=filled ]
+node286 [fillcolor=lightcoral,label="[1/2]  %call15 = call dereferenceable(272) %"class.std::basic_ostream"* @_ZNSolsEi(%"class.std::basic_ostream"* @_ZSt4cout, i32 %24)",shape=ellipse,style=filled ]
 
 
 
@@ -372,7 +345,7 @@ node293 [fillcolor=lemonchiffon,label="[124/125]  ret void",shape=ellipse,style=
 subgraph cluster43 {
 
 
-node319 [fillcolor=lightcoral,label="[133/134]  %3 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node310 [fillcolor=lightcoral,label="[153/154]  call void @_ZN9list_nodeC2Ev(%struct.list_node* %begin)",shape=ellipse,style=filled ]
 
 
 
@@ -381,7 +354,7 @@ node319 [fillcolor=lightcoral,label="[133/134]  %3 = load i32, i32* %i, align 4"
 subgraph cluster11 {
 
 
-node285 [fillcolor=lemonchiffon,label="[119/120]  br i1 %cmp2, label %while.body, label %while.end",shape=ellipse,style=filled ]
+node278 [fillcolor=grey,label="[116/117]  %next9 = getelementptr inbounds %struct.list_node, %struct.list_node* %17, i32 0, i32 1",shape=rectangle,style=filled ]
 
 
 
@@ -390,7 +363,7 @@ node285 [fillcolor=lemonchiffon,label="[119/120]  br i1 %cmp2, label %while.body
 subgraph cluster42 {
 
 
-node318 [fillcolor=lemonchiffon,label="[168/169]  br label %for.cond",shape=ellipse,style=filled ]
+node309 [fillcolor=lightcoral,label="[129/132]  %5 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -399,7 +372,7 @@ node318 [fillcolor=lemonchiffon,label="[168/169]  br label %for.cond",shape=elli
 subgraph cluster54 {
 
 
-node330 [fillcolor=lightcoral,label="[91/94]  %17 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node321 [fillcolor=lightcoral,label="[84/85]  store %struct.list_node* %begin, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -408,7 +381,7 @@ node330 [fillcolor=lightcoral,label="[91/94]  %17 = load %struct.list_node*, %st
 subgraph cluster35 {
 
 
-node311 [fillcolor=lightcoral,label="[154/155]  %0 = tail call i32 @__cxa_atexit(void (i8*)* bitcast (void (%"class.std::ios_base::Init"*)* @_ZNSt8ios_base4InitD1Ev to void (i8*)*), i8* getelementptr inbounds (%"class.std::ios_base::Init", %"class.std::ios_base::Init"* @_ZStL8__ioinit, i64 0, i32 0), i8* nonnull @__dso_handle) #3",shape=ellipse,style=filled ]
+node302 [fillcolor=lightcoral,label="[115/118]  %17 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -417,7 +390,7 @@ node311 [fillcolor=lightcoral,label="[154/155]  %0 = tail call i32 @__cxa_atexit
 subgraph cluster40 {
 
 
-node316 [fillcolor=lightcoral,label="[106/107]  store %struct.list_node* %16, %struct.list_node** %prev_it, align 8",shape=ellipse,style=filled ]
+node307 [fillcolor=grey,label="[114/143]  %list_it = alloca %struct.list_node*, align 8",shape=rectangle,style=filled ]
 
 
 
@@ -426,7 +399,7 @@ node316 [fillcolor=lightcoral,label="[106/107]  store %struct.list_node* %16, %s
 subgraph cluster34 {
 
 
-node310 [fillcolor=grey,label="[13/14]  %23 = bitcast %struct.list_node* %22 to i8*",shape=rectangle,style=filled ]
+node301 [fillcolor=lemonchiffon,label="[53/54]  br i1 %cmp, label %for.body, label %for.end",shape=ellipse,style=filled ]
 
 
 
@@ -435,7 +408,7 @@ node310 [fillcolor=grey,label="[13/14]  %23 = bitcast %struct.list_node* %22 to 
 subgraph cluster78 {
 
 
-node354 [fillcolor=grey,label="[36/41]  %next1 = getelementptr inbounds %struct.list_node, %struct.list_node* %5, i32 0, i32 1",shape=rectangle,style=filled ]
+node345 [fillcolor=lemonchiffon,label="[30/31]  br label %for.inc",shape=ellipse,style=filled ]
 
 
 
@@ -444,7 +417,7 @@ node354 [fillcolor=grey,label="[36/41]  %next1 = getelementptr inbounds %struct.
 subgraph cluster15 {
 
 
-node289 [fillcolor=grey,label="[126/137]  %i = alloca i32, align 4",shape=rectangle,style=filled ]
+node282 [fillcolor=lightcoral,label="[133/134]  %2 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -453,7 +426,7 @@ node289 [fillcolor=grey,label="[126/137]  %i = alloca i32, align 4",shape=rectan
 subgraph cluster59 {
 
 
-node335 [fillcolor=lightcoral,label="[83/84]  store %struct.list_node* %begin, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node326 [fillcolor=lightcoral,label="[36/37]  store i32 %add, i32* %sum, align 4",shape=ellipse,style=filled ]
 
 
 
@@ -462,7 +435,7 @@ node335 [fillcolor=lightcoral,label="[83/84]  store %struct.list_node* %begin, %
 subgraph cluster48 {
 
 
-node324 [fillcolor=grey,label="[138/143]  %sum = alloca i32, align 4",shape=rectangle,style=filled ]
+node315 [fillcolor=lightcoral,label="[149/150]  store i32 0, i32* %sum, align 4",shape=ellipse,style=filled ]
 
 
 
@@ -471,7 +444,7 @@ node324 [fillcolor=grey,label="[138/143]  %sum = alloca i32, align 4",shape=rect
 subgraph cluster17 {
 
 
-node291 [fillcolor=lightcoral,label="[117/122]  %8 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node284 [fillcolor=lemonchiffon,label="[139/140]  br i1 %cmp2, label %while.body, label %while.end",shape=ellipse,style=filled ]
 
 
 
@@ -480,7 +453,7 @@ node291 [fillcolor=lightcoral,label="[117/122]  %8 = load %struct.list_node*, %s
 subgraph cluster57 {
 
 
-node333 [fillcolor=lightcoral,label="[85/86]  store %struct.list_node* %begin, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node324 [fillcolor=lightcoral,label="[79/80]  %0 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
 
 
 
@@ -489,7 +462,7 @@ node333 [fillcolor=lightcoral,label="[85/86]  store %struct.list_node* %begin, %
 subgraph cluster37 {
 
 
-node313 [fillcolor=grey,label="[144/145]  %retval = alloca i32, align 4",shape=rectangle,style=filled ]
+node304 [fillcolor=lightcoral,label="[135/136]  %4 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -498,7 +471,7 @@ node313 [fillcolor=grey,label="[144/145]  %retval = alloca i32, align 4",shape=r
 subgraph cluster39 {
 
 
-node315 [fillcolor=grey,label="[114/115]  %value = getelementptr inbounds %struct.list_node, %struct.list_node* %4, i32 0, i32 0",shape=rectangle,style=filled ]
+node306 [fillcolor=lightcoral,label="[119/120]  %14 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -507,7 +480,7 @@ node315 [fillcolor=grey,label="[114/115]  %value = getelementptr inbounds %struc
 subgraph cluster41 {
 
 
-node317 [fillcolor=lightcoral,label="[77/78]  store %struct.list_node* %begin, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node308 [fillcolor=lightcoral,label="[125/126]  store %struct.list_node* %begin, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -516,7 +489,7 @@ node317 [fillcolor=lightcoral,label="[77/78]  store %struct.list_node* %begin, %
 subgraph cluster36 {
 
 
-node312 [fillcolor=lightcoral,label="[141/142]  store i32 0, i32* %sum, align 4",shape=ellipse,style=filled ]
+node303 [fillcolor=grey,label="[96/97]  %cmp10 = icmp ne %struct.list_node* %19, %begin",shape=rectangle,style=filled ]
 
 
 
@@ -525,7 +498,7 @@ node312 [fillcolor=lightcoral,label="[141/142]  store i32 0, i32* %sum, align 4"
 subgraph cluster4 {
 
 
-node278 [fillcolor=lemonchiffon,label="[4/5]  br label %delete.end14",shape=ellipse,style=filled ]
+node269 [fillcolor=lemonchiffon,label="[4/5]  br label %delete.end14",shape=ellipse,style=filled ]
 
 
 
@@ -534,7 +507,7 @@ node278 [fillcolor=lemonchiffon,label="[4/5]  br label %delete.end14",shape=elli
 subgraph cluster45 {
 
 
-node321 [fillcolor=lightcoral,label="[20/23]  %13 = load %struct.list_node*, %struct.list_node** %next4, align 8",shape=ellipse,style=filled ]
+node312 [fillcolor=lightcoral,label="[121/122]  store %struct.list_node* %begin, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -543,7 +516,7 @@ node321 [fillcolor=lightcoral,label="[20/23]  %13 = load %struct.list_node*, %st
 subgraph cluster49 {
 
 
-node325 [fillcolor=lightcoral,label="[97/102]  %15 = load %struct.list_node*, %struct.list_node** %next6, align 8",shape=ellipse,style=filled ]
+node316 [fillcolor=lemonchiffon,label="[101/102]  br i1 %isnull, label %delete.end, label %delete.notnull",shape=ellipse,style=filled ]
 
 
 
@@ -552,7 +525,7 @@ node325 [fillcolor=lightcoral,label="[97/102]  %15 = load %struct.list_node*, %s
 subgraph cluster7 {
 
 
-node281 [fillcolor=grey,label="[10/11]  %isnull12 = icmp eq %struct.list_node* %22, null",shape=rectangle,style=filled ]
+node272 [fillcolor=lemonchiffon,label="[10/11]  br i1 %isnull12, label %delete.end14, label %delete.notnull13",shape=ellipse,style=filled ]
 
 
 
@@ -561,7 +534,7 @@ node281 [fillcolor=grey,label="[10/11]  %isnull12 = icmp eq %struct.list_node* %
 subgraph cluster50 {
 
 
-node326 [fillcolor=grey,label="[98/101]  %cmp7 = icmp ne %struct.list_node* %15, null",shape=rectangle,style=filled ]
+node317 [fillcolor=lightcoral,label="[87/92]  %15 = load %struct.list_node*, %struct.list_node** %next6, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -570,7 +543,7 @@ node326 [fillcolor=grey,label="[98/101]  %cmp7 = icmp ne %struct.list_node* %15,
 subgraph cluster51 {
 
 
-node327 [fillcolor=lightcoral,label="[139/140]  %11 = load i32, i32* %sum, align 4",shape=ellipse,style=filled ]
+node318 [fillcolor=grey,label="[88/91]  %cmp7 = icmp ne %struct.list_node* %15, null",shape=rectangle,style=filled ]
 
 
 
@@ -579,7 +552,7 @@ node327 [fillcolor=lightcoral,label="[139/140]  %11 = load i32, i32* %sum, align
 subgraph cluster53 {
 
 
-node329 [fillcolor=lemonchiffon,label="[63/64]  br i1 %cmp, label %for.body, label %for.end",shape=ellipse,style=filled ]
+node320 [fillcolor=lemonchiffon,label="[89/90]  br i1 %cmp7, label %while.body8, label %while.end11",shape=ellipse,style=filled ]
 
 
 
@@ -588,7 +561,7 @@ node329 [fillcolor=lemonchiffon,label="[63/64]  br i1 %cmp, label %for.body, lab
 subgraph cluster80 {
 
 
-node356 [fillcolor=lightcoral,label="[37/40]  %6 = load %struct.list_node*, %struct.list_node** %next1, align 8",shape=ellipse,style=filled ]
+node347 [fillcolor=lightcoral,label="[28/29]  store i32 %3, i32* %value, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -597,7 +570,7 @@ node356 [fillcolor=lightcoral,label="[37/40]  %6 = load %struct.list_node*, %str
 subgraph cluster55 {
 
 
-node331 [fillcolor=grey,label="[81/82]  %cmp10 = icmp ne %struct.list_node* %19, %begin",shape=rectangle,style=filled ]
+node322 [fillcolor=grey,label="[70/83]  %i = alloca i32, align 4",shape=rectangle,style=filled ]
 
 
 
@@ -606,7 +579,7 @@ node331 [fillcolor=grey,label="[81/82]  %cmp10 = icmp ne %struct.list_node* %19,
 subgraph cluster72 {
 
 
-node348 [fillcolor=lightcoral,label="[56/57]  call void @_ZN9list_nodeC2Ev(%struct.list_node* %1)",shape=ellipse,style=filled ]
+node339 [fillcolor=lemonchiffon,label="[48/49]  br i1 %cmp10, label %if.then, label %if.end",shape=ellipse,style=filled ]
 
 
 
@@ -615,7 +588,7 @@ node348 [fillcolor=lightcoral,label="[56/57]  call void @_ZN9list_nodeC2Ev(%stru
 subgraph cluster25 {
 
 
-node299 [fillcolor=lightcoral,label="[135/136]  store i32 1, i32* %i, align 4",shape=ellipse,style=filled ]
+node292 [fillcolor=lemonchiffon,label="[166/167]  br label %while.cond5",shape=ellipse,style=filled ]
 
 
 
@@ -624,7 +597,7 @@ node299 [fillcolor=lightcoral,label="[135/136]  store i32 1, i32* %i, align 4",s
 subgraph cluster74 {
 
 
-node350 [fillcolor=lemonchiffon,label="[44/45]  br label %for.inc",shape=ellipse,style=filled ]
+node341 [fillcolor=grey,label="[100/103]  %isnull = icmp eq %struct.list_node* %20, null",shape=rectangle,style=filled ]
 
 
 
@@ -633,7 +606,7 @@ node350 [fillcolor=lemonchiffon,label="[44/45]  br label %for.inc",shape=ellipse
 subgraph cluster47 {
 
 
-node323 [fillcolor=lemonchiffon,label="[163/164]  br i1 %isnull, label %delete.end, label %delete.notnull",shape=ellipse,style=filled ]
+node314 [fillcolor=grey,label="[110/113]  %retval = alloca i32, align 4",shape=rectangle,style=filled ]
 
 
 
@@ -642,7 +615,7 @@ node323 [fillcolor=lemonchiffon,label="[163/164]  br i1 %isnull, label %delete.e
 subgraph cluster60 {
 
 
-node336 [fillcolor=lightcoral,label="[79/80]  call void @_ZN9list_nodeC2Ev(%struct.list_node* %begin)",shape=ellipse,style=filled ]
+node327 [fillcolor=grey,label="[68/69]  %ehselector.slot = alloca i32",shape=rectangle,style=filled ]
 
 
 
@@ -651,7 +624,7 @@ node336 [fillcolor=lightcoral,label="[79/80]  call void @_ZN9list_nodeC2Ev(%stru
 subgraph cluster64 {
 
 
-node340 [fillcolor=grey,label="[66/67]  %1 = bitcast i8* %call to %struct.list_node*",shape=rectangle,style=filled ]
+node331 [fillcolor=lightcoral,label="[65/66]  call void @_ZdlPv(i8* %21) #9",shape=ellipse,style=filled ]
 
 
 
@@ -660,7 +633,7 @@ node340 [fillcolor=grey,label="[66/67]  %1 = bitcast i8* %call to %struct.list_n
 subgraph cluster61 {
 
 
-node337 [fillcolor=grey,label="[76/87]  %begin = alloca %struct.list_node, align 8",shape=rectangle,style=filled ]
+node328 [fillcolor=grey,label="[64/67]  %21 = bitcast %struct.list_node* %20 to i8*",shape=rectangle,style=filled ]
 
 
 
@@ -669,7 +642,7 @@ node337 [fillcolor=grey,label="[76/87]  %begin = alloca %struct.list_node, align
 subgraph cluster70 {
 
 
-node346 [fillcolor=lightcoral,label="[27/28]  store %struct.list_node* %1, %struct.list_node** %next, align 8",shape=ellipse,style=filled ]
+node337 [fillcolor=lemonchiffon,label="[50/51]  ret i32 0",shape=ellipse,style=filled ]
 
 
 
@@ -678,7 +651,7 @@ node346 [fillcolor=lightcoral,label="[27/28]  store %struct.list_node* %1, %stru
 subgraph cluster63 {
 
 
-node339 [fillcolor=lightcoral,label="[68/69]  %18 = load %struct.list_node*, %struct.list_node** %next9, align 8",shape=ellipse,style=filled ]
+node330 [fillcolor=grey,label="[152/155]  %begin = alloca %struct.list_node, align 8",shape=rectangle,style=filled ]
 
 
 
@@ -687,7 +660,7 @@ node339 [fillcolor=lightcoral,label="[68/69]  %18 = load %struct.list_node*, %st
 subgraph cluster65 {
 
 
-node341 [fillcolor=lightcoral,label="[72/73]  %0 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node332 [fillcolor=lightcoral,label="[58/59]  %18 = load %struct.list_node*, %struct.list_node** %next9, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -696,7 +669,7 @@ node341 [fillcolor=lightcoral,label="[72/73]  %0 = load i32, i32* %i, align 4",s
 subgraph cluster66 {
 
 
-node342 [fillcolor=lightcoral,label="[88/89]  store i32 0, i32* %retval, align 4",shape=ellipse,style=filled ]
+node333 [fillcolor=grey,label="[56/57]  %1 = bitcast i8* %call to %struct.list_node*",shape=rectangle,style=filled ]
 
 
 
@@ -705,7 +678,7 @@ node342 [fillcolor=lightcoral,label="[88/89]  store i32 0, i32* %retval, align 4
 subgraph cluster28 {
 
 
-node302 [fillcolor=grey,label="[19/24]  %next4 = getelementptr inbounds %struct.list_node, %struct.list_node* %12, i32 0, i32 1",shape=rectangle,style=filled ]
+node295 [fillcolor=lightcoral,label="[95/98]  %19 = load %struct.list_node*, %struct.list_node** %prev_it, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -714,7 +687,7 @@ node302 [fillcolor=grey,label="[19/24]  %next4 = getelementptr inbounds %struct.
 subgraph cluster67 {
 
 
-node343 [fillcolor=lightcoral,label="[50/51]  store i32 %add, i32* %sum, align 4",shape=ellipse,style=filled ]
+node334 [fillcolor=grey,label="[52/55]  %cmp = icmp ult i32 %0, 100",shape=rectangle,style=filled ]
 
 
 
@@ -723,7 +696,7 @@ node343 [fillcolor=lightcoral,label="[50/51]  store i32 %add, i32* %sum, align 4
 subgraph cluster68 {
 
 
-node344 [fillcolor=grey,label="[62/65]  %cmp = icmp ult i32 %0, 100",shape=rectangle,style=filled ]
+node335 [fillcolor=grey,label="[33/40]  %value3 = getelementptr inbounds %struct.list_node, %struct.list_node* %9, i32 0, i32 0",shape=rectangle,style=filled ]
 
 
 
@@ -732,7 +705,7 @@ node344 [fillcolor=grey,label="[62/65]  %cmp = icmp ult i32 %0, 100",shape=recta
 subgraph cluster69 {
 
 
-node345 [fillcolor=grey,label="[47/54]  %value3 = getelementptr inbounds %struct.list_node, %struct.list_node* %9, i32 0, i32 0",shape=rectangle,style=filled ]
+node336 [fillcolor=lightcoral,label="[23/24]  store %struct.list_node* %1, %struct.list_node** %next, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -741,7 +714,7 @@ node345 [fillcolor=grey,label="[47/54]  %value3 = getelementptr inbounds %struct
 subgraph cluster33 {
 
 
-node309 [fillcolor=grey,label="[160/167]  %prev_it = alloca %struct.list_node*, align 8",shape=rectangle,style=filled ]
+node300 [fillcolor=lemonchiffon,label="[156/157]  br label %for.cond",shape=ellipse,style=filled ]
 
 
 
@@ -750,7 +723,7 @@ node309 [fillcolor=grey,label="[160/167]  %prev_it = alloca %struct.list_node*, 
 subgraph cluster71 {
 
 
-node347 [fillcolor=lemonchiffon,label="[60/61]  ret i32 0",shape=ellipse,style=filled ]
+node338 [fillcolor=lightcoral,label="[42/43]  call void @_ZN9list_nodeC2Ev(%struct.list_node* %1)",shape=ellipse,style=filled ]
 
 
 
@@ -759,7 +732,7 @@ node347 [fillcolor=lemonchiffon,label="[60/61]  ret i32 0",shape=ellipse,style=f
 subgraph cluster75 {
 
 
-node351 [fillcolor=grey,label="[49/52]  %add = add nsw i32 %11, %10",shape=rectangle,style=filled ]
+node342 [fillcolor=lightcoral,label="[45/46]  store %struct.list_node* %6, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -768,7 +741,7 @@ node351 [fillcolor=grey,label="[49/52]  %add = add nsw i32 %11, %10",shape=recta
 subgraph cluster76 {
 
 
-node352 [fillcolor=lightcoral,label="[42/43]  tail call void @_ZNSt8ios_base4InitC1Ev(%"class.std::ios_base::Init"* nonnull @_ZStL8__ioinit)",shape=ellipse,style=filled ]
+node343 [fillcolor=lightcoral,label="[14/21]  %12 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -777,7 +750,7 @@ node352 [fillcolor=lightcoral,label="[42/43]  tail call void @_ZNSt8ios_base4Ini
 subgraph cluster77 {
 
 
-node353 [fillcolor=lemonchiffon,label="[34/35]  br label %while.cond5",shape=ellipse,style=filled ]
+node344 [fillcolor=lightcoral,label="[32/41]  %9 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -786,7 +759,7 @@ node353 [fillcolor=lemonchiffon,label="[34/35]  br label %while.cond5",shape=ell
 subgraph cluster79 {
 
 
-node355 [fillcolor=lemonchiffon,label="[58/59]  br i1 %cmp10, label %if.then, label %if.end",shape=ellipse,style=filled ]
+node346 [fillcolor=grey,label="[35/38]  %add = add nsw i32 %11, %10",shape=rectangle,style=filled ]
 
 
 

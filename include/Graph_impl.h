@@ -9,7 +9,7 @@
 namespace ppar {
 
 template <typename NODE, typename EDGE>
-Graph<NODE*,EDGE*>::Graph(llvm::Pass* GPass) {
+Graph<NODE*,EDGE*>::Graph(llvm::Pass* GPass, const llvm::Function& F) : Func(F) {
 
     GraphPass = GPass;
 
@@ -136,6 +136,13 @@ typename Graph<NODE*,EDGE*>::dfs_iterator Graph<NODE*,EDGE*>::dfs_end(DFS_callba
 template <typename NODE, typename EDGE>
 void Graph<NODE*,EDGE*>::addNode(const NODE* Node) {
     Nodes.insert(GraphNode<NODE*,EDGE*>(Node));
+    DEBUG(
+        std::string str;
+        llvm::raw_string_ostream rso(str);
+        Node->print(rso);
+
+        llvm::dbgs() << "Graph(" << this << "): adding new node(" << str << ")\n";
+    );
 }
         
 template <typename NODE, typename EDGE>
@@ -145,6 +152,19 @@ void Graph<NODE*,EDGE*>::addEdge(const NODE* From, const NODE* To, EDGE* Data) {
 
     if ( (FromNode != InvalidNode) &&
          (ToNode != InvalidNode) ) {
+
+        DEBUG(
+            std::string from_str;
+            llvm::raw_string_ostream from_rso(from_str);
+            From->print(from_rso);
+
+            std::string to_str;
+            llvm::raw_string_ostream to_rso(to_str);
+            To->print(to_rso);
+
+            llvm::dbgs() << "Graph(" << this << "): adding new edge: from(" << from_str << "), to(" << to_str << ")\n";
+        );
+
         Edges[std::make_pair(From,To)].insert(GraphEdge<NODE*,EDGE*>(From, To, Data));
         addPredecessor(ToNode, FromNode);
         addSuccessor(FromNode, ToNode);
@@ -185,7 +205,7 @@ void Graph<NODE*,EDGE*>::dfsTraverse(DFS_callback<NODE*,EDGE*>* VisitorFunc) con
     uint64_t CurrentTime = 0;
   
     DEBUG(
-        llvm::dbgs() << "[[" << CurrentTime << "] new DFS traversal]\n";
+        llvm::dbgs() << "[[" << CurrentTime << "] new DFS traversal on the Graph(" << this << ") for " << Func.getName() << "]\n";
     );
 
     DFS_properties.clear();
@@ -363,7 +383,7 @@ void Graph<NODE*,EDGE*>::findSCCs() const {
     SCCs_data_valid = false;
 
     DEBUG(
-        llvm::dbgs() << "[ finding SCCs algorithm ]\n";
+        llvm::dbgs() << "[ finding SCCs algorithm on the Graph(" << this << ") for Func(" << Func.getName() << "]\n";
     );
 
     // compute finishing times of nodes in DFS traversal
@@ -390,7 +410,7 @@ void Graph<NODE*,EDGE*>::findSCCs() const {
     // of the graph among its strongly connected components
     while (!SearchSet.empty()) { // we still have undiscovered (white) nodes
         GraphNode<NODE*,EDGE*> SCC_root = *(SearchSet.begin()); // take the next node (in finishing time descending order)
-        Graph<NODE*,EDGE*>* CurrentSCC = new Graph<NODE*,EDGE*>(GraphPass);
+        Graph<NODE*,EDGE*>* CurrentSCC = new Graph<NODE*,EDGE*>(GraphPass,Func);
         CurrentSCC->setRoot(SCC_root.getNode());
         SCCs[SCC_root] = CurrentSCC;
         
@@ -493,7 +513,7 @@ void Graph<NODE*,EDGE*>::buildComponentGraph() const {
     }
  
     if (ComponentGraph == nullptr) {
-        ComponentGraph = new Graph<NODE*,EDGE*>(GraphPass);
+        ComponentGraph = new Graph<NODE*,EDGE*>(GraphPass, Func);
     } else {
         llvm_unreachable("Component Graph memory allocation: CG pointer must be nullptr!");
     }

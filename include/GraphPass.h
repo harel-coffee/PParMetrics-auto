@@ -25,9 +25,12 @@ struct GraphPass<NODE*,EDGE*,PASS> : public llvm::FunctionPass {
         llvm::StringRef getPassName() const;
         void releaseMemory() override;
         Graph<NODE*,EDGE*>& getGraph();
+        void createGraph(llvm::Function& F) { 
+            G = std::make_unique<Graph<NODE*,EDGE*>>(this,F); 
+        }
 
     private:
-        Graph<NODE*,EDGE*> G;
+        std::unique_ptr<Graph<NODE*,EDGE*>> G;
 };
 
 } // namespace ppar

@@ -13,13 +13,13 @@ namespace ppar {
 
 template <typename NODE, typename EDGE, typename PASS>
 GraphPass<NODE*,EDGE*,PASS>::GraphPass() 
- : FunctionPass(ID), G(this) {}
+ : FunctionPass(ID) {}
 
 template <typename NODE, typename EDGE, typename PASS>
 void GraphPass<NODE*,EDGE*,PASS>::releaseMemory() {}
 
 template <typename NODE, typename EDGE, typename PASS>
-Graph<NODE*,EDGE*>& GraphPass<NODE*,EDGE*,PASS>::getGraph() { return G; }
+Graph<NODE*,EDGE*>& GraphPass<NODE*,EDGE*,PASS>::getGraph() { return *G; }
 
 template <typename NODE, typename EDGE, typename PASS>
 void GraphPass<NODE*,EDGE*,PASS>::getAnalysisUsage(llvm::AnalysisUsage& AU) const {

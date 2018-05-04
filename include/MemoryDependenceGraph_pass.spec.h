@@ -19,6 +19,11 @@ llvm::StringRef GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDepen
 
 template <>
 bool GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphPass>::runOnFunction(Function& F) {
+
+    if (F.isDeclaration()) return false;
+
+    createGraph(F);
+
     llvm::DependenceInfo& DI = Pass::getAnalysis<llvm::DependenceAnalysisWrapperPass>().getDI();
     std::vector<Instruction*> MemRefs;
 

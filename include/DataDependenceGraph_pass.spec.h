@@ -18,6 +18,11 @@ llvm::StringRef GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::DataDepende
 
 template <>
 bool GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::DataDependenceGraphPass>::runOnFunction(Function& F) {
+
+    if (F.isDeclaration()) return false;
+    
+    createGraph(F);
+
     // add nodes
     for (inst_iterator I = inst_begin(F), E = inst_end(F); I != E; I++) {
         Instruction* Inst = &*I;

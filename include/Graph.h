@@ -351,7 +351,7 @@ class Graph<NODE*,EDGE*> {
         using edge_t = EDGE;
         using edge_ptr_t = EDGE*;
 
-        Graph(llvm::Pass* GraphPass);
+        Graph(llvm::Pass* GraphPass, const llvm::Function& F);
         ~Graph();
 
         // data structures for storing and working with graph nodes and edges
@@ -395,7 +395,6 @@ class Graph<NODE*,EDGE*> {
                          std::hash<const void*>()(static_cast<const void*>(Pair.second)) );
             }
         };
-
 
         bool operator==(const Graph& G) {
             if (this->Root == G.Root) {
@@ -528,6 +527,10 @@ class Graph<NODE*,EDGE*> {
             return Edges;    
         }
 
+        const auto& getPredecessors() const {
+            return Preds;    
+        }
+
         void clear();
  
         // Queries related to general graph properties (nodes and edges number, etc.)
@@ -562,14 +565,25 @@ class Graph<NODE*,EDGE*> {
         void addSuccessor(const GraphNode<NODE*,EDGE*>& Node, const GraphNode<NODE*,EDGE*>& Succ);
 
     private:
+        
+        // Function, graph is built on
+        const llvm::Function& Func;
         // Pass, building the graph
         llvm::Pass* GraphPass;
-        // Graph representation
+
+        /* 
+         * Graph representation 
+         */
+
         GraphNode<NODE*,EDGE*> Root;
         node_set Nodes;
         std::unordered_map<std::pair<const NODE*,const NODE*>, edge_set, Hash_NodePair> Edges;
         std::unordered_map<GraphNode<NODE*,EDGE*>, unordered_node_set, typename GraphNode<NODE*,EDGE*>::hash> Succs;
         std::unordered_map<GraphNode<NODE*,EDGE*>, unordered_node_set, typename GraphNode<NODE*,EDGE*>::hash> Preds;
+
+        /* 
+         * Graph's computable data 
+         */
 
         // Depth First Search (DFS) maintenance
         mutable bool DFS_data_valid;

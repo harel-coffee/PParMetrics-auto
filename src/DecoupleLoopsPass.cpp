@@ -33,7 +33,15 @@ DecoupleLoopsPass::DecoupleLoopsPass()
     ScalarCode.clear(); 
 }
 
-void DecoupleLoopsPass::releaseMemory() {}
+void DecoupleLoopsPass::releaseMemory() {
+
+    DEBUG(
+        llvm::dbgs() << "[debug] DecoupleLoopsPass::releaseMemory()\n";
+    );
+
+    LoopsDepInfo.clear();
+    ScalarCode.clear();
+}
 
 void DecoupleLoopsPass::getAnalysisUsage(llvm::AnalysisUsage& AU) const {
     AU.setPreservesAll();
@@ -46,9 +54,12 @@ llvm::StringRef DecoupleLoopsPass::getPassName() const {
 }
 
 bool DecoupleLoopsPass::runOnFunction(llvm::Function& F) {
+    
+    if (F.isDeclaration()) return false;
+
     // get computed information about function loops and dependencies
-    const DependenceGraph& PDG = (Pass::getAnalysis<PDGPass>()).getGraph();
-    const LoopInfo& LI = (Pass::getAnalysis<LoopInfoWrapperPass>()).getLoopInfo();
+    const DependenceGraph& PDG = (getAnalysis<PDGPass>()).getGraph();
+    const LoopInfo& LI = (getAnalysis<LoopInfoWrapperPass>()).getLoopInfo();
     
     DEBUG(
         llvm::dbgs() << "[ Decouple Loops Function Pass ] " + F.getName() + "\n";
@@ -99,7 +110,20 @@ bool DecoupleLoopsPass::runOnFunction(llvm::Function& F) {
                     (SCC->getRoot()).getNode()->print(rso);
                     llvm::dbgs() <<  LoopAddrToName[InnermostL] << ": added SCC(" << SCC << ") root: " << str << "\n";
                 );
-                if (!CGraph->nodeHasIncomingEdges(SCC->getRoot())) {
+
+                bool outsideLoop = true;
+                const auto& Preds = CGraph->getPredecessors();
+                auto preds_it = Preds.find(SCC->getRoot());
+                if (preds_it != Preds.end()) {
+                    for (DependenceGraph::const_node_iterator pred_it = preds_it->second.cbegin(); pred_it != preds_it->second.cend(); pred_it++) {
+                        Loop* Parent = LI.getLoopFor((pred_it->getNode())->getParent());
+                        if (Parent == InnermostL) {
+                            outsideLoop = false;
+                        }
+                    }
+                }
+
+                if (outsideLoop) {
                     DEBUG(
                         llvm::dbgs() << "SCC(" << SCC << ") is the iterator of the " << LoopAddrToName[InnermostL] + "\n";
                     );

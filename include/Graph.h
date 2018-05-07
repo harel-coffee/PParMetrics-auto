@@ -261,6 +261,15 @@ class GraphNode<NODE*,EDGE*> {
 };
 
 template <typename NODE, typename EDGE>
+bool operator==(const GraphNode<NODE*,EDGE*>& NodeA, const GraphNode<NODE*,EDGE*>& NodeB) {
+    if (NodeA.getNode() == NodeB.getNode()) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+template <typename NODE, typename EDGE>
 class GraphEdge;
 
 template <typename NODE, typename EDGE>

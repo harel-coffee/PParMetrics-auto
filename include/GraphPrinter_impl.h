@@ -29,23 +29,18 @@ llvm::StringRef GraphPrinter<NODE*,EDGE*,PASS>::getPassName() const {
     return "Graph Printer"; 
 }
 
+/*
+ * Map in-memory ppar::Graph<NODE*,EDGE*> to DOT-format in-memory graph ppar::DotGraph
+ */
 template <typename NODE, typename EDGE, typename PASS>
-void GraphPrinter<NODE*,EDGE*,PASS>::printDOTGraph(llvm::Function& F, PrintType Type) {
-    GraphPass<NODE*,EDGE*,PASS>& GPass = llvm::Pass::getAnalysis<GraphPass<NODE*,EDGE*,PASS>>();
-    const Graph<NODE*,EDGE*>& G = GPass.getGraph();
+void GraphPrinter<NODE*,EDGE*,PASS>::formDOTGraph(DotGraph& DotG, const Graph<NODE*,EDGE*>& G, PrintType Type, PrintAugmentType AugmentType) {
     map<const NODE*,std::string> InstrToNodeName;
     
-    string FileName;
-    if (Type == PrintType::PRINT_REGULAR) {
-        FileName = F.getName().str() + PASS::getDotFileExtension();
-    } else if (Type == PrintType::PRINT_DFS) {
-        FileName = F.getName().str() + PASS::getDFSDotFileExtension();
-    }
-    DotPrinter Printer(FileName);
-    
-    if (Type == PrintType::PRINT_DFS) { 
+    if (AugmentType == PrintAugmentType::PRINT_AUGMENT_DFS_TIMESTAMPS) { 
         // augment graph with DFS ordering
-        G.dfsTraverse();
+        if (!G.isDFSDataValid()) {
+            G.dfsTraverse();
+        }
     }
     auto& DFS_properties = G.getDFS_properties();
 
@@ -56,15 +51,22 @@ void GraphPrinter<NODE*,EDGE*,PASS>::printDOTGraph(llvm::Function& F, PrintType 
         InstrToNodeName[N] = Node->getName();
 
         buildDotNode(N,Node);
-        
-        if (Type == PrintType::PRINT_DFS) {
+       
+        if (Type == PrintType::PRINT_SCC_SUBGRAPH) {
+            if (DepNode == G.getRoot()) {
+                Node->setAttribute( /* name = */ string("fontsize"), /* value = */ string("20"));
+                Node->setAttribute( /* name = */ string("penwidth"), /* value = */ string("3.0"));
+            }
+        }
+
+        if (AugmentType == PrintAugmentType::PRINT_AUGMENT_DFS_TIMESTAMPS) { 
             // augment the node with DFS timestamp
             string DFS_timestamp = "[" + std::to_string(DFS_properties[DepNode]->TimestampEntry) + "/" 
                                        + std::to_string(DFS_properties[DepNode]->TimestampExit) + "]";
             Node->setAttribute(string("label"), DFS_timestamp + Node->getAttribute(string("label")));
         }
 
-        Printer.getGraph().addNode(Node->getName(), Node);
+        DotG.addNode(Node->getName(), Node);
     }
 
     // print all graph edges
@@ -81,122 +83,11 @@ void GraphPrinter<NODE*,EDGE*,PASS>::printDOTGraph(llvm::Function& F, PrintType 
 
             buildDotEdge(Dep,Edge);
 
-            Printer.getGraph().addEdge(Edge->getName(), Edge);
+            DotG.addEdge(Edge->getName(), Edge);
         }
     }
     
     InstrToNodeName.clear();
-
-    Printer.print();
-}
-
-template <typename NODE, typename EDGE, typename PASS>
-void GraphPrinter<NODE*,EDGE*,PASS>::printSCCsDOTGraph(llvm::Function& F) {
-    GraphPass<NODE*,EDGE*,PASS>& GPass = llvm::Pass::getAnalysis<GraphPass<NODE*,EDGE*,PASS>>();
-    const Graph<NODE*,EDGE*>& G = GPass.getGraph();
-    map<const NODE*,std::string> InstrToNodeName;
-    string FileName;
-    FileName = F.getName().str() + PASS::getSCCsDotFileExtension();
-    DotPrinter Printer(FileName);
-
-    auto& DFS_properties = G.getDFS_properties();
-
-    for (typename Graph<NODE*,EDGE*>::const_sccs_iterator sccs_it = G.sccs_cbegin(); sccs_it != G.sccs_cend(); sccs_it++) {
-        GraphNode<NODE*,EDGE*> SCCRoot = sccs_it->first;
-        Graph<NODE*,EDGE*>* SCC = sccs_it->second;
-        DotGraph* SCCSubGraph = new DotGraph(DotGraph::GraphType::SUBGRAPH, &Printer.getGraph());
-        
-        // print all nodes of the current SCC
-        for (typename Graph<NODE*,EDGE*>::const_node_iterator node_it = SCC->nodes_cbegin(); node_it != SCC->nodes_cend(); node_it++) {
-            GraphNode<NODE*,EDGE*> DepNode = *node_it;
-            const NODE* N = DepNode.getNode();
-            DotNode* Node = new DotNode();
-            InstrToNodeName[N] = Node->getName();
-
-            buildDotNode(N,Node);
-        
-            // augment the node with DFS timestamp
-            string DFS_timestamp = "[" + std::to_string(DFS_properties[DepNode]->TimestampEntry) + "/" 
-                                       + std::to_string(DFS_properties[DepNode]->TimestampExit) + "]";
-            Node->setAttribute(string("label"), DFS_timestamp + Node->getAttribute(string("label")));
-        
-            SCCSubGraph->addNode(Node->getName(), Node);
-        }
-
-        // print all graph edges
-        for (auto edge_it = SCC->edges_cbegin(); edge_it != SCC->edges_cend(); edge_it++) {
-            const std::pair<const NODE*,const NODE*>& NodePair = edge_it->first;
-            const typename Graph<NODE*,EDGE*>::edge_set& EdgeSet = edge_it->second; 
-        
-            for (const auto DepEdge : EdgeSet) {
-                const NODE* From = DepEdge.getFrom();
-                const NODE* To = DepEdge.getTo();
-                EDGE* Dep = DepEdge.getData();
-                std::string EdgeName = InstrToNodeName[From] + "->" + InstrToNodeName[To];
-                DotEdge* Edge = new DotEdge(EdgeName);
-
-                buildDotEdge(Dep,Edge);
-
-                SCCSubGraph->addEdge(Edge->getName(), Edge);
-            }
-        }
-       
-        Printer.getGraph().addSubGraph(SCCSubGraph->getName(), SCCSubGraph);
-    }
-    
-    InstrToNodeName.clear();
-
-    Printer.print();
-}
-
-template <typename NODE, typename EDGE, typename PASS>
-void GraphPrinter<NODE*,EDGE*,PASS>::printComponentGraph(Function& F) {
-    GraphPass<NODE*,EDGE*,PASS>& GPass = llvm::Pass::getAnalysis<GraphPass<NODE*,EDGE*,PASS>>();
-    const Graph<NODE*,EDGE*>& G = GPass.getGraph();
-    map<const NODE*,std::string> InstrToNodeName;
-    string FileName;
-    FileName = F.getName().str() + PASS::getCGDotFileExtension();
-    DotPrinter Printer(FileName);
-    const Graph<NODE*,EDGE*>* CG = G.getComponentGraph();
-    auto& DFS_properties = G.getDFS_properties();
-
-    for (typename Graph<NODE*,EDGE*>::const_node_iterator node_it = CG->nodes_cbegin(); node_it != CG->nodes_cend(); node_it++) {
-        GraphNode<NODE*,EDGE*> DepNode = *node_it;
-        const NODE* N = DepNode.getNode();
-        DotNode* Node = new DotNode();
-        InstrToNodeName[N] = Node->getName();
-
-        buildDotNode(N,Node);
-        
-        // augment the node with DFS timestamp
-        string DFS_timestamp = "[" + std::to_string(DFS_properties[DepNode]->TimestampEntry) + "/" 
-                                   + std::to_string(DFS_properties[DepNode]->TimestampExit) + "]";
-        Node->setAttribute(string("label"), DFS_timestamp + Node->getAttribute(string("label")));
-
-        Printer.getGraph().addNode(Node->getName(), Node);
-    }
-
-    // print all graph edges
-    for (auto edge_it = CG->edges_cbegin(); edge_it != CG->edges_cend(); edge_it++) {
-        const std::pair<const NODE*,const NODE*>& NodePair = edge_it->first;
-        const typename Graph<NODE*,EDGE*>::edge_set& EdgeSet = edge_it->second; 
-        
-        for (const auto DepEdge : EdgeSet) {
-            const NODE* From = DepEdge.getFrom();
-            const NODE* To = DepEdge.getTo();
-            const EDGE* Dep = DepEdge.getData();
-            string EdgeName = InstrToNodeName[From] + "->" + InstrToNodeName[To];
-            DotEdge* Edge = new DotEdge(EdgeName);
-
-            buildDotEdge(Dep,Edge);
-
-            Printer.getGraph().addEdge(Edge->getName(), Edge);
-        }
-    }
-    
-    InstrToNodeName.clear();
-
-    Printer.print();
 }
 
 template <typename NODE, typename EDGE, typename PASS>
@@ -204,17 +95,47 @@ bool GraphPrinter<NODE*,EDGE*,PASS>::runOnFunction(llvm::Function& F) {
 
     if (F.isDeclaration()) return false;
 
-    // print original graph + original augmented with DFS timestamps
-    printDOTGraph(F);
-    printDOTGraph(F, PrintType::PRINT_DFS);
-    // compute SCCs and CG related information on the graph
+    // get the main graph
     GraphPass<NODE*,EDGE*,PASS>& GPass = llvm::Pass::getAnalysis<GraphPass<NODE*,EDGE*,PASS>>();
     const Graph<NODE*,EDGE*>& G = GPass.getGraph();
-    G.findSCCs();
-    G.buildComponentGraph();
-    // print SCCs and CG of the original graph
-    printComponentGraph(F);
-    printSCCsDOTGraph(F);
+    string FileName;
+    
+    // print the main graph of the function
+    FileName = F.getName().str() + PASS::getDotFileExtension();
+    DotPrinter MainPrinter(FileName);
+    formDOTGraph(MainPrinter.getGraph(), G, PrintType::PRINT_MAIN_GRAPH); 
+    MainPrinter.print();
+
+    // augment the main graph of the function with 
+    // DFS timestamps and print it
+    FileName = F.getName().str() + PASS::getDFSDotFileExtension();
+    DotPrinter MainPrinter_dfs(FileName);
+    formDOTGraph(MainPrinter_dfs.getGraph(), G, PrintType::PRINT_MAIN_GRAPH, PrintAugmentType::PRINT_AUGMENT_DFS_TIMESTAMPS); 
+    MainPrinter_dfs.print();
+
+    if (!G.isSCCsDataValid() || !G.isComponentGraphDataValid()) {
+        G.findSCCs();
+        G.buildComponentGraph();
+    }
+
+    // print component graph of the function
+    FileName = F.getName().str() + PASS::getCGDotFileExtension();
+    DotPrinter ComponentGraphPrinter(FileName);
+    formDOTGraph(ComponentGraphPrinter.getGraph(), *G.getComponentGraph(), PrintType::PRINT_MAIN_GRAPH, PrintAugmentType::PRINT_AUGMENT_DFS_TIMESTAMPS); 
+    ComponentGraphPrinter.print();
+
+    // print all SCCs of the graph
+    FileName = F.getName().str() + PASS::getSCCsDotFileExtension();
+    DotPrinter SCCsPrinter(FileName);
+    for (typename Graph<NODE*,EDGE*>::const_sccs_iterator sccs_it = G.sccs_cbegin(); sccs_it != G.sccs_cend(); sccs_it++) {
+        GraphNode<NODE*,EDGE*> SCCRoot = sccs_it->first;
+        Graph<NODE*,EDGE*>* SCC = sccs_it->second;
+        DotGraph* SCCSubGraph = new DotGraph(DotGraph::GraphType::SUBGRAPH, &SCCsPrinter.getGraph());
+    
+        formDOTGraph(*SCCSubGraph, *SCC, PrintType::PRINT_SCC_SUBGRAPH, PrintAugmentType::PRINT_AUGMENT_DFS_TIMESTAMPS);
+        SCCsPrinter.getGraph().addSubGraph(SCCSubGraph->getName(), SCCSubGraph);
+    }
+    SCCsPrinter.print();
 
     return false;
 }

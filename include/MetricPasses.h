@@ -2,22 +2,23 @@
 #define PPAR_METRIC_PASSES_H
 
 #include "ppar_common_includes.h"
+
 #include <string>
 
 namespace ppar {
 
-struct IteratorPayloadRatioMetricPass {
+struct IteratorLoopPercentage {
     public:
-        IteratorPayloadRatioMetricPass() {}
+        IteratorLoopPercentage() {}
 
         static llvm::StringRef getPassName()
-        { return "Iterator/Payload Ratio Metric Pass"; } 
+        { return "Iterator Loop Percentage Metric Pass"; } 
         
         static llvm::StringRef getMetricPassOption()
-        { return "iterator-payload-metric"; }
+        { return "ppar-iterator-loop-percentage"; }
         
         static llvm::StringRef getMetricPassOptionDesc()
-        { return "Compute Iterator/Payload Ratio metric for all loops of the given function F"; }
+        { return "Compute the size of the loop iterator relative to the whole loop size for all loops of the given function F"; }
 };
 
 } // namespace ppar

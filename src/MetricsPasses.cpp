@@ -23,5 +23,5 @@ using namespace std;
 
 #include "MetricPass_impl.h"
 
-RegisterMetricPass(ppar::IteratorPayloadRatioMetricPass, IterWorkRatioMetricPass)
-#include "IteratorPayloadRatio_metric.spec.h"
+RegisterMetricPass(ppar::IteratorLoopPercentage, IterLoopPercentageMetricPass)
+#include "IteratorLoopPercentage_metric.spec.h"

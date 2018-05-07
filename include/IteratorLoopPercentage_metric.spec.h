@@ -1,19 +1,19 @@
-#ifndef PPAR_ITERATOR_PAYLOAD_RATIO_METRIC_H
-#define PPAR_ITERATOR_PAYLOAD_RATIO_METRIC_H
+#ifndef PPAR_ITERATOR_LOOP_PERCENTAGE_H
+#define PPAR_ITERATOR_LOOP_PERCENTAGE_H
 
 namespace ppar {
 
 template<>
-char MetricPass<ppar::IteratorPayloadRatioMetricPass>::ID = 0;
+char MetricPass<ppar::IteratorLoopPercentage>::ID = 0;
 
 template <>
-void MetricPass<ppar::IteratorPayloadRatioMetricPass>::getAnalysisUsage(llvm::AnalysisUsage& AU) const {
+void MetricPass<ppar::IteratorLoopPercentage>::getAnalysisUsage(llvm::AnalysisUsage& AU) const {
     AU.setPreservesAll();
     AU.addRequired<DecoupleLoopsPass>();
 }
 
 template <>
-bool MetricPass<ppar::IteratorPayloadRatioMetricPass>::runOnFunction(Function& F) {
+bool MetricPass<ppar::IteratorLoopPercentage>::runOnFunction(Function& F) {
     const std::unordered_map<const llvm::Loop*, std::unique_ptr<LoopDependenceInfo>>& LoopsDepInfo 
         = (Pass::getAnalysis<DecoupleLoopsPass>()).getLoopsDepInfo(); 
     
@@ -50,4 +50,4 @@ bool MetricPass<ppar::IteratorPayloadRatioMetricPass>::runOnFunction(Function& F
 
 } // namespace ppar
 
-#endif // #ifndef PPAR_ITERATOR_PAYLOAD_RATIO_METRIC_H
+#endif // #ifndef PPAR_ITERATOR_LOOP_PERCENTAGE_H

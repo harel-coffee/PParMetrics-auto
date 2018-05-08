@@ -16,10 +16,20 @@ char MetricPass<METRIC>::ID = 0;
 
 template <typename METRIC>
 MetricPass<METRIC>::MetricPass() 
- : FunctionPass(ID) {}
+ : FunctionPass(ID) {
+    for (auto it = ValuePerLoop.begin(); it != ValuePerLoop.end(); it++) {
+        (it->second).clear();
+    }
+    ValuePerLoop.clear();
+}
 
 template <typename METRIC>
-void MetricPass<METRIC>::releaseMemory() {}
+void MetricPass<METRIC>::releaseMemory() {
+    for (auto it = ValuePerLoop.begin(); it != ValuePerLoop.end(); it++) {
+        (it->second).clear();
+    }
+    ValuePerLoop.clear();
+}
 
 template <typename METRIC>
 void MetricPass<METRIC>::getAnalysisUsage(llvm::AnalysisUsage& AU) const {

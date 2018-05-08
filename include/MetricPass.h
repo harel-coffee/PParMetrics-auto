@@ -6,6 +6,9 @@
 #include "llvm/Pass.h"
 #include "llvm/PassAnalysisSupport.h"
 #include "llvm/IR/Function.h"
+#include "llvm/Analysis/LoopInfo.h"
+
+#include <unordered_map>
 
 namespace ppar {
 
@@ -20,8 +23,18 @@ struct MetricPass : public llvm::FunctionPass {
         llvm::StringRef getPassName() const;
         void releaseMemory() override;
 
+        const std::unordered_map<const llvm::Loop*,double>* getMetricValues(const llvm::Function& F) const { 
+            auto it = ValuePerLoop.find(&F);
+            if (it != ValuePerLoop.end()) {
+                return &(it->second);
+            } else {
+                return nullptr;
+            }
+        }
+
     private:
         METRIC MetricInfo;
+        std::unordered_map<const llvm::Function*,std::unordered_map<const llvm::Loop*,double>> ValuePerLoop;
 };
 
 } // namespace ppar

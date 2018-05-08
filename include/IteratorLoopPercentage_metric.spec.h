@@ -17,9 +17,6 @@ bool MetricPass<ppar::IteratorLoopPercentage>::runOnFunction(Function& F) {
     const std::unordered_map<const llvm::Loop*, std::unique_ptr<LoopDependenceInfo>>& LoopsDepInfo 
         = (Pass::getAnalysis<DecoupleLoopsPass>()).getLoopsDepInfo(); 
     
-    outs() << "Function: " << F.getName() << "\n";
-    outs() << "[PPar Metric] " << "Iterator/Payload ratio\n";
-
     for (auto iter = LoopsDepInfo.begin(); iter != LoopsDepInfo.end(); iter++) {
         const llvm::Loop* L = iter->first;
         const LoopDependenceInfo* LI = (iter->second).get();
@@ -37,13 +34,9 @@ bool MetricPass<ppar::IteratorLoopPercentage>::runOnFunction(Function& F) {
         }
 
         // output computed metric
-        double IteratorPayloadRatio = static_cast<double>(IteratorSize)/static_cast<double>(PayloadSize);
-        outs() << "Loop:\n";
-        L->print(outs());
-        outs() << "Iterator/Payload ratio: " << IteratorPayloadRatio
-            << "[" << IteratorSize << "/" << PayloadSize << "]" << "\n";
+        double IterLoopPercentage = static_cast<double>(IteratorSize)/(static_cast<double>(PayloadSize)+static_cast<double>(IteratorSize));
+        ValuePerLoop[&F].insert(std::pair<const llvm::Loop*,double>(L, IterLoopPercentage));
     }
-    outs() << "\n";
     
     return false;
 }

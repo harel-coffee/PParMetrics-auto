@@ -137,6 +137,19 @@ bool GraphPrinter<NODE*,EDGE*,PASS>::runOnFunction(llvm::Function& F) {
     }
     SCCsPrinter.print();
 
+    // print all SCCs of the graph
+    FileName = F.getName().str() + PASS::getSCCsCGDotFileExtension();
+    DotPrinter SCCsCGPrinter(FileName);
+    for (typename Graph<NODE*,EDGE*>::const_sccs_iterator sccs_it = G.sccs_cbegin(); sccs_it != G.sccs_cend(); sccs_it++) {
+        GraphNode<NODE*,EDGE*> SCCRoot = sccs_it->first;
+        Graph<NODE*,EDGE*>* SCC = sccs_it->second;
+        DotGraph* SCCSubGraph = new DotGraph(DotGraph::GraphType::SUBGRAPH, &SCCsPrinter.getGraph());
+    
+        formDOTGraph(*SCCSubGraph, *SCC, PrintType::PRINT_SCC_SUBGRAPH, PrintAugmentType::PRINT_AUGMENT_DFS_TIMESTAMPS);
+        SCCsPrinter.getGraph().addSubGraph(SCCSubGraph->getName(), SCCSubGraph);
+    }
+    SCCsCGPrinter.print();
+
     return false;
 }
 

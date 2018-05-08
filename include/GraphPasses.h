@@ -35,7 +35,10 @@ struct MemoryDependenceGraphPass {
         { return ".mdg.sccs.dot"; }
 
         static std::string getCGDotFileExtension()
-        { return ".mdg.cg.dot"; } 
+        { return ".mdg.cg.dot"; }
+
+        static std::string getSCCsCGDotFileExtension()
+        { return ".mdg.sccscg.dot"; } 
 };
 
 struct DataDependenceGraphPass {
@@ -67,7 +70,10 @@ struct DataDependenceGraphPass {
         { return ".ddg.sccs.dot"; }
 
         static std::string getCGDotFileExtension()
-        { return ".ddg.cg.dot"; } 
+        { return ".ddg.cg.dot"; }
+
+        static std::string getSCCsCGDotFileExtension()
+        { return ".ddg.sccscg.dot"; } 
 };
 
 struct ControlDependenceGraphPass {
@@ -99,7 +105,10 @@ struct ControlDependenceGraphPass {
         { return ".cdg.sccs.dot"; }
 
         static std::string getCGDotFileExtension()
-        { return ".cdg.cg.dot"; } 
+        { return ".cdg.cg.dot"; }
+
+        static std::string getSCCsCGDotFileExtension()
+        { return ".cdg.sccscg.dot"; } 
 };
 
 struct ProgramDependenceGraphPass {
@@ -131,7 +140,10 @@ struct ProgramDependenceGraphPass {
         { return ".pdg.sccs.dot"; }
 
         static std::string getCGDotFileExtension()
-        { return ".pdg.cg.dot"; } 
+        { return ".pdg.cg.dot"; }
+
+        static std::string getSCCsCGDotFileExtension()
+        { return ".pdg.sccscg.dot"; } 
 };
 
 } // namespace ppar

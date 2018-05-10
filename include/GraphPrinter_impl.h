@@ -140,7 +140,7 @@ bool GraphPrinter<NODE*,EDGE*,PASS>::runOnFunction(llvm::Function& F) {
     for (typename Graph<NODE*,EDGE*>::const_sccs_iterator sccs_it = G.sccs_cbegin(); sccs_it != G.sccs_cend(); sccs_it++) {
         GraphNode<NODE*,EDGE*> SCCRoot = sccs_it->first;
         Graph<NODE*,EDGE*>* SCC = sccs_it->second;
-        DotGraph* SCCSubGraph = new DotGraph(DotGraph::GraphType::SUBGRAPH, &SCCsPrinter.getGraph());
+        DotGraph* SCCSubGraph = (SCCsPrinter.getGraph()).createSubGraph();
         formDOTGraph(*SCCSubGraph, *SCC, PrintConfig);
         SCCsPrinter.getGraph().addSubGraph(SCCSubGraph->getName(), SCCSubGraph);
     }
@@ -156,7 +156,7 @@ bool GraphPrinter<NODE*,EDGE*,PASS>::runOnFunction(llvm::Function& F) {
     for (typename Graph<NODE*,EDGE*>::const_sccs_iterator sccs_it = G.sccs_cbegin(); sccs_it != G.sccs_cend(); sccs_it++) {
         GraphNode<NODE*,EDGE*> SCCRoot = sccs_it->first;
         Graph<NODE*,EDGE*>* SCC = sccs_it->second;
-        DotGraph* SCCSubGraph = (SCCsPrinter.getGraph()).createSubGraph();
+        DotGraph* SCCSubGraph = (SCCsCGPrinter.getGraph()).createSubGraph();
         formDOTGraph(*SCCSubGraph, *SCC, PrintConfig);
         SCCsCGPrinter.getGraph().addSubGraph(SCCSubGraph->getName(), SCCSubGraph);
     }

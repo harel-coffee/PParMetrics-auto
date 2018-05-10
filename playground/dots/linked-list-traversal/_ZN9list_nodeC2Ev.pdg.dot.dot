@@ -11,14 +11,14 @@ node400 [fillcolor=grey,label="  %this.addr = alloca %struct.list_node*, align 8
 node401 [fillcolor=lemonchiffon,label="  ret void",shape=ellipse,style=filled ]
 node402 [fillcolor=lightcoral,label="  %this1 = load %struct.list_node*, %struct.list_node** %this.addr, align 8",shape=ellipse,style=filled ]
 
-node400->node399 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
-node397->node398 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
-node402->node403 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
-node399->node402 [style=solid,color=forestgreen,label="T",penwidth=2.0,fontcolor=forestgreen ]
-node402->node399 [style=solid,color=firebrick3,label="A",penwidth=2.0,fontcolor=firebrick3 ]
-node402->node397 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
-node400->node402 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
-node403->node404 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
+node402->node403 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node400->node399 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node397->node398 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node399->node402 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node402->node399 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node402->node397 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node403->node404 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node400->node402 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
 
 
 }

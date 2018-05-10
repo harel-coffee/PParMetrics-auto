@@ -11,14 +11,14 @@ node405 [fillcolor=grey,label="[0/3]  %next = getelementptr inbounds %struct.lis
 node407 [fillcolor=lightcoral,label="[4/11]  store %struct.list_node* %this, %struct.list_node** %this.addr, align 8",shape=ellipse,style=filled ]
 node409 [fillcolor=lemonchiffon,label="[14/15]  ret void",shape=ellipse,style=filled ]
 
-node408->node407 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
-node407->node410 [style=solid,color=forestgreen,label="T",penwidth=2.0,fontcolor=forestgreen ]
-node405->node406 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
-node411->node412 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
-node410->node411 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
-node410->node407 [style=solid,color=firebrick3,label="A",penwidth=2.0,fontcolor=firebrick3 ]
-node410->node405 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
-node408->node410 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
+node408->node407 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node410->node411 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node407->node410 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node411->node412 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node405->node406 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node410->node407 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node410->node405 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node408->node410 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
 
 
 }

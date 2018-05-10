@@ -5,10 +5,612 @@ digraph G {
 
 
 
-subgraph cluster0 {
+subgraph cluster37 {
 
 
 node310 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[0/1]  br label %delete.end",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster36 {
+
+
+node309 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[0/1]  br label %while.cond5",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster15 {
+
+
+node247 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[0/1]  br label %while.cond",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster35 {
+
+
+node308 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[0/1]  br i1 %isnull, label %delete.end, label %delete.notnull",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster11 {
+
+
+node243 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/1]  %call = call i8* @_Znwm(i64 16) #8",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster19 {
+
+
+node251 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[0/1]  %begin = alloca %struct.list_node, align 8",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster9 {
+
+
+node241 [fillcolor=lightcoral,label="[12/13]  store i32 %inc, i32* %i, align 4",shape=ellipse,style=filled ]
+node240 [fillcolor=lightcoral,label="[2/5]  %0 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node235 [fillcolor=lemonchiffon,label="[1/14]  br i1 %cmp, label %for.body, label %for.end",shape=ellipse,style=filled ]
+node238 [fillcolor=lightcoral,label="[8/9]  %3 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node234 [fillcolor=grey,label="[0/15]  %cmp = icmp ult i32 %0, 100",shape=rectangle,style=filled ]
+node236 [fillcolor=lightcoral,label="[6/7]  %7 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node237 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[10/11]  %inc = add i32 %7, 1",shape=rectangle,style=filled ]
+node239 [fillcolor=lightcoral,label="[3/4]  store i32 1, i32* %i, align 4",shape=ellipse,style=filled ]
+
+node239->node236 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node238->node241 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node239->node238 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node238->node239 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node236->node237 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node240->node234 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node241->node238 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node235->node241 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node241->node240 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node236->node239 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node240->node239 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node235->node238 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node240->node241 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node235->node240 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node237->node241 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node235->node236 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node235->node235 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node236->node241 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node241->node236 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node234->node235 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node235->node237 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node235->node234 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node239->node240 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+
+
+}
+
+subgraph cluster8 {
+
+
+node233 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[0/1]  %21 = bitcast %struct.list_node* %20 to i8*",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster10 {
+
+
+node242 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[0/1]  %list_it = alloca %struct.list_node*, align 8",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster23 {
+
+
+node255 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[0/1]  br label %invoke.cont",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster7 {
+
+
+node232 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[0/1]  %retval = alloca i32, align 4",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster14 {
+
+
+node246 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[0/1]  br label %while.cond",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster6 {
+
+
+node231 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[0/1]  %exn.slot = alloca i8*",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster30 {
+
+
+node299 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/1]  call void @_ZdlPv(i8* %23) #9",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster31 {
+
+
+node300 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[0/1]  br label %for.cond",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster0 {
+
+
+node225 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[0/1]  br label %if.end",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster13 {
+
+
+node245 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[0/1]  br label %for.cond",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster5 {
+
+
+node230 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[0/1]  %isnull = icmp eq %struct.list_node* %20, null",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster1 {
+
+
+node226 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[0/1]  %prev_it = alloca %struct.list_node*, align 8",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster32 {
+
+
+node301 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[0/1]  br label %while.cond5",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster3 {
+
+
+node228 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[0/1]  %ehselector.slot = alloca i32",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster4 {
+
+
+node229 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[0/1]  %isnull12 = icmp eq %struct.list_node* %22, null",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster17 {
+
+
+node249 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[0/1]  br label %delete.end14",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster16 {
+
+
+node248 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/1]  store i32 0, i32* %retval, align 4",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster2 {
+
+
+node227 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[0/1]  %i = alloca i32, align 4",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster34 {
+
+
+node307 [fillcolor=lightcoral,label="[2/7]  store %struct.list_node* %16, %struct.list_node** %prev_it, align 8",shape=ellipse,style=filled ]
+node305 [fillcolor=grey,label="[4/5]  %cmp10 = icmp ne %struct.list_node* %19, %begin",shape=rectangle,style=filled ]
+node306 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[1/8]  %20 = load %struct.list_node*, %struct.list_node** %prev_it, align 8",shape=ellipse,style=filled ]
+node303 [fillcolor=lemonchiffon,label="[0/9]  br i1 %cmp10, label %if.then, label %if.end",shape=ellipse,style=filled ]
+node304 [fillcolor=lightcoral,label="[3/6]  %19 = load %struct.list_node*, %struct.list_node** %prev_it, align 8",shape=ellipse,style=filled ]
+
+node306->node307 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node304->node307 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node304->node305 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node307->node304 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node303->node306 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node305->node303 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node307->node306 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+
+
+}
+
+subgraph cluster22 {
+
+
+node254 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[0/1]  %1 = bitcast i8* %call to %struct.list_node*",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster25 {
+
+
+node257 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[0/1]  br label %for.inc",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster18 {
+
+
+node250 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[0/1]  ret i32 0",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster29 {
+
+
+node298 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[0/1]  %23 = bitcast %struct.list_node* %22 to i8*",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster20 {
+
+
+node252 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/1]  call void @_ZN9list_nodeC2Ev(%struct.list_node* %begin)",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster26 {
+
+
+node287 [fillcolor=grey,label="[60/61]  %value3 = getelementptr inbounds %struct.list_node, %struct.list_node* %9, i32 0, i32 0",shape=rectangle,style=filled ]
+node284 [fillcolor=lightcoral,label="[6/23]  store %struct.list_node* %1, %struct.list_node** %next, align 8",shape=ellipse,style=filled ]
+node283 [fillcolor=grey,label="[37/38]  %value = getelementptr inbounds %struct.list_node, %struct.list_node* %4, i32 0, i32 0",shape=rectangle,style=filled ]
+node289 [fillcolor=lightcoral,label="[43/44]  store %struct.list_node* %6, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node281 [fillcolor=lightcoral,label="[8/9]  store i32 %3, i32* %value, align 8",shape=ellipse,style=filled ]
+node291 [fillcolor=grey,label="[16/17]  %next9 = getelementptr inbounds %struct.list_node, %struct.list_node* %17, i32 0, i32 1",shape=rectangle,style=filled ]
+node280 [fillcolor=lightcoral,label="[32/33]  %17 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node290 [fillcolor=lightcoral,label="[21/22]  %18 = load %struct.list_node*, %struct.list_node** %next9, align 8",shape=ellipse,style=filled ]
+node279 [fillcolor=grey,label="[27/28]  %next1 = getelementptr inbounds %struct.list_node, %struct.list_node* %5, i32 0, i32 1",shape=rectangle,style=filled ]
+node282 [fillcolor=grey,label="[14/15]  %next6 = getelementptr inbounds %struct.list_node, %struct.list_node* %14, i32 0, i32 1",shape=rectangle,style=filled ]
+node278 [fillcolor=lightcoral,label="[3/42]  store %struct.list_node* %begin, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node277 [fillcolor=lemonchiffon,label="[13/18]  br i1 %cmp7, label %while.body8, label %while.end11",shape=ellipse,style=filled ]
+node276 [fillcolor=lightcoral,label="[11/20]  %15 = load %struct.list_node*, %struct.list_node** %next6, align 8",shape=ellipse,style=filled ]
+node275 [fillcolor=lightcoral,label="[40/41]  %22 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node262 [fillcolor=grey,label="[54/55]  %next4 = getelementptr inbounds %struct.list_node, %struct.list_node* %12, i32 0, i32 1",shape=rectangle,style=filled ]
+node260 [fillcolor=lightcoral,label="[26/29]  %5 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node264 [fillcolor=lightcoral,label="[34/35]  %16 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node263 [fillcolor=lightcoral,label="[52/53]  %13 = load %struct.list_node*, %struct.list_node** %next4, align 8",shape=ellipse,style=filled ]
+node261 [fillcolor=lightcoral,label="[58/59]  %9 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node259 [fillcolor=lemonchiffon,label="[1/66]  br i1 %cmp2, label %while.body, label %while.end",shape=ellipse,style=filled ]
+node286 [fillcolor=lightcoral,label="[36/39]  %4 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node270 [fillcolor=lightcoral,label="[45/46]  store %struct.list_node* %begin, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node288 [fillcolor=lightcoral,label="[56/57]  %8 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node267 [fillcolor=lightcoral,label="[49/50]  store %struct.list_node* %18, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node265 [fillcolor=lightcoral,label="[2/51]  %12 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node274 [fillcolor=grey,label="[5/24]  %next = getelementptr inbounds %struct.list_node, %struct.list_node* %2, i32 0, i32 1",shape=rectangle,style=filled ]
+node258 [fillcolor=grey,label="[0/67]  %cmp2 = icmp ne %struct.list_node* %8, null",shape=rectangle,style=filled ]
+node266 [fillcolor=lightcoral,label="[30/31]  %14 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node268 [fillcolor=lightcoral,label="[47/48]  store %struct.list_node* %begin, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node269 [fillcolor=grey,label="[12/19]  %cmp7 = icmp ne %struct.list_node* %15, null",shape=rectangle,style=filled ]
+node271 [fillcolor=lightcoral,label="[4/25]  %2 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node285 [fillcolor=lightcoral,label="[64/65]  %10 = load i32, i32* %value3, align 8",shape=ellipse,style=filled ]
+node272 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[62/63]  store %struct.list_node* %13, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node273 [fillcolor=lightcoral,label="[7/10]  %6 = load %struct.list_node*, %struct.list_node** %next1, align 8",shape=ellipse,style=filled ]
+
+node288->node258 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node286->node289 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node289->node286 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node286->node283 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node290->node284 [style=dotted,color=firebrick3,label="A|Conf",penwidth=1.0,fontcolor=firebrick3 ]
+node285->node284 [style=dotted,color=firebrick3,label="A|Conf",penwidth=1.0,fontcolor=firebrick3 ]
+node284->node285 [style=dotted,color=forestgreen,label="T|Conf",penwidth=1.0,fontcolor=forestgreen ]
+node283->node281 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node281->node285 [style=dotted,color=forestgreen,label="T|Conf",penwidth=1.0,fontcolor=forestgreen ]
+node288->node278 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node278->node288 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node278->node286 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node289->node260 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node267->node265 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node263->node284 [style=dotted,color=firebrick3,label="A|Conf",penwidth=1.0,fontcolor=firebrick3 ]
+node259->node265 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node272->node260 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node278->node260 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node260->node279 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node271->node274 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node275->node270 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node265->node262 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node264->node268 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node280->node278 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node266->node268 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node270->node271 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node286->node267 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node272->node288 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node278->node280 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node272->node261 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node281->node276 [style=dotted,color=forestgreen,label="T|Conf",penwidth=1.0,fontcolor=forestgreen ]
+node289->node264 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node270->node260 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node280->node270 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node259->node259 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node261->node272 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node270->node280 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node285->node281 [style=dotted,color=firebrick3,label="A|Conf",penwidth=1.0,fontcolor=firebrick3 ]
+node280->node291 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node259->node263 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node271->node278 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node259->node272 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node265->node267 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node272->node265 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node260->node272 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node272->node275 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node265->node278 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node266->node278 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node261->node268 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node268->node280 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node275->node267 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node278->node265 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node261->node278 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node276->node281 [style=dotted,color=firebrick3,label="A|Conf",penwidth=1.0,fontcolor=firebrick3 ]
+node288->node267 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node277->node266 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node282->node276 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node286->node268 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node259->node287 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node268->node286 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node260->node268 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node279->node273 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node267->node264 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node275->node272 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node288->node268 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node267->node275 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node273->node281 [style=dotted,color=firebrick3,label="A|Conf",penwidth=1.0,fontcolor=firebrick3 ]
+node277->node277 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node267->node286 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node291->node290 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node264->node267 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node289->node266 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node289->node280 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node272->node264 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node268->node266 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node259->node261 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node265->node272 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node267->node288 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node270->node288 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node259->node258 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node270->node266 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node268->node275 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node275->node268 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node259->node288 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node280->node289 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node290->node267 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node266->node289 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node267->node280 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node280->node267 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node284->node263 [style=dotted,color=forestgreen,label="T|Conf",penwidth=1.0,fontcolor=forestgreen ]
+node271->node272 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node284->node290 [style=dotted,color=forestgreen,label="T|Conf",penwidth=1.0,fontcolor=forestgreen ]
+node278->node266 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node260->node267 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node271->node267 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node284->node276 [style=dotted,color=forestgreen,label="T|Conf",penwidth=1.0,fontcolor=forestgreen ]
+node270->node275 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node268->node260 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node261->node267 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node266->node270 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node289->node265 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node260->node289 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node265->node289 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node267->node271 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node276->node284 [style=dotted,color=firebrick3,label="A|Conf",penwidth=1.0,fontcolor=firebrick3 ]
+node264->node270 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node268->node261 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node267->node261 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node280->node268 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node270->node265 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node260->node278 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node277->node264 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node272->node280 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node265->node270 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node289->node288 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node266->node267 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node278->node261 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node266->node282 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node287->node285 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node281->node273 [style=dotted,color=forestgreen,label="T|Conf",penwidth=1.0,fontcolor=forestgreen ]
+node270->node261 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node277->node276 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node259->node262 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node270->node286 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node268->node288 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node286->node270 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node267->node260 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node288->node270 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node261->node287 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node263->node272 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node272->node266 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node284->node273 [style=dotted,color=forestgreen,label="T|Conf",penwidth=1.0,fontcolor=forestgreen ]
+node273->node289 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node258->node259 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node262->node263 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node263->node281 [style=dotted,color=firebrick3,label="A|Conf",penwidth=1.0,fontcolor=firebrick3 ]
+node281->node263 [style=dotted,color=forestgreen,label="T|Conf",penwidth=1.0,fontcolor=forestgreen ]
+node260->node270 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node268->node271 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node271->node268 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node268->node264 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node259->node285 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node265->node268 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node261->node270 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node264->node278 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node271->node270 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node278->node264 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node268->node265 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node266->node272 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node264->node289 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node272->node271 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node286->node278 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node278->node271 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node277->node269 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node290->node281 [style=dotted,color=firebrick3,label="A|Conf",penwidth=1.0,fontcolor=firebrick3 ]
+node261->node289 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node270->node264 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node267->node266 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node281->node290 [style=dotted,color=forestgreen,label="T|Conf",penwidth=1.0,fontcolor=forestgreen ]
+node271->node289 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node280->node272 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node272->node286 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node286->node272 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node288->node272 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node273->node284 [style=dotted,color=firebrick3,label="A|Conf",penwidth=1.0,fontcolor=firebrick3 ]
+node274->node284 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node275->node278 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node278->node275 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node289->node271 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node289->node275 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node275->node289 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node288->node289 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node277->node267 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node276->node269 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node264->node272 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node277->node280 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node277->node282 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node277->node290 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node269->node277 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node289->node261 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node277->node291 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+
+
+}
+
+subgraph cluster24 {
+
+
+node256 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/1]  call void @_ZN9list_nodeC2Ev(%struct.list_node* %1)",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster28 {
+
+
+node297 [fillcolor=lightcoral,label="[5/8]  %11 = load i32, i32* %sum, align 4",shape=ellipse,style=filled ]
+node296 [fillcolor=lightcoral,label="[2/3]  store i32 %add, i32* %sum, align 4",shape=ellipse,style=filled ]
+node295 [fillcolor=lightcoral,label="[1/4]  %24 = load i32, i32* %sum, align 4",shape=ellipse,style=filled ]
+node293 [fillcolor=lightcoral,label="[0/9]  store i32 0, i32* %sum, align 4",shape=ellipse,style=filled ]
+node294 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[6/7]  %add = add nsw i32 %11, %10",shape=rectangle,style=filled ]
+
+node295->node293 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node293->node295 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node297->node296 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node295->node296 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node296->node297 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node294->node296 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node297->node293 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node296->node295 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node297->node294 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node293->node297 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+
+
+}
+
+subgraph cluster27 {
+
+
+node292 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[0/1]  br i1 %isnull12, label %delete.end14, label %delete.notnull13",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster21 {
+
+
+node253 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/1]  call void @_ZdlPv(i8* %21) #9",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster12 {
+
+
+node244 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[0/1]  %sum = alloca i32, align 4",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster33 {
+
+
+node302 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/1]  %call15 = call dereferenceable(272) %class.std::basic_ostream* @_ZNSolsEi(%class.std::basic_ostream* @_ZSt4cout, i32 %24)%24)",shape=ellipse,style=filled ]
 
 
 

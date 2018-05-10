@@ -43,6 +43,8 @@ class Dependence {
               Mem(false), Reg(false),
               Confused(true), Consistent(false),
               direction(0),
+              LoopIndependent(true),
+              Scalar(true),
               Unknown(true) {}
         ~Dependence() {}
         
@@ -149,6 +151,10 @@ class Dependence {
         bool isConfused() const { return Confused; }
         bool isConsistent() const { return Consistent; }
 
+        uint64_t getDirection() const { return direction; }
+        bool isScalar() const { return Scalar; }
+        bool isLoopIndependent() const { return LoopIndependent; }
+
         void setUnknown() {
             Data = false;
             Control = false;
@@ -204,6 +210,8 @@ class Dependence {
         bool Confused;
         bool Consistent;
         unsigned int direction;
+        bool Scalar;
+        bool LoopIndependent;
         // default 
         bool Unknown;
 };

@@ -5,7 +5,7 @@ digraph G {
 
 
 
-subgraph cluster0 {
+subgraph cluster2 {
 
 
 node164 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[1/2]  store %struct.list_node* %this, %struct.list_node** %this.addr, align 8",shape=ellipse,style=filled ]
@@ -13,6 +13,24 @@ node163 [fillcolor=lightcoral,label="[0/3]  %this1 = load %struct.list_node*, %s
 
 node163->node164 [ ]
 node164->node163 [ ]
+
+
+}
+
+subgraph cluster0 {
+
+
+node161 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/1]  store %struct.list_node* null, %struct.list_node** %next, align 8",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster1 {
+
+
+node162 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/1]  store i32 0, i32* %value, align 8",shape=ellipse,style=filled ]
+
 
 
 }

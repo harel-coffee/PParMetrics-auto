@@ -259,7 +259,7 @@ void Graph<NODE*,EDGE*>::dfsTraverse(DFS_callback<NODE*,EDGE*>* VisitorFunc) con
                     std::string str;
                     llvm::raw_string_ostream rso(str);
                     (CurrentNode.getNode())->print(rso);
-                    llvm::dbgs() << "[" << CurrentTime << "] discovered new node WHITE->GREY: " << str << "\n";
+                    llvm::dbgs() << "[" << CurrentTime << "] discovered new node SILVER->GREY: " << str << "\n";
                 );
             }
 

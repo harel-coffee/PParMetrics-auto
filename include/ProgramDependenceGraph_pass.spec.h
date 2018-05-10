@@ -76,13 +76,10 @@ bool GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraph
                 Dep->Confused = true;
             } else {
                 Dep->Confused = false;
+                llvm::FullDependence* FullDep = static_cast<llvm::FullDependence*>(MemDep);
+                Dep->LoopIndependent = FullDep->isLoopIndependent();
             }
-
-            if (MemDep->isConsistent()) {
-                Dep->Consistent = true;
-            } else {
-                Dep->Consistent = false;
-            }
+            Dep->Consistent = MemDep->isConsistent();
             
             getGraph().addEdge(Edge.getFrom(), Edge.getTo(), Dep);
         }

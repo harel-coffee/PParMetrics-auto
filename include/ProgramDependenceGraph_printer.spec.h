@@ -39,49 +39,70 @@ void GraphPrinter<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGr
 
 template <>
 void GraphPrinter<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraphPass>::buildDotEdge(const ppar::Dependence* Dep, DotEdge* Edge) {
+    std::string EdgeLabel {""};
+    std::string DepType {"U"};
+    std::string EdgeStyle {"solid"};
+    std::string EdgeColor {"black"};
+    std::string EdgePenWidth {"1.0"};
+    std::string EdgeFontColor {"black"};
+    const std::string DepConfused {"Conf"};
+    const std::string DepConsistent {"Const"};
+    uint64_t DepDir = 0;
+    
     if (Dep->isData()) {
-        if (Dep->isFlow()) {
-            Edge->setAttribute( /* name = */ string("label"), /* value = */ string("T"));
-            Edge->setAttribute( /* name = */ string("fontcolor"), /* value = */ string("forestgreen"));
-            Edge->setAttribute( /* name = */ string("color"), /* value = */ string("forestgreen"));
-        } else if (Dep->isAnti()) {
-            Edge->setAttribute( /* name = */ string("label"), /* value = */ string("A"));
-            Edge->setAttribute( /* name = */ string("fontcolor"), /* value = */ string("firebrick3"));
-            Edge->setAttribute( /* name = */ string("color"), /* value = */ string("firebrick3"));
-        } else if (Dep->isOutput())   {
-            Edge->setAttribute( /* name = */ string("label"), /* value = */ string("O"));
-            Edge->setAttribute( /* name = */ string("fontcolor"), /* value = */ string("dodgerblue"));
-            Edge->setAttribute( /* name = */ string("color"), /* value = */ string("dodgerblue"));
-        } else {
-            Edge->setAttribute( /* name = */ string("label"), /* value = */ string("U"));
-            Edge->setAttribute( /* name = */ string("fontcolor"), /* value = */ string("gray"));
-            Edge->setAttribute( /* name = */ string("color"), /* value = */ string("gray"));
-        }
-        
         if (Dep->isMem()) {
-            Edge->setAttribute( /* name = */ string("style"), /* value = */ string("solid"));
-        } else {
-            Edge->setAttribute( /* name = */ string("style"), /* value = */ string("dotted"));
-        }
-        
-        if (Dep->isConfused()) {
-            if (!Dep->isConsistent()) {
-                Edge->setAttribute( /* name = */ string("penwidth"), /* value = */ string("1.0"));
+            if (Dep->isFlow()) {
+                DepType = "T";
+                EdgeColor = "forestgreen";
+                EdgeFontColor = "forestgreen";
+            } else if (Dep->isAnti()) {
+                DepType = "A";
+                EdgeColor = "firebrick3";
+                EdgeFontColor = "firebrick3";
+            } else if (Dep->isOutput())   {
+                DepType = "O";
+                EdgeColor = "dodgerblue";
+                EdgeFontColor = "dodgerblue";
             } else {
-                Edge->setAttribute( /* name = */ string("penwidth"), /* value = */ string("0.0"));
+                DepType = "U"; // unknown
+                EdgeColor = "dodgerblue";
+                EdgeFontColor = "dodgerblue";
             }
-        } else {
+            EdgeLabel = DepType;
+
+            if (Dep->isConfused()) {
+                EdgeStyle = "dotted";
+                EdgeLabel += ("|" + DepConfused);
+            } else {
+                if (Dep->isLoopIndependent()) {
+                    EdgeLabel += ("|indep");
+                } else {
+                    EdgeLabel += ("|dep");
+                }
+            }
+            
             if (Dep->isConsistent()) {
-                Edge->setAttribute( /* name = */ string("penwidth"), /* value = */ string("2.0"));
-            } else {
-                Edge->setAttribute( /* name = */ string("penwidth"), /* value = */ string("0.0"));
+                EdgeLabel += ("|" + DepConsistent);
             }
+        } else {
+            EdgeColor = "black";
+            EdgeStyle = "solid";
+            EdgePenWidth = "0.5";
+            EdgeLabel = "";
         }
     } else if (Dep->isControl()) {
-        Edge->setAttribute( /* name = */ string("label"), /* value = */ string("C"));
-        Edge->setAttribute( /* name = */ string("fontcolor"), /* value = */ string("gold"));
-        Edge->setAttribute( /* name = */ string("color"), /* value = */ string("gold"));
+        EdgeColor = "gold";
+        DepType = "C"; // control dependence
+        EdgeFontColor = "gold";
+        EdgeColor = "gold";
+        EdgeLabel = DepType;
     }
+    
+    Edge->setAttribute( string("label"), EdgeLabel);
+    Edge->setAttribute( string("fontcolor"), EdgeFontColor);
+    Edge->setAttribute( string("color"), EdgeColor);
+    Edge->setAttribute( string("style"), EdgeStyle);
+    Edge->setAttribute( string("penwidth"), EdgePenWidth);
 }
 
 } // namespace ppar

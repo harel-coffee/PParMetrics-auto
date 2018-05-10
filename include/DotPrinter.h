@@ -70,6 +70,8 @@ class DotGraph {
         DotGraph(GraphType Type = GraphType::DIRECTED_GRAPH, DotGraph* ParentGraph = nullptr);
         ~DotGraph();
 
+        DotGraph* createSubGraph();
+
         void addNode(string Name, DotNode* DotNode);
         void addEdge(string Name, DotEdge* DotEdge);
         void addSubGraph(string Name, DotGraph* DotGraph);
@@ -86,9 +88,17 @@ class DotGraph {
         
         void print(std::ofstream& DotFile) const;
 
+        void establishMapping(const void* Node, std::string Name) {
+            NodeToDotName[Node] = Name;
+        }
+
+        std::unordered_map<const void*,std::string>& getMapping() {
+            return NodeToDotName;
+        }
+
     private:
         // subgraph name of the format 'cluster%d'
-        static uint64_t SubGraphNum;
+        uint64_t SubGraphNum;
         string Name;
         // type of the graph
         GraphType Type;
@@ -101,6 +111,8 @@ class DotGraph {
         std::unordered_map<string,DotGraph*> SubGraphs;
         // subgraph attributes
         std::unordered_map<string,string> Attributes;
+        // used during the DOT representation construction
+        std::unordered_map<const void*,std::string> NodeToDotName;
 };
 
 class DotPrinter {

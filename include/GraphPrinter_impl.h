@@ -33,10 +33,10 @@ llvm::StringRef GraphPrinter<NODE*,EDGE*,PASS>::getPassName() const {
  * Map in-memory ppar::Graph<NODE*,EDGE*> to DOT-format in-memory graph ppar::DotGraph
  */
 template <typename NODE, typename EDGE, typename PASS>
-void GraphPrinter<NODE*,EDGE*,PASS>::formDOTGraph(DotGraph& DotG, const Graph<NODE*,EDGE*>& G, PrintType Type, PrintAugmentType AugmentType) {
-    map<const NODE*,std::string> InstrToNodeName;
-    
-    if (AugmentType == PrintAugmentType::PRINT_AUGMENT_DFS_TIMESTAMPS) { 
+void GraphPrinter<NODE*,EDGE*,PASS>::formDOTGraph(DotGraph& DotG, const Graph<NODE*,EDGE*>& G, uint64_t FormOptions) {
+    std::unordered_map<const void*,std::string>& NodeToDotName = DotG.getMapping();
+
+    if (FormOptions & FormationOption::DFS_TIMESTAMPS) { 
         // augment graph with DFS ordering
         if (!G.isDFSDataValid()) {
             G.dfsTraverse();
@@ -44,50 +44,51 @@ void GraphPrinter<NODE*,EDGE*,PASS>::formDOTGraph(DotGraph& DotG, const Graph<NO
     }
     auto& DFS_properties = G.getDFS_properties();
 
-    for (typename Graph<NODE*,EDGE*>::const_node_iterator node_it = G.nodes_cbegin(); node_it != G.nodes_cend(); node_it++) {
-        GraphNode<NODE*,EDGE*> DepNode = *node_it;
-        const NODE* N = DepNode.getNode();
-        DotNode* Node = new DotNode();
-        InstrToNodeName[N] = Node->getName();
+    if ((FormOptions & FormationOption::ONLY_EDGES) == 0x0) { 
+        for (typename Graph<NODE*,EDGE*>::const_node_iterator node_it = G.nodes_cbegin(); node_it != G.nodes_cend(); node_it++) {
+            GraphNode<NODE*,EDGE*> DepNode = *node_it;
+            const NODE* N = DepNode.getNode();
+            DotNode* Node = new DotNode();
+            NodeToDotName[static_cast<const void*>(N)] = Node->getName();
 
-        buildDotNode(N,Node);
+            buildDotNode(N,Node);
        
-        if (Type == PrintType::PRINT_SCC_SUBGRAPH) {
-            if (DepNode == G.getRoot()) {
-                Node->setAttribute( /* name = */ string("fontsize"), /* value = */ string("20"));
-                Node->setAttribute( /* name = */ string("penwidth"), /* value = */ string("3.0"));
+            if (FormOptions & FormationOption::MARK_SCC_ROOTS) { 
+                if (DepNode == G.getRoot()) {
+                    Node->setAttribute( /* name = */ string("fontsize"), /* value = */ string("20"));
+                    Node->setAttribute( /* name = */ string("penwidth"), /* value = */ string("3.0"));
+                }
             }
-        }
 
-        if (AugmentType == PrintAugmentType::PRINT_AUGMENT_DFS_TIMESTAMPS) { 
-            // augment the node with DFS timestamp
-            string DFS_timestamp = "[" + std::to_string(DFS_properties[DepNode]->TimestampEntry) + "/" 
-                                       + std::to_string(DFS_properties[DepNode]->TimestampExit) + "]";
-            Node->setAttribute(string("label"), DFS_timestamp + Node->getAttribute(string("label")));
-        }
-
-        DotG.addNode(Node->getName(), Node);
-    }
-
-    // print all graph edges
-    for (auto edge_it = G.edges_cbegin(); edge_it != G.edges_cend(); edge_it++) {
-        const std::pair<const NODE*,const NODE*>& NodePair = edge_it->first;
-        const typename Graph<NODE*,EDGE*>::edge_set& EdgeSet = edge_it->second; 
-        
-        for (const auto DepEdge : EdgeSet) {
-            const NODE* From = DepEdge.getFrom();
-            const NODE* To = DepEdge.getTo();
-            EDGE* Dep = DepEdge.getData();
-            std::string EdgeName = InstrToNodeName[From] + "->" + InstrToNodeName[To];
-            DotEdge* Edge = new DotEdge(EdgeName);
-
-            buildDotEdge(Dep,Edge);
-
-            DotG.addEdge(Edge->getName(), Edge);
+            if (FormOptions & FormationOption::DFS_TIMESTAMPS) {
+                // augment the node with DFS timestamp
+                string DFS_timestamp = "[" + std::to_string(DFS_properties[DepNode]->TimestampEntry) + "/" 
+                                          + std::to_string(DFS_properties[DepNode]->TimestampExit) + "]";
+                Node->setAttribute(string("label"), DFS_timestamp + Node->getAttribute(string("label")));
+            }
+            
+            DotG.addNode(Node->getName(), Node);
         }
     }
     
-    InstrToNodeName.clear();
+    if ((FormOptions & FormationOption::ONLY_NODES) == 0x0) { 
+        for (auto edge_it = G.edges_cbegin(); edge_it != G.edges_cend(); edge_it++) {
+            const std::pair<const NODE*,const NODE*>& NodePair = edge_it->first;
+            const typename Graph<NODE*,EDGE*>::edge_set& EdgeSet = edge_it->second; 
+        
+            for (const auto DepEdge : EdgeSet) {
+                const NODE* From = DepEdge.getFrom();
+                const NODE* To = DepEdge.getTo();
+                EDGE* Dep = DepEdge.getData();
+                std::string EdgeName = NodeToDotName[static_cast<const void*>(From)] + "->" + NodeToDotName[static_cast<const void*>(To)];
+                DotEdge* Edge = new DotEdge(EdgeName);
+
+                buildDotEdge(Dep,Edge);
+
+                DotG.addEdge(Edge->getName(), Edge);
+            }
+        }
+    } 
 }
 
 template <typename NODE, typename EDGE, typename PASS>
@@ -99,18 +100,21 @@ bool GraphPrinter<NODE*,EDGE*,PASS>::runOnFunction(llvm::Function& F) {
     GraphPass<NODE*,EDGE*,PASS>& GPass = llvm::Pass::getAnalysis<GraphPass<NODE*,EDGE*,PASS>>();
     const Graph<NODE*,EDGE*>& G = GPass.getGraph();
     string FileName;
-    
+    uint64_t PrintConfig;
+
     // print the main graph of the function
     FileName = F.getName().str() + PASS::getDotFileExtension();
     DotPrinter MainPrinter(FileName);
-    formDOTGraph(MainPrinter.getGraph(), G, PrintType::PRINT_MAIN_GRAPH); 
+    PrintConfig = FormationOption::DEFAULT;
+    formDOTGraph(MainPrinter.getGraph(), G, PrintConfig); 
     MainPrinter.print();
 
     // augment the main graph of the function with 
     // DFS timestamps and print it
     FileName = F.getName().str() + PASS::getDFSDotFileExtension();
     DotPrinter MainPrinter_dfs(FileName);
-    formDOTGraph(MainPrinter_dfs.getGraph(), G, PrintType::PRINT_MAIN_GRAPH, PrintAugmentType::PRINT_AUGMENT_DFS_TIMESTAMPS); 
+    PrintConfig = FormationOption::DEFAULT + FormationOption::DFS_TIMESTAMPS;
+    formDOTGraph(MainPrinter_dfs.getGraph(), G, PrintConfig); 
     MainPrinter_dfs.print();
 
     if (!G.isSCCsDataValid() || !G.isComponentGraphDataValid()) {
@@ -121,18 +125,23 @@ bool GraphPrinter<NODE*,EDGE*,PASS>::runOnFunction(llvm::Function& F) {
     // print component graph of the function
     FileName = F.getName().str() + PASS::getCGDotFileExtension();
     DotPrinter ComponentGraphPrinter(FileName);
-    formDOTGraph(ComponentGraphPrinter.getGraph(), *G.getComponentGraph(), PrintType::PRINT_MAIN_GRAPH, PrintAugmentType::PRINT_AUGMENT_DFS_TIMESTAMPS); 
+    PrintConfig = FormationOption::DEFAULT + 
+                  FormationOption::DFS_TIMESTAMPS +
+                  FormationOption::MARK_SCC_ROOTS;
+    formDOTGraph(ComponentGraphPrinter.getGraph(), *G.getComponentGraph(), PrintConfig); 
     ComponentGraphPrinter.print();
 
     // print all SCCs of the graph
     FileName = F.getName().str() + PASS::getSCCsDotFileExtension();
     DotPrinter SCCsPrinter(FileName);
+    PrintConfig = FormationOption::DEFAULT + 
+                  FormationOption::DFS_TIMESTAMPS +
+                  FormationOption::MARK_SCC_ROOTS;
     for (typename Graph<NODE*,EDGE*>::const_sccs_iterator sccs_it = G.sccs_cbegin(); sccs_it != G.sccs_cend(); sccs_it++) {
         GraphNode<NODE*,EDGE*> SCCRoot = sccs_it->first;
         Graph<NODE*,EDGE*>* SCC = sccs_it->second;
         DotGraph* SCCSubGraph = new DotGraph(DotGraph::GraphType::SUBGRAPH, &SCCsPrinter.getGraph());
-    
-        formDOTGraph(*SCCSubGraph, *SCC, PrintType::PRINT_SCC_SUBGRAPH, PrintAugmentType::PRINT_AUGMENT_DFS_TIMESTAMPS);
+        formDOTGraph(*SCCSubGraph, *SCC, PrintConfig);
         SCCsPrinter.getGraph().addSubGraph(SCCSubGraph->getName(), SCCSubGraph);
     }
     SCCsPrinter.print();
@@ -140,14 +149,20 @@ bool GraphPrinter<NODE*,EDGE*,PASS>::runOnFunction(llvm::Function& F) {
     // print all SCCs of the graph
     FileName = F.getName().str() + PASS::getSCCsCGDotFileExtension();
     DotPrinter SCCsCGPrinter(FileName);
+    PrintConfig = FormationOption::DEFAULT +
+                  FormationOption::DFS_TIMESTAMPS +
+                  FormationOption::MARK_SCC_ROOTS +
+                  FormationOption::ONLY_NODES;
     for (typename Graph<NODE*,EDGE*>::const_sccs_iterator sccs_it = G.sccs_cbegin(); sccs_it != G.sccs_cend(); sccs_it++) {
         GraphNode<NODE*,EDGE*> SCCRoot = sccs_it->first;
         Graph<NODE*,EDGE*>* SCC = sccs_it->second;
-        DotGraph* SCCSubGraph = new DotGraph(DotGraph::GraphType::SUBGRAPH, &SCCsPrinter.getGraph());
-    
-        formDOTGraph(*SCCSubGraph, *SCC, PrintType::PRINT_SCC_SUBGRAPH, PrintAugmentType::PRINT_AUGMENT_DFS_TIMESTAMPS);
-        SCCsPrinter.getGraph().addSubGraph(SCCSubGraph->getName(), SCCSubGraph);
+        DotGraph* SCCSubGraph = (SCCsPrinter.getGraph()).createSubGraph();
+        formDOTGraph(*SCCSubGraph, *SCC, PrintConfig);
+        SCCsCGPrinter.getGraph().addSubGraph(SCCSubGraph->getName(), SCCSubGraph);
     }
+    PrintConfig = FormationOption::DEFAULT + 
+                  FormationOption::ONLY_EDGES;
+    formDOTGraph(SCCsCGPrinter.getGraph(), G, PrintConfig);
     SCCsCGPrinter.print();
 
     return false;

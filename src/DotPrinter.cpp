@@ -1,5 +1,7 @@
 #include "DotPrinter.h"
 
+#include <algorithm>
+
 using namespace std;
 
 namespace ppar {
@@ -89,22 +91,22 @@ void DotEdge::print(std::ofstream& DotFile) const {
     DotFile << " ]\n";
 }
 
-uint64_t DotGraph::SubGraphNum = 0;
-
 DotGraph::DotGraph(GraphType Type, DotGraph* ParentGraph)
  : Type(Type), Graph(ParentGraph) {
+    
+    SubGraphNum = 0;
     
     if (Type == GraphType::DIRECTED_GRAPH) {
         Name = "G";
     } else {
-        Name = "cluster" + to_string(SubGraphNum);
-        SubGraphNum++;
+        Name = "cluster" + to_string(ParentGraph->SubGraphNum);
     }
 
     Attributes.clear();
     Nodes.clear();
     Edges.clear();
     SubGraphs.clear();
+    NodeToDotName.clear(); 
 }
 
 DotGraph::~DotGraph() {
@@ -130,6 +132,13 @@ DotGraph::~DotGraph() {
     Nodes.clear();
     Edges.clear();
     SubGraphs.clear();
+    NodeToDotName.clear(); 
+}
+
+DotGraph* DotGraph::createSubGraph() {
+    DotGraph* SubGraph = new DotGraph(DotGraph::GraphType::SUBGRAPH, this);
+    SubGraphNum++;
+    return SubGraph;
 }
 
 void DotGraph::addNode(string Name, DotNode* Node) {
@@ -142,6 +151,11 @@ void DotGraph::addEdge(string Name, DotEdge* Edge) {
 
 void DotGraph::addSubGraph(string Name, DotGraph* SubGraph) {
     SubGraphs[Name] = SubGraph;
+    
+    // propagate mapping information from child to a parent
+    for (auto it = (SubGraph->getMapping()).begin(); it != (SubGraph->getMapping()).end(); ++it) {
+        NodeToDotName[it->first] = it->second;
+    }
 }
 
 void DotGraph::print(std::ofstream& DotFile) const {

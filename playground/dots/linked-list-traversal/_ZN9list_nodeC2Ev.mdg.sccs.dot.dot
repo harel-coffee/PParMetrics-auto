@@ -5,32 +5,14 @@ digraph G {
 
 
 
-subgraph cluster6 {
+subgraph cluster0 {
 
 
-node125 [fillcolor=lightcoral,label="[0/1]  store %struct.list_node* null, %struct.list_node** %next, align 8",shape=ellipse,style=filled ]
+node164 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[1/2]  store %struct.list_node* %this, %struct.list_node** %this.addr, align 8",shape=ellipse,style=filled ]
+node163 [fillcolor=lightcoral,label="[0/3]  %this1 = load %struct.list_node*, %struct.list_node** %this.addr, align 8",shape=ellipse,style=filled ]
 
-
-
-}
-
-subgraph cluster8 {
-
-
-node128 [fillcolor=lightcoral,label="[2/5]  store %struct.list_node* %this, %struct.list_node** %this.addr, align 8",shape=ellipse,style=filled ]
-node127 [fillcolor=lightcoral,label="[3/4]  %this1 = load %struct.list_node*, %struct.list_node** %this.addr, align 8",shape=ellipse,style=filled ]
-
-node127->node128 [ ]
-node128->node127 [ ]
-
-
-}
-
-subgraph cluster7 {
-
-
-node126 [fillcolor=lightcoral,label="[6/7]  store i32 0, i32* %value, align 8",shape=ellipse,style=filled ]
-
+node163->node164 [ ]
+node164->node163 [ ]
 
 
 }

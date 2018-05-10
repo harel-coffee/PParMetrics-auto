@@ -2,11 +2,11 @@
 digraph G {
 
 
-node14 [label="[2/3]
+node14 [label="[8/9]
 for.end:                                          ; preds = %for.cond
   ret i32 0
 ",shape=rectangle ]
-node13 [label="[4/5]
+node13 [label="[5/6]
 for.body:                                         ; preds = %for.cond
   %1 = load i32, i32* %i, align 4
   %idxprom = zext i32 %1 to i64
@@ -30,14 +30,14 @@ for.body:                                         ; preds = %for.cond
   store i32 %6, i32* %arrayidx8, align 4
   br label %for.inc
 ",shape=rectangle ]
-node12 [label="[0/1]
+node12 [label="[3/4]
 for.inc:                                          ; preds = %for.body
   %8 = load i32, i32* %i, align 4
   %inc = add i32 %8, 1
   store i32 %inc, i32* %i, align 4
   br label %for.cond
 ",shape=rectangle ]
-node10 [label="[6/7]
+node10 [label="[0/1]
 entry:
   %retval = alloca i32, align 4
   %i = alloca i32, align 4
@@ -45,7 +45,7 @@ entry:
   store i32 1, i32* %i, align 4
   br label %for.cond
 ",shape=rectangle ]
-node11 [label="[8/9]
+node11 [label="[2/7]
 for.cond:                                         ; preds = %for.inc, %entry
   %0 = load i32, i32* %i, align 4
   %cmp = icmp ult i32 %0, 100

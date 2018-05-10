@@ -2,14 +2,7 @@
 digraph G {
 
 
-node14 [label="[1/2]
-for.inc:                                          ; preds = %for.body
-  %5 = load i32, i32* %i, align 4
-  %inc = add i32 %5, 1
-  store i32 %inc, i32* %i, align 4
-  br label %for.cond
-",shape=rectangle ]
-node13 [label="[3/4]
+node14 [label="[3/4]
 for.body:                                         ; preds = %for.cond
   %1 = load i32, i32* %i, align 4
   %idxprom = zext i32 %1 to i64
@@ -24,7 +17,18 @@ for.body:                                         ; preds = %for.cond
   store i32 %add, i32* %arrayidx4, align 4
   br label %for.inc
 ",shape=rectangle ]
+node13 [label="[5/6]
+for.inc:                                          ; preds = %for.body
+  %5 = load i32, i32* %i, align 4
+  %inc = add i32 %5, 1
+  store i32 %inc, i32* %i, align 4
+  br label %for.cond
+",shape=rectangle ]
 node12 [label="[8/9]
+for.end:                                          ; preds = %for.cond
+  ret i32 0
+",shape=rectangle ]
+node10 [label="[0/1]
 entry:
   %retval = alloca i32, align 4
   %i = alloca i32, align 4
@@ -32,19 +36,15 @@ entry:
   store i32 0, i32* %i, align 4
   br label %for.cond
 ",shape=rectangle ]
-node10 [label="[0/5]
+node11 [label="[2/7]
 for.cond:                                         ; preds = %for.inc, %entry
   %0 = load i32, i32* %i, align 4
   %cmp = icmp ult i32 %0, 100
   br i1 %cmp, label %for.body, label %for.end
 ",shape=rectangle ]
-node11 [label="[6/7]
-for.end:                                          ; preds = %for.cond
-  ret i32 0
-",shape=rectangle ]
 
-node10->node13 [ ]
-node10->node14 [ ]
+node11->node14 [ ]
+node11->node13 [ ]
 
 
 }

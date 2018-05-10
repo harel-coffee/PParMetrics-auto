@@ -16,14 +16,6 @@ for.cond:                                         ; preds = %for.inc, %entry
   br i1 %cmp, label %for.body, label %for.end
 ",shape=rectangle ]
 node3 [label="
-entry:
-  %retval = alloca i32, align 4
-  %i = alloca i32, align 4
-  store i32 0, i32* %retval, align 4
-  store i32 0, i32* %i, align 4
-  br label %for.cond
-",shape=rectangle ]
-node2 [label="
 for.body:                                         ; preds = %for.cond
   %1 = load i32, i32* %i, align 4
   %idxprom = zext i32 %1 to i64
@@ -38,13 +30,21 @@ for.body:                                         ; preds = %for.cond
   store i32 %add, i32* %arrayidx4, align 4
   br label %for.inc
 ",shape=rectangle ]
-node1 [label="
+node2 [label="
 for.end:                                          ; preds = %for.cond
   ret i32 0
 ",shape=rectangle ]
+node1 [label="
+entry:
+  %retval = alloca i32, align 4
+  %i = alloca i32, align 4
+  store i32 0, i32* %retval, align 4
+  store i32 0, i32* %i, align 4
+  br label %for.cond
+",shape=rectangle ]
 
 node0->node0 [ ]
-node0->node2 [ ]
+node0->node3 [ ]
 node0->node4 [ ]
 
 

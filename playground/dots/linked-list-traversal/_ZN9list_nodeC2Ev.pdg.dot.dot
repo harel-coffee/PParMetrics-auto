@@ -2,23 +2,23 @@
 digraph G {
 
 
-node312 [fillcolor=grey,label="  %value = getelementptr inbounds %struct.list_node, %struct.list_node* %this1, i32 0, i32 0",shape=rectangle,style=filled ]
-node309 [fillcolor=grey,label="  %this.addr = alloca %struct.list_node*, align 8",shape=rectangle,style=filled ]
-node307 [fillcolor=lightcoral,label="  store %struct.list_node* null, %struct.list_node** %next, align 8",shape=ellipse,style=filled ]
-node308 [fillcolor=lightcoral,label="  store %struct.list_node* %this, %struct.list_node** %this.addr, align 8",shape=ellipse,style=filled ]
-node313 [fillcolor=lightcoral,label="  store i32 0, i32* %value, align 8",shape=ellipse,style=filled ]
-node306 [fillcolor=grey,label="  %next = getelementptr inbounds %struct.list_node, %struct.list_node* %this1, i32 0, i32 1",shape=rectangle,style=filled ]
-node310 [fillcolor=lemonchiffon,label="  ret void",shape=ellipse,style=filled ]
-node311 [fillcolor=lightcoral,label="  %this1 = load %struct.list_node*, %struct.list_node** %this.addr, align 8",shape=ellipse,style=filled ]
+node404 [fillcolor=lightcoral,label="  store i32 0, i32* %value, align 8",shape=ellipse,style=filled ]
+node398 [fillcolor=lightcoral,label="  store %struct.list_node* null, %struct.list_node** %next, align 8",shape=ellipse,style=filled ]
+node399 [fillcolor=lightcoral,label="  store %struct.list_node* %this, %struct.list_node** %this.addr, align 8",shape=ellipse,style=filled ]
+node397 [fillcolor=grey,label="  %next = getelementptr inbounds %struct.list_node, %struct.list_node* %this1, i32 0, i32 1",shape=rectangle,style=filled ]
+node403 [fillcolor=grey,label="  %value = getelementptr inbounds %struct.list_node, %struct.list_node* %this1, i32 0, i32 0",shape=rectangle,style=filled ]
+node400 [fillcolor=grey,label="  %this.addr = alloca %struct.list_node*, align 8",shape=rectangle,style=filled ]
+node401 [fillcolor=lemonchiffon,label="  ret void",shape=ellipse,style=filled ]
+node402 [fillcolor=lightcoral,label="  %this1 = load %struct.list_node*, %struct.list_node** %this.addr, align 8",shape=ellipse,style=filled ]
 
-node309->node311 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
-node311->node308 [style=solid,color=firebrick3,label="A",penwidth=2.0,fontcolor=firebrick3 ]
-node312->node313 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
-node308->node311 [style=solid,color=forestgreen,label="T",penwidth=2.0,fontcolor=forestgreen ]
-node306->node307 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
-node309->node308 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
-node311->node312 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
-node311->node306 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
+node400->node399 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
+node397->node398 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
+node402->node403 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
+node399->node402 [style=solid,color=forestgreen,label="T",penwidth=2.0,fontcolor=forestgreen ]
+node402->node399 [style=solid,color=firebrick3,label="A",penwidth=2.0,fontcolor=firebrick3 ]
+node402->node397 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
+node400->node402 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
+node403->node404 [style=dotted,color=forestgreen,label="T",penwidth=1.0,fontcolor=forestgreen ]
 
 
 }

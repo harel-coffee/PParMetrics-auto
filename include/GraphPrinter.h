@@ -29,21 +29,16 @@ struct GraphPrinter<NODE*,EDGE*,PASS> : public llvm::FunctionPass {
         llvm::StringRef getPassName() const;
         void releaseMemory() override {}
 
-        typedef enum class PrintAugmentType {
-            PRINT_AUGMENT_NO,
-            PRINT_AUGMENT_DFS_TIMESTAMPS
-        } PrintAugmentType;
-
-        typedef enum class GraphPrintType {
-            PRINT_MAIN_GRAPH,
-            PRINT_SCC_SUBGRAPH,
-            PRINT_COMPONENT_GRAPH
-        } PrintType;
+        typedef enum GraphFormationOption {
+            DEFAULT = 0x0,
+            DFS_TIMESTAMPS = 0x1, // add DFS timestamps to the nodes of the graph
+            ONLY_NODES = 0x2, // do not include graph edges into the DOT file
+            ONLY_EDGES = 0x4, // do not include graph nodes into the DOT file
+            MARK_SCC_ROOTS = 0x8
+        } FormationOption;
 
     private:
-        void formDOTGraph(DotGraph&, const Graph<NODE*,EDGE*>&, 
-                          PrintType Type = PrintType::PRINT_MAIN_GRAPH, 
-                          PrintAugmentType AugmentType = PrintAugmentType::PRINT_AUGMENT_NO);
+        void formDOTGraph(DotGraph&, const Graph<NODE*,EDGE*>&, uint64_t FormationOptions);
 
         void buildDotNode(const NODE* N, DotNode* Node);
         void buildDotEdge(const EDGE* Dep, DotEdge* Edge); 

@@ -2,21 +2,21 @@
 digraph G {
 
 
-node466 [fillcolor=lightcoral,label="[9/10]  store i32 0, i32* %value, align 8",shape=ellipse,style=filled ]
-node465 [fillcolor=grey,label="[8/11]  %value = getelementptr inbounds %struct.list_node, %struct.list_node* %this1, i32 0, i32 0",shape=rectangle,style=filled ]
-node460 [fillcolor=lightcoral,label="[1/2]  store %struct.list_node* null, %struct.list_node** %next, align 8",shape=ellipse,style=filled ]
-node461 [fillcolor=lightcoral,label="[4/5]  store %struct.list_node* %this, %struct.list_node** %this.addr, align 8",shape=ellipse,style=filled ]
-node463 [fillcolor=lemonchiffon,label="[14/15]  ret void",shape=ellipse,style=filled ]
-node464 [fillcolor=lightcoral,label="[7/12]  %this1 = load %struct.list_node*, %struct.list_node** %this.addr, align 8",shape=ellipse,style=filled ]
-node459 [fillcolor=grey,label="[0/3]  %next = getelementptr inbounds %struct.list_node, %struct.list_node* %this1, i32 0, i32 1",shape=rectangle,style=filled ]
-node462 [fillcolor=grey,label="[6/13]  %this.addr = alloca %struct.list_node*, align 8",shape=rectangle,style=filled ]
+node468 [fillcolor=lightcoral,label="[9/10]  store i32 0, i32* %value, align 8",shape=ellipse,style=filled ]
+node462 [fillcolor=lightcoral,label="[0/1]  store %struct.list_node* null, %struct.list_node** %next, align 8",shape=ellipse,style=filled ]
+node466 [fillcolor=lightcoral,label="[5/12]  %this1 = load %struct.list_node*, %struct.list_node** %this.addr, align 8",shape=ellipse,style=filled ]
+node467 [fillcolor=grey,label="[8/11]  %value = getelementptr inbounds %struct.list_node, %struct.list_node* %this1, i32 0, i32 0",shape=rectangle,style=filled ]
+node461 [fillcolor=grey,label="[6/7]  %next = getelementptr inbounds %struct.list_node, %struct.list_node* %this1, i32 0, i32 1",shape=rectangle,style=filled ]
+node463 [fillcolor=lightcoral,label="[2/3]  store %struct.list_node* %this, %struct.list_node** %this.addr, align 8",shape=ellipse,style=filled ]
+node464 [fillcolor=grey,label="[4/13]  %this.addr = alloca %struct.list_node*, align 8",shape=rectangle,style=filled ]
+node465 [fillcolor=lemonchiffon,label="[14/15]  ret void",shape=ellipse,style=filled ]
 
-node462->node464 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
-node464->node465 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
-node459->node460 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
-node465->node466 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
-node462->node461 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
-node464->node459 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node464->node463 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node466->node467 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node466->node461 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node464->node466 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node461->node462 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node467->node468 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
 
 
 }

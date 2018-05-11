@@ -1,0 +1,24 @@
+
+digraph G {
+
+
+node351 [fillcolor=lightcoral,label="[6/7]  store i32 0, i32* %value, align 8",shape=ellipse,style=filled ]
+node350 [fillcolor=grey,label="[5/8]  %value = getelementptr inbounds %struct.list_node, %struct.list_node* %this1, i32 0, i32 0",shape=rectangle,style=filled ]
+node344 [fillcolor=grey,label="[0/3]  %next = getelementptr inbounds %struct.list_node, %struct.list_node* %this1, i32 0, i32 1",shape=rectangle,style=filled ]
+node346 [fillcolor=lightcoral,label="[9/10]  store %struct.list_node* %this, %struct.list_node** %this.addr, align 8",shape=ellipse,style=filled ]
+node347 [fillcolor=lemonchiffon,label="[12/13]  ret void",shape=ellipse,style=filled ]
+node348 [fillcolor=lightcoral,label="[1/2]  store %struct.list_node* null, %struct.list_node** %next, align 8",shape=ellipse,style=filled ]
+node345 [fillcolor=lightcoral,label="[4/11]  %this1 = load %struct.list_node*, %struct.list_node** %this.addr, align 8",shape=ellipse,style=filled ]
+node349 [fillcolor=grey,label="[14/15]  %this.addr = alloca %struct.list_node*, align 8",shape=rectangle,style=filled ]
+
+node349->node346 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node345->node344 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node350->node351 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node344->node348 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node345->node350 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node346->node345 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node349->node345 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node345->node346 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+
+
+}

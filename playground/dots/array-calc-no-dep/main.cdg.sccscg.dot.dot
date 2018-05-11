@@ -11,7 +11,7 @@ node23->node23 [ ]
 subgraph cluster4 {
 
 
-node24 [penwidth=3.0,fontsize=20,shape=rectangle,label="[0/1]
+node24 [penwidth=3.0,fontsize=20,shape=rectangle,label="[6/7]
 entry:
   %retval = alloca i32, align 4
   %a = alloca [100 x i32], align 16
@@ -30,7 +30,7 @@ entry:
 subgraph cluster3 {
 
 
-node23 [penwidth=3.0,fontsize=20,shape=rectangle,label="[0/1]
+node23 [penwidth=3.0,fontsize=20,shape=rectangle,label="[8/9]
 for.cond:                                         ; preds = %for.inc, %entry
   %0 = load i32, i32* %i, align 4
   %cmp = icmp ult i32 %0, 100
@@ -44,7 +44,7 @@ for.cond:                                         ; preds = %for.inc, %entry
 subgraph cluster2 {
 
 
-node22 [penwidth=3.0,fontsize=20,shape=rectangle,label="[0/1]
+node22 [penwidth=3.0,fontsize=20,shape=rectangle,label="[4/5]
 for.body:                                         ; preds = %for.cond
   %1 = load i32, i32* %i, align 4
   %idxprom = zext i32 %1 to i64
@@ -84,7 +84,7 @@ for.inc:                                          ; preds = %for.body
 subgraph cluster1 {
 
 
-node21 [penwidth=3.0,fontsize=20,shape=rectangle,label="[0/1]
+node21 [penwidth=3.0,fontsize=20,shape=rectangle,label="[2/3]
 for.end:                                          ; preds = %for.cond
   ret i32 0
 " ]

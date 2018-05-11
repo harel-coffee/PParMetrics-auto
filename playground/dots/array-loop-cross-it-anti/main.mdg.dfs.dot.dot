@@ -1,0 +1,35 @@
+
+digraph G {
+
+
+node17 [fillcolor=lightcoral,label="[13/14]  %2 = load i32, i32* %arrayidx, align 4",shape=ellipse,style=filled ]
+node15 [fillcolor=lightcoral,label="[1/10]  %1 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node10 [fillcolor=lightcoral,label="[7/8]  %4 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node9 [fillcolor=lightcoral,label="[0/11]  store i32 %inc, i32* %i, align 4",shape=ellipse,style=filled ]
+node16 [fillcolor=lightcoral,label="[3/4]  %3 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node12 [fillcolor=lightcoral,label="[2/9]  store i32 0, i32* %i, align 4",shape=ellipse,style=filled ]
+node11 [fillcolor=lightcoral,label="[12/15]  store i32 %2, i32* %arrayidx2, align 4",shape=ellipse,style=filled ]
+node13 [fillcolor=lightcoral,label="[16/17]  store i32 0, i32* %retval, align 4",shape=ellipse,style=filled ]
+node14 [fillcolor=lightcoral,label="[5/6]  %0 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+
+node17->node11 [ ]
+node9->node16 [ ]
+node16->node9 [ ]
+node11->node17 [ ]
+node9->node10 [ ]
+node16->node12 [ ]
+node12->node15 [ ]
+node12->node16 [ ]
+node12->node10 [ ]
+node10->node12 [ ]
+node14->node9 [ ]
+node9->node14 [ ]
+node15->node9 [ ]
+node10->node9 [ ]
+node14->node12 [ ]
+node12->node14 [ ]
+node15->node12 [ ]
+node9->node15 [ ]
+
+
+}

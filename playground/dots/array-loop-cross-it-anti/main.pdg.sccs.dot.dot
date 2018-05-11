@@ -1,0 +1,182 @@
+
+digraph G {
+
+
+
+
+
+subgraph cluster13 {
+
+
+node85 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[19/22]  %idxprom = zext i32 %add to i64",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster11 {
+
+
+node83 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[40/41]  br label %for.cond",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster10 {
+
+
+node82 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[18/23]  %add = add i32 %1, 1",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster9 {
+
+
+node81 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[36/39]  %retval = alloca i32, align 4",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster8 {
+
+
+node80 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[27/28]  br label %for.cond",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster7 {
+
+
+node79 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[42/43]  ret i32 0",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster14 {
+
+
+node86 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[37/38]  store i32 0, i32* %retval, align 4",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster6 {
+
+
+node78 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[46/47]  %a = alloca [100 x i32], align 16",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster0 {
+
+
+node63 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[0/7]  %idxprom1 = zext i32 %3 to i64",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster12 {
+
+
+node84 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[1/6]  %arrayidx2 = getelementptr inbounds [100 x i32], [100 x i32]* %a, i64 0, i64 %idxprom1",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster5 {
+
+
+node77 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[44/45]  %i = alloca i32, align 4",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster1 {
+
+
+node64 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[20/21]  %arrayidx = getelementptr inbounds [100 x i32], [100 x i32]* %a, i64 0, i64 %idxprom",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster2 {
+
+
+node65 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[29/30]  br label %for.inc",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster3 {
+
+
+node74 [fillcolor=lightcoral,label="[16/25]  store i32 0, i32* %i, align 4",shape=ellipse,style=filled ]
+node72 [fillcolor=lemonchiffon,label="[12/31]  br i1 %cmp, label %for.body, label %for.end",shape=ellipse,style=filled ]
+node73 [fillcolor=lightcoral,label="[15/26]  %4 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node66 [fillcolor=grey,label="[13/14]  %inc = add i32 %4, 1",shape=rectangle,style=filled ]
+node68 [fillcolor=lightcoral,label="[9/34]  store i32 %inc, i32* %i, align 4",shape=ellipse,style=filled ]
+node69 [fillcolor=lightcoral,label="[17/24]  %1 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node67 [fillcolor=grey,label="[11/32]  %cmp = icmp ult i32 %0, 99",shape=rectangle,style=filled ]
+node70 [fillcolor=lightcoral,label="[10/33]  %0 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node71 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[8/35]  %3 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+
+node74->node71 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node73->node66 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node72->node66 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node68->node73 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node74->node69 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node72->node67 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node67->node72 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node71->node68 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node70->node67 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node72->node69 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node72->node73 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node69->node74 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node73->node74 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node68->node69 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node66->node68 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node72->node68 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node72->node70 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node71->node74 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node72->node72 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node74->node73 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node68->node70 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node70->node68 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node73->node68 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node68->node71 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node72->node71 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node74->node70 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node70->node74 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node69->node68 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+
+
+}
+
+subgraph cluster4 {
+
+
+node76 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[2/5]  store i32 %2, i32* %arrayidx2, align 4",shape=ellipse,style=filled ]
+node75 [fillcolor=lightcoral,label="[3/4]  %2 = load i32, i32* %arrayidx, align 4",shape=ellipse,style=filled ]
+
+node75->node76 [style=solid,color=firebrick3,label="A|indep",penwidth=1.0,fontcolor=firebrick3 ]
+node76->node75 [style=solid,color=forestgreen,label="T|indep",penwidth=1.0,fontcolor=forestgreen ]
+
+
+}
+
+}

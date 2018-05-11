@@ -8,8 +8,8 @@ digraph G {
 subgraph cluster2 {
 
 
-node32 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[1/2]  store i32 %add, i32* %arrayidx4, align 4",shape=ellipse,style=filled ]
-node31 [fillcolor=lightcoral,label="[0/3]  %2 = load i32, i32* %arrayidx, align 4",shape=ellipse,style=filled ]
+node32 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[14/17]  store i32 %add, i32* %arrayidx4, align 4",shape=ellipse,style=filled ]
+node31 [fillcolor=lightcoral,label="[15/16]  %2 = load i32, i32* %arrayidx, align 4",shape=ellipse,style=filled ]
 
 node31->node32 [ ]
 node32->node31 [ ]
@@ -20,30 +20,30 @@ node32->node31 [ ]
 subgraph cluster0 {
 
 
-node24 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[1/10]  store i32 %inc, i32* %i, align 4",shape=ellipse,style=filled ]
-node26 [fillcolor=lightcoral,label="[2/3]  %1 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
-node29 [fillcolor=lightcoral,label="[8/9]  %3 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
-node23 [fillcolor=lightcoral,label="[0/13]  %4 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
-node25 [fillcolor=lightcoral,label="[11/12]  store i32 0, i32* %i, align 4",shape=ellipse,style=filled ]
-node27 [fillcolor=lightcoral,label="[4/5]  %0 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
-node28 [fillcolor=lightcoral,label="[6/7]  %5 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node24 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/13]  store i32 %inc, i32* %i, align 4",shape=ellipse,style=filled ]
+node26 [fillcolor=lightcoral,label="[1/12]  %1 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node29 [fillcolor=lightcoral,label="[7/8]  %3 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node23 [fillcolor=lightcoral,label="[9/10]  %4 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node25 [fillcolor=lightcoral,label="[2/11]  store i32 0, i32* %i, align 4",shape=ellipse,style=filled ]
+node27 [fillcolor=lightcoral,label="[3/4]  %0 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node28 [fillcolor=lightcoral,label="[5/6]  %5 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
 
 node25->node29 [ ]
 node29->node25 [ ]
-node25->node28 [ ]
-node28->node25 [ ]
+node27->node25 [ ]
 node24->node26 [ ]
 node24->node28 [ ]
+node25->node27 [ ]
+node29->node24 [ ]
 node26->node24 [ ]
 node25->node26 [ ]
+node28->node25 [ ]
 node24->node29 [ ]
 node28->node24 [ ]
-node29->node24 [ ]
-node25->node27 [ ]
-node27->node25 [ ]
 node24->node27 [ ]
 node27->node24 [ ]
 node23->node24 [ ]
+node25->node28 [ ]
 node26->node25 [ ]
 node23->node25 [ ]
 node24->node23 [ ]
@@ -55,7 +55,7 @@ node25->node23 [ ]
 subgraph cluster1 {
 
 
-node30 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/1]  store i32 0, i32* %retval, align 4",shape=ellipse,style=filled ]
+node30 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[18/19]  store i32 0, i32* %retval, align 4",shape=ellipse,style=filled ]
 
 
 

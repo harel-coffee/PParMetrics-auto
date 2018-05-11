@@ -8,7 +8,7 @@ digraph G {
 subgraph cluster4 {
 
 
-node19 [penwidth=3.0,fontsize=20,shape=rectangle,label="[0/1]
+node19 [penwidth=3.0,fontsize=20,shape=rectangle,label="[6/7]
 entry:
   %retval = alloca i32, align 4
   %i = alloca i32, align 4
@@ -24,7 +24,7 @@ entry:
 subgraph cluster3 {
 
 
-node18 [penwidth=3.0,fontsize=20,shape=rectangle,label="[0/1]
+node18 [penwidth=3.0,fontsize=20,shape=rectangle,label="[0/5]
 for.cond:                                         ; preds = %for.inc, %entry
   %0 = load i32, i32* %i, align 4
   %cmp = icmp ult i32 %0, 100
@@ -39,7 +39,7 @@ node18->node18 [ ]
 subgraph cluster2 {
 
 
-node17 [penwidth=3.0,fontsize=20,shape=rectangle,label="[0/1]
+node17 [penwidth=3.0,fontsize=20,shape=rectangle,label="[8/9]
 for.end:                                          ; preds = %for.cond
   ret i32 0
 " ]
@@ -51,7 +51,7 @@ for.end:                                          ; preds = %for.cond
 subgraph cluster0 {
 
 
-node15 [penwidth=3.0,fontsize=20,shape=rectangle,label="[0/1]
+node15 [penwidth=3.0,fontsize=20,shape=rectangle,label="[1/2]
 for.inc:                                          ; preds = %for.body
   %5 = load i32, i32* %i, align 4
   %inc = add i32 %5, 1
@@ -66,7 +66,7 @@ for.inc:                                          ; preds = %for.body
 subgraph cluster1 {
 
 
-node16 [penwidth=3.0,fontsize=20,shape=rectangle,label="[0/1]
+node16 [penwidth=3.0,fontsize=20,shape=rectangle,label="[3/4]
 for.body:                                         ; preds = %for.cond
   %1 = load i32, i32* %i, align 4
   %idxprom = zext i32 %1 to i64

@@ -1,0 +1,14 @@
+
+digraph G {
+
+
+node120 [fillcolor=lightcoral,label="[5/6]  %this1 = load %struct.list_node*, %struct.list_node** %this.addr, align 8",shape=ellipse,style=filled ]
+node119 [fillcolor=lightcoral,label="[4/7]  store %struct.list_node* %this, %struct.list_node** %this.addr, align 8",shape=ellipse,style=filled ]
+node117 [fillcolor=lightcoral,label="[0/1]  store %struct.list_node* null, %struct.list_node** %next, align 8",shape=ellipse,style=filled ]
+node118 [fillcolor=lightcoral,label="[2/3]  store i32 0, i32* %value, align 8",shape=ellipse,style=filled ]
+
+node119->node120 [ ]
+node120->node119 [ ]
+
+
+}

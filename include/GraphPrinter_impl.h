@@ -36,13 +36,14 @@ template <typename NODE, typename EDGE, typename PASS>
 void GraphPrinter<NODE*,EDGE*,PASS>::formDOTGraph(DotGraph& DotG, const Graph<NODE*,EDGE*>& G, uint64_t FormOptions) {
     std::unordered_map<const void*,std::string>& NodeToDotName = DotG.getMapping();
 
-    if (FormOptions & FormationOption::DFS_TIMESTAMPS) { 
+/*    if ( (FormOptions & FormationOption::DFS_TIMESTAMPS) &&
+         (DotG.getType() != DotGraph::GraphType::SUBGRAPH) ) { 
         // augment graph with DFS ordering
         if (!G.isDFSDataValid()) {
             G.dfsTraverse();
         }
-    }
-    auto& DFS_properties = G.getDFS_properties();
+    }*/
+    auto& DFS_properties = (G.getParent() != nullptr) ? (G.getParent())->getDFS_properties() : G.getDFS_properties();
 
     if ((FormOptions & FormationOption::ONLY_EDGES) == 0x0) { 
         for (typename Graph<NODE*,EDGE*>::const_node_iterator node_it = G.nodes_cbegin(); node_it != G.nodes_cend(); node_it++) {
@@ -102,6 +103,15 @@ bool GraphPrinter<NODE*,EDGE*,PASS>::runOnFunction(llvm::Function& F) {
     string FileName;
     uint64_t PrintConfig;
 
+    if (!G.isDFSDataValid()) {
+        G.dfsTraverse();
+    }
+
+    if (!G.isSCCsDataValid() || !G.isComponentGraphDataValid()) {
+        G.findSCCs();
+        G.buildComponentGraph();
+    }
+
     // print the main graph of the function
     FileName = F.getName().str() + PASS::getDotFileExtension();
     DotPrinter MainPrinter(FileName);
@@ -116,11 +126,6 @@ bool GraphPrinter<NODE*,EDGE*,PASS>::runOnFunction(llvm::Function& F) {
     PrintConfig = FormationOption::DEFAULT + FormationOption::DFS_TIMESTAMPS;
     formDOTGraph(MainPrinter_dfs.getGraph(), G, PrintConfig); 
     MainPrinter_dfs.print();
-
-    if (!G.isSCCsDataValid() || !G.isComponentGraphDataValid()) {
-        G.findSCCs();
-        G.buildComponentGraph();
-    }
 
     // print component graph of the function
     FileName = F.getName().str() + PASS::getCGDotFileExtension();

@@ -9,9 +9,11 @@
 namespace ppar {
 
 template <typename NODE, typename EDGE>
-Graph<NODE*,EDGE*>::Graph(llvm::Pass* GPass, const llvm::Function& F) : Func(F) {
+Graph<NODE*,EDGE*>::Graph(llvm::Pass* GPass, const llvm::Function& F, const Graph<NODE*,EDGE*>* Parent) : Func(F) {
 
     GraphPass = GPass;
+
+    ParentGraph = Parent;
 
     Root = InvalidNode; 
     
@@ -215,7 +217,6 @@ void Graph<NODE*,EDGE*>::dfsTraverse(DFS_callback<NODE*,EDGE*>* VisitorFunc) con
  
     while (!SearchSet.empty()) { // we still have undiscovered (white) nodes
         Stack.push(*SearchSet.begin());
-        DFS_properties[GraphNode<NODE*,EDGE*>(*SearchSet.begin())]->Color = DFS_node_properties::NodeColor::SILVER;
 
         DEBUG(
             std::string str;
@@ -236,8 +237,6 @@ void Graph<NODE*,EDGE*>::dfsTraverse(DFS_callback<NODE*,EDGE*>* VisitorFunc) con
 
                 if (Node_props->Color == DFS_node_properties::NodeColor::WHITE) {
                     llvm::dbgs() << "[" << CurrentTime << "] taking the node off the stack: WHITE " << str << "\n";
-                } else if (Node_props->Color == DFS_node_properties::NodeColor::SILVER) {
-                    llvm::dbgs() << "[" << CurrentTime << "] taking the node off the stack: SILVER " << str << "\n";
                 } else if (Node_props->Color == DFS_node_properties::NodeColor::GREY) {
                     llvm::dbgs() << "[" << CurrentTime << "] taking the node off the stack: GREY " << str << "\n";
                 } else if (Node_props->Color == DFS_node_properties::NodeColor::BLACK) {
@@ -246,7 +245,7 @@ void Graph<NODE*,EDGE*>::dfsTraverse(DFS_callback<NODE*,EDGE*>* VisitorFunc) con
 
             );
 
-            if (Node_props->Color == DFS_node_properties::NodeColor::SILVER) {
+            if (Node_props->Color == DFS_node_properties::NodeColor::WHITE) {
                 Node_props->Color = DFS_node_properties::NodeColor::GREY;
                 DFS_properties[CurrentNode]->TimestampEntry = CurrentTime++;
                 SearchSet.erase(CurrentNode); // node is discovered
@@ -259,8 +258,12 @@ void Graph<NODE*,EDGE*>::dfsTraverse(DFS_callback<NODE*,EDGE*>* VisitorFunc) con
                     std::string str;
                     llvm::raw_string_ostream rso(str);
                     (CurrentNode.getNode())->print(rso);
-                    llvm::dbgs() << "[" << CurrentTime << "] discovered new node SILVER->GREY: " << str << "\n";
+                    llvm::dbgs() << "[" << CurrentTime << "] discovered new node WHITE->GREY: " << str << "\n";
                 );
+            } else if (Node_props->Color == DFS_node_properties::NodeColor::BLACK) {
+                // node has already been fully processed - no more processing to do
+                Stack.pop();
+                continue;
             }
 
             const auto it = Succs.find(CurrentNode);
@@ -279,7 +282,6 @@ void Graph<NODE*,EDGE*>::dfsTraverse(DFS_callback<NODE*,EDGE*>* VisitorFunc) con
                         // hence the node is not yet completely processed
                         NodeIsProcessed = false;
                         Stack.push(GraphNode<NODE*,EDGE*>(*succ_it));
-                        DFS_properties[GraphNode<NODE*,EDGE*>(*succ_it)]->Color = DFS_node_properties::NodeColor::SILVER;
                         // since this successor hasn't been visited yet, 
                         // we mark corresponding edge as of tree edge type
                         Type = GraphEdge<NODE*,EDGE*>::EdgeType::TREE;
@@ -291,13 +293,6 @@ void Graph<NODE*,EDGE*>::dfsTraverse(DFS_callback<NODE*,EDGE*>* VisitorFunc) con
                             llvm::dbgs() << "[" << CurrentTime << "] found successor: WHITE " << str << "\n";
                         );
 
-                    } else if (SuccNodeColor == DFS_node_properties::NodeColor::SILVER) {
-                        DEBUG(
-                            std::string str;
-                            llvm::raw_string_ostream rso(str);
-                            ((*succ_it).getNode())->print(rso);
-                            llvm::dbgs() << "[" << CurrentTime << "] found successor: SILVER " << str << "\n";
-                        );
                     } else if (SuccNodeColor == DFS_node_properties::NodeColor::GREY) {
                         Type = GraphEdge<NODE*,EDGE*>::EdgeType::BACK;
 
@@ -323,10 +318,8 @@ void Graph<NODE*,EDGE*>::dfsTraverse(DFS_callback<NODE*,EDGE*>* VisitorFunc) con
                         );
                     }
                     
-                    if (SuccNodeColor != DFS_node_properties::NodeColor::SILVER) {
-                        for (auto& edge : EdgesSet) {
-                            edge.Type = Type;
-                        }
+                    for (auto& edge : EdgesSet) {
+                        edge.Type = Type;
                     }
                 }
             } else {
@@ -410,7 +403,7 @@ void Graph<NODE*,EDGE*>::findSCCs() const {
     // of the graph among its strongly connected components
     while (!SearchSet.empty()) { // we still have undiscovered (white) nodes
         GraphNode<NODE*,EDGE*> SCC_root = *(SearchSet.begin()); // take the next node (in finishing time descending order)
-        Graph<NODE*,EDGE*>* CurrentSCC = new Graph<NODE*,EDGE*>(GraphPass,Func);
+        Graph<NODE*,EDGE*>* CurrentSCC = new Graph<NODE*,EDGE*>(GraphPass,Func,this);
         CurrentSCC->setRoot(SCC_root.getNode());
         SCCs[SCC_root] = CurrentSCC;
         
@@ -425,7 +418,6 @@ void Graph<NODE*,EDGE*>::findSCCs() const {
         );
         
         Stack.push(GraphNode<NODE*,EDGE*>(SCC_root));
-        DFS_properties[SCC_root]->Color = DFS_node_properties::NodeColor::SILVER;
         // start to form a new tree in a DFS forest (start to build a new Strongly Connected Component)
         while (!Stack.empty()) {
             GraphNode<NODE*,EDGE*> CurrentNode(Stack.top());
@@ -448,8 +440,7 @@ void Graph<NODE*,EDGE*>::findSCCs() const {
            
             DFS_node_properties* Node_props = DFS_properties[CurrentNode].get();
 
-            if ( Node_props->Color == DFS_node_properties::NodeColor::SILVER ||
-                 Node_props->Color == DFS_node_properties::NodeColor::WHITE ) {
+            if (Node_props->Color == DFS_node_properties::NodeColor::WHITE) {
                 Node_props->Color = DFS_node_properties::NodeColor::BLACK;
                 SearchSet.erase(CurrentNode); // node is discovered
             }
@@ -461,7 +452,6 @@ void Graph<NODE*,EDGE*>::findSCCs() const {
                 for (typename unordered_node_set::const_iterator succ_it = Successors.cbegin(); succ_it != Successors.cend(); succ_it++) {
                     DFS_node_properties::NodeColor SuccNodeColor = DFS_properties[GraphNode<NODE*,EDGE*>(*succ_it)]->Color;
                     if (SuccNodeColor == DFS_node_properties::NodeColor::WHITE) {
-                        DFS_properties[GraphNode<NODE*,EDGE*>(*succ_it)]->Color = DFS_node_properties::NodeColor::SILVER;
                         Stack.push(GraphNode<NODE*,EDGE*>(*succ_it));
                     }
                 }
@@ -513,7 +503,7 @@ void Graph<NODE*,EDGE*>::buildComponentGraph() const {
     }
  
     if (ComponentGraph == nullptr) {
-        ComponentGraph = new Graph<NODE*,EDGE*>(GraphPass, Func);
+        ComponentGraph = new Graph<NODE*,EDGE*>(GraphPass, Func, this);
     } else {
         llvm_unreachable("Component Graph memory allocation: CG pointer must be nullptr!");
     }

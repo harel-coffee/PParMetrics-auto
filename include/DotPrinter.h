@@ -96,6 +96,8 @@ class DotGraph {
             return NodeToDotName;
         }
 
+        GraphType getType() const { return Type; }
+
     private:
         // subgraph name of the format 'cluster%d'
         uint64_t SubGraphNum;

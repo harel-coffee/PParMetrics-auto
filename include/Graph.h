@@ -368,7 +368,7 @@ class Graph<NODE*,EDGE*> {
         using edge_t = EDGE;
         using edge_ptr_t = EDGE*;
 
-        Graph(llvm::Pass* GraphPass, const llvm::Function& F);
+        Graph(llvm::Pass* GraphPass, const llvm::Function& F, const Graph<NODE*,EDGE*>* Parent = nullptr);
         ~Graph();
 
         // data structures for storing and working with graph nodes and edges
@@ -423,6 +423,10 @@ class Graph<NODE*,EDGE*> {
 
         bool operator!=(const Graph& G) {
             return !(this->operator==(G)); 
+        }
+
+        const Graph<NODE*,EDGE*>* getParent() const {
+            return ParentGraph;
         }
 
         GraphNode<NODE*,EDGE*> getRoot() const {
@@ -587,6 +591,8 @@ class Graph<NODE*,EDGE*> {
         const llvm::Function& Func;
         // Pass, building the graph
         llvm::Pass* GraphPass;
+        // SCCs must refer to the parent graph they have been computed on
+        const Graph<NODE*,EDGE*>* ParentGraph;
 
         /* 
          * Graph representation 

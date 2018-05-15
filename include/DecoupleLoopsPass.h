@@ -63,12 +63,11 @@ struct DecoupleLoopsPass : public llvm::FunctionPass {
         void releaseMemory() override;
 
         const std::unordered_map<const llvm::Loop*, std::unique_ptr<LoopDependenceInfo>>& getLoopsDepInfo() {
-            return LoopsDepInfo;    
+            return LoopsDepInfo;
         }
 
     private:
         std::unordered_map<const llvm::Loop*, std::unique_ptr<LoopDependenceInfo>> LoopsDepInfo;
-        std::vector<DependenceGraph*> ScalarCode;
 };
 
 } // namespace ppar

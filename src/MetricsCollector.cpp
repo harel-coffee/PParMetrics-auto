@@ -39,6 +39,7 @@ void MetricsCollector::getAnalysisUsage(llvm::AnalysisUsage& AU) const {
     AU.setPreservesAll();
     AU.addRequired<LoopInfoWrapperPass>();
     AU.addRequired<ppar::MetricPass<ppar::IteratorLoopPercentage>>();
+    AU.addRequired<ppar::MetricPass<ppar::LoopSCCsNumber>>();
 }
 
 llvm::StringRef MetricsCollector::getPassName() const { 
@@ -48,54 +49,50 @@ llvm::StringRef MetricsCollector::getPassName() const {
 bool MetricsCollector::runOnFunction(llvm::Function& F) {
     // metrics file for function F 
     std::ofstream FuncMetricsFile(F.getName().str() + ".func.metrics");
-    // metrics files for every loop in the function F 
+    // function loops to print metrics for 
     const LoopInfo& LI = (getAnalysis<LoopInfoWrapperPass>()).getLoopInfo();
-    std::unordered_map<const llvm::Loop*,std::ofstream*> LoopToFileStream;
-    std::unordered_map<const llvm::Loop*,std::string> LoopAddrToName;
-    int i = 0;
-    for (Loop* L : LI) {
-        LoopAddrToName[L] = std::string("loop") + std::to_string(i);
-        i++;
-        LoopToFileStream[L] = new std::ofstream(F.getName().str() + "." + LoopAddrToName[L] + ".loop.metrics");
-    }
-
-    const std::unordered_map<const llvm::Loop*,double>* IterLoopPercentageMetric 
-        = (Pass::getAnalysis<ppar::MetricPass<ppar::IteratorLoopPercentage>>()).getMetricValues(F); 
-
-    // fill function metrics file
-    FuncMetricsFile << "[Pervasive Parallelism Metrics]\n";
-    FuncMetricsFile << "Function: " << F.getName().str() << "\n\n";
-   
-    // fill loop metrics file
-    for (Loop* L : LI) {
-        auto metric_it = IterLoopPercentageMetric->find(L);
-        if (metric_it != IterLoopPercentageMetric->end()) {
-            FuncMetricsFile << LoopAddrToName[L] << ":\n";
-            FuncMetricsFile << "\titer-percentage: " << metric_it->second << "\n";
-            *LoopToFileStream[L] << LoopAddrToName[L] << ":\n";
-            *LoopToFileStream[L] << "\titer-percentage: " << metric_it->second << "\n";
-        } 
-
-        for (auto inner_loop_it = L->begin(); inner_loop_it != L->end(); ++inner_loop_it) { 
-            auto metric_it = IterLoopPercentageMetric->find(*inner_loop_it);
-            if (metric_it != IterLoopPercentageMetric->end()) {
-                FuncMetricsFile << LoopAddrToName[*inner_loop_it] << ":\n";
-                FuncMetricsFile << "\titer-percentage: " << metric_it->second << "\n";
-                *LoopToFileStream[*inner_loop_it] << LoopAddrToName[*inner_loop_it] << ":\n";
-                *LoopToFileStream[*inner_loop_it] << "\titer-percentage: " << metric_it->second << "\n";
-            } 
+    std::vector<const Loop*> FunctionLoops;
+    for (auto loop_it = LI.begin(); loop_it != LI.end(); ++loop_it) {
+        const Loop* TopLevelL = *loop_it;
+        FunctionLoops.push_back(TopLevelL);
+        for (auto sub_loop_it = TopLevelL->begin(); sub_loop_it != TopLevelL->end(); ++sub_loop_it) {
+            const Loop* SubL = *sub_loop_it;
+            FunctionLoops.push_back(SubL);
         }
     }
 
-    for (Loop* L : LI) {
-        LoopToFileStream[L]->close();
-        delete LoopToFileStream[L];
+    // currently available metrics
+    const std::unordered_map<const llvm::Loop*,double>* IterLoopPercentageMetric 
+        = (Pass::getAnalysis<ppar::MetricPass<ppar::IteratorLoopPercentage>>()).getMetricValues(F); 
+
+    const std::unordered_map<const llvm::Loop*,double>* LoopSCCsNumberMetric 
+        = (Pass::getAnalysis<ppar::MetricPass<ppar::LoopSCCsNumber>>()).getMetricValues(F); 
+
+    // fill function metrics file
+    FuncMetricsFile << "[Pervasive Parallelism Metrics]\n\n";
+    FuncMetricsFile << "Function: " << F.getName().str() << "\n";
+   
+    for (const Loop* L : FunctionLoops) {
+        FuncMetricsFile << "Loop:\n";
+
+        auto metric_it = IterLoopPercentageMetric->find(L);
+        if (metric_it != IterLoopPercentageMetric->end()) {
+            FuncMetricsFile << "\titer-percentage: " << metric_it->second << "\n";
+        } else {
+            FuncMetricsFile << "\titer-percentage:\n";
+        }
+
+        auto it = LoopSCCsNumberMetric->find(L);
+        if (it != LoopSCCsNumberMetric->end()) {
+            FuncMetricsFile << "\tloop-sccs-num: " << it->second << "\n";
+        } else {
+            FuncMetricsFile << "\tloop-sccs-num:\n";
+        }
     }
-    LoopToFileStream.clear();
+
     FuncMetricsFile.close();
 
     return false;
 }
 
 } // namespace ppar
-

@@ -25,3 +25,6 @@ using namespace std;
 
 RegisterMetricPass(ppar::IteratorLoopPercentage, IterLoopPercentageMetricPass)
 #include "IteratorLoopPercentage_metric.spec.h"
+
+RegisterMetricPass(ppar::LoopSCCsNumber, LoopSCCsNumberMetricPass)
+#include "LoopSCCsNumber_metric.spec.h"

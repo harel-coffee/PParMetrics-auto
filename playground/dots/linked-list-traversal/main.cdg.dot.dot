@@ -21,10 +21,20 @@ while.body8:                                      ; preds = %while.cond5
   br i1 %cmp10, label %if.then, label %if.end
 ",shape=rectangle ]
 node9 [label="
-delete.notnull:                                   ; preds = %if.then
-  %21 = bitcast %struct.list_node* %20 to i8*
-  call void @_ZdlPv(i8* %21) #9
-  br label %delete.end
+entry:
+  %retval = alloca i32, align 4
+  %begin = alloca %struct.list_node, align 8
+  %list_it = alloca %struct.list_node*, align 8
+  %i = alloca i32, align 4
+  %exn.slot = alloca i8*
+  %ehselector.slot = alloca i32
+  %sum = alloca i32, align 4
+  %prev_it = alloca %struct.list_node*, align 8
+  store i32 0, i32* %retval, align 4
+  call void @_ZN9list_nodeC2Ev(%struct.list_node* %begin)
+  store %struct.list_node* %begin, %struct.list_node** %list_it, align 8
+  store i32 1, i32* %i, align 4
+  br label %for.cond
 ",shape=rectangle ]
 node6 [label="
 delete.end14:                                     ; preds = %delete.notnull13, %while.end11
@@ -55,8 +65,10 @@ invoke.cont:                                      ; preds = %for.body
   br label %for.inc
 ",shape=rectangle ]
 node10 [label="
-delete.end:                                       ; preds = %delete.notnull, %if.then
-  br label %if.end
+delete.notnull:                                   ; preds = %if.then
+  %21 = bitcast %struct.list_node* %20 to i8*
+  call void @_ZdlPv(i8* %21) #9
+  br label %delete.end
 ",shape=rectangle ]
 node5 [label="
 delete.notnull13:                                 ; preds = %while.end11
@@ -71,20 +83,8 @@ for.end:                                          ; preds = %for.cond
   br label %while.cond
 ",shape=rectangle ]
 node11 [label="
-entry:
-  %retval = alloca i32, align 4
-  %begin = alloca %struct.list_node, align 8
-  %list_it = alloca %struct.list_node*, align 8
-  %i = alloca i32, align 4
-  %exn.slot = alloca i8*
-  %ehselector.slot = alloca i32
-  %sum = alloca i32, align 4
-  %prev_it = alloca %struct.list_node*, align 8
-  store i32 0, i32* %retval, align 4
-  call void @_ZN9list_nodeC2Ev(%struct.list_node* %begin)
-  store %struct.list_node* %begin, %struct.list_node** %list_it, align 8
-  store i32 1, i32* %i, align 4
-  br label %for.cond
+delete.end:                                       ; preds = %delete.notnull, %if.then
+  br label %if.end
 ",shape=rectangle ]
 node18 [label="
 while.body:                                       ; preds = %while.cond
@@ -101,8 +101,10 @@ while.body:                                       ; preds = %while.cond
   br label %while.cond
 ",shape=rectangle ]
 node12 [label="
-if.end:                                           ; preds = %delete.end, %while.body8
-  br label %while.cond5
+while.cond:                                       ; preds = %while.body, %for.end
+  %8 = load %struct.list_node*, %struct.list_node** %list_it, align 8
+  %cmp2 = icmp ne %struct.list_node* %8, null
+  br i1 %cmp2, label %while.body, label %while.end
 ",shape=rectangle ]
 node16 [label="
 while.cond5:                                      ; preds = %if.end, %while.end
@@ -113,8 +115,7 @@ while.cond5:                                      ; preds = %if.end, %while.end
   br i1 %cmp7, label %while.body8, label %while.end11
 ",shape=rectangle ]
 node19 [label="
-while.end:                                        ; preds = %while.cond
-  store %struct.list_node* %begin, %struct.list_node** %list_it, align 8
+if.end:                                           ; preds = %delete.end, %while.body8
   br label %while.cond5
 ",shape=rectangle ]
 node13 [label="
@@ -137,25 +138,24 @@ for.body:                                         ; preds = %for.cond
   br label %invoke.cont
 ",shape=rectangle ]
 node20 [label="
-while.cond:                                       ; preds = %while.body, %for.end
-  %8 = load %struct.list_node*, %struct.list_node** %list_it, align 8
-  %cmp2 = icmp ne %struct.list_node* %8, null
-  br i1 %cmp2, label %while.body, label %while.end
+while.end:                                        ; preds = %while.cond
+  store %struct.list_node* %begin, %struct.list_node** %list_it, align 8
+  br label %while.cond5
 ",shape=rectangle ]
 
-node16->node12 [ ]
-node13->node9 [ ]
-node7->node8 [ ]
-node16->node21 [ ]
-node7->node15 [ ]
-node21->node13 [ ]
-node20->node20 [ ]
-node22->node5 [ ]
-node21->node10 [ ]
-node20->node18 [ ]
-node7->node14 [ ]
+node12->node12 [ ]
+node13->node10 [ ]
 node7->node7 [ ]
 node16->node16 [ ]
+node7->node14 [ ]
+node7->node15 [ ]
+node16->node21 [ ]
+node7->node8 [ ]
+node21->node13 [ ]
+node22->node5 [ ]
+node12->node18 [ ]
+node21->node11 [ ]
+node16->node19 [ ]
 
 
 }

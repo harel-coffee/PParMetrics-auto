@@ -3,19 +3,19 @@ digraph G {
 
 
 
-node79->node89 [ ]
-node88->node92 [ ]
-node87->node91 [ ]
-node93->node81 [ ]
+node89->node89 [ ]
+node80->node91 [ ]
 node93->node93 [ ]
-node86->node86 [ ]
-node79->node87 [ ]
+node93->node81 [ ]
+node79->node83 [ ]
 node85->node77 [ ]
-node86->node82 [ ]
-node93->node80 [ ]
-node87->node88 [ ]
-node93->node94 [ ]
 node79->node79 [ ]
+node83->node90 [ ]
+node93->node94 [ ]
+node89->node88 [ ]
+node79->node86 [ ]
+node93->node82 [ ]
+node83->node80 [ ]
 
 
 subgraph cluster16 {
@@ -50,22 +50,7 @@ for.inc:                                          ; preds = %invoke.cont
 subgraph cluster4 {
 
 
-node81 [penwidth=3.0,fontsize=20,shape=rectangle,label="[5/6]
-for.body:                                         ; preds = %for.cond
-  %call = call i8* @_Znwm(i64 16) #8
-  %1 = bitcast i8* %call to %struct.list_node*
-  call void @_ZN9list_nodeC2Ev(%struct.list_node* %1)
-  br label %invoke.cont
-" ]
-
-
-
-}
-
-subgraph cluster3 {
-
-
-node80 [penwidth=3.0,fontsize=20,shape=rectangle,label="[7/8]
+node81 [penwidth=3.0,fontsize=20,shape=rectangle,label="[7/8]
 invoke.cont:                                      ; preds = %for.body
   %2 = load %struct.list_node*, %struct.list_node** %list_it, align 8
   %next = getelementptr inbounds %struct.list_node, %struct.list_node* %2, i32 0, i32 1
@@ -85,10 +70,24 @@ invoke.cont:                                      ; preds = %for.body
 
 }
 
+subgraph cluster3 {
+
+
+node80 [penwidth=3.0,fontsize=20,shape=rectangle,label="[22/23]
+if.then:                                          ; preds = %while.body8
+  %20 = load %struct.list_node*, %struct.list_node** %prev_it, align 8
+  %isnull = icmp eq %struct.list_node* %20, null
+  br i1 %isnull, label %delete.end, label %delete.notnull
+" ]
+
+
+
+}
+
 subgraph cluster2 {
 
 
-node79 [penwidth=3.0,fontsize=20,shape=rectangle,label="[22/25]
+node79 [penwidth=3.0,fontsize=20,shape=rectangle,label="[24/29]
 while.cond5:                                      ; preds = %if.end, %while.end
   %14 = load %struct.list_node*, %struct.list_node** %list_it, align 8
   %next6 = getelementptr inbounds %struct.list_node, %struct.list_node* %14, i32 0, i32 1
@@ -118,9 +117,11 @@ delete.end14:                                     ; preds = %delete.notnull13, %
 subgraph cluster12 {
 
 
-node89 [penwidth=3.0,fontsize=20,shape=rectangle,label="[18/19]
-if.end:                                           ; preds = %delete.end, %while.body8
-  br label %while.cond5
+node89 [penwidth=3.0,fontsize=20,shape=rectangle,label="[18/21]
+while.cond:                                       ; preds = %while.body, %for.end
+  %8 = load %struct.list_node*, %struct.list_node** %list_it, align 8
+  %cmp2 = icmp ne %struct.list_node* %8, null
+  br i1 %cmp2, label %while.body, label %while.end
 " ]
 
 
@@ -130,19 +131,12 @@ if.end:                                           ; preds = %delete.end, %while.
 subgraph cluster5 {
 
 
-node82 [penwidth=3.0,fontsize=20,shape=rectangle,label="[28/29]
-while.body:                                       ; preds = %while.cond
-  %9 = load %struct.list_node*, %struct.list_node** %list_it, align 8
-  %value3 = getelementptr inbounds %struct.list_node, %struct.list_node* %9, i32 0, i32 0
-  %10 = load i32, i32* %value3, align 8
-  %11 = load i32, i32* %sum, align 4
-  %add = add nsw i32 %11, %10
-  store i32 %add, i32* %sum, align 4
-  %12 = load %struct.list_node*, %struct.list_node** %list_it, align 8
-  %next4 = getelementptr inbounds %struct.list_node, %struct.list_node* %12, i32 0, i32 1
-  %13 = load %struct.list_node*, %struct.list_node** %next4, align 8
-  store %struct.list_node* %13, %struct.list_node** %list_it, align 8
-  br label %while.cond
+node82 [penwidth=3.0,fontsize=20,shape=rectangle,label="[5/6]
+for.body:                                         ; preds = %for.cond
+  %call = call i8* @_Znwm(i64 16) #8
+  %1 = bitcast i8* %call to %struct.list_node*
+  call void @_ZN9list_nodeC2Ev(%struct.list_node* %1)
+  br label %invoke.cont
 " ]
 
 
@@ -166,10 +160,17 @@ delete.notnull13:                                 ; preds = %while.end11
 subgraph cluster6 {
 
 
-node83 [penwidth=3.0,fontsize=20,shape=rectangle,label="[30/31]
-while.end:                                        ; preds = %while.cond
-  store %struct.list_node* %begin, %struct.list_node** %list_it, align 8
-  br label %while.cond5
+node83 [penwidth=3.0,fontsize=20,shape=rectangle,label="[27/28]
+while.body8:                                      ; preds = %while.cond5
+  %16 = load %struct.list_node*, %struct.list_node** %list_it, align 8
+  store %struct.list_node* %16, %struct.list_node** %prev_it, align 8
+  %17 = load %struct.list_node*, %struct.list_node** %list_it, align 8
+  %next9 = getelementptr inbounds %struct.list_node, %struct.list_node* %17, i32 0, i32 1
+  %18 = load %struct.list_node*, %struct.list_node** %next9, align 8
+  store %struct.list_node* %18, %struct.list_node** %list_it, align 8
+  %19 = load %struct.list_node*, %struct.list_node** %prev_it, align 8
+  %cmp10 = icmp ne %struct.list_node* %19, %begin
+  br i1 %cmp10, label %if.then, label %if.end
 " ]
 
 
@@ -180,8 +181,10 @@ subgraph cluster14 {
 
 
 node91 [penwidth=3.0,fontsize=20,shape=rectangle,label="[14/15]
-delete.end:                                       ; preds = %delete.notnull, %if.then
-  br label %if.end
+delete.notnull:                                   ; preds = %if.then
+  %21 = bitcast %struct.list_node* %20 to i8*
+  call void @_ZdlPv(i8* %21) #9
+  br label %delete.end
 " ]
 
 
@@ -191,7 +194,7 @@ delete.end:                                       ; preds = %delete.notnull, %if
 subgraph cluster7 {
 
 
-node84 [penwidth=3.0,fontsize=20,shape=rectangle,label="[26/27]
+node84 [penwidth=3.0,fontsize=20,shape=rectangle,label="[30/31]
 for.end:                                          ; preds = %for.cond
   store i32 0, i32* %sum, align 4
   store %struct.list_node* %begin, %struct.list_node** %list_it, align 8
@@ -219,11 +222,9 @@ while.end11:                                      ; preds = %while.cond5
 subgraph cluster9 {
 
 
-node86 [penwidth=3.0,fontsize=20,shape=rectangle,label="[32/33]
-while.cond:                                       ; preds = %while.body, %for.end
-  %8 = load %struct.list_node*, %struct.list_node** %list_it, align 8
-  %cmp2 = icmp ne %struct.list_node* %8, null
-  br i1 %cmp2, label %while.body, label %while.end
+node86 [penwidth=3.0,fontsize=20,shape=rectangle,label="[25/26]
+if.end:                                           ; preds = %delete.end, %while.body8
+  br label %while.cond5
 " ]
 
 
@@ -233,17 +234,10 @@ while.cond:                                       ; preds = %while.body, %for.en
 subgraph cluster10 {
 
 
-node87 [penwidth=3.0,fontsize=20,shape=rectangle,label="[23/24]
-while.body8:                                      ; preds = %while.cond5
-  %16 = load %struct.list_node*, %struct.list_node** %list_it, align 8
-  store %struct.list_node* %16, %struct.list_node** %prev_it, align 8
-  %17 = load %struct.list_node*, %struct.list_node** %list_it, align 8
-  %next9 = getelementptr inbounds %struct.list_node, %struct.list_node* %17, i32 0, i32 1
-  %18 = load %struct.list_node*, %struct.list_node** %next9, align 8
-  store %struct.list_node* %18, %struct.list_node** %list_it, align 8
-  %19 = load %struct.list_node*, %struct.list_node** %prev_it, align 8
-  %cmp10 = icmp ne %struct.list_node* %19, %begin
-  br i1 %cmp10, label %if.then, label %if.end
+node87 [penwidth=3.0,fontsize=20,shape=rectangle,label="[32/33]
+while.end:                                        ; preds = %while.cond
+  store %struct.list_node* %begin, %struct.list_node** %list_it, align 8
+  br label %while.cond5
 " ]
 
 
@@ -253,11 +247,19 @@ while.body8:                                      ; preds = %while.cond5
 subgraph cluster11 {
 
 
-node88 [penwidth=3.0,fontsize=20,shape=rectangle,label="[20/21]
-if.then:                                          ; preds = %while.body8
-  %20 = load %struct.list_node*, %struct.list_node** %prev_it, align 8
-  %isnull = icmp eq %struct.list_node* %20, null
-  br i1 %isnull, label %delete.end, label %delete.notnull
+node88 [penwidth=3.0,fontsize=20,shape=rectangle,label="[19/20]
+while.body:                                       ; preds = %while.cond
+  %9 = load %struct.list_node*, %struct.list_node** %list_it, align 8
+  %value3 = getelementptr inbounds %struct.list_node, %struct.list_node* %9, i32 0, i32 0
+  %10 = load i32, i32* %value3, align 8
+  %11 = load i32, i32* %sum, align 4
+  %add = add nsw i32 %11, %10
+  store i32 %add, i32* %sum, align 4
+  %12 = load %struct.list_node*, %struct.list_node** %list_it, align 8
+  %next4 = getelementptr inbounds %struct.list_node, %struct.list_node* %12, i32 0, i32 1
+  %13 = load %struct.list_node*, %struct.list_node** %next4, align 8
+  store %struct.list_node* %13, %struct.list_node** %list_it, align 8
+  br label %while.cond
 " ]
 
 
@@ -268,6 +270,18 @@ subgraph cluster13 {
 
 
 node90 [penwidth=3.0,fontsize=20,shape=rectangle,label="[16/17]
+delete.end:                                       ; preds = %delete.notnull, %if.then
+  br label %if.end
+" ]
+
+
+
+}
+
+subgraph cluster15 {
+
+
+node92 [penwidth=3.0,fontsize=20,shape=rectangle,label="[12/13]
 entry:
   %retval = alloca i32, align 4
   %begin = alloca %struct.list_node, align 8
@@ -282,20 +296,6 @@ entry:
   store %struct.list_node* %begin, %struct.list_node** %list_it, align 8
   store i32 1, i32* %i, align 4
   br label %for.cond
-" ]
-
-
-
-}
-
-subgraph cluster15 {
-
-
-node92 [penwidth=3.0,fontsize=20,shape=rectangle,label="[12/13]
-delete.notnull:                                   ; preds = %if.then
-  %21 = bitcast %struct.list_node* %20 to i8*
-  call void @_ZdlPv(i8* %21) #9
-  br label %delete.end
 " ]
 
 

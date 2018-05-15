@@ -30,7 +30,6 @@ char DecoupleLoopsPass::ID = 0;
 DecoupleLoopsPass::DecoupleLoopsPass() 
  : FunctionPass(ID) {
     LoopsDepInfo.clear();
-    ScalarCode.clear(); 
 }
 
 void DecoupleLoopsPass::releaseMemory() {
@@ -40,7 +39,6 @@ void DecoupleLoopsPass::releaseMemory() {
     );
 
     LoopsDepInfo.clear();
-    ScalarCode.clear();
 }
 
 void DecoupleLoopsPass::getAnalysisUsage(llvm::AnalysisUsage& AU) const {
@@ -60,50 +58,57 @@ bool DecoupleLoopsPass::runOnFunction(llvm::Function& F) {
     // get computed information about function loops and dependencies
     const DependenceGraph& PDG = (getAnalysis<PDGPass>()).getGraph();
     const LoopInfo& LI = (getAnalysis<LoopInfoWrapperPass>()).getLoopInfo();
-    
-    DEBUG(
-        llvm::dbgs() << "[ Decouple Loops Function Pass ] " + F.getName() + "\n";
-    );
+    std::vector<const Loop*> FunctionLoops;
+    std::map<const Loop*, std::string> LoopAddrToName;
+
+    llvm::outs() << "Decouple loops function pass: " + F.getName() + "\n";
+
+    if (LI.empty()) {
+        llvm::outs() << "\tNo top-level loops in the function!\n";
+        return false; 
+    }
+        
+    for (auto loop_it = LI.begin(); loop_it != LI.end(); ++loop_it) {
+        const Loop* TopLevelL = *loop_it;
+        FunctionLoops.push_back(TopLevelL);
+        for (auto sub_loop_it = TopLevelL->begin(); sub_loop_it != TopLevelL->end(); ++sub_loop_it) {
+            const Loop* SubL = *sub_loop_it;
+            FunctionLoops.push_back(SubL);
+        }
+    }
+
+    int i = 0;
+    for (const Loop* L : FunctionLoops) {
+        string LoopName = "loop" + std::to_string(i);
+
+        DEBUG(
+            std::string str;
+            llvm::raw_string_ostream rso(str);
+            llvm::dbgs() << "new loop identified: " + LoopName + "\n";
+            L->dump();
+            llvm::dbgs() << "\n";
+        );
+
+        LoopAddrToName[L] = LoopName;
+        LoopsDepInfo[L] = std::make_unique<LoopDependenceInfo>();
+    }
 
     if (!PDG.isSCCsDataValid() || !PDG.isComponentGraphDataValid()) {
         PDG.findSCCs();
         PDG.buildComponentGraph();
     }
-
-    std::vector<const DependenceGraph*> functionSCCs;
-    DependenceGraph* CGraph = PDG.getComponentGraph();
-
-    for (DependenceGraph::const_sccs_iterator sccs_it = PDG.sccs_cbegin(); sccs_it != PDG.sccs_cend(); ++sccs_it) {
-        functionSCCs.push_back(sccs_it->second);
-    }
-
-    // prepare LoopDependenceInfo for information collection
-    int i = 0;
-    std::map<const Loop*,std::string> LoopAddrToName;
-    for (Loop* L : LI) {
-        LoopAddrToName[L] = std::string("loop") + std::to_string(i);
-        i++;
-        
-        DEBUG(
-            std::string str;
-            llvm::raw_string_ostream rso(str);
-            llvm::dbgs() << "new loop identified: " + LoopAddrToName[L] +"\n";
-            L->dump();
-            llvm::dbgs() << "\n";
-        );
-
-        LoopsDepInfo[L] = std::make_unique<LoopDependenceInfo>();
-    }
+    const DependenceGraph* CGraph = PDG.getComponentGraph();
 
     // collect the information 
     for (Function::iterator bb_it = F.begin(); bb_it != F.end(); ++bb_it) {
         Loop* InnermostL = LI.getLoopFor(&(*bb_it));
-        if (InnermostL != nullptr) { 
+        if (InnermostL != nullptr) {
             // current basic block is within the loop, so all SCCs
             // formed out of that BB instructions belong to the loop
             for (BasicBlock::iterator inst_it = bb_it->begin(); inst_it != bb_it->end(); ++inst_it) {
                 DependenceGraph* SCC = PDG.nodeToSCC(&(*inst_it));
                 LoopsDepInfo[InnermostL]->addSCC(SCC);
+
                 DEBUG(
                     std::string str;
                     llvm::raw_string_ostream rso(str);
@@ -135,15 +140,7 @@ bool DecoupleLoopsPass::runOnFunction(llvm::Function& F) {
                     LoopsDepInfo[InnermostL]->addPayloadSCC(SCC);
                 }
             }
-        } else {
-            for (BasicBlock::iterator inst_it = bb_it->begin(); inst_it != bb_it->end(); ++inst_it) {
-                DependenceGraph* SCC = PDG.nodeToSCC(&(*inst_it));
-                ScalarCode.push_back(SCC);
-                DEBUG(
-                    llvm::dbgs() << "SCC(" << SCC << ") is the scalar code\n";
-                );
-            }
-        }
+        } 
     }
 
     return false;

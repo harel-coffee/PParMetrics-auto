@@ -368,7 +368,7 @@ class Graph<NODE*,EDGE*> {
         using edge_t = EDGE;
         using edge_ptr_t = EDGE*;
 
-        Graph(llvm::Pass* GraphPass, const llvm::Function& F, const Graph<NODE*,EDGE*>* Parent = nullptr);
+        Graph(llvm::Pass* GraphPass = nullptr, const llvm::Function* F = nullptr, const Graph<NODE*,EDGE*>* Parent = nullptr);
         ~Graph();
 
         // data structures for storing and working with graph nodes and edges
@@ -588,7 +588,7 @@ class Graph<NODE*,EDGE*> {
     private:
         
         // Function, graph is built on
-        const llvm::Function& Func;
+        const llvm::Function* Func;
         // Pass, building the graph
         llvm::Pass* GraphPass;
         // SCCs must refer to the parent graph they have been computed on

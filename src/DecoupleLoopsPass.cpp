@@ -56,7 +56,7 @@ bool DecoupleLoopsPass::runOnFunction(llvm::Function& F) {
     if (F.isDeclaration()) return false;
 
     // get computed information about function loops and dependencies
-    const DependenceGraph& PDG = (getAnalysis<PDGPass>()).getGraph();
+    const DependenceGraph& PDG = (getAnalysis<PDGPass>()).getFunctionGraph();
     const LoopInfo& LI = (getAnalysis<LoopInfoWrapperPass>()).getLoopInfo();
     std::vector<const Loop*> FunctionLoops;
     std::map<const Loop*, std::string> LoopAddrToName;

@@ -9,8 +9,9 @@
 namespace ppar {
 
 template <typename NODE, typename EDGE>
-Graph<NODE*,EDGE*>::Graph(llvm::Pass* GPass, const llvm::Function& F, const Graph<NODE*,EDGE*>* Parent) : Func(F) {
+Graph<NODE*,EDGE*>::Graph(llvm::Pass* GPass, const llvm::Function* F, const Graph<NODE*,EDGE*>* Parent) {
 
+    Func = F;
     GraphPass = GPass;
 
     ParentGraph = Parent;
@@ -207,7 +208,7 @@ void Graph<NODE*,EDGE*>::dfsTraverse(DFS_callback<NODE*,EDGE*>* VisitorFunc) con
     uint64_t CurrentTime = 0;
   
     DEBUG(
-        llvm::dbgs() << "[[" << CurrentTime << "] new DFS traversal on the Graph(" << this << ") for " << Func.getName() << "]\n";
+        llvm::dbgs() << "[[" << CurrentTime << "] new DFS traversal on the Graph(" << this << ") for " << Func->getName() << "]\n";
     );
 
     DFS_properties.clear();
@@ -376,7 +377,7 @@ void Graph<NODE*,EDGE*>::findSCCs() const {
     SCCs_data_valid = false;
 
     DEBUG(
-        llvm::dbgs() << "[ finding SCCs algorithm on the Graph(" << this << ") for Func(" << Func.getName() << "]\n";
+        llvm::dbgs() << "[ finding SCCs algorithm on the Graph(" << this << ") for Func(" << Func->getName() << "]\n";
     );
 
     // compute finishing times of nodes in DFS traversal

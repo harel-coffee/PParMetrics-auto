@@ -10,6 +10,7 @@ template <>
 void GraphPass<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphPass>::getAnalysisUsage(llvm::AnalysisUsage& AU) const {
     AU.setPreservesAll();
     AU.addRequired<PostDominatorTreeWrapperPass>();
+    AU.addRequired<LoopInfoWrapperPass>();
 }
 
 template <>
@@ -81,16 +82,18 @@ bool GraphPass<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphP
     
     if (F.isDeclaration()) return false;
    
-    createGraph(F); 
+    allocateGraphs(F);
 
     const PostDominatorTree& pdt = Pass::getAnalysis<PostDominatorTreeWrapperPass>().getPostDomTree();
     stack<const DomTreeNode*> bottom_up_traversal = getBottomUpTraversal(pdt);
     map<const BasicBlock*, set<const BasicBlock*>> post_dom_frontier = getPostDomFrontier(pdt, std::move(bottom_up_traversal));
 
+    /* Build Control Dependence Graph for the given function F */
+
     // Reverse the post_dom_frontier map and store as a graph.
     for (auto& kv : post_dom_frontier) {
         const BasicBlock* Node = kv.first;
-        getGraph().addNode(const_cast<BasicBlock*>(Node));
+        getFunctionGraph().addNode(const_cast<BasicBlock*>(Node));
     }
   
     for (auto& kv : post_dom_frontier) {
@@ -98,9 +101,40 @@ bool GraphPass<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphP
         for (const BasicBlock* From : kv.second) {
             ppar::Dependence* Dep = new ppar::Dependence();
             Dep->setControl();
-            getGraph().addEdge(const_cast<BasicBlock*>(From), 
+            getFunctionGraph().addEdge(const_cast<BasicBlock*>(From), 
                         const_cast<BasicBlock*>(To), 
                         Dep);
+        }
+    }
+
+    /* Build Control Dependence Graphs for all loops of the given function F */
+
+    const LoopInfo& LI = (getAnalysis<LoopInfoWrapperPass>()).getLoopInfo();
+    if (LI.empty()) {
+        return false; 
+    }
+
+    // Reverse the post_dom_frontier map and store as a graph.
+    for (auto& kv : post_dom_frontier) {
+        const BasicBlock* Node = kv.first;
+        Loop* InnermostL = LI.getLoopFor(Node);
+        getLoopGraph(InnermostL).addNode(const_cast<BasicBlock*>(Node));
+    }
+  
+    for (auto& kv : post_dom_frontier) {
+        const BasicBlock* To = kv.first;
+        for (const BasicBlock* From : kv.second) {
+            Loop* FromL = LI.getLoopFor(From);
+            Loop* ToL = LI.getLoopFor(To);
+            
+            if (FromL == ToL) {
+                ppar::Dependence* Dep = new ppar::Dependence();
+                Dep->setControl();
+                getLoopGraph(ToL).addEdge(const_cast<BasicBlock*>(From), 
+                                          const_cast<BasicBlock*>(To), 
+                                          Dep);
+
+            }
         }
     }
 

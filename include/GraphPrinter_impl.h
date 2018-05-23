@@ -99,7 +99,7 @@ bool GraphPrinter<NODE*,EDGE*,PASS>::runOnFunction(llvm::Function& F) {
 
     // get the main graph
     GraphPass<NODE*,EDGE*,PASS>& GPass = llvm::Pass::getAnalysis<GraphPass<NODE*,EDGE*,PASS>>();
-    const Graph<NODE*,EDGE*>& G = GPass.getGraph();
+    const Graph<NODE*,EDGE*>& G = GPass.getFunctionGraph();
     string FileName;
     uint64_t PrintConfig;
 

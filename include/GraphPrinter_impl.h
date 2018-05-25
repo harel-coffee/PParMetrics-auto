@@ -36,13 +36,6 @@ template <typename NODE, typename EDGE, typename PASS>
 void GraphPrinter<NODE*,EDGE*,PASS>::formDOTGraph(DotGraph& DotG, const Graph<NODE*,EDGE*>& G, uint64_t FormOptions) {
     std::unordered_map<const void*,std::string>& NodeToDotName = DotG.getMapping();
 
-/*    if ( (FormOptions & FormationOption::DFS_TIMESTAMPS) &&
-         (DotG.getType() != DotGraph::GraphType::SUBGRAPH) ) { 
-        // augment graph with DFS ordering
-        if (!G.isDFSDataValid()) {
-            G.dfsTraverse();
-        }
-    }*/
     auto& DFS_properties = (G.getParent() != nullptr) ? (G.getParent())->getDFS_properties() : G.getDFS_properties();
 
     if ((FormOptions & FormationOption::ONLY_EDGES) == 0x0) { 
@@ -93,13 +86,7 @@ void GraphPrinter<NODE*,EDGE*,PASS>::formDOTGraph(DotGraph& DotG, const Graph<NO
 }
 
 template <typename NODE, typename EDGE, typename PASS>
-bool GraphPrinter<NODE*,EDGE*,PASS>::runOnFunction(llvm::Function& F) {
-
-    if (F.isDeclaration()) return false;
-
-    // get the main graph
-    GraphPass<NODE*,EDGE*,PASS>& GPass = llvm::Pass::getAnalysis<GraphPass<NODE*,EDGE*,PASS>>();
-    const Graph<NODE*,EDGE*>& G = GPass.getFunctionGraph();
+void GraphPrinter<NODE*,EDGE*,PASS>::printDotGraphs(const Graph<NODE*,EDGE*>& G, std::string Name) {
     string FileName;
     uint64_t PrintConfig;
 
@@ -113,7 +100,7 @@ bool GraphPrinter<NODE*,EDGE*,PASS>::runOnFunction(llvm::Function& F) {
     }
 
     // print the main graph of the function
-    FileName = F.getName().str() + PASS::getDotFileExtension();
+    FileName = Name + PASS::getDotFileExtension();
     DotPrinter MainPrinter(FileName);
     PrintConfig = FormationOption::DEFAULT;
     formDOTGraph(MainPrinter.getGraph(), G, PrintConfig); 
@@ -121,14 +108,14 @@ bool GraphPrinter<NODE*,EDGE*,PASS>::runOnFunction(llvm::Function& F) {
 
     // augment the main graph of the function with 
     // DFS timestamps and print it
-    FileName = F.getName().str() + PASS::getDFSDotFileExtension();
+    FileName = Name + PASS::getDFSDotFileExtension();
     DotPrinter MainPrinter_dfs(FileName);
     PrintConfig = FormationOption::DEFAULT + FormationOption::DFS_TIMESTAMPS;
     formDOTGraph(MainPrinter_dfs.getGraph(), G, PrintConfig); 
     MainPrinter_dfs.print();
 
     // print component graph of the function
-    FileName = F.getName().str() + PASS::getCGDotFileExtension();
+    FileName = Name + PASS::getCGDotFileExtension();
     DotPrinter ComponentGraphPrinter(FileName);
     PrintConfig = FormationOption::DEFAULT + 
                   FormationOption::DFS_TIMESTAMPS +
@@ -137,7 +124,7 @@ bool GraphPrinter<NODE*,EDGE*,PASS>::runOnFunction(llvm::Function& F) {
     ComponentGraphPrinter.print();
 
     // print all SCCs of the graph
-    FileName = F.getName().str() + PASS::getSCCsDotFileExtension();
+    FileName = Name + PASS::getSCCsDotFileExtension();
     DotPrinter SCCsPrinter(FileName);
     PrintConfig = FormationOption::DEFAULT + 
                   FormationOption::DFS_TIMESTAMPS +
@@ -152,7 +139,7 @@ bool GraphPrinter<NODE*,EDGE*,PASS>::runOnFunction(llvm::Function& F) {
     SCCsPrinter.print();
 
     // print all SCCs of the graph
-    FileName = F.getName().str() + PASS::getSCCsCGDotFileExtension();
+    FileName = Name + PASS::getSCCsCGDotFileExtension();
     DotPrinter SCCsCGPrinter(FileName);
     PrintConfig = FormationOption::DEFAULT +
                   FormationOption::DFS_TIMESTAMPS +
@@ -169,6 +156,25 @@ bool GraphPrinter<NODE*,EDGE*,PASS>::runOnFunction(llvm::Function& F) {
                   FormationOption::ONLY_EDGES;
     formDOTGraph(SCCsCGPrinter.getGraph(), G, PrintConfig);
     SCCsCGPrinter.print();
+}
+
+template <typename NODE, typename EDGE, typename PASS>
+bool GraphPrinter<NODE*,EDGE*,PASS>::runOnFunction(llvm::Function& F) {
+
+    if (F.isDeclaration()) return false;
+
+    // get the main graph
+    GraphPass<NODE*,EDGE*,PASS>& GPass = llvm::Pass::getAnalysis<GraphPass<NODE*,EDGE*,PASS>>();
+    const Graph<NODE*,EDGE*>& G = GPass.getFunctionGraph();
+    printDotGraphs(G, F.getName().str());
+   
+    int i = 0;
+    for (typename GraphPass<NODE*,EDGE*,PASS>::const_loop_graph_iterator loop_graph_it = GPass.cbegin(); 
+         loop_graph_it != GPass.cend(); ++loop_graph_it) {
+        const Graph<NODE*,EDGE*>& LG = *(loop_graph_it->second);
+        printDotGraphs(LG, F.getName().str() + "loop" + std::to_string(i));
+        i++;
+    }
 
     return false;
 }

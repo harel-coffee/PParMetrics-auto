@@ -16,11 +16,6 @@ void GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraph
 }
 
 template <>
-llvm::StringRef GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraphPass>::getPassName() const {
-    return ProgramDependenceGraphPass::getPassName();
-}
-
-template <>
 bool GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraphPass>::runOnFunction(Function& F) {
 
     if (F.isDeclaration()) return false;
@@ -116,10 +111,24 @@ bool GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraph
         
         const Graph<Instruction*,llvm::Dependence*>& mdgL =
             Pass::getAnalysis<GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphPass>>().getLoopGraph(L);
+        if (static_cast<const void*>(&mdgL) ==
+            static_cast<const void*>(&GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphPass>::InvalidGraph)) {
+            llvm_unreachable("llvm::Loop cannot have InvalidGraph allocated to it!");
+        }
+
         const Graph<Instruction*,ppar::Dependence*>& ddgL =
             Pass::getAnalysis<GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::DataDependenceGraphPass>>().getLoopGraph(L);
+        if (static_cast<const void*>(&ddgL) ==
+            static_cast<const void*>(&GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::DataDependenceGraphPass>::InvalidGraph)) {
+            llvm_unreachable("llvm::Loop cannot have InvalidGraph allocated to it!");
+        }
+
         const Graph<BasicBlock*,ppar::Dependence*>& cdgL =
             Pass::getAnalysis<GraphPass<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphPass>>().getLoopGraph(L);
+        if (static_cast<const void*>(&cdgL) ==
+            static_cast<const void*>(&GraphPass<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphPass>::InvalidGraph)) {
+            llvm_unreachable("llvm::Loop cannot have InvalidGraph allocated to it!");
+        }
 
         // data dependence graph consists of all program's instructions ->
         // -> add them to program dependence graph as nodes

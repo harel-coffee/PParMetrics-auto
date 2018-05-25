@@ -35,6 +35,7 @@ struct MetricPass : public llvm::FunctionPass {
     private:
         METRIC MetricInfo;
         std::unordered_map<const llvm::Function*,std::unordered_map<const llvm::Loop*,double>> ValuePerLoop;
+        std::unordered_map<const llvm::Function*,double> ValuePerFunc;
 };
 
 } // namespace ppar

@@ -23,7 +23,11 @@ file(GLOB PPAR_SOURCES src/*.cpp)
 add_library(ppar MODULE ${PPAR_SOURCES})
 
 llvm_map_components_to_libnames(llvm_libs support core passes)
+
 target_include_directories(ppar PUBLIC "include")
+target_include_directories(ppar PUBLIC "include/GraphPasses_spec")
+target_include_directories(ppar PUBLIC "include/GraphPrinterPasses_spec")
+target_include_directories(ppar PUBLIC "include/MetricPasses_spec")
 
 target_link_libraries(ppar ${llvm_libs})
 

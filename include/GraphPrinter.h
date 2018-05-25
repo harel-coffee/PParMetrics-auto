@@ -38,6 +38,8 @@ struct GraphPrinter<NODE*,EDGE*,PASS> : public llvm::FunctionPass {
         } FormationOption;
 
     private:
+        void printDotGraphs(const Graph<NODE*,EDGE*>&, std::string FileName);
+        
         void formDOTGraph(DotGraph&, const Graph<NODE*,EDGE*>&, uint64_t FormationOptions);
 
         void buildDotNode(const NODE* N, DotNode* Node);

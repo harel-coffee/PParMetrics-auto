@@ -16,6 +16,9 @@ GraphPass<NODE*,EDGE*,PASS>::GraphPass()
  : FunctionPass(ID) {}
 
 template <typename NODE, typename EDGE, typename PASS>
+Graph<NODE*,EDGE*> GraphPass<NODE*,EDGE*,PASS>::InvalidGraph;
+
+template <typename NODE, typename EDGE, typename PASS>
 void GraphPass<NODE*,EDGE*,PASS>::releaseMemory() {}
 
 template <typename NODE, typename EDGE, typename PASS>
@@ -25,7 +28,7 @@ template <typename NODE, typename EDGE, typename PASS>
 Graph<NODE*,EDGE*>& GraphPass<NODE*,EDGE*,PASS>::getLoopGraph(const Loop* L) { 
     auto it = LG.find(L);
     if (it != LG.end()) {
-        return *(it->second);
+        return *((it->second).get());
     } else {
         return InvalidGraph;
     }
@@ -36,8 +39,12 @@ void GraphPass<NODE*,EDGE*,PASS>::allocateGraphs(llvm::Function& F) {
     const llvm::LoopInfo& LI = (getAnalysis<LoopInfoWrapperPass>()).getLoopInfo();
     std::vector<const llvm::Loop*> FunctionLoops;
 
+    // allocate function's dependence graph
+    G = std::make_unique<Graph<NODE*,EDGE*>>(this, &F); 
+
+    // if we have got any loops in the function, then proceed with their allocation 
     if (LI.empty()) {
-        return; 
+        return;
     }
         
     for (auto loop_it = LI.begin(); loop_it != LI.end(); ++loop_it) {
@@ -49,7 +56,6 @@ void GraphPass<NODE*,EDGE*,PASS>::allocateGraphs(llvm::Function& F) {
         }
     }
 
-    G = std::make_unique<Graph<NODE*,EDGE*>>(this,&F); 
     for (const llvm::Loop* L : FunctionLoops) {
         LG[L] = std::make_unique<Graph<NODE*,EDGE*>>(this,&F); 
     }
@@ -63,8 +69,7 @@ void GraphPass<NODE*,EDGE*,PASS>::getAnalysisUsage(llvm::AnalysisUsage& AU) cons
 
 template <typename NODE, typename EDGE, typename PASS>
 llvm::StringRef GraphPass<NODE*,EDGE*,PASS>::getPassName() const { 
-    llvm_unreachable("Class template GraphPass cannot be used directly (without concrete specialization)!");
-    return "Graph Pass"; 
+    return PASS::getPassName(); 
 }
 
 template <typename NODE, typename EDGE, typename PASS>

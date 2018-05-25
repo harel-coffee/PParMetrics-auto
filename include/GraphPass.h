@@ -1,5 +1,14 @@
 /*
  * GraphPass template
+ *
+ * As this pass runs on a given function, it builds function's dependence graph 
+ * and all dependence graphs of the function's loops.
+ *
+ * To create a custom pass provide a class specialization with exact NODE and 
+ * EDGE types. Third PASS argument is used to distinguish different graphs with 
+ * the same NODE and EDGE types, and is not supposed to encapsulate any 
+ * heavyweight functionality. PASS must conform to the GraphPass_iface.
+ *
  */
 
 #ifndef PPAR_GRAPH_PASS_H
@@ -24,7 +33,12 @@ struct GraphPass<NODE*,EDGE*,PASS> : public llvm::FunctionPass {
     public:
         static char ID;
         GraphPass();
-        
+
+        using LoopToDependenceGraph = std::unordered_map<const llvm::Loop*,std::unique_ptr<Graph<NODE*,EDGE*>>>;
+
+        using loop_graph_iterator = typename LoopToDependenceGraph::iterator;
+        using const_loop_graph_iterator = typename LoopToDependenceGraph::const_iterator;
+
         static Graph<NODE*,EDGE*> InvalidGraph;
 
         bool runOnFunction(llvm::Function& F) override;
@@ -34,6 +48,13 @@ struct GraphPass<NODE*,EDGE*,PASS> : public llvm::FunctionPass {
 
         Graph<NODE*,EDGE*>& getFunctionGraph();
         Graph<NODE*,EDGE*>& getLoopGraph(const llvm::Loop*);
+
+        loop_graph_iterator begin() { return LG.begin(); }
+        const_loop_graph_iterator cbegin() const { return LG.cbegin(); }
+
+        loop_graph_iterator end() { return LG.begin(); }
+        const_loop_graph_iterator cend() const { return LG.cbegin(); }
+
         void allocateGraphs(llvm::Function& F);
 
     private:

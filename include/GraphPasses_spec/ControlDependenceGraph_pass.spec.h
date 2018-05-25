@@ -13,11 +13,6 @@ void GraphPass<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphP
     AU.addRequired<LoopInfoWrapperPass>();
 }
 
-template <>
-llvm::StringRef GraphPass<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphPass>::getPassName() const {
-    return ControlDependenceGraphPass::getPassName();
-}
-
 // Depth-first search the post-dominator tree in order to construct a top-down
 // traversal
 stack<const DomTreeNode*> getBottomUpTraversal(const PostDominatorTree& pdt) {
@@ -118,7 +113,12 @@ bool GraphPass<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphP
     for (auto& kv : post_dom_frontier) {
         const BasicBlock* Node = kv.first;
         Loop* InnermostL = LI.getLoopFor(Node);
-        getLoopGraph(InnermostL).addNode(const_cast<BasicBlock*>(Node));
+        Graph<llvm::BasicBlock*,ppar::Dependence*>& LG = getLoopGraph(InnermostL);
+        if (LG != InvalidGraph) {
+            LG.addNode(const_cast<BasicBlock*>(Node));
+        } else {
+            llvm_unreachable("llvm::Loop cannot have InvalidGraph allocated to it!");
+        }
     }
   
     for (auto& kv : post_dom_frontier) {
@@ -133,7 +133,6 @@ bool GraphPass<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphP
                 getLoopGraph(ToL).addEdge(const_cast<BasicBlock*>(From), 
                                           const_cast<BasicBlock*>(To), 
                                           Dep);
-
             }
         }
     }

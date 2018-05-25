@@ -30,6 +30,7 @@ char DecoupleLoopsPass::ID = 0;
 DecoupleLoopsPass::DecoupleLoopsPass() 
  : FunctionPass(ID) {
     LoopsDepInfo.clear();
+    LoopsDepInfoL.clear();
 }
 
 void DecoupleLoopsPass::releaseMemory() {
@@ -39,6 +40,7 @@ void DecoupleLoopsPass::releaseMemory() {
     );
 
     LoopsDepInfo.clear();
+    LoopsDepInfoL.clear();
 }
 
 void DecoupleLoopsPass::getAnalysisUsage(llvm::AnalysisUsage& AU) const {
@@ -141,6 +143,49 @@ bool DecoupleLoopsPass::runOnFunction(llvm::Function& F) {
                 }
             }
         } 
+    }
+
+    /* Use single-loop-scope dependence graphs to decouple loops  */
+
+    // get computed information about function loops and dependencies
+
+    for (const Loop* L : FunctionLoops) {
+        const DependenceGraph& LoopPDG = (getAnalysis<PDGPass>()).getLoopGraph(L);
+        if (static_cast<const void*>(&LoopPDG) ==
+            static_cast<const void*>(&GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraphPass>::InvalidGraph)) {
+            llvm_unreachable("llvm::Loop cannot have InvalidGraph allocated to it!");
+        }
+
+        if (!PDG.isSCCsDataValid() || !PDG.isComponentGraphDataValid()) {
+            PDG.findSCCs();
+            PDG.buildComponentGraph();
+        }
+        const DependenceGraph* LoopCGraph = LoopPDG.getComponentGraph();
+
+        for (Loop::block_iterator bb_it = L->block_begin(); bb_it != L->block_end(); ++bb_it) {
+            for (BasicBlock::iterator inst_it = (*bb_it)->begin(); inst_it != (*bb_it)->end(); ++inst_it) {
+                DependenceGraph* SCC = LoopPDG.nodeToSCC(&(*inst_it));
+                LoopsDepInfoL[L]->addSCC(SCC);
+
+                bool outsideLoop = true;
+                const auto& Preds = LoopCGraph->getPredecessors();
+                auto preds_it = Preds.find(SCC->getRoot());
+                if (preds_it != Preds.end()) {
+                    for (DependenceGraph::const_node_iterator pred_it = preds_it->second.cbegin(); pred_it != preds_it->second.cend(); pred_it++) {
+                        Loop* Parent = LI.getLoopFor((pred_it->getNode())->getParent());
+                        if (Parent == L) {
+                            outsideLoop = false;
+                        }
+                    }
+                }
+
+                if (outsideLoop) {
+                    LoopsDepInfo[L]->addIteratorSCC(SCC);
+                } else {
+                    LoopsDepInfo[L]->addPayloadSCC(SCC);
+                }
+            }
+        }
     }
 
     return false;

@@ -49,8 +49,8 @@ class LoopDependenceInfo {
 };
 
 struct DecoupleLoopsPass : public llvm::FunctionPass {
-    public:
 
+    public:
         using DependenceGraph = Graph<llvm::Instruction*,ppar::Dependence*>;
         using PDGPass = GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraphPass>;
 
@@ -62,12 +62,15 @@ struct DecoupleLoopsPass : public llvm::FunctionPass {
         llvm::StringRef getPassName() const;
         void releaseMemory() override;
 
+        std::unique_ptr<LoopDependenceInfo> decoupleLoops(DependenceGraph& G);
+
         const std::unordered_map<const llvm::Loop*, std::unique_ptr<LoopDependenceInfo>>& getLoopsDepInfo() {
-            return LoopsDepInfo;
+            return LoopsDepInfoL;
         }
 
     private:
-        std::unordered_map<const llvm::Loop*, std::unique_ptr<LoopDependenceInfo>> LoopsDepInfo;
+        std::unordered_map<const llvm::Loop*, std::unique_ptr<LoopDependenceInfo>> LoopsDepInfo; // derived out of function scope dependence graph
+        std::unordered_map<const llvm::Loop*, std::unique_ptr<LoopDependenceInfo>> LoopsDepInfoL; // derived out of single loop scope dependence graph
 };
 
 } // namespace ppar

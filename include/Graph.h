@@ -413,7 +413,7 @@ class Graph<NODE*,EDGE*> {
             }
         };
 
-        bool operator==(const Graph<NODE*,EDGE*>& G) {
+        bool operator==(const Graph<NODE*,EDGE*>& G) const {
             if ( (this->Func == G.Func) &&
                  (this->GraphPass == G.GraphPass)) {
                 if (this->Root == G.Root) {
@@ -426,7 +426,7 @@ class Graph<NODE*,EDGE*> {
             }
         }
 
-        bool operator!=(const Graph<NODE*,EDGE*>& G) {
+        bool operator!=(const Graph<NODE*,EDGE*>& G) const {
             return !(this->operator==(G)); 
         }
 

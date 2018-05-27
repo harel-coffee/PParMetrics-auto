@@ -16,6 +16,7 @@ using namespace llvm;
 #include <memory>
 #include <map>
 #include <set>
+#include <queue>
 using namespace std;
 
 RegisterPass<ppar::DecoupleLoopsPass> DecoupleLoopsRegister(
@@ -58,30 +59,35 @@ bool DecoupleLoopsPass::runOnFunction(llvm::Function& F) {
     if (F.isDeclaration()) return false;
 
     // get computed information about function loops and dependencies
-    const DependenceGraph& PDG = (getAnalysis<PDGPass>()).getFunctionGraph();
-    const LoopInfo& LI = (getAnalysis<LoopInfoWrapperPass>()).getLoopInfo();
-    std::vector<const Loop*> FunctionLoops;
     std::map<const Loop*, std::string> LoopAddrToName;
 
     llvm::outs() << "Decouple loops function pass: " + F.getName() + "\n";
 
+    const LoopInfo& LI = (getAnalysis<LoopInfoWrapperPass>()).getLoopInfo();
     if (LI.empty()) {
         llvm::outs() << "\tNo top-level loops in the function!\n";
         return false; 
     }
-        
+ 
+    std::vector<const llvm::Loop*> FunctionLoops;
+    std::queue<const llvm::Loop*> LoopsQueue;
     for (auto loop_it = LI.begin(); loop_it != LI.end(); ++loop_it) {
-        const Loop* TopLevelL = *loop_it;
-        FunctionLoops.push_back(TopLevelL);
-        for (auto sub_loop_it = TopLevelL->begin(); sub_loop_it != TopLevelL->end(); ++sub_loop_it) {
-            const Loop* SubL = *sub_loop_it;
-            FunctionLoops.push_back(SubL);
+        const llvm::Loop* TopLevelL = *loop_it;
+        LoopsQueue.push(TopLevelL);
+        while(!LoopsQueue.empty()) {
+            const llvm::Loop* CurrentLoop = LoopsQueue.front();
+            FunctionLoops.push_back(CurrentLoop);
+            LoopsQueue.pop();
+            for (auto sub_loop_it = CurrentLoop->begin(); sub_loop_it != CurrentLoop->end(); ++sub_loop_it) {
+                LoopsQueue.push(*sub_loop_it);
+            }
         }
     }
 
     int i = 0;
     for (const Loop* L : FunctionLoops) {
         string LoopName = "loop" + std::to_string(i);
+        i++;
 
         DEBUG(
             std::string str;
@@ -93,8 +99,10 @@ bool DecoupleLoopsPass::runOnFunction(llvm::Function& F) {
 
         LoopAddrToName[L] = LoopName;
         LoopsDepInfo[L] = std::make_unique<LoopDependenceInfo>();
+        LoopsDepInfoL[L] = std::make_unique<LoopDependenceInfo>();
     }
 
+    const DependenceGraph& PDG = (getAnalysis<PDGPass>()).getFunctionGraph();
     if (!PDG.isSCCsDataValid() || !PDG.isComponentGraphDataValid()) {
         PDG.findSCCs();
         PDG.buildComponentGraph();
@@ -146,19 +154,15 @@ bool DecoupleLoopsPass::runOnFunction(llvm::Function& F) {
     }
 
     /* Use single-loop-scope dependence graphs to decouple loops  */
-
-    // get computed information about function loops and dependencies
-
     for (const Loop* L : FunctionLoops) {
         const DependenceGraph& LoopPDG = (getAnalysis<PDGPass>()).getLoopGraph(L);
-        if (static_cast<const void*>(&LoopPDG) ==
-            static_cast<const void*>(&GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraphPass>::InvalidGraph)) {
+        if (LoopPDG == GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraphPass>::InvalidGraph) {
             llvm_unreachable("llvm::Loop cannot have InvalidGraph allocated to it!");
         }
 
-        if (!PDG.isSCCsDataValid() || !PDG.isComponentGraphDataValid()) {
-            PDG.findSCCs();
-            PDG.buildComponentGraph();
+        if (!LoopPDG.isSCCsDataValid() || !LoopPDG.isComponentGraphDataValid()) {
+            LoopPDG.findSCCs();
+            LoopPDG.buildComponentGraph();
         }
         const DependenceGraph* LoopCGraph = LoopPDG.getComponentGraph();
 
@@ -180,9 +184,9 @@ bool DecoupleLoopsPass::runOnFunction(llvm::Function& F) {
                 }
 
                 if (outsideLoop) {
-                    LoopsDepInfo[L]->addIteratorSCC(SCC);
+                    LoopsDepInfoL[L]->addIteratorSCC(SCC);
                 } else {
-                    LoopsDepInfo[L]->addPayloadSCC(SCC);
+                    LoopsDepInfoL[L]->addPayloadSCC(SCC);
                 }
             }
         }

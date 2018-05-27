@@ -36,28 +36,33 @@ Graph<NODE*,EDGE*>& GraphPass<NODE*,EDGE*,PASS>::getLoopGraph(const Loop* L) {
 
 template <typename NODE, typename EDGE, typename PASS>
 void GraphPass<NODE*,EDGE*,PASS>::allocateGraphs(llvm::Function& F) { 
-    const llvm::LoopInfo& LI = (getAnalysis<LoopInfoWrapperPass>()).getLoopInfo();
-    std::vector<const llvm::Loop*> FunctionLoops;
 
     // allocate function's dependence graph
     G = std::make_unique<Graph<NODE*,EDGE*>>(this, &F); 
 
     // if we have got any loops in the function, then proceed with their allocation 
+    const llvm::LoopInfo& LI = (getAnalysis<LoopInfoWrapperPass>()).getLoopInfo();
     if (LI.empty()) {
         return;
     }
-        
+    
+    std::vector<const llvm::Loop*> FunctionLoops;
+    std::queue<const llvm::Loop*> LoopsQueue;
     for (auto loop_it = LI.begin(); loop_it != LI.end(); ++loop_it) {
         const llvm::Loop* TopLevelL = *loop_it;
-        FunctionLoops.push_back(TopLevelL);
-        for (auto sub_loop_it = TopLevelL->begin(); sub_loop_it != TopLevelL->end(); ++sub_loop_it) {
-            const llvm::Loop* SubL = *sub_loop_it;
-            FunctionLoops.push_back(SubL);
+        LoopsQueue.push(TopLevelL);
+        while(!LoopsQueue.empty()) {
+            const llvm::Loop* CurrentLoop = LoopsQueue.front();
+            FunctionLoops.push_back(CurrentLoop);
+            LoopsQueue.pop();
+            for (auto sub_loop_it = CurrentLoop->begin(); sub_loop_it != CurrentLoop->end(); ++sub_loop_it) {
+                LoopsQueue.push(*sub_loop_it);
+            }
         }
     }
 
     for (const llvm::Loop* L : FunctionLoops) {
-        LG[L] = std::make_unique<Graph<NODE*,EDGE*>>(this,&F); 
+        LG[L] = std::make_unique<Graph<NODE*,EDGE*>>(this, &F); 
     }
 }
 

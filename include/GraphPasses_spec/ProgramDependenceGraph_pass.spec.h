@@ -111,22 +111,19 @@ bool GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraph
         
         const Graph<Instruction*,llvm::Dependence*>& mdgL =
             Pass::getAnalysis<GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphPass>>().getLoopGraph(L);
-        if (static_cast<const void*>(&mdgL) ==
-            static_cast<const void*>(&GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphPass>::InvalidGraph)) {
+        if (mdgL == GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphPass>::InvalidGraph) {
             llvm_unreachable("llvm::Loop cannot have InvalidGraph allocated to it!");
         }
 
         const Graph<Instruction*,ppar::Dependence*>& ddgL =
             Pass::getAnalysis<GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::DataDependenceGraphPass>>().getLoopGraph(L);
-        if (static_cast<const void*>(&ddgL) ==
-            static_cast<const void*>(&GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::DataDependenceGraphPass>::InvalidGraph)) {
+        if (ddgL == GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::DataDependenceGraphPass>::InvalidGraph) {
             llvm_unreachable("llvm::Loop cannot have InvalidGraph allocated to it!");
         }
 
         const Graph<BasicBlock*,ppar::Dependence*>& cdgL =
             Pass::getAnalysis<GraphPass<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphPass>>().getLoopGraph(L);
-        if (static_cast<const void*>(&cdgL) ==
-            static_cast<const void*>(&GraphPass<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphPass>::InvalidGraph)) {
+        if (cdgL == GraphPass<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphPass>::InvalidGraph) {
             llvm_unreachable("llvm::Loop cannot have InvalidGraph allocated to it!");
         }
 
@@ -138,7 +135,7 @@ bool GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraph
         }
 
         // copy all DDG edges to the PDG
-        for (auto edge_it = ddg.edges_cbegin(); edge_it != ddg.edges_cend(); edge_it++) {
+        for (auto edge_it = ddgL.edges_cbegin(); edge_it != ddgL.edges_cend(); edge_it++) {
             const std::pair<const Instruction*,const Instruction*> NodePair = edge_it->first;
             const Graph<Instruction*,ppar::Dependence*>::edge_set& EdgeSet = edge_it->second;
 

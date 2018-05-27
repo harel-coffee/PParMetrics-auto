@@ -113,11 +113,13 @@ bool GraphPass<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphP
     for (auto& kv : post_dom_frontier) {
         const BasicBlock* Node = kv.first;
         Loop* InnermostL = LI.getLoopFor(Node);
-        Graph<llvm::BasicBlock*,ppar::Dependence*>& LG = getLoopGraph(InnermostL);
-        if (LG != InvalidGraph) {
-            LG.addNode(const_cast<BasicBlock*>(Node));
-        } else {
-            llvm_unreachable("llvm::Loop cannot have InvalidGraph allocated to it!");
+        if (InnermostL != nullptr) { // BB is inside the loop
+            Graph<llvm::BasicBlock*,ppar::Dependence*>& LG = getLoopGraph(InnermostL);
+            if (LG != InvalidGraph) {
+                LG.addNode(const_cast<BasicBlock*>(Node));
+            } else {
+                llvm_unreachable("llvm::Loop cannot have InvalidGraph allocated to it!");
+            }
         }
     }
   

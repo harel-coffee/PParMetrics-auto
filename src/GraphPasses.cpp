@@ -13,6 +13,7 @@ using namespace llvm;
 #include <string>
 #include <vector>
 #include <stack>
+#include <queue>
 #include <set>
 #include <map>
 #include <utility>

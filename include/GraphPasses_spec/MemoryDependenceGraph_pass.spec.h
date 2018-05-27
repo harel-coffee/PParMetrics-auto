@@ -52,12 +52,17 @@ bool GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphP
     }
 
     std::vector<const llvm::Loop*> FunctionLoops;
+    std::queue<const llvm::Loop*> LoopsQueue;
     for (auto loop_it = LI.begin(); loop_it != LI.end(); ++loop_it) {
         const llvm::Loop* TopLevelL = *loop_it;
-        FunctionLoops.push_back(TopLevelL);
-        for (auto sub_loop_it = TopLevelL->begin(); sub_loop_it != TopLevelL->end(); ++sub_loop_it) {
-            const llvm::Loop* SubL = *sub_loop_it;
-            FunctionLoops.push_back(SubL);
+        LoopsQueue.push(TopLevelL);
+        while(!LoopsQueue.empty()) {
+            const llvm::Loop* CurrentLoop = LoopsQueue.front();
+            FunctionLoops.push_back(CurrentLoop);
+            LoopsQueue.pop();
+            for (auto sub_loop_it = CurrentLoop->begin(); sub_loop_it != CurrentLoop->end(); ++sub_loop_it) {
+                LoopsQueue.push(*sub_loop_it);
+            }
         }
     }
     

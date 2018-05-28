@@ -17,18 +17,28 @@ char MetricPass<METRIC>::ID = 0;
 template <typename METRIC>
 MetricPass<METRIC>::MetricPass() 
  : FunctionPass(ID) {
-    for (auto it = ValuePerLoop.begin(); it != ValuePerLoop.end(); it++) {
+    for (auto it = ValuePerLoop_func.begin(); it != ValuePerLoop_func.end(); it++) {
         (it->second).clear();
     }
-    ValuePerLoop.clear();
+    ValuePerLoop_func.clear();
+
+    for (auto it = ValuePerLoop_loop.begin(); it != ValuePerLoop_loop.end(); it++) {
+        (it->second).clear();
+    }
+    ValuePerLoop_loop.clear();
 }
 
 template <typename METRIC>
 void MetricPass<METRIC>::releaseMemory() {
-    for (auto it = ValuePerLoop.begin(); it != ValuePerLoop.end(); it++) {
+    for (auto it = ValuePerLoop_func.begin(); it != ValuePerLoop_func.end(); it++) {
         (it->second).clear();
     }
-    ValuePerLoop.clear();
+    ValuePerLoop_func.clear();
+
+    for (auto it = ValuePerLoop_loop.begin(); it != ValuePerLoop_loop.end(); it++) {
+        (it->second).clear();
+    }
+    ValuePerLoop_loop.clear();
 }
 
 template <typename METRIC>

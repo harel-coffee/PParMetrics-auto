@@ -35,7 +35,6 @@ struct GraphPass<NODE*,EDGE*,PASS> : public llvm::FunctionPass {
         GraphPass();
 
         using LoopToDependenceGraph = std::unordered_map<const llvm::Loop*,std::unique_ptr<Graph<NODE*,EDGE*>>>;
-
         using loop_graph_iterator = typename LoopToDependenceGraph::iterator;
         using const_loop_graph_iterator = typename LoopToDependenceGraph::const_iterator;
 
@@ -49,11 +48,11 @@ struct GraphPass<NODE*,EDGE*,PASS> : public llvm::FunctionPass {
         Graph<NODE*,EDGE*>& getFunctionGraph();
         Graph<NODE*,EDGE*>& getLoopGraph(const llvm::Loop*);
 
-        loop_graph_iterator begin() { return LG.begin(); }
-        const_loop_graph_iterator cbegin() const { return LG.cbegin(); }
+        loop_graph_iterator loops_begin() { return LG.begin(); }
+        const_loop_graph_iterator loops_cbegin() const { return LG.cbegin(); }
 
-        loop_graph_iterator end() { return LG.begin(); }
-        const_loop_graph_iterator cend() const { return LG.cbegin(); }
+        loop_graph_iterator loops_end() { return LG.end(); }
+        const_loop_graph_iterator loops_cend() const { return LG.cend(); }
 
         void allocateGraphs(llvm::Function& F);
 

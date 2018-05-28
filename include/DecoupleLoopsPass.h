@@ -16,19 +16,19 @@
 
 namespace ppar {
 
-class LoopDependenceInfo {
+class LoopDecoupleInfo {
 
     public:
 
         using DependenceGraph = Graph<llvm::Instruction*,ppar::Dependence*>;
 
-        LoopDependenceInfo() {
+        LoopDecoupleInfo() {
             Iterator.clear();
             Payload.clear();
             SCCs.clear();
         }
 
-        ~LoopDependenceInfo() {
+        ~LoopDecoupleInfo() {
             Iterator.clear();
             Payload.clear();
             SCCs.clear();
@@ -62,15 +62,23 @@ struct DecoupleLoopsPass : public llvm::FunctionPass {
         llvm::StringRef getPassName() const;
         void releaseMemory() override;
 
-        std::unique_ptr<LoopDependenceInfo> decoupleLoops(DependenceGraph& G);
+        std::unique_ptr<LoopDecoupleInfo> decoupleLoops(DependenceGraph& G);
+        
+        bool allocateLoopDecoupleInfo(llvm::Function& F);
 
-        const std::unordered_map<const llvm::Loop*, std::unique_ptr<LoopDependenceInfo>>& getLoopsDepInfo() {
-            return LoopsDepInfoL;
+        const std::unordered_map<const llvm::Loop*, std::unique_ptr<LoopDecoupleInfo>>& getDecoupleLoopsInfo_func() {
+            return DecoupleLoopsInfo_func;
+        }
+
+        const std::unordered_map<const llvm::Loop*, std::unique_ptr<LoopDecoupleInfo>>& getDecoupleLoopsInfo_loop() {
+            return DecoupleLoopsInfo_loop;
         }
 
     private:
-        std::unordered_map<const llvm::Loop*, std::unique_ptr<LoopDependenceInfo>> LoopsDepInfo; // derived out of function scope dependence graph
-        std::unordered_map<const llvm::Loop*, std::unique_ptr<LoopDependenceInfo>> LoopsDepInfoL; // derived out of single loop scope dependence graph
+        std::unordered_map<const llvm::Loop*, std::unique_ptr<LoopDecoupleInfo>> DecoupleLoopsInfo_func; // derived out of function scope dependence graph
+        std::unordered_map<const llvm::Loop*, std::unique_ptr<LoopDecoupleInfo>> DecoupleLoopsInfo_loop; // derived out of single loop scope dependence graph
+        std::vector<const llvm::Loop*> FunctionLoops;
+        std::unordered_map<const llvm::Loop*, std::string> LoopAddrToName;
 };
 
 } // namespace ppar

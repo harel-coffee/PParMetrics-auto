@@ -4,15 +4,24 @@
 
 using namespace std;
 
+static const unsigned int size = 100;
+static const unsigned int range = 10;
 
 int main() {
+    unsigned int a[size];
+    unsigned int b[size];
+    unsigned int c[size];
 
-    // arrays to conduct experiments on
-    unsigned int a[100];
-    unsigned int b[100];
-    unsigned int c[100];
+    std::srand(std::time(nullptr));
 
-    for (unsigned int i = 0; i < 100; i++) {
+    // initialization loop
+    for (unsigned int i = 0; i < size; i++) {
+        a[i] = rand() % range;
+        b[i] = rand() % range; 
+    }
+
+    // vector sum computation
+    for (unsigned int i = 0; i < size; i++) {
         c[i] = a[i] + b[i];
     }
 

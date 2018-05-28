@@ -75,8 +75,10 @@ bool GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphP
             // add nodes to the loop graph
             for (typename Loop::block_iterator bb_it = L->block_begin(); bb_it != L->block_end(); ++bb_it) {
                 for (typename BasicBlock::iterator inst_it = (*bb_it)->begin(); inst_it != (*bb_it)->end(); ++inst_it) {
-                    Instruction* Inst = &(*inst_it);
-                    LG.addNode(Inst);
+                    if (isa<StoreInst>(*inst_it) || isa<LoadInst>(*inst_it)) {
+                        Instruction* Inst = &(*inst_it);
+                        LG.addNode(Inst);
+                    }
                 }
             }
             // add edges to the loop graph
@@ -89,7 +91,7 @@ bool GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphP
                     GraphNode<llvm::Instruction*,llvm::Dependence*> DepNode = *dst_node_it;
                     const llvm::Instruction* DstI = DepNode.getNode();
                     if (llvm::Dependence* D = (DI.depends(const_cast<llvm::Instruction*>(SrcI), const_cast<llvm::Instruction*>(DstI), true)).release()) {
-                        if (D->isFlow() || D->isAnti()) G->addEdge(SrcI, DstI, D);
+                        if (D->isFlow() || D->isAnti()) LG.addEdge(SrcI, DstI, D);
                     }
                 }
             }

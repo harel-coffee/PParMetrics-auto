@@ -169,10 +169,10 @@ bool GraphPrinter<NODE*,EDGE*,PASS>::runOnFunction(llvm::Function& F) {
     printDotGraphs(G, F.getName().str());
    
     int i = 0;
-    for (typename GraphPass<NODE*,EDGE*,PASS>::const_loop_graph_iterator loop_graph_it = GPass.cbegin(); 
-         loop_graph_it != GPass.cend(); ++loop_graph_it) {
+    for (typename GraphPass<NODE*,EDGE*,PASS>::const_loop_graph_iterator loop_graph_it = GPass.loops_cbegin(); 
+         loop_graph_it != GPass.loops_cend(); ++loop_graph_it) {
         const Graph<NODE*,EDGE*>& LG = *(loop_graph_it->second);
-        printDotGraphs(LG, F.getName().str() + "loop" + std::to_string(i));
+        printDotGraphs(LG, F.getName().str() + ".loop" + std::to_string(i));
         i++;
     }
 

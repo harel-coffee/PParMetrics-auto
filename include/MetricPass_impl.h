@@ -26,10 +26,12 @@ MetricPass<METRIC>::MetricPass()
         (it->second).clear();
     }
     ValuePerLoop_loop.clear();
+    
+    ValuePerFunc.clear();
 }
 
 template <typename METRIC>
-void MetricPass<METRIC>::releaseMemory() {
+MetricPass<METRIC>::~MetricPass() { 
     for (auto it = ValuePerLoop_func.begin(); it != ValuePerLoop_func.end(); it++) {
         (it->second).clear();
     }
@@ -39,7 +41,12 @@ void MetricPass<METRIC>::releaseMemory() {
         (it->second).clear();
     }
     ValuePerLoop_loop.clear();
+    
+    ValuePerFunc.clear();
 }
+
+template <typename METRIC>
+void MetricPass<METRIC>::releaseMemory() {}
 
 template <typename METRIC>
 void MetricPass<METRIC>::getAnalysisUsage(llvm::AnalysisUsage& AU) const {

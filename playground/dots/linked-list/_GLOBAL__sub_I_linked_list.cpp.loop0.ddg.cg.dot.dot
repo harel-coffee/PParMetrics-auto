@@ -1,0 +1,15 @@
+
+digraph G {
+
+
+node850 [fillcolor=grey,label="[2/9]  %arrayctor.next = getelementptr inbounds %struct.list_node, %struct.list_node* %arrayctor.cur, i64 1",shape=rectangle,style=filled ]
+node849 [fillcolor=lemonchiffon,label="[0/1]  br i1 %arrayctor.done, label %arrayctor.cont, label %arrayctor.loop",shape=ellipse,style=filled ]
+node847 [fillcolor=lightcoral,label="[6/7]  call void @_ZN9list_nodeC2Ev(%struct.list_node* %arrayctor.cur)",shape=ellipse,style=filled ]
+node848 [fillcolor=grey,label="[3/4]  %arrayctor.done = icmp eq %struct.list_node* %arrayctor.next, %arrayctor.end",shape=rectangle,style=filled ]
+
+node850->node848 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node848->node849 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node850->node847 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+
+
+}

@@ -1,0 +1,42 @@
+
+digraph G {
+
+
+node298 [fillcolor=lightcoral,label="  store i32 %rem3, i32* %arrayidx5, align 4",shape=ellipse,style=filled ]
+node297 [fillcolor=lightcoral,label="  %call2 = call i32 @rand() #2",shape=ellipse,style=filled ]
+node296 [fillcolor=grey,label="  %arrayidx5 = getelementptr inbounds [100 x i32], [100 x i32]* %b, i64 0, i64 %idxprom4",shape=rectangle,style=filled ]
+node285 [fillcolor=lightcoral,label="  %0 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node288 [fillcolor=grey,label="  %rem = urem i32 %call1, 10",shape=rectangle,style=filled ]
+node282 [fillcolor=grey,label="  %idxprom = zext i32 %1 to i64",shape=rectangle,style=filled ]
+node294 [fillcolor=lightcoral,label="  %1 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node299 [fillcolor=lemonchiffon,label="  br label %for.inc",shape=ellipse,style=filled ]
+node284 [fillcolor=lemonchiffon,label="  br i1 %cmp, label %for.body, label %for.end",shape=ellipse,style=filled ]
+node292 [fillcolor=lightcoral,label="  store i32 %rem, i32* %arrayidx, align 4",shape=ellipse,style=filled ]
+node291 [fillcolor=grey,label="  %arrayidx = getelementptr inbounds [100 x i32], [100 x i32]* %a, i64 0, i64 %idxprom",shape=rectangle,style=filled ]
+node280 [fillcolor=lemonchiffon,label="  br label %for.cond",shape=ellipse,style=filled ]
+node283 [fillcolor=lightcoral,label="  %3 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node293 [fillcolor=lightcoral,label="  store i32 %inc, i32* %i, align 4",shape=ellipse,style=filled ]
+node289 [fillcolor=grey,label="  %cmp = icmp ult i32 %0, 100",shape=rectangle,style=filled ]
+node281 [fillcolor=grey,label="  %inc = add i32 %3, 1",shape=rectangle,style=filled ]
+node286 [fillcolor=grey,label="  %idxprom4 = zext i32 %2 to i64",shape=rectangle,style=filled ]
+node287 [fillcolor=lightcoral,label="  %call1 = call i32 @rand() #2",shape=ellipse,style=filled ]
+node290 [fillcolor=lightcoral,label="  %2 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node295 [fillcolor=grey,label="  %rem3 = urem i32 %call2, 10",shape=rectangle,style=filled ]
+
+node287->node288 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node285->node289 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node282->node291 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node289->node284 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node294->node282 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node297->node295 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node288->node292 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node295->node298 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node283->node281 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node281->node293 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node296->node298 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node286->node296 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node291->node292 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node290->node286 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+
+
+}

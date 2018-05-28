@@ -1,0 +1,37 @@
+
+digraph G {
+
+
+
+
+
+subgraph cluster1 {
+
+
+node779 [fillcolor=grey,label="[5/6]  %arrayctor.next = getelementptr inbounds %struct.list_node, %struct.list_node* %arrayctor.cur, i64 1",shape=rectangle,style=filled ]
+node778 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[2/9]  %arrayctor.done = icmp eq %struct.list_node* %arrayctor.next, %arrayctor.end",shape=rectangle,style=filled ]
+node776 [fillcolor=lemonchiffon,label="[3/8]  br i1 %arrayctor.done, label %arrayctor.cont, label %arrayctor.loop",shape=ellipse,style=filled ]
+node777 [fillcolor=grey,label="[4/7]  %arrayctor.cur = phi %struct.list_node* [ %array.begin, %entry ], [ %arrayctor.next, %arrayctor.loop ]",shape=rectangle,style=filled ]
+
+node777->node779 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node779->node777 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node776->node776 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node778->node776 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node776->node777 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node776->node778 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node776->node779 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node779->node778 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+
+
+}
+
+subgraph cluster0 {
+
+
+node775 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/1]  call void @_ZN9list_nodeC2Ev(%struct.list_node* %arrayctor.cur)",shape=ellipse,style=filled ]
+
+
+
+}
+
+}

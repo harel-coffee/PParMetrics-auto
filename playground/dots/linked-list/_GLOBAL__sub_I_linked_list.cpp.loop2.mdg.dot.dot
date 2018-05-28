@@ -1,0 +1,29 @@
+
+digraph G {
+
+
+node326 [fillcolor=lightcoral,label="  %4 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node325 [fillcolor=lightcoral,label="  %3 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node319 [fillcolor=lightcoral,label="  %1 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node318 [fillcolor=lightcoral,label="  store i32 %inc, i32* %i, align 4",shape=ellipse,style=filled ]
+node321 [fillcolor=lightcoral,label="  store i32 %1, i32* %value, align 16",shape=ellipse,style=filled ]
+node324 [fillcolor=lightcoral,label="  store %struct.list_node* %arrayidx2, %struct.list_node** %next, align 8",shape=ellipse,style=filled ]
+node322 [fillcolor=lightcoral,label="  %2 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node320 [fillcolor=lightcoral,label="  %0 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node323 [fillcolor=lightcoral,label="  %5 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+
+node326->node318 [ ]
+node318->node322 [ ]
+node318->node319 [ ]
+node322->node318 [ ]
+node318->node326 [ ]
+node318->node320 [ ]
+node320->node318 [ ]
+node318->node323 [ ]
+node319->node318 [ ]
+node323->node318 [ ]
+node318->node325 [ ]
+node325->node318 [ ]
+
+
+}

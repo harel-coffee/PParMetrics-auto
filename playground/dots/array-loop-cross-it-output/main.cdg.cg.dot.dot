@@ -3,6 +3,10 @@ digraph G {
 
 
 node14 [label="[2/3]
+for.end:                                          ; preds = %for.cond
+  ret i32 0
+",shape=rectangle ]
+node13 [label="[4/5]
 for.body:                                         ; preds = %for.cond
   %1 = load i32, i32* %i, align 4
   %2 = load i32, i32* %i, align 4
@@ -18,15 +22,12 @@ for.body:                                         ; preds = %for.cond
   store i32 %add, i32* %arrayidx3, align 4
   br label %for.inc
 ",shape=rectangle ]
-node13 [label="[0/1]
-for.end:                                          ; preds = %for.cond
-  ret i32 0
-",shape=rectangle ]
-node12 [label="[8/9]
-for.cond:                                         ; preds = %for.inc, %entry
-  %0 = load i32, i32* %i, align 4
-  %cmp = icmp ult i32 %0, 99
-  br i1 %cmp, label %for.body, label %for.end
+node12 [label="[0/1]
+for.inc:                                          ; preds = %for.body
+  %5 = load i32, i32* %i, align 4
+  %inc = add i32 %5, 1
+  store i32 %inc, i32* %i, align 4
+  br label %for.cond
 ",shape=rectangle ]
 node10 [label="[6/7]
 entry:
@@ -37,16 +38,15 @@ entry:
   store i32 0, i32* %i, align 4
   br label %for.cond
 ",shape=rectangle ]
-node11 [label="[4/5]
-for.inc:                                          ; preds = %for.body
-  %5 = load i32, i32* %i, align 4
-  %inc = add i32 %5, 1
-  store i32 %inc, i32* %i, align 4
-  br label %for.cond
+node11 [label="[8/9]
+for.cond:                                         ; preds = %for.inc, %entry
+  %0 = load i32, i32* %i, align 4
+  %cmp = icmp ult i32 %0, 99
+  br i1 %cmp, label %for.body, label %for.end
 ",shape=rectangle ]
 
-node12->node11 [ ]
-node12->node14 [ ]
+node11->node12 [ ]
+node11->node13 [ ]
 
 
 }

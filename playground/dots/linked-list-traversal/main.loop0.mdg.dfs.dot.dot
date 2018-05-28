@@ -1,0 +1,35 @@
+
+digraph G {
+
+
+node169 [fillcolor=lightcoral,label="[9/14]  store i32 %inc, i32* %i, align 4",shape=ellipse,style=filled ]
+node168 [fillcolor=lightcoral,label="[17/18]  store %struct.list_node* %1, %struct.list_node** %next, align 8",shape=ellipse,style=filled ]
+node167 [fillcolor=lightcoral,label="[16/21]  %6 = load %struct.list_node*, %struct.list_node** %next1, align 8",shape=ellipse,style=filled ]
+node162 [fillcolor=lightcoral,label="[3/4]  %5 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node171 [fillcolor=lightcoral,label="[12/13]  %3 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node161 [fillcolor=lightcoral,label="[0/7]  store %struct.list_node* %6, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node163 [fillcolor=lightcoral,label="[1/2]  %2 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node164 [fillcolor=lightcoral,label="[8/15]  %0 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node170 [fillcolor=lightcoral,label="[19/20]  store i32 %3, i32* %value, align 8",shape=ellipse,style=filled ]
+node165 [fillcolor=lightcoral,label="[10/11]  %7 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node166 [fillcolor=lightcoral,label="[5/6]  %4 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+
+node164->node169 [ ]
+node169->node164 [ ]
+node161->node162 [ ]
+node161->node166 [ ]
+node162->node161 [ ]
+node166->node161 [ ]
+node163->node161 [ ]
+node169->node171 [ ]
+node167->node168 [ ]
+node171->node169 [ ]
+node161->node163 [ ]
+node165->node169 [ ]
+node170->node167 [ ]
+node169->node165 [ ]
+node167->node170 [ ]
+node168->node167 [ ]
+
+
+}

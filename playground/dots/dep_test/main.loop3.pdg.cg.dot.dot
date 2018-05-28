@@ -1,0 +1,31 @@
+
+digraph G {
+
+
+node1066 [fillcolor=lightcoral,label="[4/31]  store i32 %inc62, i32* %i22, align 4",shape=ellipse,style=filled ]
+node1067 [fillcolor=lightcoral,label="[24/25]  %27 = load i32, i32* %j51, align 4",shape=ellipse,style=filled ]
+node1065 [fillcolor=grey,label="[0/3]  %arrayidx56 = getelementptr inbounds [100 x i32], [100 x i32]* @_ZL1a, i64 0, i64 %idxprom55",shape=rectangle,style=filled ]
+node1064 [fillcolor=lemonchiffon,label="[26/27]  br label %for.inc61",shape=ellipse,style=filled ]
+node1059 [fillcolor=grey,label="[17/18]  %idxprom57 = zext i32 %26 to i64",shape=rectangle,style=filled ]
+node1063 [fillcolor=lemonchiffon,label="[8/9]  br label %for.cond52",shape=ellipse,style=filled ]
+node1058 [fillcolor=grey,label="[21/22]  %idxprom55 = zext i32 %24 to i64",shape=rectangle,style=filled ]
+node1061 [fillcolor=lightcoral,label="[1/2]  %25 = load i32, i32* %arrayidx56, align 4",shape=ellipse,style=filled ]
+node1060 [fillcolor=lightcoral,label="[20/23]  %24 = load i32, i32* %j51, align 4",shape=ellipse,style=filled ]
+node1062 [fillcolor=grey,label="[14/15]  %idxprom59 = zext i32 %27 to i64",shape=rectangle,style=filled ]
+
+node1066->node1058 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1066->node1059 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1066->node1061 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1066->node1067 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1060->node1058 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1066->node1064 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1065->node1061 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1066->node1062 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1066->node1063 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1058->node1065 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1067->node1062 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1066->node1065 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1066->node1060 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+
+
+}

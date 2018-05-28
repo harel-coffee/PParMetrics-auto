@@ -1,0 +1,44 @@
+
+digraph G {
+
+
+node936 [fillcolor=lightcoral,label="[21/22]  store %struct.list_node* %16, %struct.list_node** %prev_it, align 8",shape=ellipse,style=filled ]
+node934 [fillcolor=grey,label="[31/36]  %next9 = getelementptr inbounds %struct.list_node, %struct.list_node* %17, i32 0, i32 1",shape=rectangle,style=filled ]
+node933 [fillcolor=lemonchiffon,label="[14/15]  br i1 %cmp10, label %if.then, label %if.end",shape=ellipse,style=filled ]
+node937 [fillcolor=grey,label="[13/16]  %cmp10 = icmp ne %struct.list_node* %19, %begin",shape=rectangle,style=filled ]
+node922 [fillcolor=lemonchiffon,label="[10/11]  br label %if.end",shape=ellipse,style=filled ]
+node921 [fillcolor=grey,label="[8/9]  %cmp7 = icmp ne %struct.list_node* %15, null",shape=rectangle,style=filled ]
+node927 [fillcolor=lemonchiffon,label="[28/29]  br label %while.cond5",shape=ellipse,style=filled ]
+node919 [fillcolor=lemonchiffon,label="[4/5]  br i1 %cmp7, label %while.body8, label %while.end11",shape=ellipse,style=filled ]
+node935 [fillcolor=lightcoral,label="[32/35]  %18 = load %struct.list_node*, %struct.list_node** %next9, align 8",shape=ellipse,style=filled ]
+node931 [fillcolor=lightcoral,label="[40/43]  %20 = load %struct.list_node*, %struct.list_node** %prev_it, align 8",shape=ellipse,style=filled ]
+node917 [fillcolor=lightcoral,label="[0/1]  call void @_ZdlPv(i8* %21) #9",shape=ellipse,style=filled ]
+node920 [fillcolor=grey,label="[6/7]  %21 = bitcast %struct.list_node* %20 to i8*",shape=rectangle,style=filled ]
+node918 [fillcolor=lemonchiffon,label="[2/3]  br i1 %isnull, label %delete.end, label %delete.notnull",shape=ellipse,style=filled ]
+node925 [fillcolor=lightcoral,label="[20/23]  %16 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node923 [fillcolor=lightcoral,label="[12/17]  %19 = load %struct.list_node*, %struct.list_node** %prev_it, align 8",shape=ellipse,style=filled ]
+node929 [fillcolor=lemonchiffon,label="[38/39]  br label %delete.end",shape=ellipse,style=filled ]
+node924 [fillcolor=lightcoral,label="[18/19]  %15 = load %struct.list_node*, %struct.list_node** %next6, align 8",shape=ellipse,style=filled ]
+node926 [fillcolor=lightcoral,label="[24/27]  %14 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node932 [fillcolor=grey,label="[25/26]  %next6 = getelementptr inbounds %struct.list_node, %struct.list_node* %14, i32 0, i32 1",shape=rectangle,style=filled ]
+node928 [fillcolor=lightcoral,label="[30/37]  %17 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node938 [fillcolor=grey,label="[41/42]  %isnull = icmp eq %struct.list_node* %20, null",shape=rectangle,style=filled ]
+node930 [fillcolor=lightcoral,label="[33/34]  store %struct.list_node* %18, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+
+node925->node936 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node926->node932 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node928->node934 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node924->node921 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node920->node917 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node931->node920 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node921->node919 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node937->node933 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node938->node918 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node934->node935 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node935->node930 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node923->node937 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node932->node924 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node931->node938 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+
+
+}

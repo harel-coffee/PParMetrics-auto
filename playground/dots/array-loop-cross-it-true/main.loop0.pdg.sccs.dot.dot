@@ -1,0 +1,119 @@
+
+digraph G {
+
+
+
+
+
+subgraph cluster8 {
+
+
+node170 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[13/16]  %idxprom1 = zext i32 %3 to i64",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster7 {
+
+
+node169 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[1/10]  %sub = sub i32 %1, 1",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster6 {
+
+
+node168 [fillcolor=grey,label="[19/30]  %cmp = icmp ult i32 %0, 100",shape=rectangle,style=filled ]
+node167 [fillcolor=lightcoral,label="[12/17]  %3 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node162 [fillcolor=lightcoral,label="[11/32]  store i32 %inc, i32* %i, align 4",shape=ellipse,style=filled ]
+node161 [fillcolor=grey,label="[21/22]  %inc = add i32 %4, 1",shape=rectangle,style=filled ]
+node163 [fillcolor=lightcoral,label="[23/24]  %4 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node164 [fillcolor=lemonchiffon,label="[20/29]  br i1 %cmp, label %for.body, label %for.end",shape=ellipse,style=filled ]
+node165 [fillcolor=lightcoral,label="[18/31]  %0 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node166 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/33]  %1 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+
+node164->node167 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node164->node166 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node164->node165 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node164->node162 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node166->node162 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node163->node161 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node165->node162 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node164->node163 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node163->node162 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node164->node161 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node162->node163 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node165->node168 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node162->node166 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node161->node162 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node162->node165 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node168->node164 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node167->node162 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node164->node164 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node162->node167 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node164->node168 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+
+
+}
+
+subgraph cluster0 {
+
+
+node155 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[4/7]  %2 = load i32, i32* %arrayidx, align 4",shape=ellipse,style=filled ]
+node154 [fillcolor=lightcoral,label="[5/6]  store i32 %2, i32* %arrayidx2, align 4",shape=ellipse,style=filled ]
+
+node154->node155 [style=solid,color=forestgreen,label="T|indep",penwidth=1.0,fontcolor=forestgreen ]
+node155->node154 [style=solid,color=firebrick3,label="A|indep",penwidth=1.0,fontcolor=firebrick3 ]
+
+
+}
+
+subgraph cluster5 {
+
+
+node160 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[3/8]  %arrayidx = getelementptr inbounds [100 x i32], [100 x i32]* %a, i64 0, i64 %idxprom",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster1 {
+
+
+node156 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[27/28]  br label %for.inc",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster2 {
+
+
+node157 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[25/26]  br label %for.cond",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster3 {
+
+
+node158 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[2/9]  %idxprom = zext i32 %sub to i64",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster4 {
+
+
+node159 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[14/15]  %arrayidx2 = getelementptr inbounds [100 x i32], [100 x i32]* %a, i64 0, i64 %idxprom1",shape=rectangle,style=filled ]
+
+
+
+}
+
+}

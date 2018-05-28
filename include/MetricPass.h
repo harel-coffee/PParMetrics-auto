@@ -17,6 +17,7 @@ struct MetricPass : public llvm::FunctionPass {
     public:
         static char ID;
         MetricPass();
+        ~MetricPass();
 
         bool runOnFunction(llvm::Function& F) override;
         void getAnalysisUsage(llvm::AnalysisUsage& AU) const override;

@@ -1,0 +1,41 @@
+
+digraph G {
+
+
+node306 [fillcolor=grey,label="[21/24]  %arrayidx5 = getelementptr inbounds [100 x i32], [100 x i32]* %b, i64 0, i64 %idxprom4",shape=rectangle,style=filled ]
+node305 [fillcolor=grey,label="[8/9]  %arrayidx = getelementptr inbounds [100 x i32], [100 x i32]* %a, i64 0, i64 %idxprom",shape=rectangle,style=filled ]
+node304 [fillcolor=lightcoral,label="[22/23]  store i32 %rem3, i32* %arrayidx5, align 4",shape=ellipse,style=filled ]
+node303 [fillcolor=lightcoral,label="[6/39]  %1 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node300 [fillcolor=grey,label="[2/5]  %rem = urem i32 %call1, 10",shape=rectangle,style=filled ]
+node295 [fillcolor=lightcoral,label="[3/4]  store i32 %rem, i32* %arrayidx, align 4",shape=ellipse,style=filled ]
+node296 [fillcolor=grey,label="[28/29]  %rem3 = urem i32 %call2, 10",shape=rectangle,style=filled ]
+node297 [fillcolor=lightcoral,label="[33/34]  %call1 = call i32 @rand() #2",shape=ellipse,style=filled ]
+node302 [fillcolor=grey,label="[7/10]  %idxprom = zext i32 %1 to i64",shape=rectangle,style=filled ]
+node301 [fillcolor=lemonchiffon,label="[0/1]  br label %for.inc",shape=ellipse,style=filled ]
+node299 [fillcolor=grey,label="[20/25]  %idxprom4 = zext i32 %2 to i64",shape=rectangle,style=filled ]
+node294 [fillcolor=lightcoral,label="[27/30]  %call2 = call i32 @rand() #2",shape=ellipse,style=filled ]
+node298 [fillcolor=lemonchiffon,label="[31/32]  br label %for.cond",shape=ellipse,style=filled ]
+
+node303->node294 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node303->node295 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node303->node304 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node303->node305 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node306->node304 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node303->node296 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node303->node299 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node296->node304 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node294->node296 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node297->node300 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node303->node302 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node300->node295 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node303->node297 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node303->node298 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node305->node295 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node303->node301 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node303->node300 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node299->node306 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node302->node305 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node303->node306 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+
+
+}

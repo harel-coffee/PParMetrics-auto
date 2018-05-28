@@ -1,0 +1,220 @@
+
+digraph G {
+
+
+
+node655->node661 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node667->node669 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node652->node650 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node669->node664 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node659->node663 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node658->node649 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node665->node652 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node653->node656 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node663->node653 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node662->node668 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node651->node648 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node661->node665 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node654->node651 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node654->node658 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+
+
+subgraph cluster20 {
+
+
+node668 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[21/22]  store %struct.list_node* %16, %struct.list_node** %prev_it, align 8",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster18 {
+
+
+node666 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[10/11]  br label %if.end",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster16 {
+
+
+node664 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[14/15]  br i1 %cmp10, label %if.then, label %if.end",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster17 {
+
+
+node665 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[18/19]  %15 = load %struct.list_node*, %struct.list_node** %next6, align 8",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster4 {
+
+
+node652 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[8/9]  %cmp7 = icmp ne %struct.list_node* %15, null",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster3 {
+
+
+node651 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[6/7]  %21 = bitcast %struct.list_node* %20 to i8*",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster2 {
+
+
+node650 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[4/5]  br i1 %cmp7, label %while.body8, label %while.end11",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster1 {
+
+
+node649 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[2/3]  br i1 %isnull, label %delete.end, label %delete.notnull",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster12 {
+
+
+node660 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[28/29]  br label %while.cond5",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster5 {
+
+
+node653 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[32/35]  %18 = load %struct.list_node*, %struct.list_node** %next9, align 8",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster0 {
+
+
+node648 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/1]  call void @_ZdlPv(i8* %21) #9",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster6 {
+
+
+node654 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[40/43]  %20 = load %struct.list_node*, %struct.list_node** %prev_it, align 8",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster14 {
+
+
+node662 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[20/23]  %16 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster7 {
+
+
+node655 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[24/27]  %14 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster8 {
+
+
+node656 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[33/34]  store %struct.list_node* %18, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster21 {
+
+
+node669 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[13/16]  %cmp10 = icmp ne %struct.list_node* %19, %begin",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster9 {
+
+
+node657 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[38/39]  br label %delete.end",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster19 {
+
+
+node667 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[12/17]  %19 = load %struct.list_node*, %struct.list_node** %prev_it, align 8",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster10 {
+
+
+node658 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[41/42]  %isnull = icmp eq %struct.list_node* %20, null",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster11 {
+
+
+node659 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[30/37]  %17 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster13 {
+
+
+node661 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[25/26]  %next6 = getelementptr inbounds %struct.list_node, %struct.list_node* %14, i32 0, i32 1",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster15 {
+
+
+node663 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[31/36]  %next9 = getelementptr inbounds %struct.list_node, %struct.list_node* %17, i32 0, i32 1",shape=rectangle,style=filled ]
+
+
+
+}
+
+}

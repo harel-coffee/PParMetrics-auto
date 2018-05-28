@@ -1,0 +1,39 @@
+
+digraph G {
+
+
+node308 [label="[2/5]
+for.cond19:                                       ; preds = %for.inc28, %for.body18
+  %9 = load i32, i32* %j, align 4
+  %cmp20 = icmp slt i32 %9, 100
+  br i1 %cmp20, label %for.body21, label %for.end30
+",shape=rectangle ]
+node306 [label="[3/4]
+for.body21:                                       ; preds = %for.cond19
+  %arraydecay = getelementptr inbounds [100 x [100 x i32]], [100 x [100 x i32]]* %a, i32 0, i32 0
+  %arraydecay22 = getelementptr inbounds [100 x [100 x i32]], [100 x [100 x i32]]* %b, i32 0, i32 0
+  %10 = load i32, i32* %i, align 4
+  %11 = load i32, i32* %j, align 4
+  %call23 = call i32 @_Z27matrix_get_mult_element_axbPA100_iS0_ii([100 x i32]* %arraydecay, [100 x i32]* %arraydecay22, i32 %10, i32 %11)
+  %12 = load i32, i32* %i, align 4
+  %idxprom24 = sext i32 %12 to i64
+  %arrayidx25 = getelementptr inbounds [100 x [100 x i32]], [100 x [100 x i32]]* %c, i64 0, i64 %idxprom24
+  %13 = load i32, i32* %j, align 4
+  %idxprom26 = sext i32 %13 to i64
+  %arrayidx27 = getelementptr inbounds [100 x i32], [100 x i32]* %arrayidx25, i64 0, i64 %idxprom26
+  store i32 %call23, i32* %arrayidx27, align 4
+  br label %for.inc28
+",shape=rectangle ]
+node307 [label="[0/1]
+for.inc28:                                        ; preds = %for.body21
+  %14 = load i32, i32* %j, align 4
+  %inc29 = add nsw i32 %14, 1
+  store i32 %inc29, i32* %j, align 4
+  br label %for.cond19
+",shape=rectangle ]
+
+node308->node307 [ ]
+node308->node306 [ ]
+
+
+}

@@ -2,13 +2,13 @@
 digraph G {
 
 
-node152 [fillcolor=lightcoral,label="  store i32 0, i32* %value, align 8",shape=ellipse,style=filled ]
-node153 [fillcolor=lightcoral,label="  %this1 = load %struct.list_node*, %struct.list_node** %this.addr, align 8",shape=ellipse,style=filled ]
-node150 [fillcolor=lightcoral,label="  store %struct.list_node* null, %struct.list_node** %next, align 8",shape=ellipse,style=filled ]
-node151 [fillcolor=lightcoral,label="  store %struct.list_node* %this, %struct.list_node** %this.addr, align 8",shape=ellipse,style=filled ]
+node276 [fillcolor=lightcoral,label="  %this1 = load %struct.list_node*, %struct.list_node** %this.addr, align 8",shape=ellipse,style=filled ]
+node275 [fillcolor=lightcoral,label="  store i32 0, i32* %value, align 8",shape=ellipse,style=filled ]
+node273 [fillcolor=lightcoral,label="  store %struct.list_node* null, %struct.list_node** %next, align 8",shape=ellipse,style=filled ]
+node274 [fillcolor=lightcoral,label="  store %struct.list_node* %this, %struct.list_node** %this.addr, align 8",shape=ellipse,style=filled ]
 
-node151->node153 [ ]
-node153->node151 [ ]
+node274->node276 [ ]
+node276->node274 [ ]
 
 
 }

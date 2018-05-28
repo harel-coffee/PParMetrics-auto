@@ -1,0 +1,28 @@
+
+digraph G {
+
+
+node562 [fillcolor=lightcoral,label="[0/33]  store i32 %inc, i32* %i, align 4",shape=ellipse,style=filled ]
+node561 [fillcolor=grey,label="[3/8]  %arrayidx = getelementptr inbounds [100 x i32], [100 x i32]* @_ZL1a, i64 0, i64 %idxprom",shape=rectangle,style=filled ]
+node563 [fillcolor=lemonchiffon,label="[28/29]  br label %for.inc",shape=ellipse,style=filled ]
+node556 [fillcolor=grey,label="[20/21]  %idxprom1 = zext i32 %3 to i64",shape=rectangle,style=filled ]
+node555 [fillcolor=grey,label="[2/9]  %idxprom = zext i32 %1 to i64",shape=rectangle,style=filled ]
+node557 [fillcolor=grey,label="[18/19]  %idxprom3 = zext i32 %4 to i64",shape=rectangle,style=filled ]
+node558 [fillcolor=lemonchiffon,label="[24/25]  br label %for.cond",shape=ellipse,style=filled ]
+node559 [fillcolor=lightcoral,label="[4/7]  %2 = load i32, i32* %arrayidx, align 4",shape=ellipse,style=filled ]
+node560 [fillcolor=grey,label="[5/6]  %add = add i32 %2, 0",shape=rectangle,style=filled ]
+
+node562->node558 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node562->node561 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node562->node559 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node562->node563 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node562->node557 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node562->node556 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node562->node555 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node555->node561 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node561->node559 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node562->node560 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node559->node560 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+
+
+}

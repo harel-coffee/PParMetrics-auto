@@ -1,0 +1,41 @@
+
+digraph G {
+
+
+
+node62->node64 [ ]
+node64->node63 [ ]
+node68->node67 [ ]
+node66->node64 [ ]
+node64->node65 [ ]
+node65->node64 [ ]
+node63->node64 [ ]
+node67->node68 [ ]
+node64->node62 [ ]
+node64->node66 [ ]
+
+
+subgraph cluster1 {
+
+
+node68 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[10/13]  %2 = load i32, i32* %arrayidx, align 4",shape=ellipse,style=filled ]
+node67 [fillcolor=lightcoral,label="[11/12]  store i32 %2, i32* %arrayidx2, align 4",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster0 {
+
+
+node66 [fillcolor=lightcoral,label="[1/2]  %1 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node65 [fillcolor=lightcoral,label="[3/4]  %3 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node64 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/9]  store i32 %inc, i32* %i, align 4",shape=ellipse,style=filled ]
+node62 [fillcolor=lightcoral,label="[7/8]  %4 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node63 [fillcolor=lightcoral,label="[5/6]  %0 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+
+
+
+}
+
+}

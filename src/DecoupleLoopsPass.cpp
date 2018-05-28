@@ -30,6 +30,17 @@ char DecoupleLoopsPass::ID = 0;
 
 DecoupleLoopsPass::DecoupleLoopsPass() 
  : FunctionPass(ID) {
+    FunctionLoops.clear();
+    LoopAddrToName.clear();
+
+    DecoupleLoopsInfo_func.clear();
+    DecoupleLoopsInfo_loop.clear();
+}
+
+DecoupleLoopsPass::~DecoupleLoopsPass() { 
+    FunctionLoops.clear();
+    LoopAddrToName.clear();
+
     DecoupleLoopsInfo_func.clear();
     DecoupleLoopsInfo_loop.clear();
 }
@@ -39,6 +50,9 @@ void DecoupleLoopsPass::releaseMemory() {
     DEBUG(
         llvm::dbgs() << "[debug] DecoupleLoopsPass::releaseMemory()\n";
     );
+    
+    FunctionLoops.clear();
+    LoopAddrToName.clear();
 
     DecoupleLoopsInfo_func.clear();
     DecoupleLoopsInfo_loop.clear();

@@ -1,0 +1,46 @@
+
+digraph G {
+
+
+node242 [label="
+for.body3:                                        ; preds = %for.cond1
+  %call4 = call i32 @rand() #3
+  %rem = srem i32 %call4, 10
+  %2 = load i32, i32* %i, align 4
+  %idxprom = sext i32 %2 to i64
+  %arrayidx = getelementptr inbounds [100 x [100 x i32]], [100 x [100 x i32]]* %a, i64 0, i64 %idxprom
+  %3 = load i32, i32* %j, align 4
+  %idxprom5 = sext i32 %3 to i64
+  %arrayidx6 = getelementptr inbounds [100 x i32], [100 x i32]* %arrayidx, i64 0, i64 %idxprom5
+  store i32 %rem, i32* %arrayidx6, align 4
+  %call7 = call i32 @rand() #3
+  %rem8 = srem i32 %call7, 10
+  %4 = load i32, i32* %i, align 4
+  %idxprom9 = sext i32 %4 to i64
+  %arrayidx10 = getelementptr inbounds [100 x [100 x i32]], [100 x [100 x i32]]* %b, i64 0, i64 %idxprom9
+  %5 = load i32, i32* %j, align 4
+  %idxprom11 = sext i32 %5 to i64
+  %arrayidx12 = getelementptr inbounds [100 x i32], [100 x i32]* %arrayidx10, i64 0, i64 %idxprom11
+  store i32 %rem8, i32* %arrayidx12, align 4
+  br label %for.inc
+",shape=rectangle ]
+node240 [label="
+for.inc:                                          ; preds = %for.body3
+  %6 = load i32, i32* %j, align 4
+  %inc = add nsw i32 %6, 1
+  store i32 %inc, i32* %j, align 4
+  br label %for.cond1
+",shape=rectangle ]
+node241 [label="
+for.cond1:                                        ; preds = %for.inc, %for.body
+  %1 = load i32, i32* %j, align 4
+  %cmp2 = icmp slt i32 %1, 100
+  br i1 %cmp2, label %for.body3, label %for.end
+",shape=rectangle ]
+
+node241->node242 [ ]
+node241->node240 [ ]
+node241->node241 [ ]
+
+
+}

@@ -1,0 +1,42 @@
+
+digraph G {
+
+
+node1066 [fillcolor=lightcoral,label="[13/14]  %call23 = call i32 @_Z27matrix_get_mult_element_axbPA100_iS0_ii([100 x i32]* %arraydecay, [100 x i32]* %arraydecay22, i32 %10, i32 %11)",shape=ellipse,style=filled ]
+node1063 [fillcolor=lemonchiffon,label="[0/1]  br label %for.inc28",shape=ellipse,style=filled ]
+node1062 [fillcolor=grey,label="[5/8]  %arrayidx27 = getelementptr inbounds [100 x i32], [100 x i32]* %arrayidx25, i64 0, i64 %idxprom26",shape=rectangle,style=filled ]
+node1061 [fillcolor=lemonchiffon,label="[35/36]  br label %for.cond19",shape=ellipse,style=filled ]
+node1056 [fillcolor=lightcoral,label="[16/39]  %9 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
+node1060 [fillcolor=grey,label="[33/34]  %arraydecay = getelementptr inbounds [100 x [100 x i32]], [100 x [100 x i32]]* %a, i32 0, i32 0",shape=rectangle,style=filled ]
+node1067 [fillcolor=grey,label="[20/21]  %idxprom26 = sext i32 %13 to i64",shape=rectangle,style=filled ]
+node1065 [fillcolor=lightcoral,label="[2/11]  %12 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node1055 [fillcolor=lightcoral,label="[12/15]  %10 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node1064 [fillcolor=grey,label="[4/9]  %arrayidx25 = getelementptr inbounds [100 x [100 x i32]], [100 x [100 x i32]]* %c, i64 0, i64 %idxprom24",shape=rectangle,style=filled ]
+node1057 [fillcolor=lightcoral,label="[6/7]  store i32 %call23, i32* %arrayidx27, align 4",shape=ellipse,style=filled ]
+node1058 [fillcolor=grey,label="[31/32]  %arraydecay22 = getelementptr inbounds [100 x [100 x i32]], [100 x [100 x i32]]* %b, i32 0, i32 0",shape=rectangle,style=filled ]
+node1059 [fillcolor=grey,label="[3/10]  %idxprom24 = sext i32 %12 to i64",shape=rectangle,style=filled ]
+
+node1056->node1058 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1056->node1061 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1060->node1066 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1056->node1055 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1056->node1067 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1062->node1057 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1056->node1062 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1056->node1066 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1066->node1057 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1056->node1059 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1056->node1065 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1067->node1062 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1056->node1063 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1056->node1057 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1056->node1064 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1065->node1059 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1064->node1062 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1056->node1060 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1055->node1066 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1059->node1064 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1058->node1066 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+
+
+}

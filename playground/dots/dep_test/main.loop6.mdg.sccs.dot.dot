@@ -1,0 +1,35 @@
+
+digraph G {
+
+
+
+
+
+subgraph cluster1 {
+
+
+node525 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[8/9]  %9 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster0 {
+
+
+node523 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/7]  store i32 %inc17, i32* %i5, align 4",shape=ellipse,style=filled ]
+node521 [fillcolor=lightcoral,label="[5/6]  %8 = load i32, i32* %i5, align 4",shape=ellipse,style=filled ]
+node524 [fillcolor=lightcoral,label="[1/2]  %7 = load i32, i32* %i5, align 4",shape=ellipse,style=filled ]
+node522 [fillcolor=lightcoral,label="[3/4]  %10 = load i32, i32* %i5, align 4",shape=ellipse,style=filled ]
+
+node522->node523 [ ]
+node521->node523 [ ]
+node523->node521 [ ]
+node524->node523 [ ]
+node523->node522 [ ]
+node523->node524 [ ]
+
+
+}
+
+}

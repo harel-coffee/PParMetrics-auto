@@ -1,0 +1,23 @@
+
+digraph G {
+
+
+node573 [fillcolor=grey,label="[5/6]  %arrayctor.next = getelementptr inbounds %struct.list_node, %struct.list_node* %arrayctor.cur, i64 1",shape=rectangle,style=filled ]
+node572 [fillcolor=lemonchiffon,label="[3/8]  br i1 %arrayctor.done, label %arrayctor.cont, label %arrayctor.loop",shape=ellipse,style=filled ]
+node571 [fillcolor=grey,label="[4/7]  %arrayctor.cur = phi %struct.list_node* [ %array.begin, %entry ], [ %arrayctor.next, %arrayctor.loop ]",shape=rectangle,style=filled ]
+node569 [fillcolor=lightcoral,label="[0/1]  call void @_ZN9list_nodeC2Ev(%struct.list_node* %arrayctor.cur)",shape=ellipse,style=filled ]
+node570 [fillcolor=grey,label="[2/9]  %arrayctor.done = icmp eq %struct.list_node* %arrayctor.next, %arrayctor.end",shape=rectangle,style=filled ]
+
+node570->node572 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node571->node569 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node572->node569 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node572->node572 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node571->node573 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node572->node570 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node572->node573 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node573->node571 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node573->node570 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node572->node571 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+
+
+}

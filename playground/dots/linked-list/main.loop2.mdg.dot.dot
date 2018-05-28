@@ -1,0 +1,29 @@
+
+digraph G {
+
+
+node157 [fillcolor=lightcoral,label="  %4 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node156 [fillcolor=lightcoral,label="  %3 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node155 [fillcolor=lightcoral,label="  store %struct.list_node* %arrayidx2, %struct.list_node** %next, align 8",shape=ellipse,style=filled ]
+node150 [fillcolor=lightcoral,label="  %1 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node149 [fillcolor=lightcoral,label="  store i32 %inc, i32* %i, align 4",shape=ellipse,style=filled ]
+node153 [fillcolor=lightcoral,label="  %2 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node151 [fillcolor=lightcoral,label="  %0 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node152 [fillcolor=lightcoral,label="  store i32 %1, i32* %value, align 16",shape=ellipse,style=filled ]
+node154 [fillcolor=lightcoral,label="  %5 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+
+node149->node157 [ ]
+node157->node149 [ ]
+node149->node153 [ ]
+node150->node149 [ ]
+node149->node151 [ ]
+node151->node149 [ ]
+node149->node150 [ ]
+node153->node149 [ ]
+node154->node149 [ ]
+node149->node154 [ ]
+node149->node156 [ ]
+node156->node149 [ ]
+
+
+}

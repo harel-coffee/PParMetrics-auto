@@ -9,8 +9,11 @@ for.cond:                                         ; preds = %for.inc, %entry
   br i1 %cmp, label %for.body, label %for.end
 ",shape=rectangle ]
 node0 [label="
-for.end:                                          ; preds = %for.cond
-  ret i32 0
+for.inc:                                          ; preds = %for.body
+  %5 = load i32, i32* %i, align 4
+  %inc = add i32 %5, 1
+  store i32 %inc, i32* %i, align 4
+  br label %for.cond
 ",shape=rectangle ]
 node3 [label="
 entry:
@@ -22,13 +25,6 @@ entry:
   br label %for.cond
 ",shape=rectangle ]
 node2 [label="
-for.inc:                                          ; preds = %for.body
-  %5 = load i32, i32* %i, align 4
-  %inc = add i32 %5, 1
-  store i32 %inc, i32* %i, align 4
-  br label %for.cond
-",shape=rectangle ]
-node1 [label="
 for.body:                                         ; preds = %for.cond
   %1 = load i32, i32* %i, align 4
   %2 = load i32, i32* %i, align 4
@@ -44,9 +40,13 @@ for.body:                                         ; preds = %for.cond
   store i32 %add, i32* %arrayidx3, align 4
   br label %for.inc
 ",shape=rectangle ]
+node1 [label="
+for.end:                                          ; preds = %for.cond
+  ret i32 0
+",shape=rectangle ]
 
-node4->node1 [ ]
 node4->node2 [ ]
+node4->node0 [ ]
 node4->node4 [ ]
 
 

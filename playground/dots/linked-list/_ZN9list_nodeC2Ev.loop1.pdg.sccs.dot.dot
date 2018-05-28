@@ -1,0 +1,85 @@
+
+digraph G {
+
+
+
+
+
+subgraph cluster4 {
+
+
+node632 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[21/22]  br label %while.cond",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster3 {
+
+
+node625 [fillcolor=grey,label="[15/18]  %next15 = getelementptr inbounds %struct.list_node, %struct.list_node* %13, i32 0, i32 1",shape=rectangle,style=filled ]
+node626 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/27]  %10 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node630 [fillcolor=lemonchiffon,label="[14/23]  br i1 %cmp12, label %while.body, label %while.end",shape=ellipse,style=filled ]
+node624 [fillcolor=lightcoral,label="[19/20]  %13 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node631 [fillcolor=grey,label="[13/24]  %cmp12 = icmp ne %struct.list_node* %9, null",shape=rectangle,style=filled ]
+node627 [fillcolor=lightcoral,label="[16/17]  %14 = load %struct.list_node*, %struct.list_node** %next15, align 8",shape=ellipse,style=filled ]
+node628 [fillcolor=lightcoral,label="[12/25]  %9 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node629 [fillcolor=lightcoral,label="[11/26]  store %struct.list_node* %14, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+
+node630->node627 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node630->node629 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node630->node625 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node630->node630 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node630->node626 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node629->node628 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node624->node629 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node628->node631 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node626->node629 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node629->node626 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node630->node624 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node630->node631 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node627->node629 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node628->node629 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node631->node630 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node624->node625 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node630->node628 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node625->node627 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node629->node624 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+
+
+}
+
+subgraph cluster2 {
+
+
+node623 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[1/10]  %value13 = getelementptr inbounds %struct.list_node, %struct.list_node* %10, i32 0, i32 0",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster0 {
+
+
+node621 [fillcolor=lightcoral,label="[5/6]  %12 = load i32, i32* %sum, align 4",shape=ellipse,style=filled ]
+node619 [fillcolor=lightcoral,label="[4/7]  store i32 %add14, i32* %sum, align 4",shape=ellipse,style=filled ]
+node620 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[3/8]  %add14 = add nsw i32 %12, %11",shape=rectangle,style=filled ]
+
+node620->node619 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node619->node621 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node621->node620 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node621->node619 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+
+
+}
+
+subgraph cluster1 {
+
+
+node622 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[2/9]  %11 = load i32, i32* %value13, align 8",shape=ellipse,style=filled ]
+
+
+
+}
+
+}

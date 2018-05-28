@@ -1,6 +1,8 @@
 #!/bin/bash
 
-cd ./dots
+cd ./metrics
+rm -rf ./*
+cd ../dots
 rm -rf ./*
 cd ../assembly/
 rm -rf ./*

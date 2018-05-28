@@ -56,6 +56,7 @@ struct DecoupleLoopsPass : public llvm::FunctionPass {
 
         static char ID;
         DecoupleLoopsPass();
+        ~DecoupleLoopsPass();
 
         bool runOnFunction(llvm::Function& F) override;
         void getAnalysisUsage(llvm::AnalysisUsage& AU) const override;

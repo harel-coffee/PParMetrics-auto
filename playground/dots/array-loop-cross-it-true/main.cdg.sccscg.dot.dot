@@ -3,29 +3,15 @@ digraph G {
 
 
 
-node24->node24 [ ]
-node24->node21 [ ]
-node24->node22 [ ]
+node20->node20 [ ]
+node20->node22 [ ]
+node20->node21 [ ]
 
 
 subgraph cluster4 {
 
 
-node24 [penwidth=3.0,fontsize=20,shape=rectangle,label="[4/7]
-for.cond:                                         ; preds = %for.inc, %entry
-  %0 = load i32, i32* %i, align 4
-  %cmp = icmp ult i32 %0, 100
-  br i1 %cmp, label %for.body, label %for.end
-" ]
-
-
-
-}
-
-subgraph cluster3 {
-
-
-node23 [penwidth=3.0,fontsize=20,shape=rectangle,label="[8/9]
+node24 [penwidth=3.0,fontsize=20,shape=rectangle,label="[6/7]
 entry:
   %retval = alloca i32, align 4
   %a = alloca [100 x i32], align 16
@@ -39,25 +25,10 @@ entry:
 
 }
 
-subgraph cluster2 {
+subgraph cluster3 {
 
 
-node22 [penwidth=3.0,fontsize=20,shape=rectangle,label="[5/6]
-for.inc:                                          ; preds = %for.body
-  %4 = load i32, i32* %i, align 4
-  %inc = add i32 %4, 1
-  store i32 %inc, i32* %i, align 4
-  br label %for.cond
-" ]
-
-
-
-}
-
-subgraph cluster0 {
-
-
-node20 [penwidth=3.0,fontsize=20,shape=rectangle,label="[0/1]
+node23 [penwidth=3.0,fontsize=20,shape=rectangle,label="[8/9]
 for.end:                                          ; preds = %for.cond
   ret i32 0
 " ]
@@ -66,10 +37,10 @@ for.end:                                          ; preds = %for.cond
 
 }
 
-subgraph cluster1 {
+subgraph cluster2 {
 
 
-node21 [penwidth=3.0,fontsize=20,shape=rectangle,label="[2/3]
+node22 [penwidth=3.0,fontsize=20,shape=rectangle,label="[3/4]
 for.body:                                         ; preds = %for.cond
   %1 = load i32, i32* %i, align 4
   %sub = sub i32 %1, 1
@@ -81,6 +52,35 @@ for.body:                                         ; preds = %for.cond
   %arrayidx2 = getelementptr inbounds [100 x i32], [100 x i32]* %a, i64 0, i64 %idxprom1
   store i32 %2, i32* %arrayidx2, align 4
   br label %for.inc
+" ]
+
+
+
+}
+
+subgraph cluster0 {
+
+
+node20 [penwidth=3.0,fontsize=20,shape=rectangle,label="[0/5]
+for.cond:                                         ; preds = %for.inc, %entry
+  %0 = load i32, i32* %i, align 4
+  %cmp = icmp ult i32 %0, 100
+  br i1 %cmp, label %for.body, label %for.end
+" ]
+
+
+
+}
+
+subgraph cluster1 {
+
+
+node21 [penwidth=3.0,fontsize=20,shape=rectangle,label="[1/2]
+for.inc:                                          ; preds = %for.body
+  %4 = load i32, i32* %i, align 4
+  %inc = add i32 %4, 1
+  store i32 %inc, i32* %i, align 4
+  br label %for.cond
 " ]
 
 

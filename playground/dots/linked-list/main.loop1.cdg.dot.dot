@@ -1,0 +1,30 @@
+
+digraph G {
+
+
+node61 [label="
+while.body:                                       ; preds = %while.cond
+  %10 = load %struct.list_node*, %struct.list_node** %list_it, align 8
+  %value13 = getelementptr inbounds %struct.list_node, %struct.list_node* %10, i32 0, i32 0
+  %11 = load i32, i32* %value13, align 8
+  %12 = load i32, i32* %sum, align 4
+  %add14 = add nsw i32 %12, %11
+  store i32 %add14, i32* %sum, align 4
+  %13 = load %struct.list_node*, %struct.list_node** %list_it, align 8
+  %next15 = getelementptr inbounds %struct.list_node, %struct.list_node* %13, i32 0, i32 1
+  %14 = load %struct.list_node*, %struct.list_node** %next15, align 8
+  store %struct.list_node* %14, %struct.list_node** %list_it, align 8
+  br label %while.cond
+",shape=rectangle ]
+node60 [label="
+while.cond:                                       ; preds = %while.body, %for.end
+  %9 = load %struct.list_node*, %struct.list_node** %list_it, align 8
+  %cmp12 = icmp ne %struct.list_node* %9, null
+  br i1 %cmp12, label %while.body, label %while.end
+",shape=rectangle ]
+
+node60->node61 [ ]
+node60->node60 [ ]
+
+
+}

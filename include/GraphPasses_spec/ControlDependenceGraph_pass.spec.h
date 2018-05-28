@@ -129,7 +129,9 @@ bool GraphPass<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphP
             Loop* FromL = LI.getLoopFor(From);
             Loop* ToL = LI.getLoopFor(To);
             
-            if (FromL == ToL) {
+            if ((FromL != nullptr) &&
+                (ToL != nullptr) &&
+                (FromL == ToL)) {
                 ppar::Dependence* Dep = new ppar::Dependence();
                 Dep->setControl();
                 getLoopGraph(ToL).addEdge(const_cast<BasicBlock*>(From), 

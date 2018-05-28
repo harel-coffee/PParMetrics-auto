@@ -1,0 +1,42 @@
+
+digraph G {
+
+
+node384 [fillcolor=grey,label="[21/24]  %arrayidx5 = getelementptr inbounds [100 x i32], [100 x i32]* %b, i64 0, i64 %idxprom4",shape=rectangle,style=filled ]
+node383 [fillcolor=grey,label="[20/25]  %idxprom4 = zext i32 %2 to i64",shape=rectangle,style=filled ]
+node381 [fillcolor=lightcoral,label="[26/29]  %call1 = call i32 @rand() #2",shape=ellipse,style=filled ]
+node370 [fillcolor=lightcoral,label="[30/31]  %2 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node368 [fillcolor=lightcoral,label="[16/19]  %0 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node367 [fillcolor=lemonchiffon,label="[14/15]  br i1 %cmp, label %for.body, label %for.end",shape=ellipse,style=filled ]
+node373 [fillcolor=lemonchiffon,label="[0/1]  br label %for.cond",shape=ellipse,style=filled ]
+node369 [fillcolor=grey,label="[6/11]  %idxprom = zext i32 %1 to i64",shape=rectangle,style=filled ]
+node375 [fillcolor=lightcoral,label="[36/37]  %call2 = call i32 @rand() #2",shape=ellipse,style=filled ]
+node365 [fillcolor=grey,label="[7/10]  %arrayidx = getelementptr inbounds [100 x i32], [100 x i32]* %a, i64 0, i64 %idxprom",shape=rectangle,style=filled ]
+node366 [fillcolor=lightcoral,label="[12/13]  %3 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node371 [fillcolor=grey,label="[17/18]  %cmp = icmp ult i32 %0, 100",shape=rectangle,style=filled ]
+node374 [fillcolor=grey,label="[2/5]  %inc = add i32 %3, 1",shape=rectangle,style=filled ]
+node372 [fillcolor=lightcoral,label="[8/9]  store i32 %rem, i32* %arrayidx, align 4",shape=ellipse,style=filled ]
+node382 [fillcolor=grey,label="[27/28]  %rem = urem i32 %call1, 10",shape=rectangle,style=filled ]
+node376 [fillcolor=lightcoral,label="[22/23]  store i32 %rem3, i32* %arrayidx5, align 4",shape=ellipse,style=filled ]
+node377 [fillcolor=lightcoral,label="[32/33]  %1 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node378 [fillcolor=lightcoral,label="[3/4]  store i32 %inc, i32* %i, align 4",shape=ellipse,style=filled ]
+node379 [fillcolor=grey,label="[34/35]  %rem3 = urem i32 %call2, 10",shape=rectangle,style=filled ]
+node380 [fillcolor=lemonchiffon,label="[38/39]  br label %for.inc",shape=ellipse,style=filled ]
+
+node374->node378 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node377->node369 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node365->node372 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node371->node367 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node379->node376 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node384->node376 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node382->node372 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node370->node383 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node375->node379 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node368->node371 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node383->node384 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node366->node374 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node381->node382 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node369->node365 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+
+
+}

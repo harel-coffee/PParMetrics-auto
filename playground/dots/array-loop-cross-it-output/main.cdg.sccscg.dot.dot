@@ -3,9 +3,9 @@ digraph G {
 
 
 
-node22->node21 [ ]
-node22->node23 [ ]
-node22->node22 [ ]
+node23->node22 [ ]
+node23->node20 [ ]
+node23->node23 [ ]
 
 
 subgraph cluster4 {
@@ -28,22 +28,7 @@ entry:
 subgraph cluster3 {
 
 
-node23 [penwidth=3.0,fontsize=20,shape=rectangle,label="[4/5]
-for.inc:                                          ; preds = %for.body
-  %5 = load i32, i32* %i, align 4
-  %inc = add i32 %5, 1
-  store i32 %inc, i32* %i, align 4
-  br label %for.cond
-" ]
-
-
-
-}
-
-subgraph cluster2 {
-
-
-node22 [penwidth=3.0,fontsize=20,shape=rectangle,label="[8/9]
+node23 [penwidth=3.0,fontsize=20,shape=rectangle,label="[8/9]
 for.cond:                                         ; preds = %for.inc, %entry
   %0 = load i32, i32* %i, align 4
   %cmp = icmp ult i32 %0, 99
@@ -54,22 +39,10 @@ for.cond:                                         ; preds = %for.inc, %entry
 
 }
 
-subgraph cluster0 {
+subgraph cluster2 {
 
 
-node20 [penwidth=3.0,fontsize=20,shape=rectangle,label="[0/1]
-for.end:                                          ; preds = %for.cond
-  ret i32 0
-" ]
-
-
-
-}
-
-subgraph cluster1 {
-
-
-node21 [penwidth=3.0,fontsize=20,shape=rectangle,label="[2/3]
+node22 [penwidth=3.0,fontsize=20,shape=rectangle,label="[4/5]
 for.body:                                         ; preds = %for.cond
   %1 = load i32, i32* %i, align 4
   %2 = load i32, i32* %i, align 4
@@ -84,6 +57,33 @@ for.body:                                         ; preds = %for.cond
   %arrayidx3 = getelementptr inbounds [100 x i32], [100 x i32]* %a, i64 0, i64 %idxprom2
   store i32 %add, i32* %arrayidx3, align 4
   br label %for.inc
+" ]
+
+
+
+}
+
+subgraph cluster0 {
+
+
+node20 [penwidth=3.0,fontsize=20,shape=rectangle,label="[0/1]
+for.inc:                                          ; preds = %for.body
+  %5 = load i32, i32* %i, align 4
+  %inc = add i32 %5, 1
+  store i32 %inc, i32* %i, align 4
+  br label %for.cond
+" ]
+
+
+
+}
+
+subgraph cluster1 {
+
+
+node21 [penwidth=3.0,fontsize=20,shape=rectangle,label="[2/3]
+for.end:                                          ; preds = %for.cond
+  ret i32 0
 " ]
 
 

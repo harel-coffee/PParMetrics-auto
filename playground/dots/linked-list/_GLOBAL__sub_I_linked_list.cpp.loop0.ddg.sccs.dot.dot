@@ -1,0 +1,47 @@
+
+digraph G {
+
+
+
+
+
+subgraph cluster3 {
+
+
+node855 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[6/7]  call void @_ZN9list_nodeC2Ev(%struct.list_node* %arrayctor.cur)",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster2 {
+
+
+node854 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[3/4]  %arrayctor.done = icmp eq %struct.list_node* %arrayctor.next, %arrayctor.end",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster0 {
+
+
+node851 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[0/1]  br i1 %arrayctor.done, label %arrayctor.cont, label %arrayctor.loop",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster1 {
+
+
+node853 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[2/9]  %arrayctor.next = getelementptr inbounds %struct.list_node, %struct.list_node* %arrayctor.cur, i64 1",shape=rectangle,style=filled ]
+node852 [fillcolor=grey,label="[5/8]  %arrayctor.cur = phi %struct.list_node* [ %array.begin, %entry ], [ %arrayctor.next, %arrayctor.loop ]",shape=rectangle,style=filled ]
+
+node852->node853 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node853->node852 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+
+
+}
+
+}

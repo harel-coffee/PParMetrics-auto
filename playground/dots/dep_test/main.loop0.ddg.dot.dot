@@ -1,0 +1,35 @@
+
+digraph G {
+
+
+node596 [fillcolor=lightcoral,label="  store i32 %inc, i32* %i, align 4",shape=ellipse,style=filled ]
+node584 [fillcolor=lightcoral,label="  %5 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node583 [fillcolor=lightcoral,label="  %1 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node582 [fillcolor=lemonchiffon,label="  br label %for.cond",shape=ellipse,style=filled ]
+node580 [fillcolor=grey,label="  %arrayidx = getelementptr inbounds [100 x i32], [100 x i32]* @_ZL1a, i64 0, i64 %idxprom",shape=rectangle,style=filled ]
+node585 [fillcolor=lightcoral,label="  %4 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node589 [fillcolor=lightcoral,label="  %0 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node586 [fillcolor=lightcoral,label="  %2 = load i32, i32* %arrayidx, align 4",shape=ellipse,style=filled ]
+node588 [fillcolor=lightcoral,label="  %3 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node587 [fillcolor=grey,label="  %add = add i32 %2, 0",shape=rectangle,style=filled ]
+node592 [fillcolor=lemonchiffon,label="  br i1 %cmp, label %for.body, label %for.end",shape=ellipse,style=filled ]
+node593 [fillcolor=grey,label="  %idxprom1 = zext i32 %3 to i64",shape=rectangle,style=filled ]
+node594 [fillcolor=grey,label="  %idxprom3 = zext i32 %4 to i64",shape=rectangle,style=filled ]
+node590 [fillcolor=grey,label="  %cmp = icmp ult i32 %0, 100",shape=rectangle,style=filled ]
+node581 [fillcolor=grey,label="  %idxprom = zext i32 %1 to i64",shape=rectangle,style=filled ]
+node591 [fillcolor=grey,label="  %inc = add i32 %5, 1",shape=rectangle,style=filled ]
+node595 [fillcolor=lemonchiffon,label="  br label %for.inc",shape=ellipse,style=filled ]
+
+node585->node594 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node583->node581 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node586->node587 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node590->node592 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node591->node596 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node589->node590 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node580->node586 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node588->node593 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node581->node580 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node584->node591 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+
+
+}

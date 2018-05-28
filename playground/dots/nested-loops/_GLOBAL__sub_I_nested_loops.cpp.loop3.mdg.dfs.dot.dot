@@ -1,0 +1,20 @@
+
+digraph G {
+
+
+node718 [fillcolor=lightcoral,label="[10/11]  %18 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node716 [fillcolor=lightcoral,label="[1/2]  %17 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
+node715 [fillcolor=lightcoral,label="[3/4]  %19 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
+node713 [fillcolor=lightcoral,label="[0/7]  store i32 %inc47, i32* %j, align 4",shape=ellipse,style=filled ]
+node717 [fillcolor=lightcoral,label="[5/6]  %21 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
+node714 [fillcolor=lightcoral,label="[8/9]  %20 = load i32, i32* %arrayidx43, align 4",shape=ellipse,style=filled ]
+
+node713->node715 [ ]
+node715->node713 [ ]
+node716->node713 [ ]
+node717->node713 [ ]
+node713->node716 [ ]
+node713->node717 [ ]
+
+
+}

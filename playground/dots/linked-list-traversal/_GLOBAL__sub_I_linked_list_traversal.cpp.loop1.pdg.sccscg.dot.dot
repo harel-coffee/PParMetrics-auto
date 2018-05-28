@@ -1,0 +1,148 @@
+
+digraph G {
+
+
+
+node1158->node1139 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1157->node1154 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1157->node1143 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1158->node1137 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1156->node1155 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node1155->node1156 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node1157->node1142 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1151->node1157 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1154->node1152 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1144->node1158 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1148->node1142 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1141->node1138 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1157->node1140 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1148->node1155 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node1157->node1157 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1144->node1141 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1152->node1153 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1157->node1150 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1142->node1141 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node1144->node1146 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1156->node1149 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1157->node1145 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1141->node1142 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node1146->node1158 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1157->node1144 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1157->node1153 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1143->node1144 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1145->node1142 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node1157->node1151 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1157->node1148 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1150->node1151 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1154->node1155 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node1158->node1138 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1145->node1143 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1142->node1145 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node1138->node1137 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1149->node1150 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1144->node1147 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1141->node1146 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1157->node1155 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1155->node1148 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node1157->node1156 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1157->node1149 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1153->node1155 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1155->node1154 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node1157->node1152 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+
+
+subgraph cluster8 {
+
+
+node1158 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[1/8]  br i1 %isnull, label %delete.end, label %delete.notnull",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster7 {
+
+
+node1157 [fillcolor=lemonchiffon,label="[28/37]  br i1 %cmp7, label %while.body8, label %while.end11",shape=ellipse,style=filled ]
+node1155 [fillcolor=lightcoral,label="[23/42]  store %struct.list_node* %18, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node1149 [fillcolor=grey,label="[25/40]  %next6 = getelementptr inbounds %struct.list_node, %struct.list_node* %14, i32 0, i32 1",shape=rectangle,style=filled ]
+node1150 [fillcolor=lightcoral,label="[26/39]  %15 = load %struct.list_node*, %struct.list_node** %next6, align 8",shape=ellipse,style=filled ]
+node1148 [fillcolor=lightcoral,label="[33/34]  %16 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node1151 [fillcolor=grey,label="[27/38]  %cmp7 = icmp ne %struct.list_node* %15, null",shape=rectangle,style=filled ]
+node1154 [fillcolor=lightcoral,label="[29/32]  %17 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node1152 [fillcolor=grey,label="[30/31]  %next9 = getelementptr inbounds %struct.list_node, %struct.list_node* %17, i32 0, i32 1",shape=rectangle,style=filled ]
+node1156 [fillcolor=lightcoral,label="[24/41]  %14 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node1153 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[22/43]  %18 = load %struct.list_node*, %struct.list_node** %next9, align 8",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster6 {
+
+
+node1147 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[18/19]  br label %if.end",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster0 {
+
+
+node1137 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[2/3]  call void @_ZdlPv(i8* %21) #9",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster5 {
+
+
+node1146 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[0/9]  %isnull = icmp eq %struct.list_node* %20, null",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster1 {
+
+
+node1138 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[4/5]  %21 = bitcast %struct.list_node* %20 to i8*",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster2 {
+
+
+node1139 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[6/7]  br label %delete.end",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster3 {
+
+
+node1140 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[35/36]  br label %while.cond5",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster4 {
+
+
+node1144 [fillcolor=lemonchiffon,label="[11/20]  br i1 %cmp10, label %if.then, label %if.end",shape=ellipse,style=filled ]
+node1143 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[10/21]  %cmp10 = icmp ne %struct.list_node* %19, %begin",shape=rectangle,style=filled ]
+node1141 [fillcolor=lightcoral,label="[12/17]  %20 = load %struct.list_node*, %struct.list_node** %prev_it, align 8",shape=ellipse,style=filled ]
+node1145 [fillcolor=lightcoral,label="[14/15]  %19 = load %struct.list_node*, %struct.list_node** %prev_it, align 8",shape=ellipse,style=filled ]
+node1142 [fillcolor=lightcoral,label="[13/16]  store %struct.list_node* %16, %struct.list_node** %prev_it, align 8",shape=ellipse,style=filled ]
+
+
+
+}
+
+}

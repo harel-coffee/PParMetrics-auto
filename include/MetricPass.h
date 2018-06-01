@@ -24,7 +24,7 @@ struct MetricPass : public llvm::FunctionPass {
         llvm::StringRef getPassName() const;
         void releaseMemory() override;
 
-        const std::unordered_map<const llvm::Loop*,double>* getMetricValues_loop(const llvm::Function& F) const { 
+        std::unordered_map<const llvm::Loop*,double>* getMetricValues_loop(const llvm::Function& F) { 
             auto it = ValuePerLoop_loop.find(&F);
             if (it != ValuePerLoop_loop.end()) {
                 return &(it->second);
@@ -33,7 +33,7 @@ struct MetricPass : public llvm::FunctionPass {
             }
         }
 
-        const std::unordered_map<const llvm::Loop*,double>* getMetricValues_func(const llvm::Function& F) const { 
+        std::unordered_map<const llvm::Loop*,double>* getMetricValues_func(const llvm::Function& F) { 
             auto it = ValuePerLoop_func.find(&F);
             if (it != ValuePerLoop_func.end()) {
                 return &(it->second);

@@ -34,18 +34,21 @@ class LoopDecoupleInfo {
             SCCs.clear();
         }
 
-        void addSCC(const DependenceGraph* S) { SCCs.insert(S); }
-        void addPayloadSCC(const DependenceGraph* S) { Payload.insert(S); }
-        void addIteratorSCC(const DependenceGraph* S) { Iterator.insert(S); }
+        void addSCC(DependenceGraph* S) { SCCs.insert(S); }
+        void addPayloadSCC(DependenceGraph* S) { Payload.insert(S); }
+        void addIteratorSCC(DependenceGraph* S) { Iterator.insert(S); }
 
-        const std::unordered_set<const DependenceGraph*>& getIterator() const { return Iterator; }
-        const std::unordered_set<const DependenceGraph*>& getPayload() const { return Payload; }
-        const std::unordered_set<const DependenceGraph*>& getSCCs() const { return SCCs; }
+        bool nodeBelongsToIterator(const llvm::Instruction* Node);
+        bool nodeBelongsToPayload(const llvm::Instruction* Node);
+
+        std::unordered_set<DependenceGraph*>& getIterator() { return Iterator; }
+        std::unordered_set<DependenceGraph*>& getPayload() { return Payload; }
+        std::unordered_set<DependenceGraph*>& getSCCs() { return SCCs; }
 
     private:
-        std::unordered_set<const DependenceGraph*> Iterator;
-        std::unordered_set<const DependenceGraph*> Payload;
-        std::unordered_set<const DependenceGraph*> SCCs; // Payload + Iterator
+        std::unordered_set<DependenceGraph*> Iterator;
+        std::unordered_set<DependenceGraph*> Payload;
+        std::unordered_set<DependenceGraph*> SCCs; // Payload + Iterator
 };
 
 struct DecoupleLoopsPass : public llvm::FunctionPass {
@@ -67,13 +70,15 @@ struct DecoupleLoopsPass : public llvm::FunctionPass {
         
         bool allocateLoopDecoupleInfo(llvm::Function& F);
 
-        const std::unordered_map<const llvm::Loop*, std::unique_ptr<LoopDecoupleInfo>>& getDecoupleLoopsInfo_func() {
+        std::unordered_map<const llvm::Loop*, std::unique_ptr<LoopDecoupleInfo>>& getDecoupleLoopsInfo_func() {
             return DecoupleLoopsInfo_func;
         }
 
-        const std::unordered_map<const llvm::Loop*, std::unique_ptr<LoopDecoupleInfo>>& getDecoupleLoopsInfo_loop() {
+        std::unordered_map<const llvm::Loop*, std::unique_ptr<LoopDecoupleInfo>>& getDecoupleLoopsInfo_loop() {
             return DecoupleLoopsInfo_loop;
         }
+
+        std::vector<const llvm::Loop*>& getLoopList() { return FunctionLoops; }
 
     private:
         std::unordered_map<const llvm::Loop*, std::unique_ptr<LoopDecoupleInfo>> DecoupleLoopsInfo_func; // derived out of function scope dependence graph

@@ -23,8 +23,11 @@ using namespace std;
 
 #include "MetricPass_impl.h"
 
-RegisterMetricPass(ppar::IteratorLoopPercentage, IterLoopPercentageMetricPass)
-#include "IteratorLoopPercentage_metric.spec.h"
+RegisterMetricPass(ppar::LoopPayloadFraction, LoopPayloadFractionMetricPass)
+#include "LoopPayloadFraction_metric.spec.h"
 
-RegisterMetricPass(ppar::LoopSCCsNumber, LoopSCCsNumberMetricPass)
-#include "LoopSCCsNumber_metric.spec.h"
+RegisterMetricPass(ppar::LoopProperSCCsNumber, LoopProperSCCsNumberMetricPass)
+#include "LoopProperSCCsNumber_metric.spec.h"
+
+RegisterMetricPass(ppar::IteratorPayloadTotalCohesion, IteratorPayloadTotalCohesionMetricPass)
+#include "IteratorPayloadTotalCohesion_metric.spec.h"

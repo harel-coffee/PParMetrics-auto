@@ -26,6 +26,26 @@ RegisterPass<ppar::DecoupleLoopsPass> DecoupleLoopsRegister(
 
 namespace ppar {
 
+bool LoopDecoupleInfo::nodeBelongsToIterator(const llvm::Instruction* Node) {
+    bool NodeFound = false; 
+    for (const DependenceGraph* IterSCC : Iterator) {
+        if (IterSCC->getNode(Node) != DependenceGraph::InvalidNode) {
+            NodeFound = true;
+        }
+    }
+    return NodeFound;
+}
+
+bool LoopDecoupleInfo::nodeBelongsToPayload(const llvm::Instruction* Node) {
+    bool NodeFound = false; 
+    for (const DependenceGraph* PayloadSCC : Payload) {
+        if (PayloadSCC->getNode(Node) != DependenceGraph::InvalidNode) {
+            NodeFound = true;
+        }
+    }
+    return NodeFound;
+}
+
 char DecoupleLoopsPass::ID = 0;
 
 DecoupleLoopsPass::DecoupleLoopsPass() 

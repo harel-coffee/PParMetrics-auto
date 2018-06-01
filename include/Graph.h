@@ -398,6 +398,8 @@ class Graph<NODE*,EDGE*> {
 
         // returned from various graph methods
         static GraphNode<NODE*,EDGE*> InvalidNode;
+        static GraphEdge<NODE*,EDGE*> InvalidEdge;
+        static edge_set InvalidEdgeSet;
 
         struct Hash_Graph {
             size_t operator()(const Graph<NODE*,EDGE*>*& Graph) const {
@@ -445,12 +447,21 @@ class Graph<NODE*,EDGE*> {
         void addNode(const NODE* Node);
         void addEdge(const NODE* From, const NODE* To, EDGE* Data);
         
-        GraphNode<NODE*,EDGE*> getNode(const NODE* Node) {
+        GraphNode<NODE*,EDGE*> getNode(const NODE* Node) const {
             const_node_iterator node_it = Nodes.find(GraphNode<NODE*,EDGE*>(Node)); 
             if (node_it != Nodes.end()) {
                 return *node_it;
             } else {
                 return Graph<NODE*,EDGE*>::InvalidNode;
+            }
+        }
+
+        edge_set& getEdgeSet(const NODE* From, const NODE* To) {
+            auto it = Edges.find(std::make_pair(From,To)); 
+            if (it != Edges.end()) {
+                return *it;
+            } else {
+                return Graph<NODE*,EDGE*>::InvalidEdgeSet;
             }
         }
 

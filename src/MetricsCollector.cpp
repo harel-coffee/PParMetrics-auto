@@ -39,8 +39,9 @@ void MetricsCollector::releaseMemory() {}
 void MetricsCollector::getAnalysisUsage(llvm::AnalysisUsage& AU) const {
     AU.setPreservesAll();
     AU.addRequired<LoopInfoWrapperPass>();
-    AU.addRequired<ppar::MetricPass<ppar::IteratorLoopPercentage>>();
-    AU.addRequired<ppar::MetricPass<ppar::LoopSCCsNumber>>();
+    AU.addRequired<ppar::MetricPass<ppar::LoopPayloadFraction>>();
+    AU.addRequired<ppar::MetricPass<ppar::LoopProperSCCsNumber>>();
+    AU.addRequired<ppar::MetricPass<ppar::IteratorPayloadTotalCohesion>>();
 }
 
 llvm::StringRef MetricsCollector::getPassName() const { 
@@ -68,17 +69,14 @@ bool MetricsCollector::runOnFunction(llvm::Function& F) {
     }
 
     // currently available metrics
-    const std::unordered_map<const llvm::Loop*,double>* IterLoopPercentageMetric_func 
-        = (Pass::getAnalysis<ppar::MetricPass<ppar::IteratorLoopPercentage>>()).getMetricValues_func(F); 
+    const std::unordered_map<const llvm::Loop*,double>* LoopPayloadFractionMetric 
+        = (Pass::getAnalysis<ppar::MetricPass<ppar::LoopPayloadFraction>>()).getMetricValues_loop(F); 
 
-    const std::unordered_map<const llvm::Loop*,double>* LoopSCCsNumberMetric_func 
-        = (Pass::getAnalysis<ppar::MetricPass<ppar::LoopSCCsNumber>>()).getMetricValues_func(F); 
+    const std::unordered_map<const llvm::Loop*,double>* LoopProperSCCsNumberMetric 
+        = (Pass::getAnalysis<ppar::MetricPass<ppar::LoopProperSCCsNumber>>()).getMetricValues_loop(F); 
 
-    const std::unordered_map<const llvm::Loop*,double>* IterLoopPercentageMetric_loop 
-        = (Pass::getAnalysis<ppar::MetricPass<ppar::IteratorLoopPercentage>>()).getMetricValues_loop(F); 
-
-    const std::unordered_map<const llvm::Loop*,double>* LoopSCCsNumberMetric_loop
-        = (Pass::getAnalysis<ppar::MetricPass<ppar::LoopSCCsNumber>>()).getMetricValues_loop(F); 
+    const std::unordered_map<const llvm::Loop*,double>* IterPayloadTotalCohesionMetric 
+        = (Pass::getAnalysis<ppar::MetricPass<ppar::IteratorPayloadTotalCohesion>>()).getMetricValues_loop(F); 
 
     // fill function metrics file
     FuncMetricsFile << "[Pervasive Parallelism Metrics]\n\n";
@@ -87,32 +85,25 @@ bool MetricsCollector::runOnFunction(llvm::Function& F) {
     for (const Loop* L : FunctionLoops) {
         FuncMetricsFile << "Loop:\n";
 
-        auto it = IterLoopPercentageMetric_func->find(L);
-        if (it != IterLoopPercentageMetric_func->end()) {
-            FuncMetricsFile << "\titer-percentage_func: " << it->second << "\n";
+        auto it = LoopPayloadFractionMetric->find(L);
+        if (it != LoopPayloadFractionMetric->end()) {
+            FuncMetricsFile << "\tloop-payload-fraction: " << it->second << "\n";
         } else {
-            FuncMetricsFile << "\titer-percentage_func:\n";
+            FuncMetricsFile << "\tloop-payload-fraction:\n";
         }
 
-        it = LoopSCCsNumberMetric_func->find(L);
-        if (it != LoopSCCsNumberMetric_func->end()) {
-            FuncMetricsFile << "\tloop-sccs-num_func: " << it->second << "\n";
+        it = LoopProperSCCsNumberMetric->find(L);
+        if (it != LoopProperSCCsNumberMetric->end()) {
+            FuncMetricsFile << "\tloop-proper-sccs-num: " << it->second << "\n";
         } else {
-            FuncMetricsFile << "\tloop-sccs-num_func:\n";
+            FuncMetricsFile << "\tloop-proper-sccs-num:\n";
         }
 
-        it = IterLoopPercentageMetric_loop->find(L);
-        if (it != IterLoopPercentageMetric_loop->end()) {
-            FuncMetricsFile << "\titer-percentage_loop: " << it->second << "\n";
+        it = IterPayloadTotalCohesionMetric->find(L);
+        if (it != IterPayloadTotalCohesionMetric->end()) {
+            FuncMetricsFile << "\titer-payload-total-cohesion: " << it->second << "\n";
         } else {
-            FuncMetricsFile << "\titer-percentage_loop:\n";
-        }
-
-        it = LoopSCCsNumberMetric_loop->find(L);
-        if (it != LoopSCCsNumberMetric_loop->end()) {
-            FuncMetricsFile << "\tloop-sccs-num_loop: " << it->second << "\n";
-        } else {
-            FuncMetricsFile << "\tloop-sccs-num_loop:\n";
+            FuncMetricsFile << "\titer-payload-total-cohesion:\n";
         }
     }
 

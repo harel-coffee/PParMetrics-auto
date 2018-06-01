@@ -121,6 +121,12 @@ template <typename NODE, typename EDGE>
 GraphNode<NODE*,EDGE*> Graph<NODE*,EDGE*>::InvalidNode = GraphNode<NODE*,EDGE*>();
 
 template <typename NODE, typename EDGE>
+GraphEdge<NODE*,EDGE*> Graph<NODE*,EDGE*>::InvalidEdge = GraphEdge<NODE*,EDGE*>();
+
+template <typename NODE, typename EDGE>
+typename Graph<NODE*,EDGE*>::edge_set Graph<NODE*,EDGE*>::InvalidEdgeSet = edge_set(InvalidEdge);
+
+template <typename NODE, typename EDGE>
 typename Graph<NODE*,EDGE*>::dfs_iterator Graph<NODE*,EDGE*>::dfs_begin(DFS_callback<NODE*,EDGE*>* DFSCallback) {
     if (!DFS_data_valid) {
         dfsTraverse();

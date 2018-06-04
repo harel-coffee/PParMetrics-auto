@@ -10,14 +10,14 @@ node92 [fillcolor=lightcoral,label="[4/5]  %0 = load i32, i32* %i, align 4",shap
 node89 [fillcolor=lightcoral,label="[0/9]  %1 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
 node94 [fillcolor=lightcoral,label="[12/13]  store i32 %rem3, i32* %arrayidx5, align 4",shape=ellipse,style=filled ]
 
-node93->node89 [ ]
-node89->node93 [ ]
+node93->node92 [ ]
+node93->node95 [ ]
 node95->node93 [ ]
 node91->node93 [ ]
-node93->node91 [ ]
 node92->node93 [ ]
-node93->node95 [ ]
-node93->node92 [ ]
+node93->node91 [ ]
+node93->node89 [ ]
+node89->node93 [ ]
 
 
 }

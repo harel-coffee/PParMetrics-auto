@@ -7,101 +7,57 @@
 
 namespace ppar {
 
-struct LoopPayloadFraction {
+struct LoopProportionMetrics {
     public:
-        LoopPayloadFraction() {}
+        LoopProportionMetrics() {}
+
+        typedef enum ProportionMetricType {
+            LOOP_ABSOLUTE_SIZE = 0, // the number of instructions in the loop
+            LOOP_PAYLOAD_FRACTION, // the fraction payload constitutes of the whole loop
+            LOOP_PROPER_SCCS_NUMBER, // the number of SCCs in the payload of the loop, with the amount of instructions greater than 1
+            METRIC_SUBTYPE_LAST
+        } ProportionMetric_t;
+
+        using MetricSubtype = ProportionMetric_t;
 
         static llvm::StringRef getPassName()
-        { return "Loop Payload Fraction Metric Pass"; } 
+        { return "Loop Proportions Metrics"; } 
         
         static llvm::StringRef getMetricPassOption()
-        { return "loop-payload-fraction"; }
+        { return "loop-proportions-metrics"; }
         
         static llvm::StringRef getMetricPassOptionDesc()
-        { return "Compute the fraction of payload (number of instructions) to the total size of the loop"; }
+        { return "Compute different proportions of the loop\
+                  (absolute size in the number of instructions, iterator to payload ration, etc."; }
 };
 
-struct LoopProperSCCsNumber {
+struct LoopCohesionMetrics {
     public:
-        LoopProperSCCsNumber() {}
+        LoopCohesionMetrics() {}
+        
+        typedef enum CohesionMetricType {
+            // iterator <-> payload
+            ITERATOR_PAYLOAD_TOTAL_COHESION = 0, // the total amount of edges between loop iterator and payload
+            ITERATOR_PAYLOAD_NON_CF_COHESION, // the amount of non-control-flow edges between loop iterator and payload
+            ITERATOR_PAYLOAD_MEM_COHESION, // the amount of memory edges between loop iterator and payload
+            // payload critical sccs <-> payload regular sccs
+            PAYLOAD_CRITICAL_TOTAL_COHESION,
+            PAYLOAD_CRITICAL_NON_CF_COHESION,
+            PAYLOAD_CRITICAL_MEM_COHESION,
+            METRIC_SUBTYPE_LAST
+        } CohesionMetric_t;
+
+        using MetricSubtype = CohesionMetric_t;
 
         static llvm::StringRef getPassName()
-        { return "Loop Proper SCCs Number Metric Pass"; } 
+        { return "Loop Cohesion Metrics"; } 
         
         static llvm::StringRef getMetricPassOption()
-        { return "loop-proper-sccs-num"; }
+        { return "loop-cohesion-metrics"; }
         
         static llvm::StringRef getMetricPassOptionDesc()
-        { return "The number of SCCs of size greater than 2 instructions in the loop"; }
-};
-
-/*
- * Loop parts cohesion metrics.
- * 
- * In this work loop is composed of several parts:
- * 
- * Loop    := Iterator Payload
- * Payload := CriticalSCCs RegularSCCs
- *
- */
-
-struct IteratorPayloadTotalCohesion {
-    public:
-        IteratorPayloadTotalCohesion() {}
-
-        static llvm::StringRef getPassName()
-        { return "Iterator-Payload Cohesion"; } 
-        
-        static llvm::StringRef getMetricPassOption()
-        { return "loop-iter-payload-cohesion"; }
-        
-        static llvm::StringRef getMetricPassOptionDesc()
-        { return "The ratio between the number of dependence edges between\
-                  iterator and payload components of the loop and the total number of edges in the loop"; }
-};
-
-struct IteratorPayloadNonCFCohesion {
-    public:
-        IteratorPayloadNonCFCohesion() {}
-
-        static llvm::StringRef getPassName()
-        { return "Iterator-Payload Cohesion"; } 
-        
-        static llvm::StringRef getMetricPassOption()
-        { return "loop-iter-payload-cohesion"; }
-        
-        static llvm::StringRef getMetricPassOptionDesc()
-        { return "The ratio between the number of dependence edges between\
-                  iterator and payload components of the loop and the total number of edges in the loop"; }
-};
-
-struct IteratorPayloadMemoryCohesion {
-    public:
-        IteratorPayloadMemoryCohesion() {}
-
-        static llvm::StringRef getPassName()
-        { return "Iterator-Payload Cohesion"; } 
-        
-        static llvm::StringRef getMetricPassOption()
-        { return "loop-iter-payload-cohesion"; }
-        
-        static llvm::StringRef getMetricPassOptionDesc()
-        { return "The ratio between the number of dependence edges between\
-                  iterator and payload components of the loop and the total number of edges in the loop"; }
-};
-
-struct LoopAbsoluteSize {
-    public:
-        LoopAbsoluteSize() {}
-
-        static llvm::StringRef getPassName()
-        { return "Loop Absolute Size"; } 
-        
-        static llvm::StringRef getMetricPassOption()
-        { return "loop-absolute-size"; }
-        
-        static llvm::StringRef getMetricPassOptionDesc()
-        { return "The absolute size of the loop in tens of instructions (instructions number / 10)"; }
+        { return "The set of metrics measuring cohesion between different parts of the loop (iterator,\
+                  payload, critical SCCs, etc)"; }
 };
 
 } // namespace ppar

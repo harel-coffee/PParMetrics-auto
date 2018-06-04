@@ -33,13 +33,13 @@ node100 [fillcolor=lightcoral,label="[6/7]  %3 = load i32, i32* %i, align 4",sha
 node101 [fillcolor=lightcoral,label="[4/5]  %0 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
 
 node103->node104 [ ]
-node102->node104 [ ]
-node104->node102 [ ]
-node101->node104 [ ]
 node104->node101 [ ]
+node101->node104 [ ]
 node100->node104 [ ]
 node104->node103 [ ]
 node104->node100 [ ]
+node104->node102 [ ]
+node102->node104 [ ]
 
 
 }

@@ -11,6 +11,62 @@
 #include <unordered_map>
 
 namespace ppar {
+    
+template <typename METRIC>
+struct MetricPass;
+
+template <typename METRIC>
+struct MetricSet_loop {
+
+    friend struct MetricPass<METRIC>;
+
+    public:
+        MetricSet_loop(const llvm::Loop* L = nullptr) {
+            Loop_ptr = L;
+            Metrics.resize(METRIC::MetricSubtype::METRIC_SUBTYPE_LAST);
+        }
+
+        ~MetricSet_loop() {
+            Loop_ptr = nullptr;
+            Metrics.clear();
+        }
+        
+        double getMetricValue(uint64_t idx) { return Metrics[idx]; }
+
+    private:
+        std::vector<double> Metrics;
+        const llvm::Loop* Loop_ptr;
+};
+
+template <typename METRIC>
+struct MetricSet_func {
+    
+    friend class MetricPass<METRIC>;
+
+    public:
+        MetricSet_func(const llvm::Function* F = nullptr) {
+            Function_ptr = F;
+            LoopMetrics.clear();
+        }
+
+        ~MetricSet_func() {
+            LoopMetrics.clear();
+            Function_ptr = nullptr;
+        }
+
+        MetricSet_loop<METRIC>* getLoopMetrics(const llvm::Loop* L) { 
+            auto it = LoopMetrics.find(L);
+            if (it != LoopMetrics.end()) {
+                return (it->second).get();
+            } else {
+                return nullptr;
+            }
+        }
+
+    private:
+        std::unordered_map<const llvm::Loop*, std::unique_ptr<MetricSet_loop<METRIC>>> LoopMetrics;
+        const llvm::Function* Function_ptr;
+};
 
 template <typename METRIC>
 struct MetricPass : public llvm::FunctionPass {
@@ -24,19 +80,10 @@ struct MetricPass : public llvm::FunctionPass {
         llvm::StringRef getPassName() const;
         void releaseMemory() override;
 
-        std::unordered_map<const llvm::Loop*,double>* getMetricValues_loop(const llvm::Function& F) { 
-            auto it = ValuePerLoop_loop.find(&F);
-            if (it != ValuePerLoop_loop.end()) {
-                return &(it->second);
-            } else {
-                return nullptr;
-            }
-        }
-
-        std::unordered_map<const llvm::Loop*,double>* getMetricValues_func(const llvm::Function& F) { 
-            auto it = ValuePerLoop_func.find(&F);
-            if (it != ValuePerLoop_func.end()) {
-                return &(it->second);
+        MetricSet_func<METRIC>* getFunctionMetrics(const llvm::Function& F) { 
+            auto it = FunctionMetrics.find(&F);
+            if (it != FunctionMetrics.end()) {
+                return (it->second).get();
             } else {
                 return nullptr;
             }
@@ -44,9 +91,7 @@ struct MetricPass : public llvm::FunctionPass {
 
     private:
         METRIC MetricInfo;
-        std::unordered_map<const llvm::Function*,std::unordered_map<const llvm::Loop*,double>> ValuePerLoop_func;
-        std::unordered_map<const llvm::Function*,std::unordered_map<const llvm::Loop*,double>> ValuePerLoop_loop;
-        std::unordered_map<const llvm::Function*,double> ValuePerFunc;
+        std::unordered_map<const llvm::Function*, std::unique_ptr<MetricSet_func<METRIC>>> FunctionMetrics;
 };
 
 } // namespace ppar

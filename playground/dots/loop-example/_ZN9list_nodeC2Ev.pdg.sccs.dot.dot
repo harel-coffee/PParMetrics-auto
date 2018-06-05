@@ -1,0 +1,74 @@
+
+digraph G {
+
+
+
+
+
+subgraph cluster6 {
+
+
+node339 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[0/3]  %next = getelementptr inbounds %struct.list_node, %struct.list_node* %this1, i32 0, i32 1",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster0 {
+
+
+node332 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[1/2]  store %struct.list_node* null, %struct.list_node** %next, align 8",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster5 {
+
+
+node338 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[6/7]  ret void",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster1 {
+
+
+node333 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[14/15]  %this.addr = alloca %struct.list_node*, align 8",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster2 {
+
+
+node334 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[10/11]  %value = getelementptr inbounds %struct.list_node, %struct.list_node* %this1, i32 0, i32 0",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster3 {
+
+
+node335 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[4/5]  store i32 0, i32* %value, align 8",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster4 {
+
+
+node337 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[8/13]  store %struct.list_node* %this, %struct.list_node** %this.addr, align 8",shape=ellipse,style=filled ]
+node336 [fillcolor=lightcoral,label="[9/12]  %this1 = load %struct.list_node*, %struct.list_node** %this.addr, align 8",shape=ellipse,style=filled ]
+
+node336->node337 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node337->node336 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+
+
+}
+
+}

@@ -1,0 +1,38 @@
+
+digraph G {
+
+
+
+node132->node131 [ ]
+node131->node132 [ ]
+
+
+subgraph cluster2 {
+
+
+node133 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[2/3]  store i32 0, i32* %value, align 8",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster0 {
+
+
+node130 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/1]  store %struct.list_node* null, %struct.list_node** %next, align 8",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster1 {
+
+
+node132 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[4/7]  store %struct.list_node* %this, %struct.list_node** %this.addr, align 8",shape=ellipse,style=filled ]
+node131 [fillcolor=lightcoral,label="[5/6]  %this1 = load %struct.list_node*, %struct.list_node** %this.addr, align 8",shape=ellipse,style=filled ]
+
+
+
+}
+
+}

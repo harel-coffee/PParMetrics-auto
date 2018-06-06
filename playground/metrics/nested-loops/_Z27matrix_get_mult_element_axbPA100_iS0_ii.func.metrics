@@ -1,8 +1,20 @@
-[Pervasive Parallelism Metrics]
+[ Pervasive Parallelism Metrics ]
 
-Function: _Z27matrix_get_mult_element_axbPA100_iS0_ii
-Loop:
-	iter-percentage_func: 0.257143
-	loop-sccs-num_func: 5
-	iter-percentage_loop: 0.285714
-	loop-sccs-num_loop: 1
+Function: _Z27matrix_get_mult_element_axbPA100_iS0_ii {
+
+[1] Loop at depth 1 containing: %for.cond<header><exiting>,%for.body,%for.inc<latch>
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 2.800000e+01
+	loop-payload-fraction: 7.142857e-01
+	loop-proper-sccs-number: 1.000000e+00
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 3.606557e-01
+	iterator-payload-non-cf-cohesion: 3.278689e-02
+	iterator-payload-mem-cohesion: 0.000000e+00
+	critical-payload-total-cohesion: 5.263158e-02
+	critical-payload-non-cf-cohesion: 5.263158e-02
+	critical-payload-mem-cohesion: 0.000000e+00
+
+}

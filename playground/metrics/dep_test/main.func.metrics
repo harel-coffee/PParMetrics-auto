@@ -1,38 +1,115 @@
-[Pervasive Parallelism Metrics]
+[ Pervasive Parallelism Metrics ]
 
-Function: main
-Loop:
-	iter-percentage_func: 1
-	loop-sccs-num_func: 0
-	iter-percentage_loop: 0.934426
-	loop-sccs-num_loop: 0
-Loop:
-	iter-percentage_func: 1
-	loop-sccs-num_func: 0
-	iter-percentage_loop: 0.757576
-	loop-sccs-num_loop: 1
-Loop:
-	iter-percentage_func: 0.804878
-	loop-sccs-num_func: 1
-	iter-percentage_loop: 0.4375
-	loop-sccs-num_loop: 0
-Loop:
-	iter-percentage_func: 0.574468
-	loop-sccs-num_func: 3
-	iter-percentage_loop: 0.304348
-	loop-sccs-num_loop: 1
-Loop:
-	iter-percentage_func: 1
-	loop-sccs-num_func: 0
-	iter-percentage_loop: 0.681818
-	loop-sccs-num_loop: 1
-Loop:
-	iter-percentage_func: 0.7
-	loop-sccs-num_func: 1
-	iter-percentage_loop: 0.583333
-	loop-sccs-num_loop: 0
-Loop:
-	iter-percentage_func: 0.454545
-	loop-sccs-num_func: 1
-	iter-percentage_loop: 0.529412
-	loop-sccs-num_loop: 0
+Function: main {
+
+[1] Loop at depth 1 containing: %for.cond23<header><exiting>,%for.body25,%for.cond27,%for.end50,%for.cond52,%for.end63,%for.inc64<latch>,%for.body54,%for.inc61,%for.body29,%for.cond30,%for.end47,%for.inc48,%for.body32,%for.inc45
+    Loop at depth 2 containing: %for.cond27<header><exiting>,%for.body29,%for.cond30,%for.end47,%for.inc48<latch>,%for.body32,%for.inc45
+        Loop at depth 3 containing: %for.cond30<header><exiting>,%for.body32,%for.inc45<latch>
+    Loop at depth 2 containing: %for.cond52<header><exiting>,%for.body54,%for.inc61<latch>
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 6.100000e+01
+	loop-payload-fraction: 0.000000e+00
+	loop-proper-sccs-number: 0.000000e+00
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.000000e+00
+	iterator-payload-non-cf-cohesion: 0.000000e+00
+	iterator-payload-mem-cohesion: 0.000000e+00
+	critical-payload-total-cohesion:
+	critical-payload-non-cf-cohesion:
+	critical-payload-mem-cohesion:
+
+[2] Loop at depth 2 containing: %for.cond27<header><exiting>,%for.body29,%for.cond30,%for.end47,%for.inc48<latch>,%for.body32,%for.inc45
+    Loop at depth 3 containing: %for.cond30<header><exiting>,%for.body32,%for.inc45<latch>
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 3.300000e+01
+	loop-payload-fraction: 1.818182e-01
+	loop-proper-sccs-number: 1.000000e+00
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 1.000000e-01
+	iterator-payload-non-cf-cohesion: 0.000000e+00
+	iterator-payload-mem-cohesion: 0.000000e+00
+	critical-payload-total-cohesion: 0.000000e+00
+	critical-payload-non-cf-cohesion: 0.000000e+00
+	critical-payload-mem-cohesion: 0.000000e+00
+
+[3] Loop at depth 2 containing: %for.cond52<header><exiting>,%for.body54,%for.inc61<latch>
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 1.600000e+01
+	loop-payload-fraction: 5.625000e-01
+	loop-proper-sccs-number: 0.000000e+00
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 3.225806e-01
+	iterator-payload-non-cf-cohesion: 3.225806e-02
+	iterator-payload-mem-cohesion: 0.000000e+00
+	critical-payload-total-cohesion: 0.000000e+00
+	critical-payload-non-cf-cohesion: 0.000000e+00
+	critical-payload-mem-cohesion: 0.000000e+00
+
+[4] Loop at depth 3 containing: %for.cond30<header><exiting>,%for.body32,%for.inc45<latch>
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 2.300000e+01
+	loop-payload-fraction: 6.956522e-01
+	loop-proper-sccs-number: 1.000000e+00
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 3.695652e-01
+	iterator-payload-non-cf-cohesion: 2.173913e-02
+	iterator-payload-mem-cohesion: 0.000000e+00
+	critical-payload-total-cohesion: 2.500000e-01
+	critical-payload-non-cf-cohesion: 2.500000e-01
+	critical-payload-mem-cohesion: 0.000000e+00
+
+[5] Loop at depth 1 containing: %for.cond6<header><exiting>,%for.body8,%for.cond9,%for.end18,%for.inc19<latch>,%for.body11,%for.inc16
+    Loop at depth 2 containing: %for.cond9<header><exiting>,%for.body11,%for.inc16<latch>
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 2.200000e+01
+	loop-payload-fraction: 2.272727e-01
+	loop-proper-sccs-number: 1.000000e+00
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 1.111111e-01
+	iterator-payload-non-cf-cohesion: 0.000000e+00
+	iterator-payload-mem-cohesion: 0.000000e+00
+	critical-payload-total-cohesion: 0.000000e+00
+	critical-payload-non-cf-cohesion: 0.000000e+00
+	critical-payload-mem-cohesion: 0.000000e+00
+
+[6] Loop at depth 2 containing: %for.cond9<header><exiting>,%for.body11,%for.inc16<latch>
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 1.200000e+01
+	loop-payload-fraction: 4.166667e-01
+	loop-proper-sccs-number: 0.000000e+00
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 2.500000e-01
+	iterator-payload-non-cf-cohesion: 4.166667e-02
+	iterator-payload-mem-cohesion: 0.000000e+00
+	critical-payload-total-cohesion: 0.000000e+00
+	critical-payload-non-cf-cohesion: 0.000000e+00
+	critical-payload-mem-cohesion: 0.000000e+00
+
+[7] Loop at depth 1 containing: %for.cond<header><exiting>,%for.body,%for.inc<latch>
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 1.700000e+01
+	loop-payload-fraction: 4.705882e-01
+	loop-proper-sccs-number: 0.000000e+00
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 2.972973e-01
+	iterator-payload-non-cf-cohesion: 8.108108e-02
+	iterator-payload-mem-cohesion: 0.000000e+00
+	critical-payload-total-cohesion: 0.000000e+00
+	critical-payload-non-cf-cohesion: 0.000000e+00
+	critical-payload-mem-cohesion: 0.000000e+00
+
+}

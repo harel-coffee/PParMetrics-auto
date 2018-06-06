@@ -1,8 +1,20 @@
-[Pervasive Parallelism Metrics]
+[ Pervasive Parallelism Metrics ]
 
-Function: main
-Loop:
-	iter-percentage_func: 0.5
-	loop-sccs-num_func: 1
-	iter-percentage_loop: 0.470588
-	loop-sccs-num_loop: 1
+Function: main {
+
+[1] Loop at depth 1 containing: %for.cond<header><exiting>,%for.body,%for.inc<latch>
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 1.700000e+01
+	loop-payload-fraction: 5.294118e-01
+	loop-proper-sccs-number: 1.000000e+00
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 2.820513e-01
+	iterator-payload-non-cf-cohesion: 5.128205e-02
+	iterator-payload-mem-cohesion: 0.000000e+00
+	critical-payload-total-cohesion: 2.500000e-01
+	critical-payload-non-cf-cohesion: 2.500000e-01
+	critical-payload-mem-cohesion: 0.000000e+00
+
+}

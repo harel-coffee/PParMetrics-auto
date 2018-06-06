@@ -8,7 +8,16 @@ digraph G {
 subgraph cluster16 {
 
 
-node1214 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[23/24]  br i1 %cmp20, label %for.body21, label %for.end30",shape=ellipse,style=filled ]
+node1215 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[58/59]  %arrayidx25 = getelementptr inbounds [100 x [100 x i32]], [100 x [100 x i32]]* %c, i64 0, i64 %idxprom24",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster17 {
+
+
+node1216 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[24/25]  br label %for.cond16",shape=ellipse,style=filled ]
 
 
 
@@ -17,7 +26,7 @@ node1214 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[23/24]  br i1 
 subgraph cluster4 {
 
 
-node1189 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[56/57]  br label %for.cond19",shape=ellipse,style=filled ]
+node1196 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[36/37]  %cmp20 = icmp slt i32 %9, 100",shape=rectangle,style=filled ]
 
 
 
@@ -26,7 +35,7 @@ node1189 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[56/57]  br lab
 subgraph cluster3 {
 
 
-node1188 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[54/55]  %arraydecay = getelementptr inbounds [100 x [100 x i32]], [100 x [100 x i32]]* %a, i32 0, i32 0",shape=rectangle,style=filled ]
+node1195 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[54/55]  %call23 = call i32 @_Z27matrix_get_mult_element_axbPA100_iS0_ii([100 x i32]* %arraydecay, [100 x i32]* %arraydecay22, i32 %10, i32 %11)",shape=ellipse,style=filled ]
 
 
 
@@ -35,7 +44,7 @@ node1188 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[54/55]  %arraydecay = 
 subgraph cluster2 {
 
 
-node1187 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[14/15]  br label %for.cond19",shape=ellipse,style=filled ]
+node1194 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[52/53]  %arraydecay22 = getelementptr inbounds [100 x [100 x i32]], [100 x [100 x i32]]* %b, i32 0, i32 0",shape=rectangle,style=filled ]
 
 
 
@@ -44,8 +53,29 @@ node1187 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[14/15]  br lab
 subgraph cluster1 {
 
 
-node1186 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[58/59]  %arraydecay22 = getelementptr inbounds [100 x [100 x i32]], [100 x [100 x i32]]* %b, i32 0, i32 0",shape=rectangle,style=filled ]
+node1193 [fillcolor=lightcoral,label="[13/22]  %13 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
+node1191 [fillcolor=lightcoral,label="[14/21]  store i32 %inc29, i32* %j, align 4",shape=ellipse,style=filled ]
+node1190 [fillcolor=lightcoral,label="[15/16]  %11 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
+node1192 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[12/23]  store i32 0, i32* %j, align 4",shape=ellipse,style=filled ]
+node1188 [fillcolor=lightcoral,label="[19/20]  %14 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
+node1189 [fillcolor=lightcoral,label="[17/18]  %9 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
 
+node1192->node1190 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node1189->node1192 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node1190->node1191 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node1192->node1193 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node1193->node1192 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node1191->node1189 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node1190->node1192 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node1191->node1193 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node1188->node1192 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node1191->node1190 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node1192->node1189 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node1189->node1191 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node1193->node1191 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node1192->node1188 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node1191->node1188 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node1188->node1191 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
 
 
 }
@@ -53,7 +83,7 @@ node1186 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[58/59]  %arraydecay22 
 subgraph cluster12 {
 
 
-node1210 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[46/49]  %idxprom24 = sext i32 %12 to i64",shape=rectangle,style=filled ]
+node1204 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[40/41]  br i1 %cmp20, label %for.body21, label %for.end30",shape=ellipse,style=filled ]
 
 
 
@@ -62,33 +92,8 @@ node1210 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[46/49]  %idxprom24 = s
 subgraph cluster5 {
 
 
-node1197 [fillcolor=lemonchiffon,label="[13/42]  br i1 %cmp17, label %for.body18, label %for.end33",shape=ellipse,style=filled ]
-node1191 [fillcolor=lightcoral,label="[5/10]  %10 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
-node1194 [fillcolor=lightcoral,label="[11/44]  %8 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
-node1190 [fillcolor=grey,label="[2/3]  %inc32 = add nsw i32 %15, 1",shape=rectangle,style=filled ]
-node1196 [fillcolor=grey,label="[12/43]  %cmp17 = icmp slt i32 %8, 100",shape=rectangle,style=filled ]
-node1192 [fillcolor=lightcoral,label="[1/4]  %15 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
-node1193 [fillcolor=lightcoral,label="[45/50]  %12 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
-node1195 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/51]  store i32 %inc32, i32* %i, align 4",shape=ellipse,style=filled ]
+node1197 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[50/51]  %idxprom24 = sext i32 %12 to i64",shape=rectangle,style=filled ]
 
-node1195->node1192 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
-node1192->node1195 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
-node1193->node1195 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
-node1195->node1193 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
-node1194->node1195 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
-node1195->node1191 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
-node1190->node1195 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
-node1197->node1190 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
-node1197->node1192 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
-node1197->node1197 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
-node1192->node1190 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
-node1197->node1195 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
-node1197->node1196 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
-node1195->node1194 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
-node1197->node1194 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
-node1191->node1195 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
-node1194->node1196 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
-node1196->node1197 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
 
 
 }
@@ -96,7 +101,7 @@ node1196->node1197 [style=solid,color=black,label="",penwidth=0.5,fontcolor=blac
 subgraph cluster0 {
 
 
-node1185 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[7/8]  store i32 %call23, i32* %arrayidx27, align 4",shape=ellipse,style=filled ]
+node1187 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[10/11]  br label %for.cond19",shape=ellipse,style=filled ]
 
 
 
@@ -105,7 +110,7 @@ node1185 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[7/8]  store i32 
 subgraph cluster6 {
 
 
-node1198 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[52/53]  br label %for.inc28",shape=ellipse,style=filled ]
+node1198 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[48/49]  %arrayidx27 = getelementptr inbounds [100 x i32], [100 x i32]* %arrayidx25, i64 0, i64 %idxprom26",shape=rectangle,style=filled ]
 
 
 
@@ -114,7 +119,7 @@ node1198 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[52/53]  br lab
 subgraph cluster14 {
 
 
-node1212 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[22/25]  %cmp20 = icmp slt i32 %9, 100",shape=rectangle,style=filled ]
+node1213 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[34/35]  br label %for.inc28",shape=ellipse,style=filled ]
 
 
 
@@ -123,7 +128,7 @@ node1212 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[22/25]  %cmp20 = icmp 
 subgraph cluster7 {
 
 
-node1199 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[40/41]  br label %for.inc31",shape=ellipse,style=filled ]
+node1199 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[56/57]  %inc29 = add nsw i32 %14, 1",shape=rectangle,style=filled ]
 
 
 
@@ -132,7 +137,7 @@ node1199 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[40/41]  br lab
 subgraph cluster8 {
 
 
-node1200 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[47/48]  %arrayidx25 = getelementptr inbounds [100 x [100 x i32]], [100 x [100 x i32]]* %c, i64 0, i64 %idxprom24",shape=rectangle,style=filled ]
+node1200 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[46/47]  br label %for.cond19",shape=ellipse,style=filled ]
 
 
 
@@ -141,7 +146,7 @@ node1200 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[47/48]  %arrayidx25 = 
 subgraph cluster9 {
 
 
-node1201 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[38/39]  br label %for.cond16",shape=ellipse,style=filled ]
+node1201 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[38/39]  %arraydecay = getelementptr inbounds [100 x [100 x i32]], [100 x [100 x i32]]* %a, i32 0, i32 0",shape=rectangle,style=filled ]
 
 
 
@@ -150,32 +155,8 @@ node1201 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[38/39]  br lab
 subgraph cluster10 {
 
 
-node1208 [fillcolor=lightcoral,label="[27/30]  %14 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
-node1203 [fillcolor=lightcoral,label="[17/36]  %13 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
-node1202 [fillcolor=lightcoral,label="[19/20]  %11 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
-node1204 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[16/37]  store i32 0, i32* %j, align 4",shape=ellipse,style=filled ]
-node1206 [fillcolor=lightcoral,label="[21/26]  %9 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
-node1205 [fillcolor=lightcoral,label="[18/31]  store i32 %inc29, i32* %j, align 4",shape=ellipse,style=filled ]
-node1207 [fillcolor=grey,label="[28/29]  %inc29 = add nsw i32 %14, 1",shape=rectangle,style=filled ]
+node1202 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[44/45]  %idxprom26 = sext i32 %13 to i64",shape=rectangle,style=filled ]
 
-node1207->node1205 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
-node1208->node1207 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
-node1202->node1204 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
-node1204->node1202 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
-node1204->node1206 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
-node1203->node1204 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
-node1202->node1205 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
-node1208->node1204 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
-node1204->node1203 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
-node1205->node1203 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
-node1206->node1205 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
-node1208->node1205 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
-node1205->node1202 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
-node1205->node1208 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
-node1206->node1204 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
-node1204->node1208 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
-node1203->node1205 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
-node1205->node1206 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
 
 
 }
@@ -183,7 +164,7 @@ node1205->node1206 [style=solid,color=forestgreen,label="T|indep|Const",penwidth
 subgraph cluster11 {
 
 
-node1209 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[32/35]  %idxprom26 = sext i32 %13 to i64",shape=rectangle,style=filled ]
+node1203 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[42/43]  store i32 %call23, i32* %arrayidx27, align 4",shape=ellipse,style=filled ]
 
 
 
@@ -192,8 +173,33 @@ node1209 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[32/35]  %idxprom26 = s
 subgraph cluster13 {
 
 
-node1211 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[33/34]  %arrayidx27 = getelementptr inbounds [100 x i32], [100 x i32]* %arrayidx25, i64 0, i64 %idxprom26",shape=rectangle,style=filled ]
+node1212 [fillcolor=lemonchiffon,label="[9/28]  br i1 %cmp17, label %for.body18, label %for.end33",shape=ellipse,style=filled ]
+node1211 [fillcolor=grey,label="[8/29]  %cmp17 = icmp slt i32 %8, 100",shape=rectangle,style=filled ]
+node1205 [fillcolor=grey,label="[2/3]  %inc32 = add nsw i32 %15, 1",shape=rectangle,style=filled ]
+node1207 [fillcolor=lightcoral,label="[1/4]  %15 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node1208 [fillcolor=lightcoral,label="[31/32]  %12 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node1209 [fillcolor=lightcoral,label="[7/30]  %8 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node1206 [fillcolor=lightcoral,label="[5/6]  %10 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node1210 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/33]  store i32 %inc32, i32* %i, align 4",shape=ellipse,style=filled ]
 
+node1212->node1209 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1211->node1212 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1212->node1207 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1212->node1205 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1210->node1209 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node1207->node1210 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node1212->node1212 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1209->node1210 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node1205->node1210 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1210->node1207 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node1206->node1210 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node1207->node1205 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1212->node1211 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1209->node1211 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node1210->node1208 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node1212->node1210 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node1210->node1206 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node1208->node1210 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
 
 
 }
@@ -201,7 +207,7 @@ node1211 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[33/34]  %arrayidx27 = 
 subgraph cluster15 {
 
 
-node1213 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[6/9]  %call23 = call i32 @_Z27matrix_get_mult_element_axbPA100_iS0_ii([100 x i32]* %arraydecay, [100 x i32]* %arraydecay22, i32 %10, i32 %11)",shape=ellipse,style=filled ]
+node1214 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[26/27]  br label %for.inc31",shape=ellipse,style=filled ]
 
 
 

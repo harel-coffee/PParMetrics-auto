@@ -1,0 +1,31 @@
+
+digraph G {
+
+
+node111 [fillcolor=lightcoral,label="[5/6]  %6 = load i32, i32* %i2, align 4",shape=ellipse,style=filled ]
+node110 [fillcolor=lightcoral,label="[9/10]  %4 = load i32, i32* %i2, align 4",shape=ellipse,style=filled ]
+node109 [fillcolor=lightcoral,label="[7/8]  %8 = load i32, i32* %i2, align 4",shape=ellipse,style=filled ]
+node104 [fillcolor=lightcoral,label="[3/4]  %9 = load i32, i32* %i2, align 4",shape=ellipse,style=filled ]
+node107 [fillcolor=lightcoral,label="[1/2]  %3 = load i32, i32* %i2, align 4",shape=ellipse,style=filled ]
+node103 [fillcolor=lightcoral,label="[0/11]  store i32 %inc14, i32* %i2, align 4",shape=ellipse,style=filled ]
+node105 [fillcolor=lightcoral,label="[12/17]  store i32 %add, i32* %arrayidx12, align 4",shape=ellipse,style=filled ]
+node106 [fillcolor=lightcoral,label="[13/14]  %7 = load i32, i32* %arrayidx10, align 4",shape=ellipse,style=filled ]
+node108 [fillcolor=lightcoral,label="[15/16]  %5 = load i32, i32* %arrayidx7, align 4",shape=ellipse,style=filled ]
+
+node103->node111 [ ]
+node110->node103 [ ]
+node111->node103 [ ]
+node103->node109 [ ]
+node105->node106 [ ]
+node109->node103 [ ]
+node105->node108 [ ]
+node108->node105 [ ]
+node103->node110 [ ]
+node103->node107 [ ]
+node106->node105 [ ]
+node107->node103 [ ]
+node103->node104 [ ]
+node104->node103 [ ]
+
+
+}

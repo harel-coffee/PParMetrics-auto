@@ -1,0 +1,27 @@
+
+digraph G {
+
+
+node253 [fillcolor=lemonchiffon,label="[0/27]  br i1 %cmp, label %for.body, label %for.end",shape=ellipse,style=filled ]
+node247 [fillcolor=grey,label="[11/12]  %arrayidx = getelementptr inbounds [100 x i32], [100 x i32]* %c, i64 0, i64 %idxprom",shape=rectangle,style=filled ]
+node246 [fillcolor=lightcoral,label="[3/8]  %call1 = call i32 @rand() #2",shape=ellipse,style=filled ]
+node249 [fillcolor=grey,label="[10/13]  %idxprom = zext i32 %1 to i64",shape=rectangle,style=filled ]
+node248 [fillcolor=lemonchiffon,label="[23/24]  br label %for.cond",shape=ellipse,style=filled ]
+node252 [fillcolor=lemonchiffon,label="[25/26]  br label %for.inc",shape=ellipse,style=filled ]
+node251 [fillcolor=lightcoral,label="[5/6]  store i32 %rem, i32* %arrayidx, align 4",shape=ellipse,style=filled ]
+node250 [fillcolor=grey,label="[4/7]  %rem = urem i32 %call1, 10",shape=rectangle,style=filled ]
+
+node253->node251 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node253->node252 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node249->node247 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node253->node247 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node246->node250 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node253->node250 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node250->node251 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node253->node246 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node253->node249 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node247->node251 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node253->node248 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+
+
+}

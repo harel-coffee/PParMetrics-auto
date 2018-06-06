@@ -11,14 +11,14 @@ node528 [fillcolor=lemonchiffon,label="  ret void",shape=ellipse,style=filled ]
 node529 [fillcolor=lightcoral,label="  store %struct.list_node* null, %struct.list_node** %next, align 8",shape=ellipse,style=filled ]
 node530 [fillcolor=grey,label="  %this.addr = alloca %struct.list_node*, align 8",shape=rectangle,style=filled ]
 
+node525->node529 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node526->node527 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
 node530->node527 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
 node526->node525 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
-node526->node527 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
-node525->node529 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
 node527->node526 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
 node530->node526 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
-node526->node531 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
 node531->node532 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node526->node531 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
 
 
 }

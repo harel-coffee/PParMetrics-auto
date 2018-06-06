@@ -1,18 +1,50 @@
-[Pervasive Parallelism Metrics]
+[ Pervasive Parallelism Metrics ]
 
-Function: main
-Loop:
-	iter-percentage_func: 1
-	loop-sccs-num_func: 0
-	iter-percentage_loop: 0.571429
-	loop-sccs-num_loop: 1
-Loop:
-	iter-percentage_func: 0.35
-	loop-sccs-num_func: 1
-	iter-percentage_loop: 0.434783
-	loop-sccs-num_loop: 0
-Loop:
-	iter-percentage_func: 0.8
-	loop-sccs-num_func: 0
-	iter-percentage_loop: 0.8
-	loop-sccs-num_loop: 0
+Function: main {
+
+[1] Loop at depth 1 containing: %while.cond<header><exiting>,%while.body<latch>
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 1.400000e+01
+	loop-payload-fraction: 4.285714e-01
+	loop-proper-sccs-number: 1.000000e+00
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 2.187500e-01
+	iterator-payload-non-cf-cohesion: 3.125000e-02
+	iterator-payload-mem-cohesion: 0.000000e+00
+	critical-payload-total-cohesion: 1.666667e-01
+	critical-payload-non-cf-cohesion: 1.666667e-01
+	critical-payload-mem-cohesion: 0.000000e+00
+
+[2] Loop at depth 1 containing: %for.cond<header><exiting>,%for.body,%for.inc<latch>
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 2.300000e+01
+	loop-payload-fraction: 5.652174e-01
+	loop-proper-sccs-number: 0.000000e+00
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 3.269231e-01
+	iterator-payload-non-cf-cohesion: 7.692308e-02
+	iterator-payload-mem-cohesion: 0.000000e+00
+	critical-payload-total-cohesion: 0.000000e+00
+	critical-payload-non-cf-cohesion: 0.000000e+00
+	critical-payload-mem-cohesion: 0.000000e+00
+
+[3] Loop at depth 1 containing: %arrayctor.loop<header><latch><exiting>
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 5.000000e+00
+	loop-payload-fraction: 2.000000e-01
+	loop-proper-sccs-number: 0.000000e+00
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 2.000000e-01
+	iterator-payload-non-cf-cohesion: 1.000000e-01
+	iterator-payload-mem-cohesion: 0.000000e+00
+	critical-payload-total-cohesion:
+	critical-payload-non-cf-cohesion:
+	critical-payload-mem-cohesion:
+
+}

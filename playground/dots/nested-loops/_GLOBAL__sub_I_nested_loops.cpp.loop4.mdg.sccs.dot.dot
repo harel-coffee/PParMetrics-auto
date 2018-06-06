@@ -41,14 +41,14 @@ node759 [fillcolor=lightcoral,label="[3/4]  %6 = load i32, i32* %j, align 4",sha
 node757 [fillcolor=lightcoral,label="[7/8]  %5 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
 node758 [fillcolor=lightcoral,label="[5/6]  %1 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
 
-node760->node757 [ ]
-node760->node761 [ ]
-node761->node760 [ ]
-node757->node760 [ ]
-node758->node760 [ ]
-node760->node758 [ ]
 node760->node759 [ ]
 node759->node760 [ ]
+node760->node761 [ ]
+node761->node760 [ ]
+node760->node757 [ ]
+node760->node758 [ ]
+node758->node760 [ ]
+node757->node760 [ ]
 
 
 }

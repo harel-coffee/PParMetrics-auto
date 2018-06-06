@@ -11,14 +11,14 @@ node213 [fillcolor=lightcoral,label="  %13 = load %struct.list_node*, %struct.li
 node211 [fillcolor=lightcoral,label="  %11 = load i32, i32* %value13, align 8",shape=ellipse,style=filled ]
 node212 [fillcolor=lightcoral,label="  %12 = load i32, i32* %sum, align 4",shape=ellipse,style=filled ]
 
-node214->node212 [ ]
 node210->node207 [ ]
-node207->node210 [ ]
-node207->node213 [ ]
-node212->node214 [ ]
-node207->node209 [ ]
-node209->node207 [ ]
 node213->node207 [ ]
+node212->node214 [ ]
+node209->node207 [ ]
+node207->node209 [ ]
+node207->node213 [ ]
+node207->node210 [ ]
+node214->node212 [ ]
 
 
 }

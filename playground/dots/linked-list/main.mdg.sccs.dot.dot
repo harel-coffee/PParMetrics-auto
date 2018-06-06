@@ -69,11 +69,11 @@ node72 [fillcolor=lightcoral,label="[2/7]  store %struct.list_node* %arrayidx11,
 node70 [fillcolor=lightcoral,label="[5/6]  %13 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
 node71 [fillcolor=lightcoral,label="[3/4]  %9 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
 
-node73->node71 [ ]
-node72->node71 [ ]
 node72->node70 [ ]
-node71->node73 [ ]
 node70->node72 [ ]
+node71->node73 [ ]
+node72->node71 [ ]
+node73->node71 [ ]
 node73->node74 [ ]
 node74->node72 [ ]
 node74->node73 [ ]
@@ -132,14 +132,14 @@ node67 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[10/17]  store i32 
 node65 [fillcolor=lightcoral,label="[13/14]  %15 = load i32, i32* %sum, align 4",shape=ellipse,style=filled ]
 node66 [fillcolor=lightcoral,label="[12/15]  store i32 0, i32* %sum, align 4",shape=ellipse,style=filled ]
 
-node67->node68 [ ]
 node66->node68 [ ]
-node68->node67 [ ]
-node68->node66 [ ]
 node67->node65 [ ]
 node65->node67 [ ]
 node65->node66 [ ]
 node66->node65 [ ]
+node68->node66 [ ]
+node68->node67 [ ]
+node67->node68 [ ]
 
 
 }

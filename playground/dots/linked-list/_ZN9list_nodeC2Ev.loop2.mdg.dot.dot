@@ -12,18 +12,18 @@ node247 [fillcolor=lightcoral,label="  %2 = load i32, i32* %i, align 4",shape=el
 node243 [fillcolor=lightcoral,label="  store i32 %inc, i32* %i, align 4",shape=ellipse,style=filled ]
 node248 [fillcolor=lightcoral,label="  %5 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
 
+node243->node248 [ ]
+node248->node243 [ ]
 node243->node251 [ ]
 node251->node243 [ ]
-node243->node244 [ ]
-node243->node247 [ ]
-node247->node243 [ ]
 node243->node245 [ ]
-node248->node243 [ ]
-node243->node248 [ ]
-node244->node243 [ ]
-node245->node243 [ ]
-node250->node243 [ ]
 node243->node250 [ ]
+node250->node243 [ ]
+node245->node243 [ ]
+node244->node243 [ ]
+node243->node244 [ ]
+node247->node243 [ ]
+node243->node247 [ ]
 
 
 }

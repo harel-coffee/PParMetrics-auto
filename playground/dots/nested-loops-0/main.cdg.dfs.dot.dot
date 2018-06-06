@@ -2,23 +2,25 @@
 digraph G {
 
 
-node38 [label="[25/26]
+node38 [label="[27/28]
 for.inc34:                                        ; preds = %for.body21
   %18 = load i32, i32* %j, align 4
   %inc35 = add nsw i32 %18, 1
   store i32 %inc35, i32* %j, align 4
   br label %for.cond19
 ",shape=rectangle ]
-node26 [label="[18/19]
-for.end39:                                        ; preds = %for.cond16
-  ret i32 0
+node26 [label="[8/19]
+for.cond:                                         ; preds = %for.inc13, %entry
+  %0 = load i32, i32* %i, align 4
+  %cmp = icmp slt i32 %0, 100
+  br i1 %cmp, label %for.body, label %for.end15
 ",shape=rectangle ]
 node24 [label="[4/5]
 for.body:                                         ; preds = %for.cond
   store i32 0, i32* %j, align 4
   br label %for.cond1
 ",shape=rectangle ]
-node35 [label="[23/24]
+node35 [label="[25/26]
 for.body21:                                       ; preds = %for.cond19
   %10 = load i32, i32* %i, align 4
   %idxprom22 = sext i32 %10 to i64
@@ -44,22 +46,19 @@ for.body21:                                       ; preds = %for.cond19
   store i32 %add, i32* %arrayidx33, align 4
   br label %for.inc34
 ",shape=rectangle ]
-node25 [label="[6/17]
-for.cond:                                         ; preds = %for.inc13, %entry
-  %0 = load i32, i32* %i, align 4
-  %cmp = icmp slt i32 %0, 100
-  br i1 %cmp, label %for.body, label %for.end15
+node25 [label="[6/7]
+for.end39:                                        ; preds = %for.cond16
+  ret i32 0
 ",shape=rectangle ]
 node23 [label="[2/3]
 for.end15:                                        ; preds = %for.cond
   store i32 0, i32* %i, align 4
   br label %for.cond16
 ",shape=rectangle ]
-node29 [label="[22/27]
-for.cond19:                                       ; preds = %for.inc34, %for.body18
-  %9 = load i32, i32* %j, align 4
-  %cmp20 = icmp slt i32 %9, 100
-  br i1 %cmp20, label %for.body21, label %for.end36
+node29 [label="[22/23]
+for.body18:                                       ; preds = %for.cond16
+  store i32 0, i32* %j, align 4
+  br label %for.cond19
 ",shape=rectangle ]
 node22 [label="[0/1]
 for.inc37:                                        ; preds = %for.end36
@@ -68,9 +67,12 @@ for.inc37:                                        ; preds = %for.end36
   store i32 %inc38, i32* %i, align 4
   br label %for.cond16
 ",shape=rectangle ]
-node33 [label="[7/8]
-for.end:                                          ; preds = %for.cond1
-  br label %for.inc13
+node33 [label="[17/18]
+for.inc13:                                        ; preds = %for.end
+  %7 = load i32, i32* %i, align 4
+  %inc14 = add nsw i32 %7, 1
+  store i32 %inc14, i32* %i, align 4
+  br label %for.cond
 ",shape=rectangle ]
 node28 [label="[20/21]
 entry:
@@ -87,18 +89,7 @@ entry:
   store i32 0, i32* %i, align 4
   br label %for.cond
 ",shape=rectangle ]
-node30 [label="[28/29]
-for.body18:                                       ; preds = %for.cond16
-  store i32 0, i32* %j, align 4
-  br label %for.cond19
-",shape=rectangle ]
-node32 [label="[9/14]
-for.cond1:                                        ; preds = %for.inc, %for.body
-  %1 = load i32, i32* %j, align 4
-  %cmp2 = icmp slt i32 %1, 100
-  br i1 %cmp2, label %for.body3, label %for.end
-",shape=rectangle ]
-node31 [label="[10/11]
+node30 [label="[12/13]
 for.body3:                                        ; preds = %for.cond1
   %call4 = call i32 @rand() #3
   %rem = srem i32 %call4, 10
@@ -120,7 +111,17 @@ for.body3:                                        ; preds = %for.cond1
   store i32 %rem8, i32* %arrayidx12, align 4
   br label %for.inc
 ",shape=rectangle ]
-node27 [label="[12/13]
+node32 [label="[9/10]
+for.end:                                          ; preds = %for.cond1
+  br label %for.inc13
+",shape=rectangle ]
+node31 [label="[11/16]
+for.cond1:                                        ; preds = %for.inc, %for.body
+  %1 = load i32, i32* %j, align 4
+  %cmp2 = icmp slt i32 %1, 100
+  br i1 %cmp2, label %for.body3, label %for.end
+",shape=rectangle ]
+node27 [label="[14/15]
 for.inc:                                          ; preds = %for.body3
   %6 = load i32, i32* %j, align 4
   %inc = add nsw i32 %6, 1
@@ -131,12 +132,11 @@ node36 [label="[30/31]
 for.end36:                                        ; preds = %for.cond19
   br label %for.inc37
 ",shape=rectangle ]
-node34 [label="[15/16]
-for.inc13:                                        ; preds = %for.end
-  %7 = load i32, i32* %i, align 4
-  %inc14 = add nsw i32 %7, 1
-  store i32 %inc14, i32* %i, align 4
-  br label %for.cond
+node34 [label="[24/29]
+for.cond19:                                       ; preds = %for.inc34, %for.body18
+  %9 = load i32, i32* %j, align 4
+  %cmp20 = icmp slt i32 %9, 100
+  br i1 %cmp20, label %for.body21, label %for.end36
 ",shape=rectangle ]
 node37 [label="[32/33]
 for.cond16:                                       ; preds = %for.inc37, %for.end15
@@ -145,22 +145,22 @@ for.cond16:                                       ; preds = %for.inc37, %for.end
   br i1 %cmp17, label %for.body18, label %for.end39
 ",shape=rectangle ]
 
-node25->node32 [ ]
-node37->node22 [ ]
-node25->node25 [ ]
-node29->node29 [ ]
-node32->node32 [ ]
-node37->node37 [ ]
-node32->node31 [ ]
-node29->node35 [ ]
-node37->node36 [ ]
-node32->node27 [ ]
 node37->node29 [ ]
-node25->node33 [ ]
-node37->node30 [ ]
-node25->node24 [ ]
-node25->node34 [ ]
-node29->node38 [ ]
+node26->node24 [ ]
+node26->node31 [ ]
+node26->node26 [ ]
+node31->node31 [ ]
+node37->node37 [ ]
+node31->node30 [ ]
+node34->node38 [ ]
+node34->node34 [ ]
+node37->node34 [ ]
+node37->node22 [ ]
+node37->node36 [ ]
+node26->node33 [ ]
+node34->node35 [ ]
+node26->node32 [ ]
+node31->node27 [ ]
 
 
 }

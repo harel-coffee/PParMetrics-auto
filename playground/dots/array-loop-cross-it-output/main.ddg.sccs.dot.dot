@@ -35,7 +35,7 @@ node105 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[20/21]  br labe
 subgraph cluster22 {
 
 
-node103 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[28/29]  %add = add i32 %3, 1",shape=rectangle,style=filled ]
+node103 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[34/37]  %cmp = icmp ult i32 %0, 99",shape=rectangle,style=filled ]
 
 
 
@@ -44,7 +44,7 @@ node103 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[28/29]  %add = add i32 
 subgraph cluster20 {
 
 
-node101 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[33/38]  %0 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node101 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[28/29]  %add = add i32 %3, 1",shape=rectangle,style=filled ]
 
 
 
@@ -116,7 +116,7 @@ node82 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[2/5]  %inc = add i32 %5,
 subgraph cluster12 {
 
 
-node93 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[52/53]  br label %for.cond",shape=ellipse,style=filled ]
+node93 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[46/47]  %retval = alloca i32, align 4",shape=rectangle,style=filled ]
 
 
 
@@ -152,7 +152,7 @@ node87 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[14/17]  %4 = load 
 subgraph cluster14 {
 
 
-node95 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[48/49]  br label %for.cond",shape=ellipse,style=filled ]
+node95 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[50/51]  br label %for.cond",shape=ellipse,style=filled ]
 
 
 
@@ -188,7 +188,7 @@ node89 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[3/4]  store i32 %i
 subgraph cluster21 {
 
 
-node102 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[31/32]  %1 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node102 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[33/38]  %0 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
 
 
 
@@ -206,7 +206,7 @@ node90 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[26/45]  %i = alloca i32,
 subgraph cluster19 {
 
 
-node100 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[34/37]  %cmp = icmp ult i32 %0, 99",shape=rectangle,style=filled ]
+node100 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[31/32]  %1 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
 
 
 
@@ -215,7 +215,7 @@ node100 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[34/37]  %cmp = icmp ult
 subgraph cluster10 {
 
 
-node91 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[46/47]  %retval = alloca i32, align 4",shape=rectangle,style=filled ]
+node91 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[39/44]  %2 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
 
 
 
@@ -224,7 +224,7 @@ node91 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[46/47]  %retval = alloca
 subgraph cluster11 {
 
 
-node92 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[39/44]  %2 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node92 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[52/53]  br label %for.cond",shape=ellipse,style=filled ]
 
 
 
@@ -233,7 +233,7 @@ node92 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[39/44]  %2 = load 
 subgraph cluster13 {
 
 
-node94 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[50/51]  %a = alloca [100 x i32], align 16",shape=rectangle,style=filled ]
+node94 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[48/49]  %a = alloca [100 x i32], align 16",shape=rectangle,style=filled ]
 
 
 

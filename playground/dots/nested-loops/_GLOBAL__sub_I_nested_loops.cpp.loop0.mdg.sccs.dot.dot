@@ -14,14 +14,14 @@ node604 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[14/23]  %0 = load
 node602 [fillcolor=lightcoral,label="[20/21]  %2 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
 node603 [fillcolor=lightcoral,label="[16/17]  %7 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
 
+node604->node606 [ ]
 node606->node602 [ ]
-node602->node606 [ ]
-node605->node606 [ ]
-node603->node606 [ ]
 node606->node603 [ ]
+node603->node606 [ ]
+node605->node606 [ ]
 node606->node605 [ ]
 node606->node604 [ ]
-node604->node606 [ ]
+node602->node606 [ ]
 
 
 }

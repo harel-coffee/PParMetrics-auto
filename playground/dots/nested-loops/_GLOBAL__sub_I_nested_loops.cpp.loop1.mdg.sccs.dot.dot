@@ -33,13 +33,13 @@ node640 [fillcolor=lightcoral,label="[6/7]  %9 = load i32, i32* %j, align 4",sha
 node641 [fillcolor=lightcoral,label="[4/5]  %13 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
 
 node643->node644 [ ]
-node644->node642 [ ]
-node640->node644 [ ]
 node644->node643 [ ]
 node644->node640 [ ]
+node640->node644 [ ]
 node642->node644 [ ]
-node644->node641 [ ]
 node641->node644 [ ]
+node644->node641 [ ]
+node644->node642 [ ]
 
 
 }

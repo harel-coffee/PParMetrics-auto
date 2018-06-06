@@ -12,20 +12,20 @@ node95 [fillcolor=lightcoral,label="  %9 = load i32, i32* %i2, align 4",shape=el
 node98 [fillcolor=lightcoral,label="  %3 = load i32, i32* %i2, align 4",shape=ellipse,style=filled ]
 node99 [fillcolor=lightcoral,label="  %5 = load i32, i32* %arrayidx7, align 4",shape=ellipse,style=filled ]
 
-node102->node94 [ ]
 node94->node100 [ ]
-node96->node97 [ ]
-node97->node96 [ ]
-node94->node101 [ ]
+node95->node94 [ ]
 node100->node94 [ ]
-node96->node99 [ ]
+node94->node101 [ ]
+node94->node95 [ ]
+node101->node94 [ ]
 node94->node98 [ ]
+node96->node99 [ ]
+node96->node97 [ ]
+node102->node94 [ ]
+node97->node96 [ ]
 node94->node102 [ ]
 node99->node96 [ ]
 node98->node94 [ ]
-node101->node94 [ ]
-node94->node95 [ ]
-node95->node94 [ ]
 
 
 }

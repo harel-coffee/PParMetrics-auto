@@ -3,6 +3,11 @@ digraph G {
 
 
 node14 [label="
+arrayctor.cont:                                   ; preds = %arrayctor.loop
+  store i32 0, i32* %i, align 4
+  br label %for.cond
+",shape=rectangle ]
+node13 [label="
 arrayctor.loop:                                   ; preds = %arrayctor.loop, %entry
   %arrayctor.cur = phi %struct.list_node* [ %array.begin, %entry ], [ %arrayctor.next, %arrayctor.loop ]
   call void @_ZN9list_nodeC2Ev(%struct.list_node* %arrayctor.cur)
@@ -10,13 +15,13 @@ arrayctor.loop:                                   ; preds = %arrayctor.loop, %en
   %arrayctor.done = icmp eq %struct.list_node* %arrayctor.next, %arrayctor.end
   br i1 %arrayctor.done, label %arrayctor.cont, label %arrayctor.loop
 ",shape=rectangle ]
-node13 [label="
+node12 [label="
 for.cond:                                         ; preds = %for.inc, %arrayctor.cont
   %0 = load i32, i32* %i, align 4
   %cmp = icmp ult i32 %0, 99
   br i1 %cmp, label %for.body, label %for.end
 ",shape=rectangle ]
-node12 [label="
+node11 [label="
 entry:
   %retval = alloca i32, align 4
   %nodes = alloca [100 x %struct.list_node], align 16
@@ -28,11 +33,6 @@ entry:
   %arrayctor.end = getelementptr inbounds %struct.list_node, %struct.list_node* %array.begin, i64 100
   br label %arrayctor.loop
 ",shape=rectangle ]
-node11 [label="
-arrayctor.cont:                                   ; preds = %arrayctor.loop
-  store i32 0, i32* %i, align 4
-  br label %for.cond
-",shape=rectangle ]
 node5 [label="
 while.cond:                                       ; preds = %while.body, %for.end
   %9 = load %struct.list_node*, %struct.list_node** %list_it, align 8
@@ -40,37 +40,13 @@ while.cond:                                       ; preds = %while.body, %for.en
   br i1 %cmp12, label %while.body, label %while.end
 ",shape=rectangle ]
 node8 [label="
-while.end:                                        ; preds = %while.cond
-  %15 = load i32, i32* %sum, align 4
-  %call = call dereferenceable(272) %"class.std::basic_ostream"* @_ZNSolsEi(%"class.std::basic_ostream"* @_ZSt4cout, i32 %15)
-  ret i32 0
-",shape=rectangle ]
-node6 [label="
-for.end:                                          ; preds = %for.cond
-  %6 = load i32, i32* %i, align 4
-  %7 = load i32, i32* %i, align 4
-  %idxprom5 = zext i32 %7 to i64
-  %arrayidx6 = getelementptr inbounds [100 x %struct.list_node], [100 x %struct.list_node]* %nodes, i64 0, i64 %idxprom5
-  %value7 = getelementptr inbounds %struct.list_node, %struct.list_node* %arrayidx6, i32 0, i32 0
-  store i32 %6, i32* %value7, align 16
-  %8 = load i32, i32* %i, align 4
-  %idxprom8 = zext i32 %8 to i64
-  %arrayidx9 = getelementptr inbounds [100 x %struct.list_node], [100 x %struct.list_node]* %nodes, i64 0, i64 %idxprom8
-  %next10 = getelementptr inbounds %struct.list_node, %struct.list_node* %arrayidx9, i32 0, i32 1
-  store %struct.list_node* null, %struct.list_node** %next10, align 8
-  store i32 0, i32* %sum, align 4
-  %arrayidx11 = getelementptr inbounds [100 x %struct.list_node], [100 x %struct.list_node]* %nodes, i64 0, i64 0
-  store %struct.list_node* %arrayidx11, %struct.list_node** %list_it, align 8
-  br label %while.cond
-",shape=rectangle ]
-node7 [label="
 for.inc:                                          ; preds = %for.body
   %5 = load i32, i32* %i, align 4
   %inc = add i32 %5, 1
   store i32 %inc, i32* %i, align 4
   br label %for.cond
 ",shape=rectangle ]
-node9 [label="
+node6 [label="
 for.body:                                         ; preds = %for.cond
   %1 = load i32, i32* %i, align 4
   %2 = load i32, i32* %i, align 4
@@ -89,6 +65,30 @@ for.body:                                         ; preds = %for.cond
   store %struct.list_node* %arrayidx2, %struct.list_node** %next, align 8
   br label %for.inc
 ",shape=rectangle ]
+node7 [label="
+for.end:                                          ; preds = %for.cond
+  %6 = load i32, i32* %i, align 4
+  %7 = load i32, i32* %i, align 4
+  %idxprom5 = zext i32 %7 to i64
+  %arrayidx6 = getelementptr inbounds [100 x %struct.list_node], [100 x %struct.list_node]* %nodes, i64 0, i64 %idxprom5
+  %value7 = getelementptr inbounds %struct.list_node, %struct.list_node* %arrayidx6, i32 0, i32 0
+  store i32 %6, i32* %value7, align 16
+  %8 = load i32, i32* %i, align 4
+  %idxprom8 = zext i32 %8 to i64
+  %arrayidx9 = getelementptr inbounds [100 x %struct.list_node], [100 x %struct.list_node]* %nodes, i64 0, i64 %idxprom8
+  %next10 = getelementptr inbounds %struct.list_node, %struct.list_node* %arrayidx9, i32 0, i32 1
+  store %struct.list_node* null, %struct.list_node** %next10, align 8
+  store i32 0, i32* %sum, align 4
+  %arrayidx11 = getelementptr inbounds [100 x %struct.list_node], [100 x %struct.list_node]* %nodes, i64 0, i64 0
+  store %struct.list_node* %arrayidx11, %struct.list_node** %list_it, align 8
+  br label %while.cond
+",shape=rectangle ]
+node9 [label="
+while.end:                                        ; preds = %while.cond
+  %15 = load i32, i32* %sum, align 4
+  %call = call dereferenceable(272) %"class.std::basic_ostream"* @_ZNSolsEi(%"class.std::basic_ostream"* @_ZSt4cout, i32 %15)
+  ret i32 0
+",shape=rectangle ]
 node10 [label="
 while.body:                                       ; preds = %while.cond
   %10 = load %struct.list_node*, %struct.list_node** %list_it, align 8
@@ -104,12 +104,12 @@ while.body:                                       ; preds = %while.cond
   br label %while.cond
 ",shape=rectangle ]
 
+node12->node12 [ ]
 node13->node13 [ ]
-node14->node14 [ ]
+node12->node8 [ ]
 node5->node5 [ ]
+node12->node6 [ ]
 node5->node10 [ ]
-node13->node9 [ ]
-node13->node7 [ ]
 
 
 }

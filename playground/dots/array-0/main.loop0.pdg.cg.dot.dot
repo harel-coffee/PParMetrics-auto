@@ -11,17 +11,17 @@ node260 [fillcolor=lemonchiffon,label="[23/24]  br label %for.cond",shape=ellips
 node262 [fillcolor=grey,label="[4/7]  %rem = urem i32 %call1, 10",shape=rectangle,style=filled ]
 node263 [fillcolor=lightcoral,label="[5/6]  store i32 %rem, i32* %arrayidx, align 4",shape=ellipse,style=filled ]
 
-node265->node263 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
 node265->node262 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
-node265->node259 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
 node259->node263 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
-node261->node259 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
-node258->node262 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node265->node263 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node265->node259 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
 node265->node260 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
-node265->node261 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
-node265->node264 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
-node265->node258 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
 node262->node263 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node265->node258 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node265->node264 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node258->node262 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node265->node261 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node261->node259 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
 
 
 }

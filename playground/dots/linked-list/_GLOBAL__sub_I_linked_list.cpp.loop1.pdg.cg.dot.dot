@@ -2,11 +2,11 @@
 digraph G {
 
 
-node816 [fillcolor=grey,label="[1/10]  %value13 = getelementptr inbounds %struct.list_node, %struct.list_node* %10, i32 0, i32 0",shape=rectangle,style=filled ]
-node815 [fillcolor=grey,label="[3/8]  %add14 = add nsw i32 %12, %11",shape=rectangle,style=filled ]
-node817 [fillcolor=lightcoral,label="[2/9]  %11 = load i32, i32* %value13, align 8",shape=ellipse,style=filled ]
-node813 [fillcolor=lemonchiffon,label="[21/22]  br label %while.cond",shape=ellipse,style=filled ]
-node814 [fillcolor=lightcoral,label="[0/27]  %10 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node816 [fillcolor=grey,label="[8/9]  %value13 = getelementptr inbounds %struct.list_node, %struct.list_node* %10, i32 0, i32 0",shape=rectangle,style=filled ]
+node815 [fillcolor=grey,label="[1/6]  %add14 = add nsw i32 %12, %11",shape=rectangle,style=filled ]
+node817 [fillcolor=lightcoral,label="[0/7]  %11 = load i32, i32* %value13, align 8",shape=ellipse,style=filled ]
+node813 [fillcolor=lemonchiffon,label="[25/26]  br label %while.cond",shape=ellipse,style=filled ]
+node814 [fillcolor=lemonchiffon,label="[10/27]  br i1 %cmp12, label %while.body, label %while.end",shape=ellipse,style=filled ]
 
 node816->node817 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
 node814->node816 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]

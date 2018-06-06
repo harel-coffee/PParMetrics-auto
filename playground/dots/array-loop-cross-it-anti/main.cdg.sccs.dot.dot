@@ -25,7 +25,22 @@ entry:
 subgraph cluster3 {
 
 
-node18 [penwidth=3.0,fontsize=20,shape=rectangle,label="[8/9]
+node18 [penwidth=3.0,fontsize=20,shape=rectangle,label="[0/5]
+for.cond:                                         ; preds = %for.inc, %entry
+  %0 = load i32, i32* %i, align 4
+  %cmp = icmp ult i32 %0, 99
+  br i1 %cmp, label %for.body, label %for.end
+" ]
+
+node18->node18 [ ]
+
+
+}
+
+subgraph cluster2 {
+
+
+node17 [penwidth=3.0,fontsize=20,shape=rectangle,label="[8/9]
 for.end:                                          ; preds = %for.cond
   ret i32 0
 " ]
@@ -34,10 +49,25 @@ for.end:                                          ; preds = %for.cond
 
 }
 
-subgraph cluster2 {
+subgraph cluster0 {
 
 
-node17 [penwidth=3.0,fontsize=20,shape=rectangle,label="[3/4]
+node15 [penwidth=3.0,fontsize=20,shape=rectangle,label="[1/2]
+for.inc:                                          ; preds = %for.body
+  %4 = load i32, i32* %i, align 4
+  %inc = add i32 %4, 1
+  store i32 %inc, i32* %i, align 4
+  br label %for.cond
+" ]
+
+
+
+}
+
+subgraph cluster1 {
+
+
+node16 [penwidth=3.0,fontsize=20,shape=rectangle,label="[3/4]
 for.body:                                         ; preds = %for.cond
   %1 = load i32, i32* %i, align 4
   %add = add i32 %1, 1
@@ -49,36 +79,6 @@ for.body:                                         ; preds = %for.cond
   %arrayidx2 = getelementptr inbounds [100 x i32], [100 x i32]* %a, i64 0, i64 %idxprom1
   store i32 %2, i32* %arrayidx2, align 4
   br label %for.inc
-" ]
-
-
-
-}
-
-subgraph cluster0 {
-
-
-node15 [penwidth=3.0,fontsize=20,shape=rectangle,label="[0/5]
-for.cond:                                         ; preds = %for.inc, %entry
-  %0 = load i32, i32* %i, align 4
-  %cmp = icmp ult i32 %0, 99
-  br i1 %cmp, label %for.body, label %for.end
-" ]
-
-node15->node15 [ ]
-
-
-}
-
-subgraph cluster1 {
-
-
-node16 [penwidth=3.0,fontsize=20,shape=rectangle,label="[1/2]
-for.inc:                                          ; preds = %for.body
-  %4 = load i32, i32* %i, align 4
-  %inc = add i32 %4, 1
-  store i32 %inc, i32* %i, align 4
-  br label %for.cond
 " ]
 
 

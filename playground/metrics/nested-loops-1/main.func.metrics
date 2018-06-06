@@ -7,16 +7,26 @@ Function: main {
 
 Loop Proportion Metric Set:
 	loop-absolute-size: 4.000000e+01
-	loop-payload-fraction: 2.500000e-01
-	loop-proper-sccs-number: 1.000000e+00
+	loop-payload-fraction: 0.000000e+00
+	loop-proper-sccs-number: 0.000000e+00
 
 Loop Cohesion Metric Set:
-	iterator-payload-total-cohesion: 9.090909e-02
+	iterator-payload-total-cohesion: 0.000000e+00
 	iterator-payload-non-cf-cohesion: 0.000000e+00
 	iterator-payload-mem-cohesion: 0.000000e+00
-	critical-payload-total-cohesion: 0.000000e+00
-	critical-payload-non-cf-cohesion: 0.000000e+00
-	critical-payload-mem-cohesion: 0.000000e+00
+	critical-payload-total-cohesion:
+	critical-payload-non-cf-cohesion:
+	critical-payload-mem-cohesion:
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 0.000000e+00
+	payload-true-dependencies-number: 0.000000e+00
+	payload-anti-dependencies-number: 0.000000e+00
+	payload-output-dependencies-number: 0.000000e+00
+	critical-payload-total-dependencies-number: 0.000000e+00
+	critical-payload-true-dependencies-number: 0.000000e+00
+	critical-payload-anti-dependencies-number: 0.000000e+00
+	critical-payload-output-dependencies-number: 0.000000e+00
 
 [2] Loop at depth 2 containing: %for.cond21<header><exiting>,%for.body23,%for.inc36<latch>
 
@@ -32,6 +42,16 @@ Loop Cohesion Metric Set:
 	critical-payload-total-cohesion: 0.000000e+00
 	critical-payload-non-cf-cohesion: 0.000000e+00
 	critical-payload-mem-cohesion: 0.000000e+00
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 1.800000e+01
+	payload-true-dependencies-number: 0.000000e+00
+	payload-anti-dependencies-number: 1.800000e+01
+	payload-output-dependencies-number: 0.000000e+00
+	critical-payload-total-dependencies-number: 0.000000e+00
+	critical-payload-true-dependencies-number: 0.000000e+00
+	critical-payload-anti-dependencies-number: 0.000000e+00
+	critical-payload-output-dependencies-number: 0.000000e+00
 
 [3] Loop at depth 1 containing: %for.cond<header><exiting>,%for.body,%for.cond1,%for.end,%for.inc13<latch>,%for.body3,%for.inc
     Loop at depth 2 containing: %for.cond1<header><exiting>,%for.body3,%for.inc<latch>
@@ -49,6 +69,16 @@ Loop Cohesion Metric Set:
 	critical-payload-non-cf-cohesion:
 	critical-payload-mem-cohesion:
 
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 0.000000e+00
+	payload-true-dependencies-number: 0.000000e+00
+	payload-anti-dependencies-number: 0.000000e+00
+	payload-output-dependencies-number: 0.000000e+00
+	critical-payload-total-dependencies-number: 0.000000e+00
+	critical-payload-true-dependencies-number: 0.000000e+00
+	critical-payload-anti-dependencies-number: 0.000000e+00
+	critical-payload-output-dependencies-number: 0.000000e+00
+
 [4] Loop at depth 2 containing: %for.cond1<header><exiting>,%for.body3,%for.inc<latch>
 
 Loop Proportion Metric Set:
@@ -63,5 +93,15 @@ Loop Cohesion Metric Set:
 	critical-payload-total-cohesion: 0.000000e+00
 	critical-payload-non-cf-cohesion: 0.000000e+00
 	critical-payload-mem-cohesion: 0.000000e+00
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 1.400000e+01
+	payload-true-dependencies-number: 0.000000e+00
+	payload-anti-dependencies-number: 1.400000e+01
+	payload-output-dependencies-number: 0.000000e+00
+	critical-payload-total-dependencies-number: 0.000000e+00
+	critical-payload-true-dependencies-number: 0.000000e+00
+	critical-payload-anti-dependencies-number: 0.000000e+00
+	critical-payload-output-dependencies-number: 0.000000e+00
 
 }

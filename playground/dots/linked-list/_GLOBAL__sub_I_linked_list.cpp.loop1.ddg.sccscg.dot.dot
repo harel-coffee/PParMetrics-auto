@@ -3,22 +3,22 @@ digraph G {
 
 
 
-node924->node922 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
-node926->node924 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
-node917->node921 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
-node920->node918 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
-node928->node917 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
-node927->node929 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
-node918->node923 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node929->node930 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node930->node924 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node922->node920 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node926->node927 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node927->node920 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node923->node926 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
 node925->node918 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
-node929->node925 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
-node930->node928 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node928->node917 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node920->node919 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node918->node928 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
 
 
 subgraph cluster13 {
 
 
-node930 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[18/21]  %13 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node930 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[14/17]  %cmp12 = icmp ne %struct.list_node* %9, null",shape=rectangle,style=filled ]
 
 
 
@@ -27,7 +27,7 @@ node930 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[18/21]  %13 = loa
 subgraph cluster11 {
 
 
-node928 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[19/20]  %next15 = getelementptr inbounds %struct.list_node, %struct.list_node* %13, i32 0, i32 1",shape=rectangle,style=filled ]
+node928 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[3/4]  %14 = load %struct.list_node*, %struct.list_node** %next15, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -36,7 +36,7 @@ node928 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[19/20]  %next15 = getel
 subgraph cluster10 {
 
 
-node927 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[26/27]  %10 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node927 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[22/23]  %11 = load i32, i32* %value13, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -45,7 +45,7 @@ node927 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[26/27]  %10 = loa
 subgraph cluster9 {
 
 
-node926 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[16/17]  %9 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node926 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[21/24]  %value13 = getelementptr inbounds %struct.list_node, %struct.list_node* %10, i32 0, i32 0",shape=rectangle,style=filled ]
 
 
 
@@ -54,7 +54,7 @@ node926 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[16/17]  %9 = load
 subgraph cluster8 {
 
 
-node925 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[23/24]  %11 = load i32, i32* %value13, align 8",shape=ellipse,style=filled ]
+node925 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[26/27]  %13 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -63,7 +63,7 @@ node925 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[23/24]  %11 = loa
 subgraph cluster7 {
 
 
-node924 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[12/15]  %cmp12 = icmp ne %struct.list_node* %9, null",shape=rectangle,style=filled ]
+node924 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[15/16]  br i1 %cmp12, label %while.body, label %while.end",shape=ellipse,style=filled ]
 
 
 
@@ -72,7 +72,7 @@ node924 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[12/15]  %cmp12 = icmp n
 subgraph cluster6 {
 
 
-node923 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[5/6]  store i32 %add14, i32* %sum, align 4",shape=ellipse,style=filled ]
+node923 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[20/25]  %10 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -81,7 +81,7 @@ node923 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[5/6]  store i32 %
 subgraph cluster0 {
 
 
-node917 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/3]  %14 = load %struct.list_node*, %struct.list_node** %next15, align 8",shape=ellipse,style=filled ]
+node917 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/1]  store %struct.list_node* %14, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -90,7 +90,7 @@ node917 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/3]  %14 = load 
 subgraph cluster12 {
 
 
-node929 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[22/25]  %value13 = getelementptr inbounds %struct.list_node, %struct.list_node* %10, i32 0, i32 0",shape=rectangle,style=filled ]
+node929 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[18/19]  %9 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
 
 
 
@@ -99,7 +99,7 @@ node929 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[22/25]  %value13 = gete
 subgraph cluster5 {
 
 
-node922 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[13/14]  br i1 %cmp12, label %while.body, label %while.end",shape=ellipse,style=filled ]
+node922 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[12/13]  %12 = load i32, i32* %sum, align 4",shape=ellipse,style=filled ]
 
 
 
@@ -108,7 +108,7 @@ node922 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[13/14]  br i1 %
 subgraph cluster1 {
 
 
-node918 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[4/7]  %add14 = add nsw i32 %12, %11",shape=rectangle,style=filled ]
+node918 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[2/5]  %next15 = getelementptr inbounds %struct.list_node, %struct.list_node* %13, i32 0, i32 1",shape=rectangle,style=filled ]
 
 
 
@@ -117,7 +117,7 @@ node918 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[4/7]  %add14 = add nsw 
 subgraph cluster2 {
 
 
-node919 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[8/9]  br label %while.cond",shape=ellipse,style=filled ]
+node919 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[6/7]  store i32 %add14, i32* %sum, align 4",shape=ellipse,style=filled ]
 
 
 
@@ -126,7 +126,7 @@ node919 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[8/9]  br label 
 subgraph cluster3 {
 
 
-node920 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[10/11]  %12 = load i32, i32* %sum, align 4",shape=ellipse,style=filled ]
+node920 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[8/9]  %add14 = add nsw i32 %12, %11",shape=rectangle,style=filled ]
 
 
 
@@ -135,7 +135,7 @@ node920 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[10/11]  %12 = loa
 subgraph cluster4 {
 
 
-node921 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[1/2]  store %struct.list_node* %14, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
+node921 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[10/11]  br label %while.cond",shape=ellipse,style=filled ]
 
 
 

@@ -14,10 +14,10 @@ node577 [fillcolor=lemonchiffon,label="[3/8]  br i1 %arrayctor.done, label %arra
 node578 [fillcolor=grey,label="[4/7]  %arrayctor.cur = phi %struct.list_node* [ %array.begin, %entry ], [ %arrayctor.next, %arrayctor.loop ]",shape=rectangle,style=filled ]
 
 node578->node580 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node580->node578 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
 node580->node579 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
 node577->node580 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
 node577->node579 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
-node580->node578 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
 node577->node578 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
 node577->node577 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
 node579->node577 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]

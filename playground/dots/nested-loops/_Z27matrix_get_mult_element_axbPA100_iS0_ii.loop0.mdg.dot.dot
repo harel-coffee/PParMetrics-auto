@@ -16,15 +16,15 @@ node90 [fillcolor=lightcoral,label="  store i32 %add, i32* %tmp, align 4",shape=
 node93 [fillcolor=lightcoral,label="  %2 = load i32, i32* %i.addr, align 4",shape=ellipse,style=filled ]
 node92 [fillcolor=lightcoral,label="  %1 = load [100 x i32]*, [100 x i32]** %a.addr, align 8",shape=ellipse,style=filled ]
 
-node91->node90 [ ]
 node88->node98 [ ]
-node98->node88 [ ]
-node88->node95 [ ]
+node88->node96 [ ]
+node91->node90 [ ]
 node89->node88 [ ]
 node90->node91 [ ]
 node95->node88 [ ]
 node88->node89 [ ]
-node88->node96 [ ]
+node88->node95 [ ]
+node98->node88 [ ]
 node96->node88 [ ]
 
 

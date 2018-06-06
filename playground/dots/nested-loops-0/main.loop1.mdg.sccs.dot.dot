@@ -25,12 +25,12 @@ node213 [fillcolor=lightcoral,label="[18/19]  %0 = load i32, i32* %i, align 4",s
 
 node215->node216 [ ]
 node216->node215 [ ]
-node216->node214 [ ]
 node216->node213 [ ]
-node214->node216 [ ]
-node213->node216 [ ]
+node216->node214 [ ]
 node212->node216 [ ]
 node216->node212 [ ]
+node213->node216 [ ]
+node214->node216 [ ]
 
 
 }
@@ -45,22 +45,22 @@ node207 [fillcolor=lightcoral,label="[3/4]  %3 = load i32, i32* %j, align 4",sha
 node205 [fillcolor=lightcoral,label="[7/8]  %6 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
 node206 [fillcolor=lightcoral,label="[5/6]  %1 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
 
+node207->node208 [ ]
+node208->node207 [ ]
+node206->node209 [ ]
+node209->node206 [ ]
 node208->node206 [ ]
+node209->node210 [ ]
+node210->node209 [ ]
+node205->node208 [ ]
 node206->node208 [ ]
 node208->node210 [ ]
-node206->node209 [ ]
-node205->node208 [ ]
-node209->node206 [ ]
 node208->node205 [ ]
 node205->node209 [ ]
-node208->node207 [ ]
-node207->node209 [ ]
-node209->node207 [ ]
-node210->node208 [ ]
 node209->node205 [ ]
-node207->node208 [ ]
-node210->node209 [ ]
-node209->node210 [ ]
+node210->node208 [ ]
+node209->node207 [ ]
+node207->node209 [ ]
 
 
 }

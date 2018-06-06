@@ -28,3 +28,6 @@ RegisterMetricPass(ppar::LoopProportionMetrics, LoopProportionMetricsPass)
 
 RegisterMetricPass(ppar::LoopCohesionMetrics, LoopCohesionMetricsPass)
 #include "LoopCohesionMetrics.spec.h"
+
+RegisterMetricPass(ppar::LoopDependenceMetrics, LoopDependenceMetricsPass)
+#include "LoopDependenceMetrics.spec.h"

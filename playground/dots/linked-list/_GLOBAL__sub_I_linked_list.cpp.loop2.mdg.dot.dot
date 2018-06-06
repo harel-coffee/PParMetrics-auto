@@ -12,18 +12,18 @@ node322 [fillcolor=lightcoral,label="  %2 = load i32, i32* %i, align 4",shape=el
 node320 [fillcolor=lightcoral,label="  %0 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
 node323 [fillcolor=lightcoral,label="  %5 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
 
+node325->node318 [ ]
+node318->node323 [ ]
 node326->node318 [ ]
-node318->node322 [ ]
-node318->node319 [ ]
 node322->node318 [ ]
 node318->node326 [ ]
 node318->node320 [ ]
 node320->node318 [ ]
-node318->node323 [ ]
-node319->node318 [ ]
-node323->node318 [ ]
+node318->node322 [ ]
 node318->node325 [ ]
-node325->node318 [ ]
+node323->node318 [ ]
+node319->node318 [ ]
+node318->node319 [ ]
 
 
 }

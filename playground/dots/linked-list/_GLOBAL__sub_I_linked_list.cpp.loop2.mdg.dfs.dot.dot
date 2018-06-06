@@ -12,18 +12,18 @@ node330 [fillcolor=lightcoral,label="[14/15]  store i32 %1, i32* %value, align 1
 node331 [fillcolor=lightcoral,label="[5/6]  %2 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
 node332 [fillcolor=lightcoral,label="[7/8]  %5 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
 
+node327->node334 [ ]
+node327->node332 [ ]
 node327->node335 [ ]
 node335->node327 [ ]
+node332->node327 [ ]
+node327->node329 [ ]
 node327->node331 [ ]
+node334->node327 [ ]
+node329->node327 [ ]
 node327->node328 [ ]
 node328->node327 [ ]
 node331->node327 [ ]
-node334->node327 [ ]
-node329->node327 [ ]
-node327->node329 [ ]
-node332->node327 [ ]
-node327->node332 [ ]
-node327->node334 [ ]
 
 
 }

@@ -3,16 +3,16 @@ digraph G {
 
 
 
-node567->node568 [ ]
-node568->node566 [ ]
+node567->node565 [ ]
+node566->node567 [ ]
+node567->node566 [ ]
+node565->node567 [ ]
+node567->node569 [ ]
+node564->node567 [ ]
+node569->node567 [ ]
 node568->node567 [ ]
-node566->node568 [ ]
-node568->node565 [ ]
-node569->node568 [ ]
-node565->node568 [ ]
-node568->node569 [ ]
-node564->node568 [ ]
-node568->node564 [ ]
+node567->node568 [ ]
+node567->node564 [ ]
 
 
 subgraph cluster6 {
@@ -27,12 +27,12 @@ node575 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[12/13]  store i32
 subgraph cluster0 {
 
 
-node567 [fillcolor=lightcoral,label="[3/4]  %17 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
-node566 [fillcolor=lightcoral,label="[5/6]  %14 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
+node567 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/11]  store i32 %inc35, i32* %j, align 4",shape=ellipse,style=filled ]
+node566 [fillcolor=lightcoral,label="[5/6]  %17 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
 node569 [fillcolor=lightcoral,label="[1/2]  %9 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
-node568 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/11]  store i32 %inc35, i32* %j, align 4",shape=ellipse,style=filled ]
+node568 [fillcolor=lightcoral,label="[3/4]  %11 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
 node564 [fillcolor=lightcoral,label="[9/10]  %18 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
-node565 [fillcolor=lightcoral,label="[7/8]  %11 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
+node565 [fillcolor=lightcoral,label="[7/8]  %14 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
 
 
 

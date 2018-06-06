@@ -16,16 +16,16 @@ node104 [fillcolor=lightcoral,label="[11/12]  %9 = load i32, i32* %tmp, align 4"
 node105 [fillcolor=lightcoral,label="[14/15]  %1 = load [100 x i32]*, [100 x i32]** %a.addr, align 8",shape=ellipse,style=filled ]
 node106 [fillcolor=lightcoral,label="[16/17]  %2 = load i32, i32* %i.addr, align 4",shape=ellipse,style=filled ]
 
+node101->node111 [ ]
 node103->node104 [ ]
 node104->node103 [ ]
-node101->node111 [ ]
 node101->node108 [ ]
-node111->node101 [ ]
-node108->node101 [ ]
+node101->node109 [ ]
+node109->node101 [ ]
 node101->node102 [ ]
 node102->node101 [ ]
-node109->node101 [ ]
-node101->node109 [ ]
+node108->node101 [ ]
+node111->node101 [ ]
 
 
 }

@@ -35,7 +35,7 @@ node352 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[10/15]  %idxprom = zext
 subgraph cluster4 {
 
 
-node339 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[32/33]  %arrayidx5 = getelementptr inbounds [100 x i32], [100 x i32]* %b, i64 0, i64 %idxprom4",shape=rectangle,style=filled ]
+node339 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[3/4]  store i32 %inc, i32* %i, align 4",shape=ellipse,style=filled ]
 
 
 
@@ -44,7 +44,7 @@ node339 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[32/33]  %arrayidx5 = ge
 subgraph cluster3 {
 
 
-node338 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[12/13]  store i32 %rem, i32* %arrayidx, align 4",shape=ellipse,style=filled ]
+node338 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[28/29]  %call1 = call i32 @rand() #2",shape=ellipse,style=filled ]
 
 
 
@@ -71,7 +71,7 @@ node336 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[2/5]  %inc = add i32 %3
 subgraph cluster12 {
 
 
-node347 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[17/18]  %cmp = icmp ult i32 %0, 100",shape=rectangle,style=filled ]
+node347 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[24/25]  store i32 %rem3, i32* %arrayidx5, align 4",shape=ellipse,style=filled ]
 
 
 
@@ -80,7 +80,7 @@ node347 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[17/18]  %cmp = icmp ult
 subgraph cluster5 {
 
 
-node340 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[30/35]  %2 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node340 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[30/31]  %rem3 = urem i32 %call2, 10",shape=rectangle,style=filled ]
 
 
 
@@ -98,7 +98,7 @@ node335 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[0/1]  br label 
 subgraph cluster6 {
 
 
-node341 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[31/34]  %idxprom4 = zext i32 %2 to i64",shape=rectangle,style=filled ]
+node341 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[17/18]  %cmp = icmp ult i32 %0, 100",shape=rectangle,style=filled ]
 
 
 
@@ -107,7 +107,7 @@ node341 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[31/34]  %idxprom4 = zex
 subgraph cluster14 {
 
 
-node349 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[36/37]  %1 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node349 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[20/21]  %rem = urem i32 %call1, 10",shape=rectangle,style=filled ]
 
 
 
@@ -116,7 +116,7 @@ node349 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[36/37]  %1 = load
 subgraph cluster7 {
 
 
-node342 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[28/29]  %call2 = call i32 @rand() #2",shape=ellipse,style=filled ]
+node342 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[12/13]  store i32 %rem, i32* %arrayidx, align 4",shape=ellipse,style=filled ]
 
 
 
@@ -125,7 +125,7 @@ node342 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[28/29]  %call2 = 
 subgraph cluster8 {
 
 
-node343 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[25/26]  store i32 %rem3, i32* %arrayidx5, align 4",shape=ellipse,style=filled ]
+node343 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[34/35]  %2 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
 
 
 
@@ -134,7 +134,7 @@ node343 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[25/26]  store i32
 subgraph cluster9 {
 
 
-node344 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[3/4]  store i32 %inc, i32* %i, align 4",shape=ellipse,style=filled ]
+node344 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[38/39]  br label %for.inc",shape=ellipse,style=filled ]
 
 
 
@@ -152,7 +152,7 @@ node354 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[11/14]  %arrayidx = get
 subgraph cluster10 {
 
 
-node345 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[24/27]  %rem3 = urem i32 %call2, 10",shape=rectangle,style=filled ]
+node345 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[36/37]  %1 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
 
 
 
@@ -161,7 +161,7 @@ node345 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[24/27]  %rem3 = urem i3
 subgraph cluster11 {
 
 
-node346 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[20/23]  %call1 = call i32 @rand() #2",shape=ellipse,style=filled ]
+node346 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[32/33]  %call2 = call i32 @rand() #2",shape=ellipse,style=filled ]
 
 
 
@@ -170,7 +170,7 @@ node346 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[20/23]  %call1 = 
 subgraph cluster13 {
 
 
-node348 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[38/39]  br label %for.inc",shape=ellipse,style=filled ]
+node348 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[22/27]  %idxprom4 = zext i32 %2 to i64",shape=rectangle,style=filled ]
 
 
 
@@ -179,7 +179,7 @@ node348 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[38/39]  br labe
 subgraph cluster15 {
 
 
-node350 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[21/22]  %rem = urem i32 %call1, 10",shape=rectangle,style=filled ]
+node350 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[23/26]  %arrayidx5 = getelementptr inbounds [100 x i32], [100 x i32]* %b, i64 0, i64 %idxprom4",shape=rectangle,style=filled ]
 
 
 

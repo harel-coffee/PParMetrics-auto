@@ -18,22 +18,22 @@ subgraph cluster0 {
 
 
 node336 [fillcolor=lightcoral,label="[1/2]  %9 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
-node335 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/11]  store i32 %inc35, i32* %j, align 4",shape=ellipse,style=filled ]
-node334 [fillcolor=lightcoral,label="[3/4]  %17 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
+node335 [fillcolor=lightcoral,label="[3/4]  %11 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
+node334 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/11]  store i32 %inc35, i32* %j, align 4",shape=ellipse,style=filled ]
 node331 [fillcolor=lightcoral,label="[9/10]  %18 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
-node333 [fillcolor=lightcoral,label="[5/6]  %14 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
-node332 [fillcolor=lightcoral,label="[7/8]  %11 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
+node333 [fillcolor=lightcoral,label="[5/6]  %17 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
+node332 [fillcolor=lightcoral,label="[7/8]  %14 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
 
-node335->node331 [ ]
-node331->node335 [ ]
-node335->node336 [ ]
-node335->node333 [ ]
-node335->node332 [ ]
-node333->node335 [ ]
-node332->node335 [ ]
-node336->node335 [ ]
+node333->node334 [ ]
+node332->node334 [ ]
+node334->node332 [ ]
+node334->node336 [ ]
+node336->node334 [ ]
 node335->node334 [ ]
 node334->node335 [ ]
+node331->node334 [ ]
+node334->node333 [ ]
+node334->node331 [ ]
 
 
 }

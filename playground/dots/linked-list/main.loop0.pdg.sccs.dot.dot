@@ -14,13 +14,13 @@ node349 [fillcolor=lemonchiffon,label="[3/8]  br i1 %arrayctor.done, label %arra
 node350 [fillcolor=grey,label="[4/7]  %arrayctor.cur = phi %struct.list_node* [ %array.begin, %entry ], [ %arrayctor.next, %arrayctor.loop ]",shape=rectangle,style=filled ]
 
 node350->node352 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
-node349->node349 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
-node349->node352 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
 node349->node351 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
-node351->node349 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node352->node350 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
 node349->node350 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
 node352->node351 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
-node352->node350 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node349->node349 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node349->node352 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node351->node349 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
 
 
 }

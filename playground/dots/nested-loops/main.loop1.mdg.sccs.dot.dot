@@ -32,14 +32,14 @@ node388 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/9]  %14 = load 
 node386 [fillcolor=lightcoral,label="[6/7]  %9 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
 node387 [fillcolor=lightcoral,label="[4/5]  %13 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
 
-node388->node390 [ ]
-node390->node387 [ ]
 node389->node390 [ ]
 node390->node389 [ ]
 node386->node390 [ ]
-node390->node388 [ ]
 node390->node386 [ ]
 node387->node390 [ ]
+node390->node387 [ ]
+node390->node388 [ ]
+node388->node390 [ ]
 
 
 }

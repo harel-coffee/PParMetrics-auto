@@ -2,25 +2,25 @@
 digraph G {
 
 
-node450 [fillcolor=lemonchiffon,label="[37/38]  br label %invoke.cont",shape=ellipse,style=filled ]
-node444 [fillcolor=grey,label="[29/32]  %1 = bitcast i8* %call to %struct.list_node*",shape=rectangle,style=filled ]
-node448 [fillcolor=lemonchiffon,label="[33/34]  br label %for.cond",shape=ellipse,style=filled ]
-node445 [fillcolor=lightcoral,label="[30/31]  call void @_ZN9list_nodeC2Ev(%struct.list_node* %1)",shape=ellipse,style=filled ]
-node446 [fillcolor=lightcoral,label="[1/20]  store i32 %3, i32* %value, align 8",shape=ellipse,style=filled ]
-node449 [fillcolor=lightcoral,label="[0/45]  %3 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
-node443 [fillcolor=lemonchiffon,label="[35/36]  br label %for.inc",shape=ellipse,style=filled ]
-node447 [fillcolor=lightcoral,label="[39/40]  %call = call i8* @_Znwm(i64 16) #8",shape=ellipse,style=filled ]
+node450 [fillcolor=lightcoral,label="[22/45]  %3 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
+node444 [fillcolor=lightcoral,label="[39/40]  %call = call i8* @_Znwm(i64 16) #8",shape=ellipse,style=filled ]
+node448 [fillcolor=lightcoral,label="[33/34]  call void @_ZN9list_nodeC2Ev(%struct.list_node* %1)",shape=ellipse,style=filled ]
+node445 [fillcolor=lemonchiffon,label="[20/21]  br label %invoke.cont",shape=ellipse,style=filled ]
+node446 [fillcolor=grey,label="[37/38]  %1 = bitcast i8* %call to %struct.list_node*",shape=rectangle,style=filled ]
+node449 [fillcolor=lemonchiffon,label="[31/32]  br label %for.inc",shape=ellipse,style=filled ]
+node443 [fillcolor=lemonchiffon,label="[35/36]  br label %for.cond",shape=ellipse,style=filled ]
+node447 [fillcolor=lightcoral,label="[0/19]  store i32 %3, i32* %value, align 8",shape=ellipse,style=filled ]
 
-node449->node448 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node450->node448 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node450->node445 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node450->node449 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node450->node443 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node446->node448 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
 node444->node446 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
-node449->node443 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
-node449->node445 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
-node444->node445 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
-node447->node444 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
-node449->node444 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
-node449->node446 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
-node449->node450 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
-node449->node447 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node446->node447 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node450->node444 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node450->node447 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node450->node446 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
 
 
 }

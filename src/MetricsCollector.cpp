@@ -42,6 +42,7 @@ void MetricsCollector::getAnalysisUsage(llvm::AnalysisUsage& AU) const {
     AU.addRequired<LoopInfoWrapperPass>();
     AU.addRequired<ppar::MetricPass<ppar::LoopProportionMetrics>>();
     AU.addRequired<ppar::MetricPass<ppar::LoopCohesionMetrics>>();
+    AU.addRequired<ppar::MetricPass<ppar::LoopDependenceMetrics>>();
 }
 
 llvm::StringRef MetricsCollector::getPassName() const { 
@@ -75,6 +76,9 @@ bool MetricsCollector::runOnFunction(llvm::Function& F) {
 
     MetricSet_func<ppar::LoopCohesionMetrics>* LoopCohesionMetric_func
         = (Pass::getAnalysis<ppar::MetricPass<ppar::LoopCohesionMetrics>>()).getFunctionMetrics(F); 
+
+    MetricSet_func<ppar::LoopDependenceMetrics>* LoopDependenceMetric_func
+        = (Pass::getAnalysis<ppar::MetricPass<ppar::LoopDependenceMetrics>>()).getFunctionMetrics(F); 
 
     // fill function metrics file
     FuncMetricsFile << "[ Pervasive Parallelism Metrics ]\n\n";
@@ -168,6 +172,79 @@ bool MetricsCollector::runOnFunction(llvm::Function& F) {
             }
         } else {
             FuncMetricsFile << "\tNo Loop Cohesion Metrics have been computed!\n";
+        }
+        FuncMetricsFile << "\n";
+
+        FuncMetricsFile << "Loop Dependence Metric Set:\n";
+
+        if (LoopDependenceMetric_func != nullptr) {
+            MetricSet_loop<ppar::LoopDependenceMetrics>* LoopDependenceMetrics_loop = LoopDependenceMetric_func->getLoopMetrics(L);
+            if (LoopDependenceMetrics_loop != nullptr) {
+                double Metric = -1;
+                // print payload dependencies
+                Metric = LoopDependenceMetrics_loop->getMetricValue(ppar::LoopDependenceMetrics::DependenceMetric_t::PAYLOAD_TOTAL_DEPENDENCIES_NUM);
+                if (Metric >= 0) {
+                    FuncMetricsFile << "\tpayload-total-dependencies-number: " << Metric << "\n";
+                } else {
+                    FuncMetricsFile << "\tpayload-total-dependencies-number:\n";
+                }
+                Metric = LoopDependenceMetrics_loop->getMetricValue(ppar::LoopDependenceMetrics::DependenceMetric_t::PAYLOAD_TRUE_DEPENDENCIES_NUM);
+                if (Metric >= 0) {
+                    FuncMetricsFile << "\tpayload-true-dependencies-number: " << Metric << "\n";
+                } else {
+                    FuncMetricsFile << "\tpayload-true-dependencies-number:\n";
+                }
+                Metric = LoopDependenceMetrics_loop->getMetricValue(ppar::LoopDependenceMetrics::DependenceMetric_t::PAYLOAD_ANTI_DEPENDENCIES_NUM);
+                if (Metric >= 0) {
+                    FuncMetricsFile << "\tpayload-anti-dependencies-number: " << Metric << "\n";
+                } else {
+                    FuncMetricsFile << "\tpayload-anti-dependencies-number:\n";
+                }
+                Metric = LoopDependenceMetrics_loop->getMetricValue(ppar::LoopDependenceMetrics::DependenceMetric_t::PAYLOAD_OUTPUT_DEPENDENCIES_NUM);
+                if (Metric >= 0) {
+                    FuncMetricsFile << "\tpayload-output-dependencies-number: " << Metric << "\n";
+                } else {
+                    FuncMetricsFile << "\tpayload-output-dependencies-number:\n";
+                }
+                // print critical payload dependencies
+                Metric = LoopDependenceMetrics_loop->getMetricValue(ppar::LoopDependenceMetrics::DependenceMetric_t::CRITICAL_PAYLOAD_TOTAL_DEPENDENCIES_NUM);
+                if (Metric >= 0) {
+                    FuncMetricsFile << "\tcritical-payload-total-dependencies-number: " << Metric << "\n";
+                } else {
+                    FuncMetricsFile << "\tcritical-payload-total-dependencies-number:\n";
+                }
+                Metric = LoopDependenceMetrics_loop->getMetricValue(ppar::LoopDependenceMetrics::DependenceMetric_t::CRITICAL_PAYLOAD_TRUE_DEPENDENCIES_NUM);
+                if (Metric >= 0) {
+                    FuncMetricsFile << "\tcritical-payload-true-dependencies-number: " << Metric << "\n";
+                } else {
+                    FuncMetricsFile << "\tcritical-payload-true-dependencies-number:\n";
+                }
+                Metric = LoopDependenceMetrics_loop->getMetricValue(ppar::LoopDependenceMetrics::DependenceMetric_t::CRITICAL_PAYLOAD_ANTI_DEPENDENCIES_NUM);
+                if (Metric >= 0) {
+                    FuncMetricsFile << "\tcritical-payload-anti-dependencies-number: " << Metric << "\n";
+                } else {
+                    FuncMetricsFile << "\tcritical-payload-anti-dependencies-number:\n";
+                }
+                Metric = LoopDependenceMetrics_loop->getMetricValue(ppar::LoopDependenceMetrics::DependenceMetric_t::CRITICAL_PAYLOAD_OUTPUT_DEPENDENCIES_NUM);
+                if (Metric >= 0) {
+                    FuncMetricsFile << "\tcritical-payload-output-dependencies-number: " << Metric << "\n";
+                } else {
+                    FuncMetricsFile << "\tcritical-payload-output-dependencies-number:\n";
+                }
+            } else {
+                // print payload dependencies
+                FuncMetricsFile << "\tpayload-total-dependencies-number:\n";
+                FuncMetricsFile << "\tpayload-true-dependencies-number:\n";
+                FuncMetricsFile << "\tpayload-anti-dependencies-number:\n";
+                FuncMetricsFile << "\tpayload-output-dependencies-number:\n";
+                // print critical payload dependencies
+                FuncMetricsFile << "\tcritical-payload-total-dependencies-number:\n";
+                FuncMetricsFile << "\tcritical-payload-true-dependencies-number:\n";
+                FuncMetricsFile << "\tcritical-payload-anti-dependencies-number:\n";
+                FuncMetricsFile << "\tcritical-payload-output-dependencies-number:\n";
+            }
+        } else {
+            FuncMetricsFile << "\tNo Loop Dependence Metrics have been computed!\n";
         }
         FuncMetricsFile << "\n";
     }

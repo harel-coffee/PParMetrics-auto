@@ -12,18 +12,18 @@ node58 [fillcolor=lightcoral,label="[14/15]  store i32 %add, i32* %arrayidx3, al
 node60 [fillcolor=lightcoral,label="[1/2]  %0 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
 node62 [fillcolor=lightcoral,label="[7/8]  %2 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
 
-node57->node64 [ ]
-node64->node57 [ ]
+node57->node65 [ ]
 node57->node62 [ ]
-node57->node61 [ ]
 node62->node57 [ ]
-node61->node57 [ ]
+node57->node64 [ ]
+node65->node57 [ ]
+node57->node59 [ ]
+node57->node61 [ ]
+node59->node57 [ ]
 node57->node60 [ ]
 node60->node57 [ ]
-node57->node59 [ ]
-node65->node57 [ ]
-node57->node65 [ ]
-node59->node57 [ ]
+node61->node57 [ ]
+node64->node57 [ ]
 
 
 }

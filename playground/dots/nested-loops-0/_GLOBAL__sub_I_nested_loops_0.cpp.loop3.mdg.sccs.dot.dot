@@ -17,23 +17,23 @@ node563 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[12/13]  store i32
 subgraph cluster0 {
 
 
-node554 [fillcolor=lightcoral,label="[5/6]  %14 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
-node556 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/11]  store i32 %inc35, i32* %j, align 4",shape=ellipse,style=filled ]
+node554 [fillcolor=lightcoral,label="[5/6]  %17 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
+node556 [fillcolor=lightcoral,label="[3/4]  %11 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
 node552 [fillcolor=lightcoral,label="[9/10]  %18 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
 node557 [fillcolor=lightcoral,label="[1/2]  %9 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
-node555 [fillcolor=lightcoral,label="[3/4]  %17 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
-node553 [fillcolor=lightcoral,label="[7/8]  %11 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
+node555 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/11]  store i32 %inc35, i32* %j, align 4",shape=ellipse,style=filled ]
+node553 [fillcolor=lightcoral,label="[7/8]  %14 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
 
-node553->node556 [ ]
-node556->node553 [ ]
-node556->node557 [ ]
-node557->node556 [ ]
-node556->node554 [ ]
+node555->node554 [ ]
+node554->node555 [ ]
+node555->node553 [ ]
+node557->node555 [ ]
+node553->node555 [ ]
 node556->node555 [ ]
 node555->node556 [ ]
-node556->node552 [ ]
-node552->node556 [ ]
-node554->node556 [ ]
+node555->node557 [ ]
+node555->node552 [ ]
+node552->node555 [ ]
 
 
 }

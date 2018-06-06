@@ -2,57 +2,20 @@
 digraph G {
 
 
-node91 [label="[19/20]
+node91 [label="[21/22]
 for.inc46:                                        ; preds = %for.body39
   %21 = load i32, i32* %j, align 4
   %inc47 = add nsw i32 %21, 1
   store i32 %inc47, i32* %j, align 4
   br label %for.cond37
 ",shape=rectangle ]
-node89 [label="[29/34]
+node89 [label="[31/36]
 for.cond1:                                        ; preds = %for.inc, %for.body
   %1 = load i32, i32* %j, align 4
   %cmp2 = icmp slt i32 %1, 100
   br i1 %cmp2, label %for.body3, label %for.end
 ",shape=rectangle ]
-node88 [label="[37/38]
-for.end:                                          ; preds = %for.cond1
-  br label %for.inc13
-",shape=rectangle ]
-node87 [label="[42/43]
-for.body18:                                       ; preds = %for.cond16
-  store i32 0, i32* %j, align 4
-  br label %for.cond19
-",shape=rectangle ]
-node75 [label="[10/11]
-for.end33:                                        ; preds = %for.cond16
-  store i32 0, i32* %i, align 4
-  br label %for.cond34
-",shape=rectangle ]
-node93 [label="[48/49]
-for.cond34:                                       ; preds = %for.inc50, %for.end33
-  %16 = load i32, i32* %i, align 4
-  %cmp35 = icmp slt i32 %16, 100
-  br i1 %cmp35, label %for.body36, label %for.end52
-",shape=rectangle ]
-node73 [label="[6/7]
-for.end30:                                        ; preds = %for.cond19
-  br label %for.inc31
-",shape=rectangle ]
-node86 [label="[32/33]
-for.inc:                                          ; preds = %for.body3
-  %6 = load i32, i32* %j, align 4
-  %inc = add nsw i32 %6, 1
-  store i32 %inc, i32* %j, align 4
-  br label %for.cond1
-",shape=rectangle ]
-node74 [label="[8/9]
-for.cond19:                                       ; preds = %for.inc28, %for.body18
-  %9 = load i32, i32* %j, align 4
-  %cmp20 = icmp slt i32 %9, 100
-  br i1 %cmp20, label %for.body21, label %for.end30
-",shape=rectangle ]
-node90 [label="[30/31]
+node88 [label="[32/33]
 for.body3:                                        ; preds = %for.cond1
   %call4 = call i32 @rand() #3
   %rem = srem i32 %call4, 10
@@ -73,6 +36,43 @@ for.body3:                                        ; preds = %for.cond1
   %arrayidx12 = getelementptr inbounds [100 x i32], [100 x i32]* %arrayidx10, i64 0, i64 %idxprom11
   store i32 %rem8, i32* %arrayidx12, align 4
   br label %for.inc
+",shape=rectangle ]
+node87 [label="[34/35]
+for.inc:                                          ; preds = %for.body3
+  %6 = load i32, i32* %j, align 4
+  %inc = add nsw i32 %6, 1
+  store i32 %inc, i32* %j, align 4
+  br label %for.cond1
+",shape=rectangle ]
+node75 [label="[10/11]
+for.end33:                                        ; preds = %for.cond16
+  store i32 0, i32* %i, align 4
+  br label %for.cond34
+",shape=rectangle ]
+node93 [label="[48/49]
+for.cond34:                                       ; preds = %for.inc50, %for.end33
+  %16 = load i32, i32* %i, align 4
+  %cmp35 = icmp slt i32 %16, 100
+  br i1 %cmp35, label %for.body36, label %for.end52
+",shape=rectangle ]
+node73 [label="[6/7]
+for.end30:                                        ; preds = %for.cond19
+  br label %for.inc31
+",shape=rectangle ]
+node86 [label="[42/43]
+for.end15:                                        ; preds = %for.cond
+  store i32 0, i32* %i, align 4
+  br label %for.cond16
+",shape=rectangle ]
+node74 [label="[8/9]
+for.cond19:                                       ; preds = %for.inc28, %for.body18
+  %9 = load i32, i32* %j, align 4
+  %cmp20 = icmp slt i32 %9, 100
+  br i1 %cmp20, label %for.body21, label %for.end30
+",shape=rectangle ]
+node90 [label="[39/40]
+for.end:                                          ; preds = %for.cond1
+  br label %for.inc13
 ",shape=rectangle ]
 node72 [label="[4/5]
 for.body21:                                       ; preds = %for.cond19
@@ -128,27 +128,28 @@ for.body36:                                       ; preds = %for.cond34
   store i32 0, i32* %j, align 4
   br label %for.cond37
 ",shape=rectangle ]
-node83 [label="[35/36]
-for.inc13:                                        ; preds = %for.end
-  %7 = load i32, i32* %i, align 4
-  %inc14 = add nsw i32 %7, 1
-  store i32 %inc14, i32* %i, align 4
-  br label %for.cond
+node83 [label="[28/41]
+for.cond:                                         ; preds = %for.inc13, %entry
+  %0 = load i32, i32* %i, align 4
+  %cmp = icmp slt i32 %0, 100
+  br i1 %cmp, label %for.body, label %for.end15
 ",shape=rectangle ]
-node80 [label="[22/23]
-for.end52:                                        ; preds = %for.cond34
-  ret i32 0
-",shape=rectangle ]
-node79 [label="[18/21]
+node80 [label="[20/23]
 for.cond37:                                       ; preds = %for.inc46, %for.body36
   %17 = load i32, i32* %j, align 4
   %cmp38 = icmp slt i32 %17, 100
   br i1 %cmp38, label %for.body39, label %for.end48
 ",shape=rectangle ]
-node84 [label="[27/28]
-for.body:                                         ; preds = %for.cond
-  store i32 0, i32* %j, align 4
-  br label %for.cond1
+node79 [label="[18/19]
+for.end52:                                        ; preds = %for.cond34
+  ret i32 0
+",shape=rectangle ]
+node84 [label="[37/38]
+for.inc13:                                        ; preds = %for.end
+  %7 = load i32, i32* %i, align 4
+  %inc14 = add nsw i32 %7, 1
+  store i32 %inc14, i32* %i, align 4
+  br label %for.cond
 ",shape=rectangle ]
 node81 [label="[24/25]
 entry:
@@ -177,42 +178,41 @@ for.end48:                                        ; preds = %for.cond37
   %call49 = call dereferenceable(272) %"class.std::basic_ostream"* @_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc(%"class.std::basic_ostream"* dereferenceable(272) @_ZSt4cout, i8* getelementptr inbounds ([2 x i8], [2 x i8]* @.str.1, i32 0, i32 0))
   br label %for.inc50
 ",shape=rectangle ]
-node82 [label="[26/39]
-for.cond:                                         ; preds = %for.inc13, %entry
-  %0 = load i32, i32* %i, align 4
-  %cmp = icmp slt i32 %0, 100
-  br i1 %cmp, label %for.body, label %for.end15
+node82 [label="[26/27]
+for.body18:                                       ; preds = %for.cond16
+  store i32 0, i32* %j, align 4
+  br label %for.cond19
 ",shape=rectangle ]
-node85 [label="[40/41]
-for.end15:                                        ; preds = %for.cond
-  store i32 0, i32* %i, align 4
-  br label %for.cond16
+node85 [label="[29/30]
+for.body:                                         ; preds = %for.cond
+  store i32 0, i32* %j, align 4
+  br label %for.cond1
 ",shape=rectangle ]
 
-node82->node88 [ ]
-node82->node89 [ ]
-node89->node90 [ ]
-node74->node71 [ ]
-node92->node74 [ ]
-node92->node92 [ ]
-node74->node72 [ ]
-node93->node77 [ ]
-node79->node76 [ ]
+node83->node90 [ ]
 node93->node70 [ ]
+node92->node82 [ ]
+node89->node87 [ ]
+node92->node74 [ ]
+node83->node85 [ ]
+node80->node91 [ ]
+node74->node72 [ ]
+node83->node83 [ ]
+node74->node71 [ ]
+node80->node76 [ ]
 node74->node74 [ ]
 node92->node94 [ ]
+node89->node88 [ ]
 node93->node78 [ ]
-node93->node79 [ ]
-node82->node82 [ ]
-node92->node87 [ ]
-node89->node89 [ ]
-node89->node86 [ ]
+node83->node84 [ ]
 node92->node73 [ ]
-node79->node79 [ ]
-node82->node84 [ ]
-node82->node83 [ ]
+node80->node80 [ ]
 node93->node93 [ ]
-node79->node91 [ ]
+node89->node89 [ ]
+node93->node80 [ ]
+node92->node92 [ ]
+node93->node77 [ ]
+node83->node89 [ ]
 
 
 }

@@ -12,18 +12,18 @@ node124 [fillcolor=lightcoral,label="[1/2]  %4 = load i32, i32* %i6, align 4",sh
 node125 [fillcolor=lightcoral,label="[9/10]  %5 = load i32, i32* %i6, align 4",shape=ellipse,style=filled ]
 node126 [fillcolor=lightcoral,label="[3/4]  %9 = load i32, i32* %i6, align 4",shape=ellipse,style=filled ]
 
-node121->node125 [ ]
-node125->node121 [ ]
-node127->node121 [ ]
 node121->node126 [ ]
 node126->node121 [ ]
+node121->node125 [ ]
+node125->node121 [ ]
+node121->node122 [ ]
 node123->node128 [ ]
 node128->node123 [ ]
 node121->node124 [ ]
 node124->node121 [ ]
-node121->node122 [ ]
-node121->node127 [ ]
+node127->node121 [ ]
 node122->node121 [ ]
+node121->node127 [ ]
 
 
 }

@@ -9,10 +9,8 @@ while.end11:                                      ; preds = %while.cond5
   br i1 %isnull12, label %delete.end14, label %delete.notnull13
 ",shape=rectangle ]
 node28 [label="[14/15]
-delete.notnull:                                   ; preds = %if.then
-  %21 = bitcast %struct.list_node* %20 to i8*
-  call void @_ZdlPv(i8* %21) #9
-  br label %delete.end
+delete.end:                                       ; preds = %delete.notnull, %if.then
+  br label %if.end
 ",shape=rectangle ]
 node25 [label="[4/11]
 for.cond:                                         ; preds = %for.inc, %entry
@@ -27,8 +25,20 @@ delete.notnull13:                                 ; preds = %while.end11
   br label %delete.end14
 ",shape=rectangle ]
 node29 [label="[16/17]
-delete.end:                                       ; preds = %delete.notnull, %if.then
-  br label %if.end
+entry:
+  %retval = alloca i32, align 4
+  %begin = alloca %struct.list_node, align 8
+  %list_it = alloca %struct.list_node*, align 8
+  %i = alloca i32, align 4
+  %exn.slot = alloca i8*
+  %ehselector.slot = alloca i32
+  %sum = alloca i32, align 4
+  %prev_it = alloca %struct.list_node*, align 8
+  store i32 0, i32* %retval, align 4
+  call void @_ZN9list_nodeC2Ev(%struct.list_node* %begin)
+  store %struct.list_node* %begin, %struct.list_node** %list_it, align 8
+  store i32 1, i32* %i, align 4
+  br label %for.cond
 ",shape=rectangle ]
 node33 [label="[7/8]
 invoke.cont:                                      ; preds = %for.body
@@ -58,17 +68,15 @@ delete.end14:                                     ; preds = %delete.notnull13, %
   %call15 = call dereferenceable(272) %"class.std::basic_ostream"* @_ZNSolsEi(%"class.std::basic_ostream"* @_ZSt4cout, i32 %24)
   ret i32 0
 ",shape=rectangle ]
-node35 [label="[30/31]
+node35 [label="[26/27]
 for.end:                                          ; preds = %for.cond
   store i32 0, i32* %sum, align 4
   store %struct.list_node* %begin, %struct.list_node** %list_it, align 8
   br label %while.cond
 ",shape=rectangle ]
-node30 [label="[18/21]
-while.cond:                                       ; preds = %while.body, %for.end
-  %8 = load %struct.list_node*, %struct.list_node** %list_it, align 8
-  %cmp2 = icmp ne %struct.list_node* %8, null
-  br i1 %cmp2, label %while.body, label %while.end
+node30 [label="[18/19]
+if.end:                                           ; preds = %delete.end, %while.body8
+  br label %while.cond5
 ",shape=rectangle ]
 node32 [label="[5/6]
 for.body:                                         ; preds = %for.cond
@@ -78,11 +86,12 @@ for.body:                                         ; preds = %for.cond
   br label %invoke.cont
 ",shape=rectangle ]
 node38 [label="[32/33]
-while.end:                                        ; preds = %while.cond
-  store %struct.list_node* %begin, %struct.list_node** %list_it, align 8
-  br label %while.cond5
+while.cond:                                       ; preds = %while.body, %for.end
+  %8 = load %struct.list_node*, %struct.list_node** %list_it, align 8
+  %cmp2 = icmp ne %struct.list_node* %8, null
+  br i1 %cmp2, label %while.body, label %while.end
 ",shape=rectangle ]
-node39 [label="[27/28]
+node39 [label="[23/24]
 while.body8:                                      ; preds = %while.cond5
   %16 = load %struct.list_node*, %struct.list_node** %list_it, align 8
   store %struct.list_node* %16, %struct.list_node** %prev_it, align 8
@@ -94,29 +103,19 @@ while.body8:                                      ; preds = %while.cond5
   %cmp10 = icmp ne %struct.list_node* %19, %begin
   br i1 %cmp10, label %if.then, label %if.end
 ",shape=rectangle ]
-node31 [label="[22/23]
+node31 [label="[20/21]
 if.then:                                          ; preds = %while.body8
   %20 = load %struct.list_node*, %struct.list_node** %prev_it, align 8
   %isnull = icmp eq %struct.list_node* %20, null
   br i1 %isnull, label %delete.end, label %delete.notnull
 ",shape=rectangle ]
 node27 [label="[12/13]
-entry:
-  %retval = alloca i32, align 4
-  %begin = alloca %struct.list_node, align 8
-  %list_it = alloca %struct.list_node*, align 8
-  %i = alloca i32, align 4
-  %exn.slot = alloca i8*
-  %ehselector.slot = alloca i32
-  %sum = alloca i32, align 4
-  %prev_it = alloca %struct.list_node*, align 8
-  store i32 0, i32* %retval, align 4
-  call void @_ZN9list_nodeC2Ev(%struct.list_node* %begin)
-  store %struct.list_node* %begin, %struct.list_node** %list_it, align 8
-  store i32 1, i32* %i, align 4
-  br label %for.cond
+delete.notnull:                                   ; preds = %if.then
+  %21 = bitcast %struct.list_node* %20 to i8*
+  call void @_ZdlPv(i8* %21) #9
+  br label %delete.end
 ",shape=rectangle ]
-node36 [label="[19/20]
+node36 [label="[28/29]
 while.body:                                       ; preds = %while.cond
   %9 = load %struct.list_node*, %struct.list_node** %list_it, align 8
   %value3 = getelementptr inbounds %struct.list_node, %struct.list_node* %9, i32 0, i32 0
@@ -130,7 +129,7 @@ while.body:                                       ; preds = %while.cond
   store %struct.list_node* %13, %struct.list_node** %list_it, align 8
   br label %while.cond
 ",shape=rectangle ]
-node34 [label="[24/29]
+node34 [label="[22/25]
 while.cond5:                                      ; preds = %if.end, %while.end
   %14 = load %struct.list_node*, %struct.list_node** %list_it, align 8
   %next6 = getelementptr inbounds %struct.list_node, %struct.list_node* %14, i32 0, i32 1
@@ -138,24 +137,25 @@ while.cond5:                                      ; preds = %if.end, %while.end
   %cmp7 = icmp ne %struct.list_node* %15, null
   br i1 %cmp7, label %while.body8, label %while.end11
 ",shape=rectangle ]
-node37 [label="[25/26]
-if.end:                                           ; preds = %delete.end, %while.body8
+node37 [label="[30/31]
+while.end:                                        ; preds = %while.cond
+  store %struct.list_node* %begin, %struct.list_node** %list_it, align 8
   br label %while.cond5
 ",shape=rectangle ]
 
-node31->node28 [ ]
-node39->node29 [ ]
-node25->node25 [ ]
-node30->node30 [ ]
-node39->node31 [ ]
-node34->node39 [ ]
-node34->node37 [ ]
 node25->node33 [ ]
-node40->node23 [ ]
-node25->node32 [ ]
-node25->node26 [ ]
+node25->node25 [ ]
+node38->node38 [ ]
 node34->node34 [ ]
-node30->node36 [ ]
+node25->node32 [ ]
+node40->node23 [ ]
+node31->node27 [ ]
+node34->node39 [ ]
+node25->node26 [ ]
+node34->node30 [ ]
+node39->node31 [ ]
+node38->node36 [ ]
+node39->node28 [ ]
 
 
 }

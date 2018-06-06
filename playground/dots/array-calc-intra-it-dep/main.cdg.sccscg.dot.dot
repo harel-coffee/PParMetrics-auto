@@ -3,12 +3,12 @@ digraph G {
 
 
 
-node42->node39 [ ]
-node42->node44 [ ]
+node43->node43 [ ]
+node43->node44 [ ]
 node42->node42 [ ]
-node41->node41 [ ]
-node41->node36 [ ]
-node41->node37 [ ]
+node43->node39 [ ]
+node42->node36 [ ]
+node42->node37 [ ]
 
 
 subgraph cluster8 {
@@ -29,19 +29,11 @@ for.inc:                                          ; preds = %for.body
 subgraph cluster7 {
 
 
-node43 [penwidth=3.0,fontsize=20,shape=rectangle,label="[12/13]
-entry:
-  %retval = alloca i32, align 4
-  %a = alloca [100 x i32], align 16
-  %b = alloca [100 x i32], align 16
-  %i = alloca i32, align 4
-  %i6 = alloca i32, align 4
-  store i32 0, i32* %retval, align 4
-  %call = call i64 @time(i64* null) #2
-  %conv = trunc i64 %call to i32
-  call void @srand(i32 %conv) #2
-  store i32 0, i32* %i, align 4
-  br label %for.cond
+node43 [penwidth=3.0,fontsize=20,shape=rectangle,label="[6/11]
+for.cond:                                         ; preds = %for.inc, %entry
+  %0 = load i32, i32* %i, align 4
+  %cmp = icmp ult i32 %0, 100
+  br i1 %cmp, label %for.body, label %for.end
 " ]
 
 
@@ -51,11 +43,11 @@ entry:
 subgraph cluster6 {
 
 
-node42 [penwidth=3.0,fontsize=20,shape=rectangle,label="[6/11]
-for.cond:                                         ; preds = %for.inc, %entry
-  %0 = load i32, i32* %i, align 4
-  %cmp = icmp ult i32 %0, 100
-  br i1 %cmp, label %for.body, label %for.end
+node42 [penwidth=3.0,fontsize=20,shape=rectangle,label="[4/5]
+for.cond7:                                        ; preds = %for.inc16, %for.end
+  %4 = load i32, i32* %i6, align 4
+  %cmp8 = icmp ult i32 %4, 100
+  br i1 %cmp8, label %for.body9, label %for.end18
 " ]
 
 
@@ -90,11 +82,19 @@ for.body9:                                        ; preds = %for.cond7
 subgraph cluster5 {
 
 
-node41 [penwidth=3.0,fontsize=20,shape=rectangle,label="[4/5]
-for.cond7:                                        ; preds = %for.inc16, %for.end
-  %4 = load i32, i32* %i6, align 4
-  %cmp8 = icmp ult i32 %4, 100
-  br i1 %cmp8, label %for.body9, label %for.end18
+node41 [penwidth=3.0,fontsize=20,shape=rectangle,label="[12/13]
+entry:
+  %retval = alloca i32, align 4
+  %a = alloca [100 x i32], align 16
+  %b = alloca [100 x i32], align 16
+  %i = alloca i32, align 4
+  %i6 = alloca i32, align 4
+  store i32 0, i32* %retval, align 4
+  %call = call i64 @time(i64* null) #2
+  %conv = trunc i64 %call to i32
+  call void @srand(i32 %conv) #2
+  store i32 0, i32* %i, align 4
+  br label %for.cond
 " ]
 
 

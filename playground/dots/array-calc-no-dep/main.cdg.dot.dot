@@ -38,11 +38,19 @@ for.cond:                                         ; preds = %for.inc, %entry
   br i1 %cmp, label %for.body, label %for.end
 ",shape=rectangle ]
 node3 [label="
-for.inc16:                                        ; preds = %for.body9
-  %10 = load i32, i32* %i6, align 4
-  %inc17 = add i32 %10, 1
-  store i32 %inc17, i32* %i6, align 4
-  br label %for.cond7
+entry:
+  %retval = alloca i32, align 4
+  %a = alloca [100 x i32], align 16
+  %b = alloca [100 x i32], align 16
+  %c = alloca [100 x i32], align 16
+  %i = alloca i32, align 4
+  %i6 = alloca i32, align 4
+  store i32 0, i32* %retval, align 4
+  %call = call i64 @time(i64* null) #2
+  %conv = trunc i64 %call to i32
+  call void @srand(i32 %conv) #2
+  store i32 0, i32* %i, align 4
+  br label %for.cond
 ",shape=rectangle ]
 node0 [label="
 for.cond7:                                        ; preds = %for.inc16, %for.end
@@ -55,6 +63,13 @@ for.end18:                                        ; preds = %for.cond7
   ret i32 0
 ",shape=rectangle ]
 node4 [label="
+for.inc16:                                        ; preds = %for.body9
+  %10 = load i32, i32* %i6, align 4
+  %inc17 = add i32 %10, 1
+  store i32 %inc17, i32* %i6, align 4
+  br label %for.cond7
+",shape=rectangle ]
+node5 [label="
 for.body:                                         ; preds = %for.cond
   %call1 = call i32 @rand() #2
   %rem = urem i32 %call1, 10
@@ -70,27 +85,12 @@ for.body:                                         ; preds = %for.cond
   store i32 %rem3, i32* %arrayidx5, align 4
   br label %for.inc
 ",shape=rectangle ]
-node5 [label="
-entry:
-  %retval = alloca i32, align 4
-  %a = alloca [100 x i32], align 16
-  %b = alloca [100 x i32], align 16
-  %c = alloca [100 x i32], align 16
-  %i = alloca i32, align 4
-  %i6 = alloca i32, align 4
-  store i32 0, i32* %retval, align 4
-  %call = call i64 @time(i64* null) #2
-  %conv = trunc i64 %call to i32
-  call void @srand(i32 %conv) #2
-  store i32 0, i32* %i, align 4
-  br label %for.cond
-",shape=rectangle ]
 
-node2->node4 [ ]
+node0->node4 [ ]
 node2->node2 [ ]
+node2->node5 [ ]
 node0->node0 [ ]
 node2->node1 [ ]
-node0->node3 [ ]
 node0->node7 [ ]
 
 

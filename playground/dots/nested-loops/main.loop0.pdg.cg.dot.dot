@@ -16,21 +16,21 @@ node925 [fillcolor=grey,label="[54/55]  %idxprom5 = sext i32 %3 to i64",shape=re
 node920 [fillcolor=grey,label="[40/41]  %inc = add nsw i32 %6, 1",shape=rectangle,style=filled ]
 node939 [fillcolor=lemonchiffon,label="[66/67]  br i1 %cmp2, label %for.body3, label %for.end",shape=ellipse,style=filled ]
 node921 [fillcolor=grey,label="[42/43]  %cmp2 = icmp slt i32 %1, 100",shape=rectangle,style=filled ]
-node941 [fillcolor=lemonchiffon,label="[11/12]  br label %for.inc13",shape=ellipse,style=filled ]
+node941 [fillcolor=lemonchiffon,label="[21/22]  br label %for.inc13",shape=ellipse,style=filled ]
 node927 [fillcolor=grey,label="[56/57]  %idxprom9 = sext i32 %4 to i64",shape=rectangle,style=filled ]
-node938 [fillcolor=lemonchiffon,label="[27/28]  br label %for.cond1",shape=ellipse,style=filled ]
+node938 [fillcolor=lemonchiffon,label="[25/26]  br label %for.cond1",shape=ellipse,style=filled ]
 node930 [fillcolor=grey,label="[60/61]  %arrayidx12 = getelementptr inbounds [100 x i32], [100 x i32]* %arrayidx10, i64 0, i64 %idxprom11",shape=rectangle,style=filled ]
 node928 [fillcolor=grey,label="[34/35]  %rem = srem i32 %call4, 10",shape=rectangle,style=filled ]
 node932 [fillcolor=lemonchiffon,label="[38/39]  br label %for.cond1",shape=ellipse,style=filled ]
-node933 [fillcolor=lemonchiffon,label="[13/14]  br label %for.cond",shape=ellipse,style=filled ]
+node933 [fillcolor=lemonchiffon,label="[23/24]  br label %for.cond",shape=ellipse,style=filled ]
 node934 [fillcolor=lightcoral,label="[0/33]  %2 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
-node931 [fillcolor=lightcoral,label="[15/26]  store i32 0, i32* %j, align 4",shape=ellipse,style=filled ]
+node931 [fillcolor=lightcoral,label="[9/20]  store i32 0, i32* %j, align 4",shape=ellipse,style=filled ]
 node935 [fillcolor=lightcoral,label="[62/63]  %call7 = call i32 @rand() #3",shape=ellipse,style=filled ]
 
-node934->node931 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
-node934->node938 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
-node934->node941 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
 node934->node933 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node934->node938 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node934->node931 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node934->node941 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
 
 
 }

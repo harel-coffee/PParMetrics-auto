@@ -25,15 +25,15 @@ node213 [fillcolor=lightcoral,label="[3/4]  %1 = load i32, i32* %i, align 4",sha
 node210 [fillcolor=lightcoral,label="[7/8]  %3 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
 
 node212->node211 [ ]
-node212->node209 [ ]
-node209->node212 [ ]
-node212->node214 [ ]
-node210->node212 [ ]
 node211->node212 [ ]
 node212->node210 [ ]
+node210->node212 [ ]
+node212->node214 [ ]
 node214->node212 [ ]
+node212->node209 [ ]
 node213->node212 [ ]
 node212->node213 [ ]
+node209->node212 [ ]
 
 
 }

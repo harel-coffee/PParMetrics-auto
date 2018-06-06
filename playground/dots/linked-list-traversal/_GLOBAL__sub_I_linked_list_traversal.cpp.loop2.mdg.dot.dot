@@ -11,14 +11,14 @@ node504 [fillcolor=lightcoral,label="  %8 = load %struct.list_node*, %struct.lis
 node505 [fillcolor=lightcoral,label="  %10 = load i32, i32* %value3, align 8",shape=ellipse,style=filled ]
 node506 [fillcolor=lightcoral,label="  %9 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
 
-node502->node509 [ ]
-node509->node502 [ ]
-node506->node502 [ ]
-node502->node506 [ ]
 node508->node507 [ ]
-node504->node502 [ ]
+node506->node502 [ ]
 node507->node508 [ ]
+node504->node502 [ ]
+node502->node506 [ ]
+node509->node502 [ ]
 node502->node504 [ ]
+node502->node509 [ ]
 
 
 }

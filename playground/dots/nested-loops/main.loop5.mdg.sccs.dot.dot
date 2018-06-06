@@ -23,18 +23,18 @@ node544 [fillcolor=lightcoral,label="[4/5]  %19 = load i32, i32* %j, align 4",sh
 node547 [fillcolor=lightcoral,label="[3/6]  store i32 0, i32* %j, align 4",shape=ellipse,style=filled ]
 node545 [fillcolor=lightcoral,label="[2/7]  %17 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
 
-node545->node547 [ ]
-node547->node545 [ ]
 node546->node548 [ ]
 node548->node546 [ ]
 node546->node547 [ ]
-node547->node546 [ ]
 node544->node548 [ ]
-node548->node544 [ ]
-node547->node544 [ ]
-node548->node545 [ ]
 node545->node548 [ ]
+node548->node545 [ ]
 node544->node547 [ ]
+node547->node544 [ ]
+node547->node545 [ ]
+node545->node547 [ ]
+node547->node546 [ ]
+node548->node544 [ ]
 
 
 }
@@ -47,10 +47,10 @@ node551 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[12/19]  %16 = loa
 node549 [fillcolor=lightcoral,label="[16/17]  %18 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
 node550 [fillcolor=lightcoral,label="[14/15]  %22 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
 
-node552->node550 [ ]
 node550->node552 [ ]
 node549->node552 [ ]
 node552->node549 [ ]
+node552->node550 [ ]
 node552->node551 [ ]
 node551->node552 [ ]
 

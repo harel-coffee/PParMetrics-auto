@@ -89,24 +89,24 @@ node2264 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[0/1]  br label
 subgraph cluster6 {
 
 
-node2274 [fillcolor=lightcoral,label="[17/24]  %17 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
+node2274 [fillcolor=lightcoral,label="[17/24]  %21 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
 node2273 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[16/25]  store i32 0, i32* %j, align 4",shape=ellipse,style=filled ]
-node2270 [fillcolor=lightcoral,label="[21/22]  %19 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
+node2270 [fillcolor=lightcoral,label="[21/22]  %17 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
 node2272 [fillcolor=lightcoral,label="[18/23]  store i32 %inc47, i32* %j, align 4",shape=ellipse,style=filled ]
-node2271 [fillcolor=lightcoral,label="[19/20]  %21 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
+node2271 [fillcolor=lightcoral,label="[19/20]  %19 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
 
-node2272->node2271 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
 node2271->node2273 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
-node2273->node2274 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
-node2272->node2274 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node2272->node2271 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
 node2272->node2270 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
-node2274->node2272 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node2273->node2274 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
 node2273->node2270 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node2270->node2272 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node2274->node2273 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
 node2271->node2272 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
 node2273->node2271 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
 node2270->node2273 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
-node2274->node2273 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
-node2270->node2272 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node2274->node2272 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node2272->node2274 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
 
 
 }
@@ -123,21 +123,21 @@ node2286 [fillcolor=grey,label="[4/5]  %inc51 = add nsw i32 %22, 1",shape=rectan
 node2287 [fillcolor=lemonchiffon,label="[11/28]  br i1 %cmp35, label %for.body36, label %for.end52",shape=ellipse,style=filled ]
 
 node2283->node2288 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
-node2288->node2283 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
 node2284->node2283 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node2288->node2283 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
 node2283->node2282 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
 node2282->node2283 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
-node2287->node2287 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
-node2287->node2286 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
-node2286->node2283 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
-node2287->node2288 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
-node2288->node2286 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
-node2287->node2283 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
-node2287->node2282 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
 node2283->node2284 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
 node2287->node2285 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
-node2282->node2285 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
 node2285->node2287 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node2282->node2285 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node2287->node2286 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node2287->node2287 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node2287->node2282 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node2286->node2283 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node2288->node2286 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node2287->node2283 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node2287->node2288 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
 
 
 }

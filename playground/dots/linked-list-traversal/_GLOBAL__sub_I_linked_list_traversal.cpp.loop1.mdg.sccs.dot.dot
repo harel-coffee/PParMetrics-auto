@@ -14,9 +14,9 @@ node489 [fillcolor=lightcoral,label="[12/13]  %17 = load %struct.list_node*, %st
 node490 [fillcolor=lightcoral,label="[10/11]  %14 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
 
 node490->node492 [ ]
-node492->node490 [ ]
 node489->node492 [ ]
 node492->node489 [ ]
+node492->node490 [ ]
 node492->node491 [ ]
 node491->node492 [ ]
 
@@ -35,8 +35,14 @@ node488 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[16/17]  %18 = loa
 subgraph cluster0 {
 
 
-node484 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[6/7]  %15 = load %struct.list_node*, %struct.list_node** %next6, align 8",shape=ellipse,style=filled ]
+node486 [fillcolor=lightcoral,label="[1/4]  store %struct.list_node* %16, %struct.list_node** %prev_it, align 8",shape=ellipse,style=filled ]
+node484 [fillcolor=lightcoral,label="[2/3]  %19 = load %struct.list_node*, %struct.list_node** %prev_it, align 8",shape=ellipse,style=filled ]
+node485 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/5]  %20 = load %struct.list_node*, %struct.list_node** %prev_it, align 8",shape=ellipse,style=filled ]
 
+node486->node485 [ ]
+node486->node484 [ ]
+node485->node486 [ ]
+node484->node486 [ ]
 
 
 }
@@ -44,14 +50,8 @@ node484 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[6/7]  %15 = load 
 subgraph cluster1 {
 
 
-node487 [fillcolor=lightcoral,label="[1/4]  store %struct.list_node* %16, %struct.list_node** %prev_it, align 8",shape=ellipse,style=filled ]
-node485 [fillcolor=lightcoral,label="[2/3]  %20 = load %struct.list_node*, %struct.list_node** %prev_it, align 8",shape=ellipse,style=filled ]
-node486 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/5]  %19 = load %struct.list_node*, %struct.list_node** %prev_it, align 8",shape=ellipse,style=filled ]
+node487 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[6/7]  %15 = load %struct.list_node*, %struct.list_node** %next6, align 8",shape=ellipse,style=filled ]
 
-node487->node486 [ ]
-node486->node487 [ ]
-node487->node485 [ ]
-node485->node487 [ ]
 
 
 }

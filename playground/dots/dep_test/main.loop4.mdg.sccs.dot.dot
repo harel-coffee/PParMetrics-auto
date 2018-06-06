@@ -26,17 +26,8 @@ node458 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[14/15]  %17 = loa
 subgraph cluster2 {
 
 
-node454 [fillcolor=lightcoral,label="[8/9]  %14 = load i32, i32* %i22, align 4",shape=ellipse,style=filled ]
-node457 [fillcolor=lightcoral,label="[5/10]  store i32 %inc46, i32* %i22, align 4",shape=ellipse,style=filled ]
-node456 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[4/11]  %21 = load i32, i32* %i22, align 4",shape=ellipse,style=filled ]
-node455 [fillcolor=lightcoral,label="[6/7]  %15 = load i32, i32* %i22, align 4",shape=ellipse,style=filled ]
+node457 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[12/13]  %16 = load i32, i32* %k, align 4",shape=ellipse,style=filled ]
 
-node457->node455 [ ]
-node454->node457 [ ]
-node455->node457 [ ]
-node456->node457 [ ]
-node457->node456 [ ]
-node457->node454 [ ]
 
 
 }
@@ -53,11 +44,17 @@ node460 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[16/17]  %18 = loa
 subgraph cluster0 {
 
 
-node452 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/3]  store i32 %add44, i32* %arrayidx43, align 4",shape=ellipse,style=filled ]
-node451 [fillcolor=lightcoral,label="[1/2]  %20 = load i32, i32* %arrayidx43, align 4",shape=ellipse,style=filled ]
+node454 [fillcolor=lightcoral,label="[1/2]  %15 = load i32, i32* %i22, align 4",shape=ellipse,style=filled ]
+node453 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/7]  store i32 %inc46, i32* %i22, align 4",shape=ellipse,style=filled ]
+node451 [fillcolor=lightcoral,label="[5/6]  %14 = load i32, i32* %i22, align 4",shape=ellipse,style=filled ]
+node452 [fillcolor=lightcoral,label="[3/4]  %21 = load i32, i32* %i22, align 4",shape=ellipse,style=filled ]
 
-node451->node452 [ ]
-node452->node451 [ ]
+node451->node453 [ ]
+node453->node451 [ ]
+node454->node453 [ ]
+node452->node453 [ ]
+node453->node452 [ ]
+node453->node454 [ ]
 
 
 }
@@ -65,8 +62,11 @@ node452->node451 [ ]
 subgraph cluster1 {
 
 
-node453 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[12/13]  %16 = load i32, i32* %k, align 4",shape=ellipse,style=filled ]
+node456 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[8/11]  store i32 %add44, i32* %arrayidx43, align 4",shape=ellipse,style=filled ]
+node455 [fillcolor=lightcoral,label="[9/10]  %20 = load i32, i32* %arrayidx43, align 4",shape=ellipse,style=filled ]
 
+node455->node456 [ ]
+node456->node455 [ ]
 
 
 }

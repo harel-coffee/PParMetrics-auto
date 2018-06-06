@@ -12,14 +12,14 @@ node359 [fillcolor=lightcoral,label="  %2 = load i32, i32* %i, align 4",shape=el
 node360 [fillcolor=lightcoral,label="  %1 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
 node361 [fillcolor=lightcoral,label="  store i32 %rem, i32* %arrayidx6, align 4",shape=ellipse,style=filled ]
 
+node357->node363 [ ]
+node358->node357 [ ]
 node357->node365 [ ]
 node365->node357 [ ]
-node360->node357 [ ]
 node357->node360 [ ]
-node357->node358 [ ]
-node358->node357 [ ]
+node360->node357 [ ]
 node363->node357 [ ]
-node357->node363 [ ]
+node357->node358 [ ]
 
 
 }

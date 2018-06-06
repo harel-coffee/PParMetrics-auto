@@ -11,14 +11,14 @@ node313 [fillcolor=lightcoral,label="  store %struct.list_node* %this, %struct.l
 node312 [fillcolor=lemonchiffon,label="  ret void",shape=ellipse,style=filled ]
 node314 [fillcolor=lightcoral,label="  %this1 = load %struct.list_node*, %struct.list_node** %this.addr, align 8",shape=ellipse,style=filled ]
 
-node315->node314 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
-node314->node313 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
-node313->node314 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
-node309->node311 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
-node316->node310 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
-node314->node316 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
 node315->node313 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
 node314->node309 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node314->node313 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node313->node314 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node316->node310 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node309->node311 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node315->node314 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node314->node316 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
 
 
 }

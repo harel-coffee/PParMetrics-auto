@@ -26,17 +26,17 @@ node72 [fillcolor=lightcoral,label="[3/4]  %1 = load i32, i32* %i, align 4",shap
 node74 [fillcolor=lightcoral,label="[7/8]  %2 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
 
 node70->node74 [ ]
+node69->node70 [ ]
+node70->node69 [ ]
 node70->node73 [ ]
 node73->node70 [ ]
-node70->node72 [ ]
-node72->node70 [ ]
-node70->node75 [ ]
-node69->node70 [ ]
-node75->node70 [ ]
-node70->node69 [ ]
 node74->node70 [ ]
 node71->node70 [ ]
+node70->node72 [ ]
+node75->node70 [ ]
+node70->node75 [ ]
 node70->node71 [ ]
+node72->node70 [ ]
 
 
 }

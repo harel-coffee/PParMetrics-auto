@@ -14,9 +14,9 @@ node224 [fillcolor=lightcoral,label="[12/13]  %17 = load %struct.list_node*, %st
 node225 [fillcolor=lightcoral,label="[10/11]  %14 = load %struct.list_node*, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
 
 node225->node227 [ ]
-node227->node225 [ ]
 node224->node227 [ ]
 node227->node224 [ ]
+node227->node225 [ ]
 node227->node226 [ ]
 node226->node227 [ ]
 
@@ -35,8 +35,14 @@ node223 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[16/17]  %18 = loa
 subgraph cluster0 {
 
 
-node219 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[6/7]  %15 = load %struct.list_node*, %struct.list_node** %next6, align 8",shape=ellipse,style=filled ]
+node221 [fillcolor=lightcoral,label="[1/4]  store %struct.list_node* %16, %struct.list_node** %prev_it, align 8",shape=ellipse,style=filled ]
+node219 [fillcolor=lightcoral,label="[2/3]  %19 = load %struct.list_node*, %struct.list_node** %prev_it, align 8",shape=ellipse,style=filled ]
+node220 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/5]  %20 = load %struct.list_node*, %struct.list_node** %prev_it, align 8",shape=ellipse,style=filled ]
 
+node221->node220 [ ]
+node220->node221 [ ]
+node221->node219 [ ]
+node219->node221 [ ]
 
 
 }
@@ -44,14 +50,8 @@ node219 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[6/7]  %15 = load 
 subgraph cluster1 {
 
 
-node222 [fillcolor=lightcoral,label="[1/4]  store %struct.list_node* %16, %struct.list_node** %prev_it, align 8",shape=ellipse,style=filled ]
-node220 [fillcolor=lightcoral,label="[2/3]  %20 = load %struct.list_node*, %struct.list_node** %prev_it, align 8",shape=ellipse,style=filled ]
-node221 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/5]  %19 = load %struct.list_node*, %struct.list_node** %prev_it, align 8",shape=ellipse,style=filled ]
+node222 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[6/7]  %15 = load %struct.list_node*, %struct.list_node** %next6, align 8",shape=ellipse,style=filled ]
 
-node222->node221 [ ]
-node221->node222 [ ]
-node222->node220 [ ]
-node220->node222 [ ]
 
 
 }

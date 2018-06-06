@@ -9,15 +9,15 @@ node768 [fillcolor=lightcoral,label="[0/1]  call void @_ZN9list_nodeC2Ev(%struct
 node769 [fillcolor=grey,label="[2/9]  %arrayctor.done = icmp eq %struct.list_node* %arrayctor.next, %arrayctor.end",shape=rectangle,style=filled ]
 
 node770->node772 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
-node769->node771 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
-node771->node771 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
-node771->node768 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
-node772->node769 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
-node771->node772 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
 node770->node768 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
-node771->node770 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node771->node772 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node771->node771 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
 node772->node770 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node771->node770 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
 node771->node769 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node772->node769 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node771->node768 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node769->node771 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
 
 
 }

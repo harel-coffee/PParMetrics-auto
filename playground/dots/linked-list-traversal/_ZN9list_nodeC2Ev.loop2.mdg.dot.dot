@@ -11,14 +11,14 @@ node383 [fillcolor=lightcoral,label="  %9 = load %struct.list_node*, %struct.lis
 node379 [fillcolor=lightcoral,label="  store %struct.list_node* %13, %struct.list_node** %list_it, align 8",shape=ellipse,style=filled ]
 node384 [fillcolor=lightcoral,label="  %11 = load i32, i32* %sum, align 4",shape=ellipse,style=filled ]
 
-node379->node386 [ ]
-node386->node379 [ ]
-node379->node383 [ ]
-node385->node384 [ ]
 node384->node385 [ ]
+node385->node384 [ ]
+node379->node383 [ ]
 node383->node379 [ ]
 node379->node381 [ ]
+node379->node386 [ ]
 node381->node379 [ ]
+node386->node379 [ ]
 
 
 }

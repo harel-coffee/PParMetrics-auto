@@ -2,11 +2,27 @@
 digraph G {
 
 
-node126 [label="[1/2]
+node126 [label="[9/10]
 if.end:                                           ; preds = %delete.end, %while.body8
   br label %while.cond5
 ",shape=rectangle ]
-node125 [label="[3/10]
+node125 [label="[1/4]
+if.then:                                          ; preds = %while.body8
+  %20 = load %struct.list_node*, %struct.list_node** %prev_it, align 8
+  %isnull = icmp eq %struct.list_node* %20, null
+  br i1 %isnull, label %delete.end, label %delete.notnull
+",shape=rectangle ]
+node124 [label="[5/6]
+delete.end:                                       ; preds = %delete.notnull, %if.then
+  br label %if.end
+",shape=rectangle ]
+node123 [label="[2/3]
+delete.notnull:                                   ; preds = %if.then
+  %21 = bitcast %struct.list_node* %20 to i8*
+  call void @_ZdlPv(i8* %21) #9
+  br label %delete.end
+",shape=rectangle ]
+node121 [label="[0/7]
 while.body8:                                      ; preds = %while.cond5
   %16 = load %struct.list_node*, %struct.list_node** %list_it, align 8
   store %struct.list_node* %16, %struct.list_node** %prev_it, align 8
@@ -18,17 +34,7 @@ while.body8:                                      ; preds = %while.cond5
   %cmp10 = icmp ne %struct.list_node* %19, %begin
   br i1 %cmp10, label %if.then, label %if.end
 ",shape=rectangle ]
-node124 [label="[4/7]
-if.then:                                          ; preds = %while.body8
-  %20 = load %struct.list_node*, %struct.list_node** %prev_it, align 8
-  %isnull = icmp eq %struct.list_node* %20, null
-  br i1 %isnull, label %delete.end, label %delete.notnull
-",shape=rectangle ]
-node123 [label="[8/9]
-delete.end:                                       ; preds = %delete.notnull, %if.then
-  br label %if.end
-",shape=rectangle ]
-node121 [label="[0/11]
+node122 [label="[8/11]
 while.cond5:                                      ; preds = %if.end, %while.end
   %14 = load %struct.list_node*, %struct.list_node** %list_it, align 8
   %next6 = getelementptr inbounds %struct.list_node, %struct.list_node* %14, i32 0, i32 1
@@ -36,19 +42,13 @@ while.cond5:                                      ; preds = %if.end, %while.end
   %cmp7 = icmp ne %struct.list_node* %15, null
   br i1 %cmp7, label %while.body8, label %while.end11
 ",shape=rectangle ]
-node122 [label="[5/6]
-delete.notnull:                                   ; preds = %if.then
-  %21 = bitcast %struct.list_node* %20 to i8*
-  call void @_ZdlPv(i8* %21) #9
-  br label %delete.end
-",shape=rectangle ]
 
-node125->node123 [ ]
-node121->node126 [ ]
-node121->node121 [ ]
 node121->node125 [ ]
-node125->node124 [ ]
-node124->node122 [ ]
+node122->node126 [ ]
+node121->node124 [ ]
+node125->node123 [ ]
+node122->node122 [ ]
+node122->node121 [ ]
 
 
 }

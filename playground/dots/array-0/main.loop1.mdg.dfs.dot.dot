@@ -12,20 +12,20 @@ node105 [fillcolor=lightcoral,label="[12/17]  store i32 %add, i32* %arrayidx12, 
 node106 [fillcolor=lightcoral,label="[13/14]  %7 = load i32, i32* %arrayidx10, align 4",shape=ellipse,style=filled ]
 node108 [fillcolor=lightcoral,label="[15/16]  %5 = load i32, i32* %arrayidx7, align 4",shape=ellipse,style=filled ]
 
-node103->node111 [ ]
-node110->node103 [ ]
-node111->node103 [ ]
 node103->node109 [ ]
-node105->node106 [ ]
 node109->node103 [ ]
-node105->node108 [ ]
-node108->node105 [ ]
+node104->node103 [ ]
+node103->node104 [ ]
+node110->node103 [ ]
+node103->node111 [ ]
 node103->node110 [ ]
 node103->node107 [ ]
+node105->node106 [ ]
+node105->node108 [ ]
+node108->node105 [ ]
+node111->node103 [ ]
 node106->node105 [ ]
 node107->node103 [ ]
-node103->node104 [ ]
-node104->node103 [ ]
 
 
 }

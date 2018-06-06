@@ -3,30 +3,6 @@ digraph G {
 
 
 node21 [label="[12/13]
-arrayctor.cont:                                   ; preds = %arrayctor.loop
-  store i32 0, i32* %i, align 4
-  br label %for.cond
-",shape=rectangle ]
-node23 [label="[16/17]
-for.cond:                                         ; preds = %for.inc, %arrayctor.cont
-  %0 = load i32, i32* %i, align 4
-  %cmp = icmp ult i32 %0, 99
-  br i1 %cmp, label %for.body, label %for.end
-",shape=rectangle ]
-node15 [label="[0/3]
-while.cond:                                       ; preds = %while.body, %for.end
-  %9 = load %struct.list_node*, %struct.list_node** %list_it, align 8
-  %cmp12 = icmp ne %struct.list_node* %9, null
-  br i1 %cmp12, label %while.body, label %while.end
-",shape=rectangle ]
-node17 [label="[6/7]
-for.inc:                                          ; preds = %for.body
-  %5 = load i32, i32* %i, align 4
-  %inc = add i32 %5, 1
-  store i32 %inc, i32* %i, align 4
-  br label %for.cond
-",shape=rectangle ]
-node22 [label="[14/15]
 entry:
   %retval = alloca i32, align 4
   %nodes = alloca [100 x %struct.list_node], align 16
@@ -38,13 +14,7 @@ entry:
   %arrayctor.end = getelementptr inbounds %struct.list_node, %struct.list_node* %array.begin, i64 100
   br label %arrayctor.loop
 ",shape=rectangle ]
-node18 [label="[8/9]
-while.end:                                        ; preds = %while.cond
-  %15 = load i32, i32* %sum, align 4
-  %call = call dereferenceable(272) %"class.std::basic_ostream"* @_ZNSolsEi(%"class.std::basic_ostream"* @_ZSt4cout, i32 %15)
-  ret i32 0
-",shape=rectangle ]
-node24 [label="[18/19]
+node23 [label="[16/17]
 arrayctor.loop:                                   ; preds = %arrayctor.loop, %entry
   %arrayctor.cur = phi %struct.list_node* [ %array.begin, %entry ], [ %arrayctor.next, %arrayctor.loop ]
   call void @_ZN9list_nodeC2Ev(%struct.list_node* %arrayctor.cur)
@@ -52,7 +22,13 @@ arrayctor.loop:                                   ; preds = %arrayctor.loop, %en
   %arrayctor.done = icmp eq %struct.list_node* %arrayctor.next, %arrayctor.end
   br i1 %arrayctor.done, label %arrayctor.cont, label %arrayctor.loop
 ",shape=rectangle ]
-node16 [label="[4/5]
+node15 [label="[0/3]
+while.cond:                                       ; preds = %while.body, %for.end
+  %9 = load %struct.list_node*, %struct.list_node** %list_it, align 8
+  %cmp12 = icmp ne %struct.list_node* %9, null
+  br i1 %cmp12, label %while.body, label %while.end
+",shape=rectangle ]
+node17 [label="[6/7]
 for.end:                                          ; preds = %for.cond
   %6 = load i32, i32* %i, align 4
   %7 = load i32, i32* %i, align 4
@@ -70,7 +46,25 @@ for.end:                                          ; preds = %for.cond
   store %struct.list_node* %arrayidx11, %struct.list_node** %list_it, align 8
   br label %while.cond
 ",shape=rectangle ]
-node19 [label="[10/11]
+node22 [label="[14/15]
+for.cond:                                         ; preds = %for.inc, %arrayctor.cont
+  %0 = load i32, i32* %i, align 4
+  %cmp = icmp ult i32 %0, 99
+  br i1 %cmp, label %for.body, label %for.end
+",shape=rectangle ]
+node18 [label="[8/9]
+for.inc:                                          ; preds = %for.body
+  %5 = load i32, i32* %i, align 4
+  %inc = add i32 %5, 1
+  store i32 %inc, i32* %i, align 4
+  br label %for.cond
+",shape=rectangle ]
+node24 [label="[18/19]
+arrayctor.cont:                                   ; preds = %arrayctor.loop
+  store i32 0, i32* %i, align 4
+  br label %for.cond
+",shape=rectangle ]
+node16 [label="[4/5]
 for.body:                                         ; preds = %for.cond
   %1 = load i32, i32* %i, align 4
   %2 = load i32, i32* %i, align 4
@@ -89,6 +83,12 @@ for.body:                                         ; preds = %for.cond
   store %struct.list_node* %arrayidx2, %struct.list_node** %next, align 8
   br label %for.inc
 ",shape=rectangle ]
+node19 [label="[10/11]
+while.end:                                        ; preds = %while.cond
+  %15 = load i32, i32* %sum, align 4
+  %call = call dereferenceable(272) %"class.std::basic_ostream"* @_ZNSolsEi(%"class.std::basic_ostream"* @_ZSt4cout, i32 %15)
+  ret i32 0
+",shape=rectangle ]
 node20 [label="[1/2]
 while.body:                                       ; preds = %while.cond
   %10 = load %struct.list_node*, %struct.list_node** %list_it, align 8
@@ -104,12 +104,12 @@ while.body:                                       ; preds = %while.cond
   br label %while.cond
 ",shape=rectangle ]
 
+node22->node22 [ ]
 node23->node23 [ ]
-node24->node24 [ ]
 node15->node15 [ ]
-node23->node19 [ ]
+node22->node18 [ ]
+node22->node16 [ ]
 node15->node20 [ ]
-node23->node17 [ ]
 
 
 }

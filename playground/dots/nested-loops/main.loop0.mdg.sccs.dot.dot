@@ -14,14 +14,14 @@ node352 [fillcolor=lightcoral,label="[15/22]  store i32 %inc14, i32* %i, align 4
 node348 [fillcolor=lightcoral,label="[20/21]  %2 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
 node349 [fillcolor=lightcoral,label="[16/17]  %7 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
 
-node352->node348 [ ]
-node348->node352 [ ]
-node349->node352 [ ]
-node351->node352 [ ]
-node352->node349 [ ]
-node352->node351 [ ]
-node352->node350 [ ]
 node350->node352 [ ]
+node352->node348 [ ]
+node349->node352 [ ]
+node352->node350 [ ]
+node352->node351 [ ]
+node352->node349 [ ]
+node351->node352 [ ]
+node348->node352 [ ]
 
 
 }

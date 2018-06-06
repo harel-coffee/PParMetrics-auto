@@ -11,14 +11,14 @@ node624 [fillcolor=lightcoral,label="  store i32 %inc29, i32* %j, align 4",shape
 node623 [fillcolor=lightcoral,label="  %13 = load i32, i32* %j, align 4",shape=ellipse,style=filled ]
 node625 [fillcolor=lightcoral,label="  %10 = load i32, i32* %i, align 4",shape=ellipse,style=filled ]
 
-node624->node620 [ ]
-node620->node624 [ ]
+node624->node623 [ ]
+node623->node624 [ ]
 node624->node626 [ ]
 node626->node624 [ ]
+node620->node624 [ ]
+node624->node620 [ ]
 node621->node624 [ ]
-node623->node624 [ ]
 node624->node621 [ ]
-node624->node623 [ ]
 
 
 }

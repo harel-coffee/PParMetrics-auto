@@ -11,14 +11,14 @@ node513 [fillcolor=lightcoral,label="[10/11]  %10 = load i32, i32* %value3, alig
 node516 [fillcolor=lightcoral,label="[13/14]  store i32 %add, i32* %sum, align 4",shape=ellipse,style=filled ]
 node515 [fillcolor=lightcoral,label="[12/15]  %11 = load i32, i32* %sum, align 4",shape=ellipse,style=filled ]
 
-node510->node517 [ ]
-node517->node510 [ ]
-node514->node510 [ ]
+node515->node516 [ ]
 node516->node515 [ ]
 node510->node514 [ ]
 node512->node510 [ ]
-node515->node516 [ ]
 node510->node512 [ ]
+node510->node517 [ ]
+node514->node510 [ ]
+node517->node510 [ ]
 
 
 }

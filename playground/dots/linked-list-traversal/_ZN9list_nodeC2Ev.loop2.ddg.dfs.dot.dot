@@ -17,16 +17,16 @@ node1026 [fillcolor=lightcoral,label="[16/21]  %9 = load %struct.list_node*, %st
 node1023 [fillcolor=lightcoral,label="[10/11]  store i32 %add, i32* %sum, align 4",shape=ellipse,style=filled ]
 node1024 [fillcolor=grey,label="[12/13]  %add = add nsw i32 %11, %10",shape=rectangle,style=filled ]
 
+node1027->node1021 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
 node1026->node1031 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
 node1025->node1024 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
 node1031->node1032 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
-node1024->node1023 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
-node1021->node1020 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
 node1032->node1024 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
-node1027->node1021 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
 node1030->node1029 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
 node1028->node1030 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
 node1022->node1027 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node1021->node1020 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node1024->node1023 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
 
 
 }

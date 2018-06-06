@@ -74,17 +74,58 @@ bool MetricPass<ppar::LoopCohesionMetrics>::runOnFunction(Function& F) {
             LoopTotalEdgeCount += EdgeSet.size();
         }
 
-        double IteratorPayloadTotalCohesion_value = ((double)IteratorPayloadTotalEdgeCount)/((double)LoopTotalEdgeCount)*100;
+        double IteratorPayloadTotalCohesion_value = ((double)IteratorPayloadTotalEdgeCount)/((double)LoopTotalEdgeCount);
         idx = ppar::LoopCohesionMetrics::CohesionMetric_t::ITERATOR_PAYLOAD_TOTAL_COHESION;
         Metrics_loop->Metrics[idx] = IteratorPayloadTotalCohesion_value;
 
-        double IteratorPayloadNonCFCohesion_value = ((double)IteratorPayloadNonCFEdgeCount)/((double)LoopTotalEdgeCount)*100;
+        double IteratorPayloadNonCFCohesion_value = ((double)IteratorPayloadNonCFEdgeCount)/((double)LoopTotalEdgeCount);
         idx = ppar::LoopCohesionMetrics::CohesionMetric_t::ITERATOR_PAYLOAD_NON_CF_COHESION;
         Metrics_loop->Metrics[idx] = IteratorPayloadNonCFCohesion_value;
 
-        double IteratorPayloadMemCohesion_value = ((double)IteratorPayloadMemEdgeCount)/((double)LoopTotalEdgeCount)*100;
+        double IteratorPayloadMemCohesion_value = ((double)IteratorPayloadMemEdgeCount)/((double)LoopTotalEdgeCount);
         idx = ppar::LoopCohesionMetrics::CohesionMetric_t::ITERATOR_PAYLOAD_MEM_COHESION;
         Metrics_loop->Metrics[idx] = IteratorPayloadMemCohesion_value;
+
+        // compute Critical Payload / Payload cohesion metrics
+        uint64_t LoopPayloadTotalEdgeCount = 0;
+        uint64_t CriticalRegularPayloadTotalEdgeCount = 0;
+        uint64_t CriticalRegularPayloadNonCFEdgeCount = 0;
+        uint64_t CriticalRegularPayloadMemEdgeCount = 0;
+        for (auto edge_it = LoopPDG.edges_begin(); edge_it != LoopPDG.edges_end(); edge_it++) {
+            std::pair<const llvm::Instruction*, const llvm::Instruction*> ToFromPair = edge_it->first;
+            typename Graph<llvm::Instruction*,ppar::Dependence*>::edge_set& EdgeSet = edge_it->second;
+            
+            Graph<llvm::Instruction*,ppar::Dependence*>* FromSCC = LoopPDG.nodeToSCC(const_cast<llvm::Instruction*>(ToFromPair.first));
+            Graph<llvm::Instruction*,ppar::Dependence*>* ToSCC = LoopPDG.nodeToSCC(const_cast<llvm::Instruction*>(ToFromPair.second));
+           
+            if (LI->SCCBelongsToPayload(FromSCC) && LI->SCCBelongsToPayload(ToSCC)) {
+                if ( ((FromSCC->getNodesNumber() > 1) && (ToSCC->getNodesNumber() == 1)) || 
+                     ((ToSCC->getNodesNumber() > 1) && (FromSCC->getNodesNumber() == 1)) ) {
+                    for (const GraphEdge<llvm::Instruction*,ppar::Dependence*>& Edge : EdgeSet) {
+                        if (!(Edge.getData())->isControl()) {
+                            CriticalRegularPayloadNonCFEdgeCount++;
+                        }
+                        if ((Edge.getData())->isMem()) {
+                            CriticalRegularPayloadMemEdgeCount++;
+                        }
+                    }
+                    CriticalRegularPayloadTotalEdgeCount += EdgeSet.size();
+                }
+                LoopPayloadTotalEdgeCount += EdgeSet.size();
+            }
+        }
+
+        double CriticalPayloadTotalCohesion_value = ((double)CriticalRegularPayloadTotalEdgeCount)/((double)LoopPayloadTotalEdgeCount);
+        idx = ppar::LoopCohesionMetrics::CohesionMetric_t::CRITICAL_PAYLOAD_TOTAL_COHESION;
+        Metrics_loop->Metrics[idx] = CriticalPayloadTotalCohesion_value;
+
+        double CriticalPayloadNonCFCohesion_value = ((double)CriticalRegularPayloadNonCFEdgeCount)/((double)LoopPayloadTotalEdgeCount);
+        idx = ppar::LoopCohesionMetrics::CohesionMetric_t::CRITICAL_PAYLOAD_NON_CF_COHESION;
+        Metrics_loop->Metrics[idx] = CriticalPayloadNonCFCohesion_value;
+
+        double CriticalPayloadMemCohesion_value = ((double)CriticalRegularPayloadMemEdgeCount)/((double)LoopPayloadTotalEdgeCount);
+        idx = ppar::LoopCohesionMetrics::CohesionMetric_t::CRITICAL_PAYLOAD_MEM_COHESION;
+        Metrics_loop->Metrics[idx] = CriticalPayloadMemCohesion_value;
     }
 
     return false;

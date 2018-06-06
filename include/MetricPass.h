@@ -24,6 +24,9 @@ struct MetricSet_loop {
         MetricSet_loop(const llvm::Loop* L = nullptr) {
             Loop_ptr = L;
             Metrics.resize(METRIC::MetricSubtype::METRIC_SUBTYPE_LAST);
+            for (double& Val : Metrics) {
+                Val = -1;
+            }
         }
 
         ~MetricSet_loop() {

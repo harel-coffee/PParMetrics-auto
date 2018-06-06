@@ -41,9 +41,9 @@ struct LoopCohesionMetrics {
             ITERATOR_PAYLOAD_NON_CF_COHESION, // the amount of non-control-flow edges between loop iterator and payload
             ITERATOR_PAYLOAD_MEM_COHESION, // the amount of memory edges between loop iterator and payload
             // payload critical sccs <-> payload regular sccs
-            PAYLOAD_CRITICAL_TOTAL_COHESION,
-            PAYLOAD_CRITICAL_NON_CF_COHESION,
-            PAYLOAD_CRITICAL_MEM_COHESION,
+            CRITICAL_PAYLOAD_TOTAL_COHESION,
+            CRITICAL_PAYLOAD_NON_CF_COHESION,
+            CRITICAL_PAYLOAD_MEM_COHESION,
             METRIC_SUBTYPE_LAST
         } CohesionMetric_t;
 
@@ -58,6 +58,34 @@ struct LoopCohesionMetrics {
         static llvm::StringRef getMetricPassOptionDesc()
         { return "The set of metrics measuring cohesion between different parts of the loop (iterator,\
                   payload, critical SCCs, etc)"; }
+};
+
+struct LoopDependenceMetrics {
+    public:
+        LoopDependenceMetrics() {}
+        
+        typedef enum DependenceMetricType {
+            PAYLOAD_TOTAL_DEPENDENCIES_NUM = 0,
+            PAYLOAD_TRUE_DEPENDENCIES_NUM,
+            PAYLOAD_ANTI_DEPENDENCIES_NUM,
+            PAYLOAD_OUTPUT_DEPENDENCIES_NUM,
+            CRITICAL_PAYLOAD_TOTAL_DEPENDENCIES_NUM,
+            CRITICAL_PAYLOAD_TRUE_DEPENDENCIES_NUM,
+            CRITICAL_PAYLOAD_ANTI_DEPENDENCIES_NUM,
+            CRITICAL_PAYLOAD_OUTPUT_DEPENDENCIES_NUM,
+            METRIC_SUBTYPE_LAST
+        } DependenceMetric_t;
+
+        using MetricSubtype = DependenceMetric_t;
+
+        static llvm::StringRef getPassName()
+        { return "Loop Dependence Metrics"; } 
+        
+        static llvm::StringRef getMetricPassOption()
+        { return "loop-dependence-metrics"; }
+        
+        static llvm::StringRef getMetricPassOptionDesc()
+        { return "The set of metrics measuring the amount of different types of dependencies in the payload of the loop"; }
 };
 
 } // namespace ppar

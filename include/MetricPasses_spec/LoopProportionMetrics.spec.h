@@ -71,7 +71,7 @@ bool MetricPass<ppar::LoopProportionMetrics>::runOnFunction(Function& F) {
             return false;
         }
 
-        double LoopPayloadFraction_value = static_cast<double>(IteratorSize)/LoopAbsoluteSize_value;
+        double LoopPayloadFraction_value = static_cast<double>(PayloadSize)/LoopAbsoluteSize_value;
 
         idx = ppar::LoopProportionMetrics::ProportionMetric_t::LOOP_PAYLOAD_FRACTION;
         Metrics_loop->Metrics[idx] = LoopPayloadFraction_value;

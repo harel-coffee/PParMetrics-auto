@@ -45,6 +45,24 @@ class LoopDecoupleInfo {
         std::unordered_set<DependenceGraph*>& getPayload() { return Payload; }
         std::unordered_set<DependenceGraph*>& getSCCs() { return SCCs; }
 
+        bool SCCBelongsToIterator(DependenceGraph* DG) {
+            auto it = Iterator.find(DG);
+            if (it != Iterator.end()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        bool SCCBelongsToPayload(DependenceGraph* DG) {
+            auto it = Payload.find(DG);
+            if (it != Payload.end()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
     private:
         std::unordered_set<DependenceGraph*> Iterator;
         std::unordered_set<DependenceGraph*> Payload;

@@ -83,13 +83,16 @@ bool GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::DataDependenceGraphPas
                 const llvm::Instruction* I = DepNode.getNode();
                 // every user of an instruction is its user
                 for (const User* U : I->users()) {
-                    ppar::Dependence* Dep = new ppar::Dependence();
-                    Dep->setData();
-                    Dep->setFlow();
-                    Dep->setReg();
+                    if (const Instruction* UserInst = dyn_cast<const Instruction>(U)) {
+                        llvm::Loop* UserL = LI.getLoopFor(UserInst->getParent());
+                        if (UserL == L) {
+                            ppar::Dependence* Dep = new ppar::Dependence();
+                            Dep->setData();
+                            Dep->setFlow();
+                            Dep->setReg();
 
-                    if (const Instruction* Inst = dyn_cast<const Instruction>(U)) {
-                        LG.addEdge(&*I, Inst, Dep);
+                            LG.addEdge(&*I, UserInst, Dep);
+                        }
                     }
                 }
             }

@@ -22,14 +22,36 @@ the dependence information, gathered along the way) are used to compute a set of
     The intuition behind all these steps is quite simple.  
 
 [Software Parallelisability Metrics]
-    PPar tool uses LLVM framework of compiler components (specifically Instruction class built-in Use-Def chains, Memory
+
+PPar tool uses LLVM framework of compiler components (specifically Instruction class built-in Use-Def chains, Memory
 Dependence Analysis, Post-dominator tree) to build a Program Dependence Graph (PDG). PDG can be built within different
 scopes. The tool builds PDGs for all functions of the program being analyzed and for every single loop within a function:
-function PDG and loop PDG correspondingly. PDG consists of all LLVM-IR instructions within the given scope.    
+function PDG and loop PDG correspondingly. PDG consists of all LLVM-IR instructions within the given scope. Edges of the 
+PDG represent different sorts of dependencies between instructions. The edge set of the PDG includes all edges from Data
+Dependence Graph (DDG), Memory Dependence Graph (MDG) and Control Dependence Graph (CDG). Edges are further classified
+into True/Read-After-Write(RAW)/Flow, Anti/Write-After-Read(WAR), Output/Write-After-Write(WAW) types of dependencies. 
 
-PDG = DDG + MDG
+PPar tool decomposition rules:
 
+{} - empty/nothing
+Function := Loop-Set Scalar-Code
+Loop-Set := Loop Loop-Set | {}
+Scalar-Code := Graph-Node-Set Graph-Edge-Set
+Graph-Node-Set := LLVM-IR-instructions
+Loop := Iterator Loop-Body
+Loop-Body := Payload | {}
+Payload := Critical-SCCs Regular-SCCs |
 
+PDG := DDG + MDG + CDG
+DDG := All-Nodes Use-Def-Register-Edges
+MDG := Mem-Nodes Mem-Dependencies
+CDG := All-Nodes
+
+Mem-Nodes := Mem-Node Mem-Nodes | {}
+Mem-Node := LLVM-IR-load-instruction LLVM-IR-store-instruction
+
+All-Nodes := Node All-Nodes | {}
+Node := LLVM-IR-instruction // any LLVM-IR instruction, including loads and stores
 
 [Source code details]
 

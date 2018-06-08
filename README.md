@@ -4,11 +4,21 @@ Software Metrics for Parallelism
 
 [Motivation]
 
-    This work stems from the existing work in the field of Software Quality. There are numerous software metrics available for judging about source code readability, maintainability, etc. Cyclomatic Complexity (CC) metric [1] probably serves as the most illustrative example. This work is an attempt to develop an analogous set of software metrics, suitable for assessing source code parallelisability.
+This work stems from the existing work in the field of Software Quality. There are numerous software metrics available 
+for judging about source code readability, maintainability, etc. Cyclomatic Complexity (CC) metric [1] probably serves as 
+the most illustrative example. This work is an attempt to develop an analogous set of software metrics, suitable for 
+assessing source code parallelisability.
 
 [Overview]
 
-    This tool is implemented as a set of LLVM passes and is based on the work [2], described in paper [3]. First, the tool uses LLVM framework to build Dependence Graph of the Program (PDG). Program Dependence Graph (PDG) consists of the 3 constituent graphs: Data Dependence Graph (DDG) + Memory Dependence Graph (MDG) + Control Dependence Graph (CDG). Detailed descriptions of the graphs can be found in the general dependence analysis theory as in [4] or in the original paper [5]. Then, all these graphs are disassembled into their constituent Strongly Connected Components (SCCs), using algorithm based on 2 depth-first searches as described in [6]. These SCCs are used to decouple loop iterator from the actual workload (called the payload withing the project terminology) of the loop. At the final stage of the workflow, all these constituent components (with all the dependence information, gathered along the way) are used to compute a set of metrics. 
+This tool is implemented as a set of LLVM passes and is based on the work [2], described in paper [3]. First, the tool uses 
+LLVM framework to build Dependence Graph of the Program (PDG). Program Dependence Graph (PDG) consists of the 3 constituent 
+graphs: Data Dependence Graph (DDG) + Memory Dependence Graph (MDG) + Control Dependence Graph (CDG). Detailed descriptions 
+of the graphs can be found in the general dependence analysis theory as in [4] or in the original paper [5]. Then, all these 
+graphs are disassembled into their constituent Strongly Connected Components (SCCs), using algorithm based on 2 depth-first 
+searches as described in [6]. These SCCs are used to decouple loop iterator from the actual workload (called the payload 
+withing the project terminology) of the loop. At the final stage of the workflow, all these constituent components (with all 
+the dependence information, gathered along the way) are used to compute a set of metrics. 
     The intuition behind all these steps is quite simple.  
 
 [Source code details]

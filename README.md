@@ -22,7 +22,6 @@ the dependence information, gathered along the way) are used to compute a set of
     The intuition behind all these steps is quite simple.  
 
 [Software Parallelisability Metrics]
-
     PPar tool uses LLVM framework of compiler components (specifically Instruction class built-in Use-Def chains, Memory
 Dependence Analysis, Post-dominator tree) to build a Program Dependence Graph (PDG). PDG can be built within different
 scopes. The tool builds PDGs for all functions of the program being analyzed and for every single loop within a function:

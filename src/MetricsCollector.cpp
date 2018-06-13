@@ -12,6 +12,7 @@
 #include "llvm/IR/DebugInfo.h"
 #include "llvm/Analysis/LoopInfo.h"
 #include "llvm/Support/FileSystem.h"
+#include "llvm/Support/Format.h"
 using namespace llvm;
 
 #include <string>
@@ -87,11 +88,13 @@ bool MetricsCollector::runOnFunction(llvm::Function& F) {
  
     unsigned int loop_num = 1;
     for (const Loop* L : FunctionLoops) {
-        // print information identifying loop
-        FuncMetricsFile << "[" << loop_num++ << "] " << *L << "\n";
+        // print information identifying a loop in the function body
+        FuncMetricsFile << "===== Loop [" << loop_num++ << "] =====\n";
+        FuncMetricsFile << *L << "\n";
         uint64_t Line;
         StringRef File;
         StringRef Dir;
+        FuncMetricsFile << "Loop can be found \n";
         for (typename Loop::block_iterator bb_it = L->block_begin(); bb_it != L->block_end(); ++bb_it) {
             for (typename BasicBlock::iterator inst_it = (*bb_it)->begin(); inst_it != (*bb_it)->end(); ++inst_it) {
                 Instruction* I = &(*inst_it);
@@ -104,7 +107,8 @@ bool MetricsCollector::runOnFunction(llvm::Function& F) {
                 }
             }
         }
-
+        FuncMetricsFile << "\n";
+        // print all computed metrics 
         FuncMetricsFile << "Loop Proportion Metric Set:\n";
         if (LoopProportionMetric_func != nullptr) {
             MetricSet_loop<ppar::LoopProportionMetrics>* LoopProportionMetrics_loop = LoopProportionMetric_func->getLoopMetrics(L);
@@ -112,19 +116,20 @@ bool MetricsCollector::runOnFunction(llvm::Function& F) {
                 double Metric = -1;
                 Metric = LoopProportionMetrics_loop->getMetricValue(ppar::LoopProportionMetrics::ProportionMetric_t::LOOP_ABSOLUTE_SIZE);
                 if (Metric >= 0) {
-                    FuncMetricsFile << "\tloop-absolute-size: " << (uint64_t) Metric << "\n";
+                    FuncMetricsFile << "\tloop-absolute-size: " << llvm::format("%d", (uint64_t)Metric) << "\n";
                 } else {
                     FuncMetricsFile << "\tloop-absolute-size:\n";
                 }
                 Metric = LoopProportionMetrics_loop->getMetricValue(ppar::LoopProportionMetrics::ProportionMetric_t::LOOP_PAYLOAD_FRACTION);
                 if (Metric >= 0) {
-                    FuncMetricsFile << "\tloop-payload-fraction: " << Metric << "\n";
+                    FuncMetricsFile << "\tloop-payload-fraction: " << llvm::format("%.4f", Metric) << "\n";
                 } else {
                     FuncMetricsFile << "\tloop-payload-fraction:\n";
+                    FuncMetricsFile << "\tloop-iterator-fraction:\n";
                 }
                 Metric = LoopProportionMetrics_loop->getMetricValue(ppar::LoopProportionMetrics::ProportionMetric_t::LOOP_PROPER_SCCS_NUMBER);
                 if (Metric >= 0) {
-                    FuncMetricsFile << "\tloop-proper-sccs-number: " << Metric << "\n";
+                    FuncMetricsFile << "\tloop-proper-sccs-number: " << llvm::format("%d", (uint64_t)Metric) << "\n";
                 } else {
                     FuncMetricsFile << "\tloop-proper-sccs-number:\n";
                 }

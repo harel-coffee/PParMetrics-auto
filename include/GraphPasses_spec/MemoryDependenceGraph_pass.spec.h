@@ -9,8 +9,9 @@ char GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphP
 template <>
 void GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphPass>::getAnalysisUsage(llvm::AnalysisUsage& AU) const {
     AU.setPreservesAll();
-    AU.addRequiredTransitive<llvm::DependenceAnalysisWrapperPass>();
+    AU.addRequired<llvm::DependenceAnalysisWrapperPass>();
     AU.addRequired<LoopInfoWrapperPass>();
+    AU.addRequired<FunctionLoopInfoPass>();
 }
 
 template <>
@@ -51,22 +52,14 @@ bool GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphP
         return false; 
     }
 
-    std::vector<const llvm::Loop*> FunctionLoops;
-    std::queue<const llvm::Loop*> LoopsQueue;
-    for (auto loop_it = LI.begin(); loop_it != LI.end(); ++loop_it) {
-        const llvm::Loop* TopLevelL = *loop_it;
-        LoopsQueue.push(TopLevelL);
-        while(!LoopsQueue.empty()) {
-            const llvm::Loop* CurrentLoop = LoopsQueue.front();
-            FunctionLoops.push_back(CurrentLoop);
-            LoopsQueue.pop();
-            for (auto sub_loop_it = CurrentLoop->begin(); sub_loop_it != CurrentLoop->end(); ++sub_loop_it) {
-                LoopsQueue.push(*sub_loop_it);
-            }
-        }
+    ppar::FunctionLoopInfoPass& LInfoPass = (getAnalysis<FunctionLoopInfoPass>());
+    const FunctionLoopInfoPass::FunctionLoopList* LList = LInfoPass.getFunctionLoopList(&F);
+    if (LList->empty()) {
+        // no loops -> no work to do
+        return false;
     }
-    
-    for (const llvm::Loop* L : FunctionLoops) {
+    // allocate dependence graphs for function loops
+    for (const llvm::Loop* L : *LList) {
         Graph<llvm::Instruction*,llvm::Dependence*>& LG = getLoopGraph(L);
         if (LG == InvalidGraph) {
             // all loop graphs must have been allocated in allocateGraphs by that point

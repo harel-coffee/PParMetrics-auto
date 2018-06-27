@@ -96,13 +96,9 @@ struct DecoupleLoopsPass : public llvm::FunctionPass {
             return DecoupleLoopsInfo_loop;
         }
 
-        std::vector<const llvm::Loop*>& getLoopList() { return FunctionLoops; }
-
     private:
         std::unordered_map<const llvm::Loop*, std::unique_ptr<LoopDecoupleInfo>> DecoupleLoopsInfo_func; // derived out of function scope dependence graph
         std::unordered_map<const llvm::Loop*, std::unique_ptr<LoopDecoupleInfo>> DecoupleLoopsInfo_loop; // derived out of single loop scope dependence graph
-        std::vector<const llvm::Loop*> FunctionLoops;
-        std::unordered_map<const llvm::Loop*, std::string> LoopAddrToName;
 };
 
 } // namespace ppar

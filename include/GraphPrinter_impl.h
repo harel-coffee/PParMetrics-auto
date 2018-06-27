@@ -19,7 +19,8 @@ GraphPrinter<NODE*,EDGE*,PASS>::GraphPrinter() : FunctionPass(ID) {}
         
 template <typename NODE, typename EDGE, typename PASS>
 void GraphPrinter<NODE*,EDGE*,PASS>::getAnalysisUsage(llvm::AnalysisUsage& AU) const {
-    llvm_unreachable("Class template GraphPrinter cannot be used directly (without concrete specialization)!");
+    AU.addRequired<GraphPass<NODE*,EDGE*,PASS>>();
+    AU.addRequired<FunctionLoopInfoPass>();
     AU.setPreservesAll();
 }
 
@@ -167,13 +168,25 @@ bool GraphPrinter<NODE*,EDGE*,PASS>::runOnFunction(llvm::Function& F) {
     GraphPass<NODE*,EDGE*,PASS>& GPass = llvm::Pass::getAnalysis<GraphPass<NODE*,EDGE*,PASS>>();
     const Graph<NODE*,EDGE*>& G = GPass.getFunctionGraph();
     printDotGraphs(G, F.getName().str());
-   
-    int i = 0;
+  
+    ppar::FunctionLoopInfoPass& LInfoPass = (getAnalysis<FunctionLoopInfoPass>());
+    const FunctionLoopInfoPass::LoopNames* LNames = LInfoPass.getFunctionLoopNames(&F);
+    if (LNames->empty()) {
+        // no loops -> no printing to do
+        return false;
+    }
+
     for (typename GraphPass<NODE*,EDGE*,PASS>::const_loop_graph_iterator loop_graph_it = GPass.loops_cbegin(); 
          loop_graph_it != GPass.loops_cend(); ++loop_graph_it) {
+        std::string LName;
+        auto loop_name_it = LNames->find(loop_graph_it->first);
+        if (loop_name_it != LNames->end()) {
+            LName = loop_name_it->second;
+        } else {
+            llvm_unreachable("error: incomplete ppar::FunctionLoopInfoPass::LoopNames data structure!");
+        }
         const Graph<NODE*,EDGE*>& LG = *(loop_graph_it->second);
-        printDotGraphs(LG, F.getName().str() + ".loop" + std::to_string(i));
-        i++;
+        printDotGraphs(LG, LName);
     }
 
     return false;

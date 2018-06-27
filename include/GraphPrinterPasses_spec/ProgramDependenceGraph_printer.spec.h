@@ -7,12 +7,6 @@ template <>
 char GraphPrinter<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraphPass>::ID = 0;
 
 template <>
-void GraphPrinter<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraphPass>::getAnalysisUsage(llvm::AnalysisUsage& AU) const {
-    AU.setPreservesAll();
-    AU.addRequiredTransitive<GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraphPass>>();
-}
-
-template <>
 void GraphPrinter<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraphPass>::buildDotNode(const llvm::Instruction* Instr, DotNode* Node) {
     if (Instr->mayReadOrWriteMemory()) {
         // memory reference

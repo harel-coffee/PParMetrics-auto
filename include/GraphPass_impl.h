@@ -36,31 +36,17 @@ Graph<NODE*,EDGE*>& GraphPass<NODE*,EDGE*,PASS>::getLoopGraph(const Loop* L) {
 
 template <typename NODE, typename EDGE, typename PASS>
 void GraphPass<NODE*,EDGE*,PASS>::allocateGraphs(llvm::Function& F) { 
-
     // allocate function's dependence graph
     G = std::make_unique<Graph<NODE*,EDGE*>>(this, &F); 
-
-    // if we have got any loops in the function, then proceed with their allocation 
-    const llvm::LoopInfo& LI = (getAnalysis<LoopInfoWrapperPass>()).getLoopInfo();
-    if (LI.empty()) {
+    // if we've got any loops in the function, then proceed with dependence graph allocation for them 
+    ppar::FunctionLoopInfoPass& LInfoPass = (getAnalysis<FunctionLoopInfoPass>());
+    const FunctionLoopInfoPass::FunctionLoopList* LList = LInfoPass.getFunctionLoopList(&F);
+    if (LList->empty()) {
+        // no loops -> no work to do
         return;
     }
-    
-    std::queue<const llvm::Loop*> LoopsQueue;
-    for (auto loop_it = LI.begin(); loop_it != LI.end(); ++loop_it) {
-        const llvm::Loop* TopLevelL = *loop_it;
-        LoopsQueue.push(TopLevelL);
-        while(!LoopsQueue.empty()) {
-            const llvm::Loop* CurrentLoop = LoopsQueue.front();
-            FunctionLoops[&F].push_back(CurrentLoop);
-            LoopsQueue.pop();
-            for (auto sub_loop_it = CurrentLoop->begin(); sub_loop_it != CurrentLoop->end(); ++sub_loop_it) {
-                LoopsQueue.push(*sub_loop_it);
-            }
-        }
-    }
-
-    for (const llvm::Loop* L : FunctionLoops) {
+    // allocate dependence graphs for function loops
+    for (const llvm::Loop* L : *LList) {
         LG[L] = std::make_unique<Graph<NODE*,EDGE*>>(this, &F); 
     }
 }
@@ -68,7 +54,8 @@ void GraphPass<NODE*,EDGE*,PASS>::allocateGraphs(llvm::Function& F) {
 template <typename NODE, typename EDGE, typename PASS>
 void GraphPass<NODE*,EDGE*,PASS>::getAnalysisUsage(llvm::AnalysisUsage& AU) const {
     AU.setPreservesAll();
-    AU.addRequired<LoopInfoWrapperPass>();
+    AU.addRequired<FunctionLoopInfoPass>();
+    llvm_unreachable("Class template GraphPass cannot be used directly (without concrete specialization)!");
 }
 
 template <typename NODE, typename EDGE, typename PASS>

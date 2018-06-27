@@ -2,6 +2,7 @@
 
 #include "MetricPass.h"
 #include "MetricPasses.h"
+#include "FunctionLoopInfo.h"
 
 #include "llvm/IR/Function.h"
 #include "llvm/IR/BasicBlock.h"
@@ -42,6 +43,7 @@ void MetricsCollector::releaseMemory() {}
 void MetricsCollector::getAnalysisUsage(llvm::AnalysisUsage& AU) const {
     AU.setPreservesAll();
     AU.addRequired<LoopInfoWrapperPass>();
+    AU.addRequired<FunctionLoopInfoPass>();
     AU.addRequired<ppar::MetricPass<ppar::LoopProportionMetrics>>();
     AU.addRequired<ppar::MetricPass<ppar::LoopCohesionMetrics>>();
     AU.addRequired<ppar::MetricPass<ppar::LoopDependenceMetrics>>();
@@ -57,21 +59,16 @@ bool MetricsCollector::runOnFunction(llvm::Function& F) {
     llvm::raw_fd_ostream FuncMetricsFile(F.getName().str() + ".func.metrics", EC, sys::fs::F_Text);
     // function loops to print metrics for 
     const LoopInfo& LI = (getAnalysis<LoopInfoWrapperPass>()).getLoopInfo();
-    std::vector<const llvm::Loop*> FunctionLoops;
-    std::queue<const llvm::Loop*> LoopsQueue;
-    for (auto loop_it = LI.begin(); loop_it != LI.end(); ++loop_it) {
-        const llvm::Loop* TopLevelL = *loop_it;
-        LoopsQueue.push(TopLevelL);
-        while(!LoopsQueue.empty()) {
-            const llvm::Loop* CurrentLoop = LoopsQueue.front();
-            FunctionLoops.push_back(CurrentLoop);
-            LoopsQueue.pop();
-            for (auto sub_loop_it = CurrentLoop->begin(); sub_loop_it != CurrentLoop->end(); ++sub_loop_it) {
-                LoopsQueue.push(*sub_loop_it);
-            }
-        }
-    }
 
+    ppar::FunctionLoopInfoPass& LInfoPass = (getAnalysis<FunctionLoopInfoPass>());
+    const FunctionLoopInfoPass::FunctionLoopList* LList = LInfoPass.getFunctionLoopList(&F);
+    const FunctionLoopInfoPass::LoopNames* LNames = LInfoPass.getFunctionLoopNames(&F);
+    if (LList->empty() ||
+        LNames->empty()) {
+        // no loops -> no work to do
+        return false;
+    }
+   
     // currently available metrics
     MetricSet_func<ppar::LoopProportionMetrics>* LoopProportionMetric_func
         = (Pass::getAnalysis<ppar::MetricPass<ppar::LoopProportionMetrics>>()).getFunctionMetrics(F); 
@@ -86,10 +83,17 @@ bool MetricsCollector::runOnFunction(llvm::Function& F) {
     FuncMetricsFile << "[ Pervasive Parallelism Metrics ]\n\n";
     FuncMetricsFile << "Function: " << F.getName().str() << " {\n\n";
  
-    unsigned int loop_num = 1;
-    for (const Loop* L : FunctionLoops) {
+    for (const llvm::Loop* L : *LList) {
+        std::string LName;
+        auto loop_name_it = LNames->find(L);
+        if (loop_name_it != LNames->end()) {
+            LName = loop_name_it->second;
+        } else {
+            llvm_unreachable("error: incomplete ppar::FunctionLoopInfoPass::LoopNames data structure!");
+        }
+
         // print information identifying a loop in the function body
-        FuncMetricsFile << "===== Loop [" << loop_num++ << "] =====\n";
+        FuncMetricsFile << "===== Loop [" << LName << "] =====\n";
         FuncMetricsFile << *L << "\n";
         uint64_t Line;
         StringRef File;

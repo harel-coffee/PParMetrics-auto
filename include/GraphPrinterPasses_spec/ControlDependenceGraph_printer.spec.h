@@ -7,12 +7,6 @@ template <>
 char GraphPrinter<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphPass>::ID = 0;
 
 template <>
-void GraphPrinter<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphPass>::getAnalysisUsage(llvm::AnalysisUsage& AU) const {
-    AU.setPreservesAll();
-    AU.addRequiredTransitive<ppar::GraphPass<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphPass>>();
-}
-
-template <>
 void GraphPrinter<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphPass>::buildDotNode(const llvm::BasicBlock* BB, DotNode* Node) {
     Node->setAttribute( /* name = */ string("shape"), /* value = */ string("rectangle"));
 

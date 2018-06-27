@@ -48,19 +48,12 @@ bool LoopDecoupleInfo::nodeBelongsToPayload(const llvm::Instruction* Node) {
 
 char DecoupleLoopsPass::ID = 0;
 
-DecoupleLoopsPass::DecoupleLoopsPass() 
- : FunctionPass(ID) {
-    FunctionLoops.clear();
-    LoopAddrToName.clear();
-
+DecoupleLoopsPass::DecoupleLoopsPass() : FunctionPass(ID) {
     DecoupleLoopsInfo_func.clear();
     DecoupleLoopsInfo_loop.clear();
 }
 
 DecoupleLoopsPass::~DecoupleLoopsPass() { 
-    FunctionLoops.clear();
-    LoopAddrToName.clear();
-
     DecoupleLoopsInfo_func.clear();
     DecoupleLoopsInfo_loop.clear();
 }
@@ -70,9 +63,6 @@ void DecoupleLoopsPass::releaseMemory() {
     DEBUG(
         llvm::dbgs() << "[debug] DecoupleLoopsPass::releaseMemory()\n";
     );
-    
-    FunctionLoops.clear();
-    LoopAddrToName.clear();
 
     DecoupleLoopsInfo_func.clear();
     DecoupleLoopsInfo_loop.clear();
@@ -81,6 +71,7 @@ void DecoupleLoopsPass::releaseMemory() {
 void DecoupleLoopsPass::getAnalysisUsage(llvm::AnalysisUsage& AU) const {
     AU.setPreservesAll();
     AU.addRequired<LoopInfoWrapperPass>();
+    AU.addRequired<FunctionLoopInfoPass>();
     AU.addRequired<PDGPass>();
 }
 
@@ -96,34 +87,16 @@ bool DecoupleLoopsPass::allocateLoopDecoupleInfo(llvm::Function& F) {
         return false; 
     }
 
-    std::queue<const llvm::Loop*> LoopsQueue;
-    for (auto loop_it = LI.begin(); loop_it != LI.end(); ++loop_it) {
-        const llvm::Loop* TopLevelL = *loop_it;
-        LoopsQueue.push(TopLevelL);
-        while(!LoopsQueue.empty()) {
-            const llvm::Loop* CurrentLoop = LoopsQueue.front();
-            FunctionLoops.push_back(CurrentLoop);
-            LoopsQueue.pop();
-            for (auto sub_loop_it = CurrentLoop->begin(); sub_loop_it != CurrentLoop->end(); ++sub_loop_it) {
-                LoopsQueue.push(*sub_loop_it);
-            }
-        }
+    ppar::FunctionLoopInfoPass& LInfoPass = (getAnalysis<FunctionLoopInfoPass>());
+    const FunctionLoopInfoPass::FunctionLoopList* LList = LInfoPass.getFunctionLoopList(&F);
+    if (LList->empty()) {
+        // no loops -> no work to do
+        llvm::outs() << "\tError: empty Function Loop Info structure!\n";
+        llvm_unreachable("llvm::FunctionLoopInfo cannot be empty when thare are loops!");
+        return false;
     }
-
-    int i = 0;
-    for (const Loop* L : FunctionLoops) {
-        string LoopName = "loop" + std::to_string(i);
-        i++;
-
-        DEBUG(
-            std::string str;
-            llvm::raw_string_ostream rso(str);
-            llvm::dbgs() << "new loop identified: " + LoopName + "\n";
-            L->dump();
-            llvm::dbgs() << "\n";
-        );
-
-        LoopAddrToName[L] = LoopName;
+    // allocate loop decouple info for all function loops
+    for (const llvm::Loop* L : *LList) {
         DecoupleLoopsInfo_func[L] = std::make_unique<LoopDecoupleInfo>();
         DecoupleLoopsInfo_loop[L] = std::make_unique<LoopDecoupleInfo>();
     }
@@ -135,7 +108,7 @@ bool DecoupleLoopsPass::runOnFunction(llvm::Function& F) {
     
     if (F.isDeclaration()) return false;
 
-    llvm::outs() << "Decouple loops function pass: " + F.getName() + "\n";
+    llvm::outs() << "Decouple Loops function pass: " + F.getName() + "\n";
 
     if (!allocateLoopDecoupleInfo(F)) {
         llvm::outs() << "\tCould not allocate Loop Decouple Info!\n";
@@ -144,6 +117,15 @@ bool DecoupleLoopsPass::runOnFunction(llvm::Function& F) {
     }
 
     const LoopInfo& LI = (getAnalysis<LoopInfoWrapperPass>()).getLoopInfo();
+    ppar::FunctionLoopInfoPass& LInfoPass = (getAnalysis<FunctionLoopInfoPass>());
+    const FunctionLoopInfoPass::FunctionLoopList* LList = LInfoPass.getFunctionLoopList(&F);
+    const FunctionLoopInfoPass::LoopNames* LNames = LInfoPass.getFunctionLoopNames(&F);
+    if (LList->empty()) {
+        // no loops -> no work to do
+        llvm::outs() << "\tError: empty Function Loop Info structure!\n";
+        llvm_unreachable("llvm::FunctionLoopInfo cannot be empty when thare are loops!");
+        return false;
+    }
 
     /* Decouple all the function's loops based on the whole function scope dependence graph */
 
@@ -162,6 +144,11 @@ bool DecoupleLoopsPass::runOnFunction(llvm::Function& F) {
         if (InnermostL != nullptr) {
             // current basic block is within the loop, so all SCCs
             // formed out of that BB instructions belong to the loop
+            auto loop_name_it = LNames->find(InnermostL);
+            if (loop_name_it == LNames->end()) {
+                llvm_unreachable("error: incomplete ppar::FunctionLoopInfoPass::LoopNames structure!");
+            }
+           
             for (BasicBlock::iterator inst_it = bb_it->begin(); inst_it != bb_it->end(); ++inst_it) {
                 DependenceGraph* SCC = PDG.nodeToSCC(&(*inst_it));
                 DecoupleLoopsInfo_func[InnermostL]->addSCC(SCC);
@@ -170,7 +157,7 @@ bool DecoupleLoopsPass::runOnFunction(llvm::Function& F) {
                     std::string str;
                     llvm::raw_string_ostream rso(str);
                     (SCC->getRoot()).getNode()->print(rso);
-                    llvm::dbgs() <<  LoopAddrToName[InnermostL] << ": added SCC(" << SCC << ") root: " << str << "\n";
+                    llvm::dbgs() << loop_name_it->second << ": added SCC(" << SCC << ") root: " << str << "\n";
                 );
 
                 bool outsideLoop = true;
@@ -187,12 +174,12 @@ bool DecoupleLoopsPass::runOnFunction(llvm::Function& F) {
 
                 if (outsideLoop) {
                     DEBUG(
-                        llvm::dbgs() << "SCC(" << SCC << ") is the iterator of the " << LoopAddrToName[InnermostL] + "\n";
+                        llvm::dbgs() << "SCC(" << SCC << ") is the iterator of the " << loop_name_it->second + "\n";
                     );
                     DecoupleLoopsInfo_func[InnermostL]->addIteratorSCC(SCC);
                 } else {
                     DEBUG(
-                        llvm::dbgs() << "added SCC(" << SCC << ") is the workload of the " << LoopAddrToName[InnermostL] + "\n";
+                        llvm::dbgs() << "added SCC(" << SCC << ") is the workload of the " << loop_name_it->second + "\n";
                     );
                     DecoupleLoopsInfo_func[InnermostL]->addPayloadSCC(SCC);
                 }
@@ -201,7 +188,7 @@ bool DecoupleLoopsPass::runOnFunction(llvm::Function& F) {
     }
 
     /* Use single-loop-scope dependence graphs to decouple loops  */
-    for (const Loop* L : FunctionLoops) {
+    for (const llvm::Loop* L : *LList) {
         const DependenceGraph& LoopPDG = (getAnalysis<PDGPass>()).getLoopGraph(L);
         if (LoopPDG == GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraphPass>::InvalidGraph) {
             llvm_unreachable("llvm::Loop cannot have InvalidGraph allocated to it!");

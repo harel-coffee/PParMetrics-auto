@@ -10,6 +10,7 @@ template <>
 void MetricPass<ppar::LoopDependenceMetrics>::getAnalysisUsage(llvm::AnalysisUsage& AU) const {
     AU.setPreservesAll();
     AU.addRequired<LoopInfoWrapperPass>();
+    AU.addRequired<FunctionLoopInfoPass>();
     AU.addRequired<DecoupleLoopsPass>();
     AU.addRequired<GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraphPass>>();
 }
@@ -21,12 +22,13 @@ bool MetricPass<ppar::LoopDependenceMetrics>::runOnFunction(Function& F) {
         Pass::getAnalysis<GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraphPass>>();
     DecoupleLoopsPass& DecLoopsPass = Pass::getAnalysis<DecoupleLoopsPass>(); 
     LoopInfoWrapperPass& LIPass = (getAnalysis<LoopInfoWrapperPass>());
+    ppar::FunctionLoopInfoPass& LInfoPass = (getAnalysis<FunctionLoopInfoPass>());
     
     // get information out of passes
     LoopInfo& LI = LIPass.getLoopInfo();
-    std::vector<const llvm::Loop*>& FunctionLoopList = DecLoopsPass.getLoopList();
+    const FunctionLoopInfoPass::FunctionLoopList& LList = *LInfoPass.getFunctionLoopList(&F);
     std::unordered_map<const llvm::Loop*, std::unique_ptr<LoopDecoupleInfo>>& DecLoopsInfo = DecLoopsPass.getDecoupleLoopsInfo_loop();
-    if (FunctionLoopList.size() != DecLoopsInfo.size()) {
+    if (LList.size() != DecLoopsInfo.size()) {
         llvm_unreachable("llvm::LoopInfo and ppar::DecoupleLoopInfo have a different number of loops!");
         return false;
     }
@@ -36,7 +38,7 @@ bool MetricPass<ppar::LoopDependenceMetrics>::runOnFunction(Function& F) {
 
     // compute all metrics for every single loop in the function
     uint64_t idx;
-    for (const Loop* L : FunctionLoopList) {
+    for (const Loop* L : LList) {
         auto it = DecLoopsInfo.find(L);
         if (it == DecLoopsInfo.end()) {
             llvm_unreachable("ppar::DecoupleLoopInfo doesn't have any information about the searched loop!");

@@ -16,6 +16,7 @@
 
 #include "ppar_common_includes.h"
 #include "Graph.h"
+#include "FunctionLoopInfo.h"
 
 #include "llvm/Pass.h"
 #include "llvm/PassAnalysisSupport.h"
@@ -59,7 +60,6 @@ struct GraphPass<NODE*,EDGE*,PASS> : public llvm::FunctionPass {
     private:
         std::unique_ptr<Graph<NODE*,EDGE*>> G;
         std::unordered_map<const llvm::Loop*,std::unique_ptr<Graph<NODE*,EDGE*>>> LG;
-        std::unordered_map<llvm::Function*,std::vector<const llvm::Loop*>> FunctionLoops;
 };
 
 } // namespace ppar

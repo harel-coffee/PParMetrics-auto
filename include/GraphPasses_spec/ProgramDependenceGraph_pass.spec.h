@@ -10,6 +10,7 @@ template <>
 void GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraphPass>::getAnalysisUsage(llvm::AnalysisUsage& AU) const {
     AU.setPreservesAll();
     AU.addRequired<LoopInfoWrapperPass>();
+    AU.addRequired<FunctionLoopInfoPass>();
     AU.addRequired<GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphPass>>();
     AU.addRequired<GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::DataDependenceGraphPass>>();
     AU.addRequired<GraphPass<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphPass>>();
@@ -159,7 +160,7 @@ bool GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraph
                     Dep->setFlow();
                 } else if (MemDep->isAnti()) {
                     Dep->setAnti();
-                } else if (MemDep->isOutput()){
+                } else if (MemDep->isOutput()) {
                     Dep->setOutput();
                 } else {
                     Dep->setUnknown();

@@ -10,6 +10,7 @@ template <>
 void GraphPass<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphPass>::getAnalysisUsage(llvm::AnalysisUsage& AU) const {
     AU.setPreservesAll();
     AU.addRequired<PostDominatorTreeWrapperPass>();
+    AU.addRequired<FunctionLoopInfoPass>();
     AU.addRequired<LoopInfoWrapperPass>();
 }
 

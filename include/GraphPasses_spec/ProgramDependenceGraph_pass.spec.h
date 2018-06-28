@@ -21,6 +21,10 @@ bool GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraph
 
     if (F.isDeclaration()) return false;
 
+    DEBUG_WITH_TYPE("ppar-pass-pipeline",
+        dbgs() << "GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::ProgramDependenceGraphPass>::runOnFunction(" << F.getName() << ")\n";
+    );
+
     allocateGraphs(F);
 
     /* Build Program Dependence Graph for the given function F */

@@ -17,7 +17,11 @@ template <>
 bool GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::DataDependenceGraphPass>::runOnFunction(Function& F) {
 
     if (F.isDeclaration()) return false;
-    
+
+    DEBUG_WITH_TYPE("ppar-pass-pipeline",
+        dbgs() << "GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::DataDependenceGraphPass>::runOnFunction(" << F.getName() << ")\n";
+    );
+
     allocateGraphs(F);
 
     /* Build Data Dependence Graph for the given function F */

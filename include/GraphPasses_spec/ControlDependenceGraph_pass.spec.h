@@ -77,7 +77,11 @@ template <>
 bool GraphPass<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphPass>::runOnFunction(Function& F) {
     
     if (F.isDeclaration()) return false;
-   
+
+    DEBUG_WITH_TYPE("ppar-pass-pipeline",
+        dbgs() << "GraphPass<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphPass>::runOnFunction(" << F.getName() << ")\n";
+    );
+
     allocateGraphs(F);
 
     const PostDominatorTree& pdt = Pass::getAnalysis<PostDominatorTreeWrapperPass>().getPostDomTree();

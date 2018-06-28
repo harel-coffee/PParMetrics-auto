@@ -28,16 +28,30 @@ char FunctionLoopInfoPass::ID = 0;
 
 FunctionLoopInfoPass::FunctionLoopInfoPass() 
  : FunctionPass(ID) {
+
+    DEBUG_WITH_TYPE("ppar-pass-pipeline",
+        llvm::dbgs() << "FunctionLoopInfoPass::FunctionLoopInfoPass()\n";
+    );
+
     FunctionLoopLists.clear();
     FunctionLoopNameMappings.clear();
 }
 
-FunctionLoopInfoPass::~FunctionLoopInfoPass() { 
+FunctionLoopInfoPass::~FunctionLoopInfoPass() {
+
+    DEBUG_WITH_TYPE("ppar-pass-pipeline",
+        llvm::dbgs() << "FunctionLoopInfoPass::~FunctionLoopInfoPass()\n";
+    );
+
     FunctionLoopLists.clear();
     FunctionLoopNameMappings.clear();
 }
 
-void FunctionLoopInfoPass::releaseMemory() {}
+void FunctionLoopInfoPass::releaseMemory() {
+    DEBUG_WITH_TYPE("ppar-pass-pipeline",
+        llvm::dbgs() << "FunctionLoopInfoPass::releaseMemory()\n";
+    );
+}
 
 void FunctionLoopInfoPass::getAnalysisUsage(llvm::AnalysisUsage& AU) const {
     AU.setPreservesAll();
@@ -45,21 +59,25 @@ void FunctionLoopInfoPass::getAnalysisUsage(llvm::AnalysisUsage& AU) const {
 }
 
 llvm::StringRef FunctionLoopInfoPass::getPassName() const { 
-    return "Function Loop Info Pass"; 
+    return "FunctionLoopInfoPass"; 
 }
 
 bool FunctionLoopInfoPass::runOnFunction(llvm::Function& F) {
     const LoopInfo& LI = (getAnalysis<LoopInfoWrapperPass>()).getLoopInfo();
+
+    DEBUG_WITH_TYPE("ppar-pass-pipeline",
+        llvm::dbgs() << "FunctionLoopInfoPass::runOnFunction()\n";
+    );
+
+    // create corresponding entries for a new function F
+    FunctionLoopList& LList = FunctionLoopLists[&F];
+    LoopNames& LNames = FunctionLoopNameMappings[&F];
 
     if (LI.empty()) {
         llvm::outs() << "Function Loop Info Pass:\n";
         llvm::outs() << "\tNo top-level loops in the function!\n";
         return false; 
     }
-
-    // create corresponding entries for a new function F
-    FunctionLoopList& LList = FunctionLoopLists[&F];
-    LoopNames& LNames = FunctionLoopNameMappings[&F];
 
     // line up all the function loops sequantially in a list
     std::queue<const llvm::Loop*> LoopsQueue;

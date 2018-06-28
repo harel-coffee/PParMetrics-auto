@@ -13,13 +13,21 @@ namespace ppar {
 
 template <typename NODE, typename EDGE, typename PASS>
 GraphPass<NODE*,EDGE*,PASS>::GraphPass() 
- : FunctionPass(ID) {}
+ : FunctionPass(ID) {
+    DEBUG_WITH_TYPE("ppar-pass-pipeline",
+        dbgs() << "GraphPass::GraphPass()\n";
+    );
+}
 
 template <typename NODE, typename EDGE, typename PASS>
 Graph<NODE*,EDGE*> GraphPass<NODE*,EDGE*,PASS>::InvalidGraph;
 
 template <typename NODE, typename EDGE, typename PASS>
-void GraphPass<NODE*,EDGE*,PASS>::releaseMemory() {}
+void GraphPass<NODE*,EDGE*,PASS>::releaseMemory() {
+    DEBUG_WITH_TYPE("ppar-pass-pipeline",
+        dbgs() << "GraphPass::releaseMemory()\n";
+    );
+}
 
 template <typename NODE, typename EDGE, typename PASS>
 Graph<NODE*,EDGE*>& GraphPass<NODE*,EDGE*,PASS>::getFunctionGraph() { return *G; }
@@ -35,7 +43,12 @@ Graph<NODE*,EDGE*>& GraphPass<NODE*,EDGE*,PASS>::getLoopGraph(const Loop* L) {
 }
 
 template <typename NODE, typename EDGE, typename PASS>
-void GraphPass<NODE*,EDGE*,PASS>::allocateGraphs(llvm::Function& F) { 
+void GraphPass<NODE*,EDGE*,PASS>::allocateGraphs(llvm::Function& F) {
+    
+    DEBUG_WITH_TYPE("ppar-pass-pipeline",
+        dbgs() << "GraphPass::allocateGraphs()\n";
+    );
+    
     // allocate function's dependence graph
     G = std::make_unique<Graph<NODE*,EDGE*>>(this, &F); 
     // if we've got any loops in the function, then proceed with dependence graph allocation for them 

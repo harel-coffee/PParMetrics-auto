@@ -21,6 +21,10 @@ bool GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphP
 
     allocateGraphs(F);
 
+    DEBUG_WITH_TYPE("ppar-pass-pipeline",
+        dbgs() << "GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphPass>::runOnFunction(" << F.getName() << ")\n";
+    );
+
     llvm::DependenceInfo& DI = Pass::getAnalysis<llvm::DependenceAnalysisWrapperPass>().getDI();
 
     // we are only interested in memory referencing instructions

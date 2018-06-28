@@ -11,6 +11,10 @@ namespace ppar {
 template <typename NODE, typename EDGE>
 Graph<NODE*,EDGE*>::Graph(llvm::Pass* GPass, const llvm::Function* F, const Graph<NODE*,EDGE*>* Parent) {
 
+    DEBUG_WITH_TYPE("ppar-pass-pipeline",
+        llvm::dbgs() << "Graph::Graph()\n";
+    );
+
     Func = F;
     GraphPass = GPass;
 
@@ -36,6 +40,10 @@ Graph<NODE*,EDGE*>::Graph(llvm::Pass* GPass, const llvm::Function* F, const Grap
 
 template <typename NODE, typename EDGE>
 Graph<NODE*,EDGE*>::~Graph() {
+
+    DEBUG_WITH_TYPE("ppar-pass-pipeline",
+        llvm::dbgs() << "Graph::~Graph()\n";
+    );
 
     if (CG_data_valid) {
         delete ComponentGraph;

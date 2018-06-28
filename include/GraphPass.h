@@ -1,5 +1,5 @@
 /*
- * GraphPass template
+ * GraphPass<NODE*,EDGE*,PASS> template
  *
  * As this pass runs on a given function, it builds function's dependence graph 
  * and all dependence graphs of the function's loops.

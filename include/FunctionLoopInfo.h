@@ -13,7 +13,7 @@
 #include <unordered_map>
 
 #undef DEBUG_TYPE
-#define DEBUG_TYPE "func-loop-info"
+#define DEBUG_TYPE "func-loop-info-pass"
 
 namespace ppar {
 

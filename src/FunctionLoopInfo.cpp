@@ -19,7 +19,7 @@ using namespace std;
 
 RegisterPass<ppar::FunctionLoopInfoPass> FunctionLoopInfoPassRegister(
     "function-loop-info",
-    "Wrapper pass around llvm::LoopInfo (builds a list of function loops)"
+    "Wrapper pass around llvm::LoopInfo (builds a list of function loops and establishes a naming scheme across the ppar tool)"
 );
 
 namespace ppar {
@@ -96,14 +96,16 @@ bool FunctionLoopInfoPass::runOnFunction(llvm::Function& F) {
 
     int i = 0;
     for (const Loop* L : LList) {
-        string LoopName = F.getName().str() + ".depth_" + std::to_string(L->getLoopDepth()) + ".loop_" + std::to_string(i);
-        i++;
+        // assign a name to the loop 
+        string LoopName = F.getName().str() + ".depth_" + std::to_string(L->getLoopDepth()) + ".loop_" + std::to_string(i++);
+        LNames[L] = LoopName;
 
-        DEBUG(
+        DEBUG_WITH_TYPE("ppar-function-loop-info",
             std::string str;
             llvm::raw_string_ostream rso(str);
             llvm::dbgs() << "new loop identified: " + LoopName + "\n";
             L->dump();
+            llvm::dbgs() << (L->getName()).str() << "\n";
             llvm::dbgs() << "\n";
         );
 

@@ -50,7 +50,7 @@ void MetricsCollector::getAnalysisUsage(llvm::AnalysisUsage& AU) const {
 }
 
 llvm::StringRef MetricsCollector::getPassName() const { 
-    return "Metrics Collector Pass"; 
+    return "MetricsCollectorPass"; 
 }
 
 bool MetricsCollector::runOnFunction(llvm::Function& F) {
@@ -59,17 +59,20 @@ bool MetricsCollector::runOnFunction(llvm::Function& F) {
     llvm::raw_fd_ostream FuncMetricsFile(F.getName().str() + ".func.metrics", EC, sys::fs::F_Text);
     // function loops to print metrics for 
     const LoopInfo& LI = (getAnalysis<LoopInfoWrapperPass>()).getLoopInfo();
-
     ppar::FunctionLoopInfoPass& LInfoPass = (getAnalysis<FunctionLoopInfoPass>());
     const FunctionLoopInfoPass::FunctionLoopList* LList = LInfoPass.getFunctionLoopList(&F);
     const FunctionLoopInfoPass::LoopNames* LNames = LInfoPass.getFunctionLoopNames(&F);
-    if (LList->empty() ||
-        LNames->empty()) {
+    if (LList->empty() || LNames->empty()) {
         // no loops -> no work to do
         return false;
     }
-   
-    // currently available metrics
+    // consistency check
+    if (LList->size() != LNames->size()) {
+        llvm_unreachable("error: misformed ppar::FunctionLoopInfo data structures!\n \
+                          Linear loop list size does not match the one of the loop name map!\n");
+    }
+  
+    // get all computed currently available metrics out their corersponding passes
     MetricSet_func<ppar::LoopProportionMetrics>* LoopProportionMetric_func
         = (Pass::getAnalysis<ppar::MetricPass<ppar::LoopProportionMetrics>>()).getFunctionMetrics(F); 
 
@@ -78,23 +81,26 @@ bool MetricsCollector::runOnFunction(llvm::Function& F) {
 
     MetricSet_func<ppar::LoopDependenceMetrics>* LoopDependenceMetric_func
         = (Pass::getAnalysis<ppar::MetricPass<ppar::LoopDependenceMetrics>>()).getFunctionMetrics(F); 
-
-    // fill function metrics file
-    FuncMetricsFile << "[ Pervasive Parallelism Metrics ]\n\n";
+    
+    // print a header into a function metrics file 
     FuncMetricsFile << "Function: " << F.getName().str() << " {\n\n";
- 
+
+    // for every single function loop, print computed metrics into the file
     for (const llvm::Loop* L : *LList) {
+        // get a name of the loop out of FunctionLoopInfo pass
         std::string LName;
         auto loop_name_it = LNames->find(L);
         if (loop_name_it != LNames->end()) {
             LName = loop_name_it->second;
         } else {
-            llvm_unreachable("error: incomplete ppar::FunctionLoopInfoPass::LoopNames data structure!");
+            llvm_unreachable("error: incomplete ppar::FunctionLoopInfoPass::LoopNames data structure!\n \
+                              Metrics collector could not find a name of the loop!\n");
         }
 
-        // print information identifying a loop in the function body
+        // print the header information identifying a loop in the function body
         FuncMetricsFile << "===== Loop [" << LName << "] =====\n";
-        FuncMetricsFile << *L << "\n";
+        FuncMetricsFile << "llvm::LoopInfo name: " << L->getName() << "\n";
+/*        FuncMetricsFile << *L << "\n";
         uint64_t Line;
         StringRef File;
         StringRef Dir;
@@ -111,7 +117,28 @@ bool MetricsCollector::runOnFunction(llvm::Function& F) {
                 }
             }
         }
-        FuncMetricsFile << "\n";
+        FuncMetricsFile << "\n";*/
+        // print the loop location in the original source code file
+        llvm::Loop::LocRange LoopLocRange = L->getLocRange();
+        FuncMetricsFile << "Loop located ";
+        if (LoopLocRange) {
+            const DebugLoc& LoopStart = LoopLocRange.getStart();  
+            const DebugLoc& LoopEnd = LoopLocRange.getEnd();  
+            DILocation* StartLoc = LoopStart.get();
+            DILocation* EndLoc = LoopEnd.get();
+            uint64_t StartLine = StartLoc->getLine();
+            StringRef StartFile = StartLoc->getFilename();
+            uint64_t EndLine = StartLoc->getLine();
+            StringRef EndFile = StartLoc->getFilename();
+            if (StartFile != EndFile) {
+                llvm_unreachable("error: MetricsCollector cannot print loop DebugInfo!\n \
+                                  Start and End filenames do not match. Loops cannot span several files!\n");
+            }
+            FuncMetricsFile << "at " << StartFile << ":" << StartLine << "-" << EndLine << "\n\n";
+        } else {
+            FuncMetricsFile << "at undefined location!\n\n";
+        }
+
         // print all computed metrics 
         FuncMetricsFile << "Loop Proportion Metric Set:\n";
         if (LoopProportionMetric_func != nullptr) {

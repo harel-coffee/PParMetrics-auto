@@ -1,3 +1,18 @@
+/* -------------------- FunctionLoopInfo.h  -------------------- 
+ * 
+ * A wrapper pass around llvm::LoopInfo: puts all function loops 
+ * into a linear list for further per-loop one-by-one processing.
+ * 
+ * Also it assigns a name to every single loop of the following 
+ * format: function_name.depth_%N.loop_%N
+ * %N is a consecutive integer number, depth starts from 1 (0 
+ * is a scalar code outside of any loops), loop numbering starts 
+ * from 0. It establishes consistent loop naming scheme across 
+ * all passes of the tool.
+ * 
+ * -------------------------------------------------------------
+ */
+
 #ifndef PPAR_FUNCTION_LOOP_INFO_H
 #define PPAR_FUNCTION_LOOP_INFO_H
 
@@ -11,9 +26,6 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-
-#undef DEBUG_TYPE
-#define DEBUG_TYPE "func-loop-info-pass"
 
 namespace ppar {
 

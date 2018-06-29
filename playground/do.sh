@@ -35,8 +35,8 @@ else
     mkdir ./metrics/$1
 fi
 
-clang++ -S -emit-llvm ./sources/$1.cpp -o $1.ll
-clang++ ./sources/$1.cpp -o $1
+clang++ -S -emit-llvm -g ./sources/$1.cpp -o $1.ll
+clang++ -g ./sources/$1.cpp -o $1
 mv $1 execs/$1
 
 opt -O3 $1.ll -o $1.bc

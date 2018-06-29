@@ -1,0 +1,35 @@
+
+digraph G {
+
+
+node98 [label="[2/5]
+for.cond:                                         ; preds = %for.inc, %entry
+  %1 = load i32, i32* %i, align 4, !dbg !1286
+  %cmp = icmp ult i32 %1, 100, !dbg !1288
+  br i1 %cmp, label %for.body, label %for.end, !dbg !1289
+",shape=rectangle ]
+node96 [label="[3/4]
+for.body:                                         ; preds = %for.cond
+  %2 = load i32, i32* %i, align 4, !dbg !1290
+  %call = call i64 @_Z21compute_fibonacci_numi(i32 %2), !dbg !1292
+  %conv = trunc i64 %call to i32, !dbg !1292
+  %3 = load i32, i32* %i, align 4, !dbg !1293
+  %sub = sub nsw i32 %3, 1, !dbg !1294
+  %idxprom = sext i32 %sub to i64, !dbg !1295
+  %arrayidx = getelementptr inbounds i32, i32* %vla, i64 %idxprom, !dbg !1295
+  store i32 %conv, i32* %arrayidx, align 4, !dbg !1296
+  br label %for.inc, !dbg !1297
+",shape=rectangle ]
+node97 [label="[0/1]
+for.inc:                                          ; preds = %for.body
+  %4 = load i32, i32* %i, align 4, !dbg !1298
+  %inc = add nsw i32 %4, 1, !dbg !1298
+  store i32 %inc, i32* %i, align 4, !dbg !1298
+  br label %for.cond, !dbg !1299, !llvm.loop !1300
+",shape=rectangle ]
+
+node98->node97 [ ]
+node98->node96 [ ]
+
+
+}

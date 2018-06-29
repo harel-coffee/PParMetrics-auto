@@ -1,0 +1,22 @@
+
+digraph G {
+
+
+node244 [fillcolor=lightcoral,label="[7/8]  %6 = load i32, i32* %i2, align 4, !dbg !1311",shape=ellipse,style=filled ]
+node242 [fillcolor=lightcoral,label="[1/2]  %7 = load i32, i32* %i2, align 4, !dbg !1316",shape=ellipse,style=filled ]
+node243 [fillcolor=lightcoral,label="[5/6]  %5 = load i32, i32* %i2, align 4, !dbg !1307",shape=ellipse,style=filled ]
+node241 [fillcolor=lightcoral,label="[10/11]  %8 = load i32, i32* %arrayidx9, align 4, !dbg !1317",shape=ellipse,style=filled ]
+node239 [fillcolor=lightcoral,label="[0/9]  store i32 %inc13, i32* %i2, align 4, !dbg !1321",shape=ellipse,style=filled ]
+node240 [fillcolor=lightcoral,label="[3/4]  %9 = load i32, i32* %i2, align 4, !dbg !1321",shape=ellipse,style=filled ]
+
+node244->node239 [ ]
+node239->node244 [ ]
+node242->node239 [ ]
+node239->node242 [ ]
+node239->node240 [ ]
+node239->node243 [ ]
+node240->node239 [ ]
+node243->node239 [ ]
+
+
+}

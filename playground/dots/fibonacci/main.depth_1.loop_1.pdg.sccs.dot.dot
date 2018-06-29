@@ -1,0 +1,116 @@
+
+digraph G {
+
+
+
+
+
+subgraph cluster8 {
+
+
+node558 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[7/8]  %arrayidx = getelementptr inbounds i32, i32* %vla, i64 %idxprom, !dbg !1295",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster7 {
+
+
+node557 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[6/9]  %idxprom = sext i32 %sub to i64, !dbg !1295",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster6 {
+
+
+node556 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/5]  %call = call i64 @_Z21compute_fibonacci_numi(i32 %2), !dbg !1292",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster0 {
+
+
+node543 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[2/3]  store i32 %conv, i32* %arrayidx, align 4, !dbg !1296",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster5 {
+
+
+node554 [fillcolor=lemonchiffon,label="[18/27]  br i1 %cmp, label %for.body, label %for.end, !dbg !1289",shape=ellipse,style=filled ]
+node555 [fillcolor=grey,label="[21/22]  %inc = add nsw i32 %4, 1, !dbg !1298",shape=rectangle,style=filled ]
+node549 [fillcolor=lightcoral,label="[23/24]  %4 = load i32, i32* %i, align 4, !dbg !1298",shape=ellipse,style=filled ]
+node550 [fillcolor=lightcoral,label="[11/30]  store i32 %inc, i32* %i, align 4, !dbg !1298",shape=ellipse,style=filled ]
+node552 [fillcolor=lightcoral,label="[16/29]  %1 = load i32, i32* %i, align 4, !dbg !1286",shape=ellipse,style=filled ]
+node548 [fillcolor=lightcoral,label="[12/15]  %3 = load i32, i32* %i, align 4, !dbg !1293",shape=ellipse,style=filled ]
+node551 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[10/31]  %2 = load i32, i32* %i, align 4, !dbg !1290",shape=ellipse,style=filled ]
+node553 [fillcolor=grey,label="[17/28]  %cmp = icmp ult i32 %1, 100, !dbg !1288",shape=rectangle,style=filled ]
+
+node554->node552 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node554->node553 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node550->node551 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node551->node550 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node548->node550 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node555->node550 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node553->node554 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node554->node554 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node550->node548 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node554->node550 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node550->node549 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node552->node553 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node554->node551 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node554->node548 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node549->node550 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node549->node555 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node554->node549 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node550->node552 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node554->node555 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node552->node550 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+
+
+}
+
+subgraph cluster1 {
+
+
+node544 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[1/4]  %conv = trunc i64 %call to i32, !dbg !1292",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster2 {
+
+
+node545 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[25/26]  br label %for.inc, !dbg !1297",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster3 {
+
+
+node546 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[19/20]  br label %for.cond, !dbg !1299, !llvm.loop !1300",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster4 {
+
+
+node547 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[13/14]  %sub = sub nsw i32 %3, 1, !dbg !1294",shape=rectangle,style=filled ]
+
+
+
+}
+
+}

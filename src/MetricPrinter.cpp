@@ -121,7 +121,7 @@ bool MetricPrinter::runOnFunction(llvm::Function& F) {
     
     // print a header into a function metrics file 
     FuncMetricsFile << "Function: " << F.getName().str() << " {\n\n";
-    MetricFileStream_excel << F.getName().str() << ":" << "\n";
+    MetricFileStream_excel << F.getName().str() << "\n";
 
     // for every single function loop, print computed metrics into the file
     for (const llvm::Loop* L : *LList) {
@@ -134,6 +134,7 @@ bool MetricPrinter::runOnFunction(llvm::Function& F) {
             llvm_unreachable("error: incomplete ppar::FunctionLoopInfoPass::LoopNames data structure!\n \
                               Metrics collector could not find a name of the loop!\n");
         }
+        MetricFileStream_excel << ":";
         // print the header information identifying a loop in the function body
         FuncMetricsFile << "===== Loop [" << LName << "] =====\n";
         FuncMetricsFile << "llvm::LoopInfo name: " << L->getName() << "\n";

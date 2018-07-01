@@ -28,11 +28,11 @@ node54 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[8/15]  store i32 %
 node56->node55 [ ]
 node55->node56 [ ]
 node55->node53 [ ]
+node53->node54 [ ]
+node56->node54 [ ]
 node53->node55 [ ]
 node54->node53 [ ]
 node54->node56 [ ]
-node56->node54 [ ]
-node53->node54 [ ]
 
 
 }
@@ -81,8 +81,8 @@ node46 [fillcolor=lightcoral,label="[28/33]  %3 = load i64, i64* %num_p, align 8
 node44 [fillcolor=lightcoral,label="[30/31]  %0 = load i64, i64* %num_p, align 8, !dbg !1286",shape=ellipse,style=filled ]
 node45 [fillcolor=lightcoral,label="[29/32]  store i64 %6, i64* %num_p, align 8, !dbg !1305",shape=ellipse,style=filled ]
 
-node47->node45 [ ]
 node44->node45 [ ]
+node47->node45 [ ]
 node46->node45 [ ]
 node45->node46 [ ]
 node45->node44 [ ]

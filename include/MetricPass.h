@@ -21,9 +21,9 @@ struct MetricSet_loop {
     friend struct MetricPass<METRIC>;
 
     public:
-        MetricSet_loop(const llvm::Loop* L = nullptr) {
-            Loop_ptr = L;
-            Metrics.resize(METRIC::MetricSubtype::METRIC_SUBTYPE_LAST);
+        MetricSet_loop(const llvm::Loop* L = nullptr) 
+         : Loop_ptr(L), MetricsNum(METRIC::MetricSubtype::METRIC_SUBTYPE_LAST) { 
+            Metrics.resize(MetricsNum);
             for (double& Val : Metrics) {
                 Val = -1;
             }
@@ -34,9 +34,16 @@ struct MetricSet_loop {
             Metrics.clear();
         }
         
-        double getMetricValue(uint64_t idx) { return Metrics[idx]; }
+        double getMetricValue(uint64_t idx) {
+            if (idx < MetricsNum) {
+                return Metrics[idx];
+            } else {
+                llvm_unreachable("error: request for non-existent metric value!");
+            }   
+        }
 
     private:
+        uint64_t MetricsNum;
         std::vector<double> Metrics;
         const llvm::Loop* Loop_ptr;
 };

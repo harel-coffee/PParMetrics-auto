@@ -1,4 +1,4 @@
-#include "MetricsCollector.h"
+#include "MetricPrinter.h"
 
 #include "MetricPass.h"
 #include "MetricPasses.h"
@@ -24,23 +24,60 @@ using namespace llvm;
 #include <unordered_map>
 #include <set>
 #include <fstream>
+#include <iomanip>
+#include <ios>
 using namespace std;
 
-RegisterPass<ppar::MetricsCollector> MetricsCollectorPass(
+RegisterPass<ppar::MetricPrinter> MetricPrinterPass(
     "ppar-metrics-collector",
     "Collect PPar metrics"
 );
 
 namespace ppar {
 
-char MetricsCollector::ID = 0;
+char MetricPrinter::ID = 0;
 
-MetricsCollector::MetricsCollector() 
- : FunctionPass(ID) {}
+MetricPrinter::MetricPrinter() 
+ : FunctionPass(ID), FP_precision(4) { 
+    MetricFileStream_excel.open("metrics.excel", std::ofstream::out | std::ofstream::app);
+    MetricFileStream_excel.precision(FP_precision);
+    // write a header into the file for MicrosoftExcel/LibreOfficeCalc
+    // print the top column names row
+    // print function's name
+    MetricFileStream_excel << "function:"; // the name of a function being analyzed
+    // information identifying a loop
+    MetricFileStream_excel << "loop-name-ppar:"; // loop name across the tool
+    MetricFileStream_excel << "loop-name-llvm:"; // loop name in the llvm assembly
+    MetricFileStream_excel << "loop-depth:";     // loop depth
+    MetricFileStream_excel << "loop-location:";  // filesystem/file/location(file-line)
+    // metric names
+    MetricFileStream_excel << "loop-absolute-size:";
+    MetricFileStream_excel << "loop-payload-fraction:";
+    MetricFileStream_excel << "loop-proper-sccs-number:";
+    MetricFileStream_excel << "iterator-payload-total-cohesion:";
+    MetricFileStream_excel << "iterator-payload-non-cf-cohesion:";
+    MetricFileStream_excel << "iterator-payload-mem-cohesion:";
+    MetricFileStream_excel << "critical-payload-total-cohesion:";
+    MetricFileStream_excel << "critical-payload-non-cf-cohesion:";
+    MetricFileStream_excel << "critical-payload-mem-cohesion:";
+    MetricFileStream_excel << "payload-total-dependencies-number:";
+    MetricFileStream_excel << "payload-true-dependencies-number:";
+    MetricFileStream_excel << "payload-anti-dependencies-number:";
+    MetricFileStream_excel << "payload-output-dependencies-number:";
+    MetricFileStream_excel << "critical-payload-total-dependencies-number:";
+    MetricFileStream_excel << "critical-payload-true-dependencies-number:";
+    MetricFileStream_excel << "critical-payload-anti-dependencies-number:";
+    MetricFileStream_excel << "critical-payload-output-dependencies-number:";
+    MetricFileStream_excel << "\n";
+}
 
-void MetricsCollector::releaseMemory() {}
+MetricPrinter::~MetricPrinter() {
+    MetricFileStream_excel.close();
+}
 
-void MetricsCollector::getAnalysisUsage(llvm::AnalysisUsage& AU) const {
+void MetricPrinter::releaseMemory() {}
+
+void MetricPrinter::getAnalysisUsage(llvm::AnalysisUsage& AU) const {
     AU.setPreservesAll();
     AU.addRequired<LoopInfoWrapperPass>();
     AU.addRequired<FunctionLoopInfoPass>();
@@ -49,11 +86,11 @@ void MetricsCollector::getAnalysisUsage(llvm::AnalysisUsage& AU) const {
     AU.addRequired<ppar::MetricPass<ppar::LoopDependenceMetrics>>();
 }
 
-llvm::StringRef MetricsCollector::getPassName() const { 
-    return "MetricsCollectorPass"; 
+llvm::StringRef MetricPrinter::getPassName() const { 
+    return "MetricPrinterPass"; 
 }
 
-bool MetricsCollector::runOnFunction(llvm::Function& F) {
+bool MetricPrinter::runOnFunction(llvm::Function& F) {
     // metrics file for function F 
     std::error_code EC;
     llvm::raw_fd_ostream FuncMetricsFile(F.getName().str() + ".func.metrics", EC, sys::fs::F_Text);
@@ -84,6 +121,7 @@ bool MetricsCollector::runOnFunction(llvm::Function& F) {
     
     // print a header into a function metrics file 
     FuncMetricsFile << "Function: " << F.getName().str() << " {\n\n";
+    MetricFileStream_excel << F.getName().str() << ":" << "\n";
 
     // for every single function loop, print computed metrics into the file
     for (const llvm::Loop* L : *LList) {
@@ -96,7 +134,6 @@ bool MetricsCollector::runOnFunction(llvm::Function& F) {
             llvm_unreachable("error: incomplete ppar::FunctionLoopInfoPass::LoopNames data structure!\n \
                               Metrics collector could not find a name of the loop!\n");
         }
-
         // print the header information identifying a loop in the function body
         FuncMetricsFile << "===== Loop [" << LName << "] =====\n";
         FuncMetricsFile << "llvm::LoopInfo name: " << L->getName() << "\n";
@@ -131,12 +168,14 @@ bool MetricsCollector::runOnFunction(llvm::Function& F) {
             uint64_t EndLine = StartLoc->getLine();
             StringRef EndFile = StartLoc->getFilename();
             if (StartFile != EndFile) {
-                llvm_unreachable("error: MetricsCollector cannot print loop DebugInfo!\n \
+                llvm_unreachable("error: MetricPrinter cannot print loop DebugInfo!\n \
                                   Start and End filenames do not match. Loops cannot span several files!\n");
             }
             FuncMetricsFile << "at " << StartFile << ":" << StartLine << "-" << EndLine << "\n\n";
+            MetricFileStream_excel << LName << ":" << L->getName().str() << ":" << L->getLoopDepth() << ":" << StartFile.str() << "(" << StartLine << ")" << ":";
         } else {
             FuncMetricsFile << "at undefined location!\n\n";
+            MetricFileStream_excel << LName << ":" << L->getName().str() << ":" << L->getLoopDepth() << ":" << "undefined-loop" << ":";
         }
 
         // print all computed metrics 
@@ -148,26 +187,34 @@ bool MetricsCollector::runOnFunction(llvm::Function& F) {
                 Metric = LoopProportionMetrics_loop->getMetricValue(ppar::LoopProportionMetrics::ProportionMetric_t::LOOP_ABSOLUTE_SIZE);
                 if (Metric >= 0) {
                     FuncMetricsFile << "\tloop-absolute-size: " << llvm::format("%d", (uint64_t)Metric) << "\n";
+                    MetricFileStream_excel << (uint64_t)Metric << ":";
                 } else {
                     FuncMetricsFile << "\tloop-absolute-size:\n";
+                    MetricFileStream_excel << "-:";
                 }
                 Metric = LoopProportionMetrics_loop->getMetricValue(ppar::LoopProportionMetrics::ProportionMetric_t::LOOP_PAYLOAD_FRACTION);
                 if (Metric >= 0) {
                     FuncMetricsFile << "\tloop-payload-fraction: " << llvm::format("%.4f", Metric) << "\n";
+                    MetricFileStream_excel << Metric << ":";
                 } else {
                     FuncMetricsFile << "\tloop-payload-fraction:\n";
-                    FuncMetricsFile << "\tloop-iterator-fraction:\n";
+                    MetricFileStream_excel << "-:";
                 }
                 Metric = LoopProportionMetrics_loop->getMetricValue(ppar::LoopProportionMetrics::ProportionMetric_t::LOOP_PROPER_SCCS_NUMBER);
                 if (Metric >= 0) {
                     FuncMetricsFile << "\tloop-proper-sccs-number: " << llvm::format("%d", (uint64_t)Metric) << "\n";
+                    MetricFileStream_excel << (uint64_t)Metric << ":";
                 } else {
                     FuncMetricsFile << "\tloop-proper-sccs-number:\n";
+                    MetricFileStream_excel << "-:";
                 }
            } else {
                FuncMetricsFile << "\tloop-absolute-size:\n";
                FuncMetricsFile << "\tloop-payload-fraction:\n";
                FuncMetricsFile << "\tloop-proper-sccs-number:\n";
+               MetricFileStream_excel << "-:";
+               MetricFileStream_excel << "-:";
+               MetricFileStream_excel << "-:";
            }
         } else {
             FuncMetricsFile << "\tNo Loop Proportion Metrics have been computed!\n";
@@ -182,39 +229,51 @@ bool MetricsCollector::runOnFunction(llvm::Function& F) {
                 double Metric = -1;
                 Metric = LoopCohesionMetrics_loop->getMetricValue(ppar::LoopCohesionMetrics::CohesionMetric_t::ITERATOR_PAYLOAD_TOTAL_COHESION);
                 if (Metric >= 0) {
-                    FuncMetricsFile << "\titerator-payload-total-cohesion: " << Metric << "\n";
+                    FuncMetricsFile << "\titerator-payload-total-cohesion: " << llvm::format("%.4f", Metric) << "\n";
+                    MetricFileStream_excel << Metric << ":";
                 } else {
                     FuncMetricsFile << "\titerator-payload-total-cohesion:\n";
+                    MetricFileStream_excel << "-:";
                 }
                 Metric = LoopCohesionMetrics_loop->getMetricValue(ppar::LoopCohesionMetrics::CohesionMetric_t::ITERATOR_PAYLOAD_NON_CF_COHESION);
                 if (Metric >= 0) {
-                    FuncMetricsFile << "\titerator-payload-non-cf-cohesion: " << Metric << "\n";
+                    FuncMetricsFile << "\titerator-payload-non-cf-cohesion: " << llvm::format("%.4f", Metric) << "\n";
+                    MetricFileStream_excel << Metric << ":";
                 } else {
                     FuncMetricsFile << "\titerator-payload-non-cf-cohesion:\n";
+                    MetricFileStream_excel << "-:";
                 }
                 Metric = LoopCohesionMetrics_loop->getMetricValue(ppar::LoopCohesionMetrics::CohesionMetric_t::ITERATOR_PAYLOAD_MEM_COHESION);
                 if (Metric >= 0) {
-                    FuncMetricsFile << "\titerator-payload-mem-cohesion: " << Metric << "\n";
+                    FuncMetricsFile << "\titerator-payload-mem-cohesion: " << llvm::format("%.4f", Metric) << "\n";
+                    MetricFileStream_excel << Metric << ":";
                 } else {
                     FuncMetricsFile << "\titerator-payload-mem-cohesion:\n";
+                    MetricFileStream_excel << "-:";
                 }
                 Metric = LoopCohesionMetrics_loop->getMetricValue(ppar::LoopCohesionMetrics::CohesionMetric_t::CRITICAL_PAYLOAD_TOTAL_COHESION);
                 if (Metric >= 0) {
-                    FuncMetricsFile << "\tcritical-payload-total-cohesion: " << Metric << "\n";
+                    FuncMetricsFile << "\tcritical-payload-total-cohesion: " << llvm::format("%.4f", Metric) << "\n";
+                    MetricFileStream_excel << Metric << ":";
                 } else {
                     FuncMetricsFile << "\tcritical-payload-total-cohesion:\n";
+                    MetricFileStream_excel << "-:";
                 }
                 Metric = LoopCohesionMetrics_loop->getMetricValue(ppar::LoopCohesionMetrics::CohesionMetric_t::CRITICAL_PAYLOAD_NON_CF_COHESION);
                 if (Metric >= 0) {
-                    FuncMetricsFile << "\tcritical-payload-non-cf-cohesion: " << Metric << "\n";
+                    FuncMetricsFile << "\tcritical-payload-non-cf-cohesion: " << llvm::format("%.4f", Metric) << "\n";
+                    MetricFileStream_excel << Metric << ":";
                 } else {
                     FuncMetricsFile << "\tcritical-payload-non-cf-cohesion:\n";
+                    MetricFileStream_excel << "-:";
                 }
                 Metric = LoopCohesionMetrics_loop->getMetricValue(ppar::LoopCohesionMetrics::CohesionMetric_t::CRITICAL_PAYLOAD_MEM_COHESION);
                 if (Metric >= 0) {
-                    FuncMetricsFile << "\tcritical-payload-mem-cohesion: " << Metric << "\n";
+                    FuncMetricsFile << "\tcritical-payload-mem-cohesion: " << llvm::format("%.4f", Metric) << "\n";
+                    MetricFileStream_excel << Metric << ":";
                 } else {
                     FuncMetricsFile << "\tcritical-payload-mem-cohesion:\n";
+                    MetricFileStream_excel << "-:";
                 }
             } else {
                 FuncMetricsFile << "\titerator-payload-total-cohesion:\n";
@@ -223,6 +282,12 @@ bool MetricsCollector::runOnFunction(llvm::Function& F) {
                 FuncMetricsFile << "\tcritical-payload-total-cohesion:\n";
                 FuncMetricsFile << "\tcritical-payload-non-cf-cohesion:\n";
                 FuncMetricsFile << "\tcritical-payload-mem-cohesion:\n";
+                MetricFileStream_excel << "-:";
+                MetricFileStream_excel << "-:";
+                MetricFileStream_excel << "-:";
+                MetricFileStream_excel << "-:";
+                MetricFileStream_excel << "-:";
+                MetricFileStream_excel << "-:";
             }
         } else {
             FuncMetricsFile << "\tNo Loop Cohesion Metrics have been computed!\n";
@@ -238,52 +303,68 @@ bool MetricsCollector::runOnFunction(llvm::Function& F) {
                 // print payload dependencies
                 Metric = LoopDependenceMetrics_loop->getMetricValue(ppar::LoopDependenceMetrics::DependenceMetric_t::PAYLOAD_TOTAL_DEPENDENCIES_NUM);
                 if (Metric >= 0) {
-                    FuncMetricsFile << "\tpayload-total-dependencies-number: " << Metric << "\n";
+                    FuncMetricsFile << "\tpayload-total-dependencies-number: " << llvm::format("%d", (uint64_t)Metric) << "\n";
+                    MetricFileStream_excel << (uint64_t)Metric << ":";
                 } else {
                     FuncMetricsFile << "\tpayload-total-dependencies-number:\n";
+                    MetricFileStream_excel << "-:";
                 }
                 Metric = LoopDependenceMetrics_loop->getMetricValue(ppar::LoopDependenceMetrics::DependenceMetric_t::PAYLOAD_TRUE_DEPENDENCIES_NUM);
                 if (Metric >= 0) {
-                    FuncMetricsFile << "\tpayload-true-dependencies-number: " << Metric << "\n";
+                    FuncMetricsFile << "\tpayload-true-dependencies-number: " << llvm::format("%d", (uint64_t)Metric) << "\n";
+                    MetricFileStream_excel << (uint64_t)Metric << ":";
                 } else {
                     FuncMetricsFile << "\tpayload-true-dependencies-number:\n";
+                    MetricFileStream_excel << "-:";
                 }
                 Metric = LoopDependenceMetrics_loop->getMetricValue(ppar::LoopDependenceMetrics::DependenceMetric_t::PAYLOAD_ANTI_DEPENDENCIES_NUM);
                 if (Metric >= 0) {
-                    FuncMetricsFile << "\tpayload-anti-dependencies-number: " << Metric << "\n";
+                    FuncMetricsFile << "\tpayload-anti-dependencies-number: " << llvm::format("%d", (uint64_t)Metric) << "\n";
+                    MetricFileStream_excel << (uint64_t)Metric << ":";
                 } else {
                     FuncMetricsFile << "\tpayload-anti-dependencies-number:\n";
+                    MetricFileStream_excel << "-:";
                 }
                 Metric = LoopDependenceMetrics_loop->getMetricValue(ppar::LoopDependenceMetrics::DependenceMetric_t::PAYLOAD_OUTPUT_DEPENDENCIES_NUM);
                 if (Metric >= 0) {
-                    FuncMetricsFile << "\tpayload-output-dependencies-number: " << Metric << "\n";
+                    FuncMetricsFile << "\tpayload-output-dependencies-number: " << llvm::format("%d", (uint64_t)Metric) << "\n";
+                    MetricFileStream_excel << (uint64_t)Metric << ":";
                 } else {
                     FuncMetricsFile << "\tpayload-output-dependencies-number:\n";
+                    MetricFileStream_excel << "-:";
                 }
                 // print critical payload dependencies
                 Metric = LoopDependenceMetrics_loop->getMetricValue(ppar::LoopDependenceMetrics::DependenceMetric_t::CRITICAL_PAYLOAD_TOTAL_DEPENDENCIES_NUM);
                 if (Metric >= 0) {
-                    FuncMetricsFile << "\tcritical-payload-total-dependencies-number: " << Metric << "\n";
+                    FuncMetricsFile << "\tcritical-payload-total-dependencies-number: " << llvm::format("%d", (uint64_t)Metric) << "\n";
+                    MetricFileStream_excel << (uint64_t)Metric << ":";
                 } else {
                     FuncMetricsFile << "\tcritical-payload-total-dependencies-number:\n";
+                    MetricFileStream_excel << "-:";
                 }
                 Metric = LoopDependenceMetrics_loop->getMetricValue(ppar::LoopDependenceMetrics::DependenceMetric_t::CRITICAL_PAYLOAD_TRUE_DEPENDENCIES_NUM);
                 if (Metric >= 0) {
-                    FuncMetricsFile << "\tcritical-payload-true-dependencies-number: " << Metric << "\n";
+                    FuncMetricsFile << "\tcritical-payload-true-dependencies-number: " << llvm::format("%d", (uint64_t)Metric) << "\n";
+                    MetricFileStream_excel << (uint64_t)Metric << ":";
                 } else {
                     FuncMetricsFile << "\tcritical-payload-true-dependencies-number:\n";
+                    MetricFileStream_excel << "-:";
                 }
                 Metric = LoopDependenceMetrics_loop->getMetricValue(ppar::LoopDependenceMetrics::DependenceMetric_t::CRITICAL_PAYLOAD_ANTI_DEPENDENCIES_NUM);
                 if (Metric >= 0) {
-                    FuncMetricsFile << "\tcritical-payload-anti-dependencies-number: " << Metric << "\n";
+                    FuncMetricsFile << "\tcritical-payload-anti-dependencies-number: " << llvm::format("%d", (uint64_t)Metric) << "\n";
+                    MetricFileStream_excel << (uint64_t)Metric << ":";
                 } else {
                     FuncMetricsFile << "\tcritical-payload-anti-dependencies-number:\n";
+                    MetricFileStream_excel << "-:";
                 }
                 Metric = LoopDependenceMetrics_loop->getMetricValue(ppar::LoopDependenceMetrics::DependenceMetric_t::CRITICAL_PAYLOAD_OUTPUT_DEPENDENCIES_NUM);
                 if (Metric >= 0) {
-                    FuncMetricsFile << "\tcritical-payload-output-dependencies-number: " << Metric << "\n";
+                    FuncMetricsFile << "\tcritical-payload-output-dependencies-number: " << llvm::format("%d", (uint64_t)Metric) << "\n";
+                    MetricFileStream_excel << (uint64_t)Metric << ":";
                 } else {
                     FuncMetricsFile << "\tcritical-payload-output-dependencies-number:\n";
+                    MetricFileStream_excel << "-:";
                 }
             } else {
                 // print payload dependencies
@@ -296,11 +377,21 @@ bool MetricsCollector::runOnFunction(llvm::Function& F) {
                 FuncMetricsFile << "\tcritical-payload-true-dependencies-number:\n";
                 FuncMetricsFile << "\tcritical-payload-anti-dependencies-number:\n";
                 FuncMetricsFile << "\tcritical-payload-output-dependencies-number:\n";
+
+                MetricFileStream_excel << "-:";
+                MetricFileStream_excel << "-:";
+                MetricFileStream_excel << "-:";
+                MetricFileStream_excel << "-:";
+                MetricFileStream_excel << "-:";
+                MetricFileStream_excel << "-:";
+                MetricFileStream_excel << "-:";
+                MetricFileStream_excel << "-:";
             }
         } else {
             FuncMetricsFile << "\tNo Loop Dependence Metrics have been computed!\n";
         }
         FuncMetricsFile << "\n";
+        MetricFileStream_excel << "\n";
     }
     FuncMetricsFile << "}\n";
 
@@ -308,5 +399,5 @@ bool MetricsCollector::runOnFunction(llvm::Function& F) {
 
     return false;
 }
-
+ 
 } // namespace ppar

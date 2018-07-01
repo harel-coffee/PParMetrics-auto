@@ -28,19 +28,19 @@ node227 [fillcolor=lemonchiffon,label="[5/28]  br i1 %cmp, label %for.body, labe
 node224->node225 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
 node224->node222 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
 node222->node224 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
+node227->node224 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
 node227->node223 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
 node222->node226 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
-node223->node227 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
-node225->node222 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
-node227->node222 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
 node226->node223 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
 node227->node227 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
-node227->node228 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
 node228->node223 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
 node227->node225 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
-node227->node224 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
 node226->node222 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
 node227->node226 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node227->node228 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node225->node222 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node223->node227 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node227->node222 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
 
 
 }
@@ -57,10 +57,10 @@ node219 [fillcolor=lightcoral,label="[16/17]  %4 = load i64, i64* %num_pp, align
 node217 [fillcolor=lightcoral,label="[15/18]  store i64 %5, i64* %num_pp, align 8, !dbg !1303",shape=ellipse,style=filled ]
 node218 [fillcolor=lightcoral,label="[10/11]  store i64 %add, i64* %fibb_num, align 8, !dbg !1301",shape=ellipse,style=filled ]
 
-node213->node214 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
 node214->node220 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
-node215->node218 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
-node219->node217 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node213->node215 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node220->node214 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node213->node214 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
 node219->node215 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
 node218->node216 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
 node216->node214 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
@@ -68,8 +68,8 @@ node220->node217 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black 
 node214->node213 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
 node217->node219 [style=solid,color=forestgreen,label="T|indep|Const",penwidth=1.0,fontcolor=forestgreen ]
 node216->node218 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
-node220->node214 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
-node213->node215 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node219->node217 [style=solid,color=firebrick3,label="A|indep|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node215->node218 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
 
 
 }

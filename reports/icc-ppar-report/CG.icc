@@ -1,0 +1,686 @@
+Benchmark: CG
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+
+Begin optimization report for: conj_grad(int *, int *, double *, double *, double *, double *, double *, double *, double *)
+
+    Report from: Auto-parallelization optimizations [par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(425,3)
+<Peeled loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(425,3)
+   remark #17109: LOOP WAS AUTO-PARALLELIZED
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(425,3)
+<Alternate Alignment Vectorized Loop>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(425,3)
+<Remainder loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(425,3)
+<Remainder loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(436,3)
+<Peeled loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(436,3)
+   remark #17109: LOOP WAS AUTO-PARALLELIZED
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(436,3)
+<Remainder loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(445,3)
+   remark #25460: No loop optimizations reported
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(458,5)
+      remark #17109: LOOP WAS AUTO-PARALLELIZED
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(460,7)
+      <Peeled loop for vectorization>
+      LOOP END
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(460,7)
+         remark #25460: No loop optimizations reported
+      LOOP END
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(460,7)
+      <Remainder loop for vectorization>
+      LOOP END
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(508,5)
+   <Peeled loop for vectorization>
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(508,5)
+      remark #17109: LOOP WAS AUTO-PARALLELIZED
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(508,5)
+   <Alternate Alignment Vectorized Loop>
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(508,5)
+   <Remainder loop for vectorization>
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(527,5)
+   <Peeled loop for vectorization>
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(527,5)
+      remark #17100: FUSED LOOP WAS AUTO-PARALLELIZED
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(536,5)
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(527,5)
+   <Alternate Alignment Vectorized Loop>
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(527,5)
+   <Remainder loop for vectorization>
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(527,5)
+   <Remainder loop for vectorization>
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(548,5)
+   <Peeled loop for vectorization>
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(548,5)
+      remark #17109: LOOP WAS AUTO-PARALLELIZED
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(548,5)
+   <Alternate Alignment Vectorized Loop>
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(548,5)
+   <Remainder loop for vectorization>
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(548,5)
+   <Remainder loop for vectorization>
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(559,3)
+   remark #17109: LOOP WAS AUTO-PARALLELIZED
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(561,5)
+   <Peeled loop for vectorization>
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(561,5)
+      remark #25460: No loop optimizations reported
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(561,5)
+   <Remainder loop for vectorization>
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(570,3)
+<Peeled loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(570,3)
+   remark #17109: LOOP WAS AUTO-PARALLELIZED
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(570,3)
+<Alternate Alignment Vectorized Loop>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(570,3)
+<Remainder loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(570,3)
+<Remainder loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(425,3)
+<Peeled loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(425,3)
+   remark #25460: No loop optimizations reported
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(425,3)
+<Alternate Alignment Vectorized Loop>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(425,3)
+<Remainder loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(436,3)
+<Peeled loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(436,3)
+   remark #25460: No loop optimizations reported
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(436,3)
+<Remainder loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(458,5)
+   remark #25460: No loop optimizations reported
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(460,7)
+   <Peeled loop for vectorization>
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(460,7)
+      remark #25460: No loop optimizations reported
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(460,7)
+   <Remainder loop for vectorization>
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(508,5)
+<Peeled loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(508,5)
+   remark #25460: No loop optimizations reported
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(508,5)
+<Alternate Alignment Vectorized Loop>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(508,5)
+<Remainder loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(527,5)
+<Peeled loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(527,5)
+   remark #25460: No loop optimizations reported
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(527,5)
+<Alternate Alignment Vectorized Loop>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(527,5)
+<Remainder loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(548,5)
+<Peeled loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(548,5)
+   remark #25460: No loop optimizations reported
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(548,5)
+<Alternate Alignment Vectorized Loop>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(548,5)
+<Remainder loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(559,3)
+   remark #25460: No loop optimizations reported
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(561,5)
+   <Peeled loop for vectorization>
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(561,5)
+      remark #25460: No loop optimizations reported
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(561,5)
+   <Remainder loop for vectorization>
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(570,3)
+<Peeled loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(570,3)
+   remark #25460: No loop optimizations reported
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(570,3)
+<Alternate Alignment Vectorized Loop>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(570,3)
+<Remainder loop for vectorization>
+LOOP END
+===========================================================================
+
+Begin optimization report for: sparse(double *, int *, int *, int, int, int, int *, int (*)[14], double (*)[14], int, int, int *, double, double)
+
+    Report from: Auto-parallelization optimizations [par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(696,3)
+   remark #25460: No loop optimizations reported
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(696,3)
+   <Peeled loop for vectorization>
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(696,3)
+      remark #17109: LOOP WAS AUTO-PARALLELIZED
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(696,3)
+   <Remainder loop for vectorization>
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(700,3)
+   remark #25460: No loop optimizations reported
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(701,5)
+      remark #17109: LOOP WAS AUTO-PARALLELIZED
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(701,5)
+   <Remainder>
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(708,3)
+   remark #25460: No loop optimizations reported
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(708,3)
+<Remainder>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(726,3)
+   remark #25460: No loop optimizations reported
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(727,5)
+   <Peeled loop for vectorization, Distributed chunk1>
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(727,5)
+   <Distributed chunk1>
+      remark #17109: LOOP WAS AUTO-PARALLELIZED
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(727,5)
+   <Remainder loop for vectorization, Distributed chunk1>
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(727,5)
+   <Peeled loop for vectorization, Distributed chunk2>
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(727,5)
+   <Distributed chunk2>
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(727,5)
+   <Remainder loop for vectorization, Distributed chunk2>
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(763,13)
+   remark #25460: No loop optimizations reported
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(763,13)
+<Remainder>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(799,3)
+   remark #25460: No loop optimizations reported
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(799,3)
+<Remainder>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(803,3)
+   remark #25460: No loop optimizations reported
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(811,5)
+      remark #25460: No loop optimizations reported
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(811,5)
+   <Remainder>
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(817,3)
+<Peeled loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(817,3)
+   remark #17109: LOOP WAS AUTO-PARALLELIZED
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(817,3)
+<Alternate Alignment Vectorized Loop>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(817,3)
+<Remainder loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(696,3)
+   remark #25460: No loop optimizations reported
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(696,3)
+<Remainder>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(701,5)
+   remark #25460: No loop optimizations reported
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(701,5)
+<Remainder>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(727,5)
+<Peeled loop for vectorization, Distributed chunk1>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(727,5)
+<Distributed chunk1>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(727,5)
+<Remainder loop for vectorization, Distributed chunk1>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(727,5)
+<Peeled loop for vectorization, Distributed chunk2>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(727,5)
+<Distributed chunk2>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(727,5)
+<Remainder loop for vectorization, Distributed chunk2>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(817,3)
+<Peeled loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(817,3)
+   remark #25460: No loop optimizations reported
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(817,3)
+<Alternate Alignment Vectorized Loop>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(817,3)
+<Remainder loop for vectorization>
+LOOP END
+===========================================================================
+
+Begin optimization report for: vecset(int, double *, int *, int *, int, double)
+
+    Report from: Auto-parallelization optimizations [par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(887,3)
+   remark #25460: No loop optimizations reported
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(887,3)
+<Remainder>
+LOOP END
+===========================================================================
+
+Begin optimization report for: makea(int, int, double *, int *, int *, int, int, int, int, int *, int (*)[14], double (*)[14], int *)
+
+    Report from: Auto-parallelization optimizations [par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(637,3)
+   remark #25460: No loop optimizations reported
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(643,5)
+   <Distributed chunk1>
+      remark #17109: LOOP WAS AUTO-PARALLELIZED
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(643,5)
+   <Alternate Alignment Vectorized Loop, Distributed chunk1>
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(643,5)
+   <Remainder loop for vectorization, Distributed chunk1>
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(643,5)
+   <Distributed chunk2>
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(643,5)
+   <Alternate Alignment Vectorized Loop, Distributed chunk2>
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(643,5)
+   <Remainder loop for vectorization, Distributed chunk2>
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(643,5)
+<Distributed chunk1>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(643,5)
+<Remainder, Distributed chunk1>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(643,5)
+<Distributed chunk2>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(643,5)
+<Remainder, Distributed chunk2>
+LOOP END
+===========================================================================
+
+Begin optimization report for: main(int, char **)
+
+    Report from: Auto-parallelization optimizations [par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(140,3)
+   remark #25460: No loop optimizations reported
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(220,3)
+   remark #17109: LOOP WAS AUTO-PARALLELIZED
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(220,3)
+<Remainder loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(229,3)
+   remark #17109: LOOP WAS AUTO-PARALLELIZED
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(229,3)
+<Remainder loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(232,3)
+   remark #17109: LOOP WAS AUTO-PARALLELIZED
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(260,5)
+   remark #17109: LOOP WAS AUTO-PARALLELIZED
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(270,5)
+   remark #17109: LOOP WAS AUTO-PARALLELIZED
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(279,3)
+   remark #17109: LOOP WAS AUTO-PARALLELIZED
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(279,3)
+<Remainder loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(296,3)
+   remark #25460: No loop optimizations reported
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(312,5)
+      remark #17109: LOOP WAS AUTO-PARALLELIZED
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(327,5)
+      remark #17109: LOOP WAS AUTO-PARALLELIZED
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(220,3)
+<Peeled loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(220,3)
+   remark #25460: No loop optimizations reported
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(220,3)
+<Remainder loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(229,3)
+<Peeled loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(229,3)
+   remark #25460: No loop optimizations reported
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(229,3)
+<Remainder loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(232,3)
+<Peeled loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(232,3)
+   remark #25460: No loop optimizations reported
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(232,3)
+<Remainder loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(260,5)
+<Peeled loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(260,5)
+   remark #25460: No loop optimizations reported
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(260,5)
+<Remainder loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(270,5)
+<Peeled loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(270,5)
+   remark #25460: No loop optimizations reported
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(270,5)
+<Remainder loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(279,3)
+<Peeled loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(279,3)
+   remark #25460: No loop optimizations reported
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(279,3)
+<Remainder loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(312,5)
+<Peeled loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(312,5)
+   remark #25460: No loop optimizations reported
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(312,5)
+<Remainder loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(327,5)
+<Peeled loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(327,5)
+   remark #25460: No loop optimizations reported
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/CG/src/cg.c(327,5)
+<Remainder loop for vectorization>
+LOOP END
+===========================================================================
+
+Begin optimization report for: vranlc(int, double *, double, double *)
+
+    Report from: Auto-parallelization optimizations [par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/common/randdp.c(122,3)
+<Multiversioned v1>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/common/randdp.c(122,3)
+<Multiversioned v2>
+LOOP END
+===========================================================================

@@ -1,0 +1,103 @@
+Benchmark: EP
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+
+Begin optimization report for: vranlc..1(int, double *, double, double *)
+
+    Report from: Auto-parallelization optimizations [par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/common/randdp.c(122,3)
+<Multiversioned v1>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/common/randdp.c(122,3)
+<Multiversioned v2>
+LOOP END
+===========================================================================
+
+Begin optimization report for: main()
+
+    Report from: Auto-parallelization optimizations [par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/EP/src/ep.c(127,3)
+   remark #17109: LOOP WAS AUTO-PARALLELIZED
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/EP/src/ep.c(146,3)
+   remark #25460: No loop optimizations reported
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/EP/src/ep.c(156,3)
+   remark #17109: LOOP WAS AUTO-PARALLELIZED
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/EP/src/ep.c(168,3)
+   remark #25460: No loop optimizations reported
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/EP/src/ep.c(175,5)
+      remark #25460: No loop optimizations reported
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/EP/src/ep.c(197,5)
+      remark #25460: No loop optimizations reported
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/EP/src/ep.c(197,5)
+      remark #25460: No loop optimizations reported
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/EP/src/ep.c(215,3)
+   remark #17109: LOOP WAS AUTO-PARALLELIZED
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/EP/src/ep.c(263,3)
+   remark #25460: No loop optimizations reported
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/EP/src/ep.c(127,3)
+<Peeled loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/EP/src/ep.c(127,3)
+   remark #25460: No loop optimizations reported
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/EP/src/ep.c(127,3)
+<Remainder loop for vectorization>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/EP/src/ep.c(156,3)
+   remark #25460: No loop optimizations reported
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/EP/src/ep.c(156,3)
+<Remainder>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/EP/src/ep.c(215,3)
+   remark #25460: No loop optimizations reported
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/EP/src/ep.c(215,3)
+<Remainder>
+LOOP END
+===========================================================================
+
+Begin optimization report for: vranlc(int, double *, double, double *)
+
+    Report from: Auto-parallelization optimizations [par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/common/randdp.c(122,3)
+<Multiversioned v1>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/nauseous/common/randdp.c(122,3)
+<Multiversioned v2>
+LOOP END
+===========================================================================

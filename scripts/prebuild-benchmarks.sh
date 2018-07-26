@@ -71,11 +71,6 @@ echo "DIR: ${GCC_COMPILATION_DIR}"
 cd ${GCC_COMPILATION_DIR} 
 build-gcc.sh
 
-echo "= Testing system for ICC compilation ="
-echo "DIR: ${ICC_COMPILATION_DIR}"
-cd ${ICC_COMPILATION_DIR} 
-build-icc.sh
-
 export PATH=${ORIGINAL_PATH}
 cd ${SRC_DIR}
 

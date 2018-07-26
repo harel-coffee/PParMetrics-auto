@@ -41,5 +41,7 @@ for BenchmarkFolderName in BT CG DC EP FT IS LU MG SP UA; do
 done
 echo "Final report: ${ICC_REPORT_DIR}/REPORT.icc"
 
+bash ${TOOL_DIR}/scripts/transform-icc-report.sh < ${ICC_REPORT_DIR}/REPORT.icc > ${ICC_REPORT_DIR}/REPORT.icc.excel
+
 cd ${TOOL_DIR}
 echo "=== ICC running script finished! ==="

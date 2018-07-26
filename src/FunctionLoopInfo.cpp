@@ -19,7 +19,7 @@ using namespace std;
 
 RegisterPass<ppar::FunctionLoopInfoPass> FunctionLoopInfoPassRegister(
     "function-loop-info",
-    "Wrapper pass around llvm::LoopInfo (builds a list of function loops and establishes a naming scheme across the ppar tool)"
+    "Wrapper pass around llvm::LoopInfo (builds a list of function loops and establishes a naming scheme across the PPar tool)"
 );
 
 namespace ppar {

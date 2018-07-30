@@ -23,7 +23,7 @@ def process_loop(loop_name):
         # detected inner loop
         loop_begin_match = LOOP_BEGIN_RE.search(line)
         if loop_begin_match != None:
-            subloop_name = loop_begin_match.group(1) + ":" + loop_begin_match.group(2)
+            subloop_name = loop_begin_match.group(1) + "(" + loop_begin_match.group(2) + ")"
             if subloop_name not in loop_classification:
                 loop_classification[subloop_name] = 3 # uninitialized - haven't seen loop remarks yet
             process_loop(subloop_name)
@@ -85,7 +85,7 @@ if __name__ == "__main__":
             break
         loop_begin_match = LOOP_BEGIN_RE.search(line)
         if loop_begin_match != None:
-            loop_name = loop_begin_match.group(1) + ":" + loop_begin_match.group(2)
+            loop_name = loop_begin_match.group(1) + "(" + loop_begin_match.group(2) + ")"
             if loop_name not in loop_classification:
                 loop_classification[loop_name] = 3 # uninitialized - haven't seen loop remarks yet
             process_loop(loop_name)

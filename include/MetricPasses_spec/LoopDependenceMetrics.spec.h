@@ -61,31 +61,35 @@ bool MetricPass<ppar::LoopDependenceMetrics>::runOnFunction(Function& F) {
         uint64_t CriticalPayloadAntiDependenciesNum = 0;
         uint64_t CriticalPayloadOutputDependenciesNum = 0;
         for (auto edge_it = LoopPDG.edges_begin(); edge_it != LoopPDG.edges_end(); edge_it++) {
-            std::pair<const llvm::Instruction*, const llvm::Instruction*> ToFromPair = edge_it->first;
+            std::pair<const llvm::Instruction*, const llvm::Instruction*> FromToPair = edge_it->first;
             typename Graph<llvm::Instruction*,ppar::Dependence*>::edge_set& EdgeSet = edge_it->second;
             
-            Graph<llvm::Instruction*,ppar::Dependence*>* FromSCC = LoopPDG.nodeToSCC(const_cast<llvm::Instruction*>(ToFromPair.first));
-            Graph<llvm::Instruction*,ppar::Dependence*>* ToSCC = LoopPDG.nodeToSCC(const_cast<llvm::Instruction*>(ToFromPair.second));
+            Graph<llvm::Instruction*,ppar::Dependence*>* FromSCC = LoopPDG.nodeToSCC(const_cast<llvm::Instruction*>(FromToPair.first));
+            Graph<llvm::Instruction*,ppar::Dependence*>* ToSCC = LoopPDG.nodeToSCC(const_cast<llvm::Instruction*>(FromToPair.second));
             // we are interested only in dependencies within the payload of the loop
             if (LI->SCCBelongsToPayload(FromSCC) && LI->SCCBelongsToPayload(ToSCC)) {
                 if ((FromSCC == ToSCC) && (FromSCC->getNodesNumber() > 1)) {
                     for (const GraphEdge<llvm::Instruction*,ppar::Dependence*>& Edge : EdgeSet) {
-                        if (!(Edge.getData())->isFlow()) {
+                        if ((Edge.getData())->isFlow()) {
                             CriticalPayloadTrueDependenciesNum++;
-                        } else if (!(Edge.getData())->isAnti()) {
+                            PayloadTrueDependenciesNum++;
+                        } else if ((Edge.getData())->isAnti()) {
                             CriticalPayloadAntiDependenciesNum++;
-                        } else if (!(Edge.getData())->isOutput()) {
+                            PayloadAntiDependenciesNum++;
+                        } else if ((Edge.getData())->isOutput()) {
                             CriticalPayloadOutputDependenciesNum++;
+                            PayloadOutputDependenciesNum++;
                         }
                         CriticalPayloadTotalDependenciesNum++;
+                        PayloadTotalDependenciesNum++;
                     }
                 } else {
                      for (const GraphEdge<llvm::Instruction*,ppar::Dependence*>& Edge : EdgeSet) {
-                        if (!(Edge.getData())->isFlow()) {
+                        if ((Edge.getData())->isFlow()) {
                             PayloadTrueDependenciesNum++;
-                        } else if (!(Edge.getData())->isAnti()) {
+                        } else if ((Edge.getData())->isAnti()) {
                             PayloadAntiDependenciesNum++;
-                        } else if (!(Edge.getData())->isOutput()) {
+                        } else if ((Edge.getData())->isOutput()) {
                             PayloadOutputDependenciesNum++;
                         }
                         PayloadTotalDependenciesNum++;

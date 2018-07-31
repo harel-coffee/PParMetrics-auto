@@ -1,8 +1,6 @@
 #! /usr/bin/python3
 
-if __name__ == "__main__":
-
-else:
+if __name__ != "__main__":
     # prepare a set of metrics for further reference
     metrics = {}
     metrics['loop-proportion'] = ['loop-absolute-size', 
@@ -22,7 +20,7 @@ else:
                                                        'critical-payload-true-dependencies-number', 
                                                        'critical-payload-anti-dependencies-number'] 
     metrics['all'] = []
-    for metrics_list in metrics:
-        if metrics_list != 'all':
-            metrics['all'].extend(metrics[metrics_list])
-    metrics_list = metrics['all'] 
+    for metric_group_list in metrics:
+        if metric_group_list != 'all':
+            metrics['all'].extend(metrics[metric_group_list])
+    metric_list = metrics['all'] 

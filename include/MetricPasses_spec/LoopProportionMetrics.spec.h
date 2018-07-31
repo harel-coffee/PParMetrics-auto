@@ -88,6 +88,16 @@ bool MetricPass<ppar::LoopProportionMetrics>::runOnFunction(Function& F) {
  
         idx = ppar::LoopProportionMetrics::ProportionMetric_t::LOOP_PROPER_SCCS_NUMBER;
         Metrics_loop->Metrics[idx] = LoopProperSCCsNumber_value;
+
+        // compute LOOP_CRITICAL_PAYLOAD_FRACTION metric
+        double LoopCriticalPayloadFraction_value = 0;
+        for (auto it = Payload.cbegin(); it != Payload.cend(); ++it) {
+            if ((*it)->getNodesNumber() > 1) {
+                LoopCriticalPayloadFraction_value += (*it)->getNodesNumber();
+            }
+        }
+        idx = ppar::LoopProportionMetrics::ProportionMetric_t::LOOP_CRITICAL_PAYLOAD_FRACTION;
+        Metrics_loop->Metrics[idx] = LoopCriticalPayloadFraction_value/PayloadSize;
     }
 
     return false;

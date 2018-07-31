@@ -209,10 +209,19 @@ bool MetricPrinter::runOnFunction(llvm::Function& F) {
                     FuncMetricsFile << "\tloop-proper-sccs-number:\n";
                     MetricFileStream_excel << "-:";
                 }
+                Metric = LoopProportionMetrics_loop->getMetricValue(ppar::LoopProportionMetrics::ProportionMetric_t::LOOP_CRITICAL_PAYLOAD_FRACTION);
+                if (Metric >= 0) {
+                    FuncMetricsFile << "\tloop-critical-payload-fraction: " << llvm::format("%.4f", Metric) << "\n";
+                    MetricFileStream_excel << Metric << ":";
+                } else {
+                    FuncMetricsFile << "\tloop-critical-payload-fraction:\n";
+                    MetricFileStream_excel << "-:";
+                }
            } else {
                FuncMetricsFile << "\tloop-absolute-size:\n";
                FuncMetricsFile << "\tloop-payload-fraction:\n";
                FuncMetricsFile << "\tloop-proper-sccs-number:\n";
+               FuncMetricsFile << "\tloop-critical-payload-fraction:\n";
                MetricFileStream_excel << "-:";
                MetricFileStream_excel << "-:";
                MetricFileStream_excel << "-:";

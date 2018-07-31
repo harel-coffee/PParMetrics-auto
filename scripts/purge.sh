@@ -24,10 +24,12 @@ fi
 
 if [[ -e ${BENCHMARKS_BUILD_DIR} ]]; then
     rm -rf ${BENCHMARKS_BUILD_DIR}/*
+    rm -rf ${BENCHMARKS_BUILD_DIR}
 fi
 
 if [[ -e ${TOOL_BUILD_DIR} ]]; then
     rm -rf ${TOOL_BUILD_DIR}/*
+    rm -rf ${TOOL_BUILD_DIR}
 fi
 
 echo "=== Purge script finished! ==="

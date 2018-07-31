@@ -20,6 +20,7 @@ GraphPrinter<NODE*,EDGE*,PASS>::GraphPrinter() : FunctionPass(ID) {}
 template <typename NODE, typename EDGE, typename PASS>
 void GraphPrinter<NODE*,EDGE*,PASS>::getAnalysisUsage(llvm::AnalysisUsage& AU) const {
     AU.addRequired<GraphPass<NODE*,EDGE*,PASS>>();
+    AU.addRequired<LoopInfoWrapperPass>();
     AU.addRequired<FunctionLoopInfoPass>();
     AU.setPreservesAll();
 }

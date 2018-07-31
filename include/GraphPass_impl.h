@@ -27,6 +27,8 @@ void GraphPass<NODE*,EDGE*,PASS>::releaseMemory() {
     DEBUG_WITH_TYPE("ppar-pass-pipeline",
         dbgs() << "GraphPass::releaseMemory()\n";
     );
+
+    LG.clear();
 }
 
 template <typename NODE, typename EDGE, typename PASS>

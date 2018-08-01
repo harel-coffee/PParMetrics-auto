@@ -27,9 +27,9 @@ if __name__ == "__main__":
     # loop locations in benchmark source code
     loop_locations = data['loop-location']
     # prepare statistical learning labels 
-    loop_icc_classifications = data['ICC-parallel']
+    loop_icc_classifications = data['icc-parallel']
     # prepare statistical learning features 
-    features = data.drop(['loop-location','ICC-parallel'], axis=1)
+    features = data.drop(['loop-location','icc-parallel'], axis=1)
 
     # prepare data for different metric groups
     metrics_data = {}
@@ -43,15 +43,14 @@ if __name__ == "__main__":
 
     report_file = open(report_filename,'w')
 
-    
+    total_size = len(loop_icc_classifications)
+    print("total size:" + str(total_size))
     for training_set_size in list(range(100,1001,100)):
-        for training_set_size in list(range(100,1001,100)):
-        
-        
-        
-        print(str(training_set_size) + " ")
-
-
+        intervals_num = total_size/training_set_size
+        for i in range(0,int(intervals_num)):
+            interval_start = i*training_set_size
+            interval_end = interval_start + training_set_size
+            print("[" + str(interval_start) + ":" + str(interval_end) + "]")
     
     # print the header into the report file
     print('SVM.report', file=report_file)

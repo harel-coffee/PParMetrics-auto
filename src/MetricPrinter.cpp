@@ -54,6 +54,7 @@ MetricPrinter::MetricPrinter()
     MetricFileStream_excel << "loop-absolute-size:";
     MetricFileStream_excel << "loop-payload-fraction:";
     MetricFileStream_excel << "loop-proper-sccs-number:";
+    MetricFileStream_excel << "loop-critical-payload-fraction:";
     MetricFileStream_excel << "iterator-payload-total-cohesion:";
     MetricFileStream_excel << "iterator-payload-non-cf-cohesion:";
     MetricFileStream_excel << "iterator-payload-mem-cohesion:";

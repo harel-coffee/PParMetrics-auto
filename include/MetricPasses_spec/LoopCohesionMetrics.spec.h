@@ -57,11 +57,11 @@ bool MetricPass<ppar::LoopCohesionMetrics>::runOnFunction(Function& F) {
         uint64_t IteratorPayloadNonCFEdgeCount = 0;
         uint64_t IteratorPayloadMemEdgeCount = 0;
         for (auto edge_it = LoopPDG.edges_begin(); edge_it != LoopPDG.edges_end(); edge_it++) {
-            std::pair<const llvm::Instruction*, const llvm::Instruction*> ToFromPair = edge_it->first;
+            std::pair<const llvm::Instruction*, const llvm::Instruction*> FromToPair = edge_it->first;
             typename Graph<llvm::Instruction*,ppar::Dependence*>::edge_set& EdgeSet = edge_it->second;
            
-            if ( (LI->nodeBelongsToIterator(ToFromPair.first) && LI->nodeBelongsToPayload(ToFromPair.second)) ||
-                 (LI->nodeBelongsToPayload(ToFromPair.first) && LI->nodeBelongsToIterator(ToFromPair.second))) {
+            if ( (LI->nodeBelongsToIterator(FromToPair.first) && LI->nodeBelongsToPayload(FromToPair.second)) ||
+                 (LI->nodeBelongsToPayload(FromToPair.first) && LI->nodeBelongsToIterator(FromToPair.second))) {
                 
                 for (const GraphEdge<llvm::Instruction*,ppar::Dependence*>& Edge : EdgeSet) {
                     if (!(Edge.getData())->isControl()) {
@@ -94,11 +94,11 @@ bool MetricPass<ppar::LoopCohesionMetrics>::runOnFunction(Function& F) {
         uint64_t CriticalRegularPayloadNonCFEdgeCount = 0;
         uint64_t CriticalRegularPayloadMemEdgeCount = 0;
         for (auto edge_it = LoopPDG.edges_begin(); edge_it != LoopPDG.edges_end(); edge_it++) {
-            std::pair<const llvm::Instruction*, const llvm::Instruction*> ToFromPair = edge_it->first;
+            std::pair<const llvm::Instruction*, const llvm::Instruction*> FromToPair = edge_it->first;
             typename Graph<llvm::Instruction*,ppar::Dependence*>::edge_set& EdgeSet = edge_it->second;
             
-            Graph<llvm::Instruction*,ppar::Dependence*>* FromSCC = LoopPDG.nodeToSCC(const_cast<llvm::Instruction*>(ToFromPair.first));
-            Graph<llvm::Instruction*,ppar::Dependence*>* ToSCC = LoopPDG.nodeToSCC(const_cast<llvm::Instruction*>(ToFromPair.second));
+            Graph<llvm::Instruction*,ppar::Dependence*>* FromSCC = LoopPDG.nodeToSCC(const_cast<llvm::Instruction*>(FromToPair.first));
+            Graph<llvm::Instruction*,ppar::Dependence*>* ToSCC = LoopPDG.nodeToSCC(const_cast<llvm::Instruction*>(FromToPair.second));
            
             if (LI->SCCBelongsToPayload(FromSCC) && LI->SCCBelongsToPayload(ToSCC)) {
                 if ( ((FromSCC->getNodesNumber() > 1) && (ToSCC->getNodesNumber() == 1)) || 

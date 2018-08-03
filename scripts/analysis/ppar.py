@@ -19,15 +19,12 @@ if __name__ != "__main__":
                                         'loop-proper-sccs-number',
                                         'loop-critical-payload-fraction']
     metric_groups['iterator-payload-cohesion'] = ['iterator-payload-total-cohesion', 
-                                                  'iterator-payload-non-cf-cohesion', 
-                                                  'iterator-payload-mem-cohesion']
+                                                  'iterator-payload-non-cf-cohesion']
     metric_groups['critical-payload-cohesion'] = ['critical-payload-total-cohesion', 
-                                                  'critical-payload-non-cf-cohesion', 
-                                                  'critical-payload-mem-cohesion']
+                                                  'critical-payload-non-cf-cohesion']
     metric_groups['payload-dependencies-number'] = ['payload-total-dependencies-number', 
                                                     'payload-true-dependencies-number', 
-                                                    'payload-anti-dependencies-number', 
-                                                    'payload-output-dependencies-number']
+                                                    'payload-anti-dependencies-number'] 
     metric_groups['critical-payload-dependencies-number'] = ['critical-payload-total-dependencies-number', 
                                                              'critical-payload-true-dependencies-number', 
                                                              'critical-payload-anti-dependencies-number'] 

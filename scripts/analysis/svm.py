@@ -8,9 +8,8 @@ import matplotlib.pyplot as plt
 
 from mpl_toolkits.mplot3d import Axes3D
 from sklearn.decomposition import PCA as sklearnPCA
-from sklearn.cluster import KMeans
-from sklearn.datasets.samples_generator import make_blobs
 from sklearn import svm
+
 
 import ppar
 

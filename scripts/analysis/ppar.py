@@ -9,6 +9,13 @@ def is_outlier(sample, data, std_num):
     else:
         return False
 
+def create_folder(directory):
+    try:
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+    except OSError:
+        print ("error: could not create directory: " + directory)
+
 if __name__ != "__main__":
 
     # prepare a set of metrics for further reference
@@ -33,3 +40,17 @@ if __name__ != "__main__":
         if metric_group_name != 'all':
             metric_groups['all'].extend(metric_groups[metric_group_name])
     metric_list = metric_groups['all']
+
+    # prepare a set of metrics for further reference
+    # each metric group contains a list of its metrics
+    metric_sets = {}
+    metric_sets['set_0'] = metric_groups['all'] 
+    metric_sets['set_1'] = ['iterator-payload-total-cohesion', 
+                            'iterator-payload-non-cf-cohesion',
+                            'loop-critical-payload-fraction',
+                            'loop-payload-fraction',
+                            'loop-proper-sccs-number']
+    metric_sets['set_2'] = ['iterator-payload-total-cohesion', 
+                            'iterator-payload-non-cf-cohesion',
+                            'loop-critical-payload-fraction',
+                            'loop-payload-fraction']

@@ -1,6 +1,7 @@
 #! /usr/bin/python3
 
 import sys
+import os
 import math
 
 import pandas as pd
@@ -24,13 +25,21 @@ def euclid_distance_3d(pointA, pointB):
 
 if __name__ == "__main__":
 
-    print("=== Single metric vs loop parallelisability visualization ===")
+    print("=== Clustering visualization ===")
     raw_data_filename = sys.argv[1]
     report_folder = sys.argv[2]
     std_num = int(sys.argv[3]) # outliers screening parameter
+  
+    if not os.path.exists(raw_data_filename):
+        sys.exit("error: " + raw_data_filename + " data file does not exist!")
+
+    if not os.path.exists(report_folder):
+        sys.exit("error: " + report_folder + " report folder does not exist!")
+
     print("Raw data input: " + raw_data_filename)
     print("Report folder: " + report_folder)
-    
+    print("Screen outliers outside " + str(std_num) + "-sigma standard deviations")
+
     # load raw data file
     data = pd.read_csv(raw_data_filename)
     # loop locations in benchmark source code
@@ -192,10 +201,10 @@ if __name__ == "__main__":
 #    plt.show()
 
     # save all plots into reports directory
-    fig1.savefig(report_folder + "/" + "metrics-pca-13d-to-3d")
-    fig2.savefig(report_folder + "/" + "metrics-pca-13d-to-2d")
-    fig3.savefig(report_folder + "/" + "metrics-3d-parallelisability")
-    fig4.savefig(report_folder + "/" + "metrics-clustering")
+    fig1.savefig(report_folder + "/" + "metrics-pca-13d-to-3d", transparent=False, dpi=320, bbox_inches="tight")
+    fig2.savefig(report_folder + "/" + "metrics-pca-13d-to-2d", transparent=False, dpi=320, bbox_inches="tight")
+    fig3.savefig(report_folder + "/" + "metrics-3d-parallelisability", transparent=False, dpi=320, bbox_inches="tight")
+    fig4.savefig(report_folder + "/" + "metrics-clustering", transparent=False, dpi=320, bbox_inches="tight")
 
     # report sets of loops in different clusters
     orig_stdout = sys.stdout

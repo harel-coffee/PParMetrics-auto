@@ -1,6 +1,7 @@
 #! /usr/bin/python3
 
 import sys
+import os
 
 import pandas as pd
 import numpy as np
@@ -9,19 +10,44 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from sklearn.decomposition import PCA as sklearnPCA
 from sklearn import svm
-
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import KFold
+from sklearn.model_selection import RepeatedKFold
+from sklearn.metrics import accuracy_score
 
 import ppar
+
+def create_folder(directory):
+    try:
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+    except OSError:
+        print ("error: could not create directory: " + directory)
 
 if __name__ == "__main__":
 
     print("=== Support Vector Machines (SVM) statistical learning ===")
     raw_data_filename = sys.argv[1]
-    report_filename = sys.argv[2]
-    std_num = sys.argv[3]
+    report_folder = sys.argv[2]
+    std_num = int(sys.argv[3]) # outliers screening parameter
     norm = sys.argv[4]
-    print("SVM input: " + raw_data_filename)
-    print("SVM report: " + report_filename)
+
+    if not os.path.exists(raw_data_filename):
+        sys.exit("error: " + raw_data_filename + " data file does not exist!")
+
+    if not os.path.exists(report_folder):
+        sys.exit("error: " + report_folder + " report folder does not exist!")
+
+    print("Raw data input: " + raw_data_filename)
+    print("Report folder: " + report_folder)
+    print("Screen outliers outside " + str(std_num) + "-sigma standard deviations")
+
+    normalized_folder = report_folder + "/normalized-values/"
+    absolute_folder = report_folder + "/absolute-values/"
+
+    create_folder(normalized_folder)
+    create_folder(absolute_folder)
+
     # load raw data file
     data = pd.read_csv(raw_data_filename)
     # loop locations in benchmark source code
@@ -56,72 +82,52 @@ if __name__ == "__main__":
 
     # prepare data for different metric groups
     metrics_data = {}
-    for metric_group in ppar.metrics:
-        metrics_data[metric_group] = features[ppar.metrics[metric_group]]
+    for metric_group in ppar.metric_groups:
+        metrics_data[metric_group] = features[ppar.metric_groups[metric_group]]
 
     # prepare data for single metrics
     metric_data = {}
     for metric in ppar.metric_list:
         metric_data[metric] = features[metric]
 
+    # prepare data for different metric groups
+    metric_set_data = {}
+    for metric_set in ppar.metric_sets:
+        metric_set_data[metric_set] = features[ppar.metric_sets[metric_set]]
+
+    report_filename = report_folder + "svm.report"
     report_file = open(report_filename,'w')
 
-    total_size = len(loop_icc_classifications)
-    print("total size:" + str(total_size))
-    for training_set_size in list(range(100,1001,100)):
-        intervals_num = total_size/training_set_size
-        for i in range(0,int(intervals_num)):
-            interval_start = i*training_set_size
-            interval_end = interval_start + training_set_size
-            print("[" + str(interval_start) + ":" + str(interval_end) + "]")
-    
     # print the header into the report file
     print('SVM.report', file=report_file)
-    '''
-    # SVM for groups of metrics
-    for metric_group in ppar.metrics:
-        dataset = metrics_data[metric_group]
-        print("SVM with features from " + metric_group + " metric group")
+    
+    # SVM for sets of metrics
+    for metric_set in ppar.metric_sets:
+        dataset = metric_set_data[metric_set]
+        print("SVM with features from " + metric_set + " metric set")
 
-        for training_set_size in list(range(100,1000,100)): 
-            training_set = dataset[0:training_set_size]
-            testing_set = dataset[training_set_size:]
-            training_labels = loop_icc_classifications[0:training_set_size]
-            testing_labels = loop_icc_classifications[training_set_size:]
+        report_file.write("[") 
+        for metric in ppar.metric_sets[metric_set]: 
+            report_file.write(" " + str(metric))
+        report_file.write(" ]\n") 
 
-            clf = svm.SVC()
-            clf.fit(training_set, training_labels)
-            predictions = clf.predict(testing_set)
+        random_state = 12883823
+        for splits_num in [5,10,15]:
+            report_file.write("splits num:" + str(splits_num)+ "\n")
 
-            error = 0
-            for i in range(0,len(testing_labels)):
-                test = testing_labels.tolist()
-                if predictions[i] != test[i]:
-                    error += 1
+            rkf = RepeatedKFold(n_splits=splits_num, n_repeats=3, random_state=random_state)
 
-            print("training set: [0:" + str(training_set_size) + "]" + ", svm-error: " + str(error/len(testing_labels)*100) + "%")
+            for train, test in rkf.split(dataset):
+                training_data = dataset.iloc[train]
+                testing_data = dataset.iloc[test]
+                training_labels = loop_icc_classifications.iloc[train]
+                testing_labels = loop_icc_classifications.iloc[test]
 
-    # SVM for single metrics
-    for metric in ppar.metric_list:
-        dataset = metric_data[metric]
-        dataset = dataset.values.reshape(-1,1)
-        print("SVM with " + metric + " feature")
-
-        for training_set_size in list(range(100,1000,100)): 
-            training_set = dataset[0:training_set_size]
-            testing_set = dataset[training_set_size:]
-            training_labels = loop_icc_classifications[0:training_set_size]
-            testing_labels = loop_icc_classifications[training_set_size:]
-
-            clf = svm.SVC()
-            clf.fit(training_set, training_labels)
-            predictions = clf.predict(testing_set)
-
-            error = 0
-            for i in range(0,len(testing_labels)):
-                test = testing_labels.tolist()
-                if predictions[i] != test[i]:
-                    error += 1
-
-            print("training set: [0:" + str(training_set_size) + "]" + ", svm-error: " + str(error/len(testing_labels)*100) + "%")
-    '''
+                # fit SVM model to the training dataset
+                clf = svm.SVC()
+                clf.fit(training_data, training_labels)
+                # calculate prediction accuracy 
+                accuracy = accuracy_score(testing_labels, clf.predict(testing_data))
+                report_file.write("svm-accuracy:" + "{0:.2f}".format(accuracy*100) + "\n")
+    
+    report_file.close() 

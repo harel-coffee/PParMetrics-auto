@@ -28,6 +28,7 @@ for ((i = 0; i < 4; ++i)); do
     python3 ${ANALYSIS_SCRIPTS_DIR}/visualize-single-metric-parallelizability.py "${RAW_DATA}" "${STD_DEV_DIR}" $i
 done
 
+mkdir "${CLUSTER_REPORT_DIRECTORY}"
 python3 ${ANALYSIS_SCRIPTS_DIR}/visualize-features-pca-3d-exp.py "${RAW_DATA}" "${CLUSTER_REPORT_DIRECTORY}" 3
 
 echo "=== Reports visualization script finished! ==="

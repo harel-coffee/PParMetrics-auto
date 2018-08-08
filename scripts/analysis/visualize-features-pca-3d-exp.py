@@ -114,10 +114,10 @@ if __name__ == "__main__":
     ax3d_yz.set_xlabel('y')
     ax3d_yz.set_ylabel('z')
 
-    ax3d.scatter((features_3d.transpose())[0], (features_3d.transpose())[1], (features_3d.transpose())[2], marker='.')
-    ax3d_xy.scatter((features_3d.transpose())[0], (features_3d.transpose())[1], marker='.')
-    ax3d_xz.scatter((features_3d.transpose())[0], (features_3d.transpose())[2], marker='.')
-    ax3d_yz.scatter((features_3d.transpose())[1], (features_3d.transpose())[2], marker='.')
+    ax3d.scatter((features_3d.transpose())[0], (features_3d.transpose())[1], (features_3d.transpose())[2], s=8, marker='.')
+    ax3d_xy.scatter((features_3d.transpose())[0], (features_3d.transpose())[1], s=8, marker='.')
+    ax3d_xz.scatter((features_3d.transpose())[0], (features_3d.transpose())[2], s=8, marker='.')
+    ax3d_yz.scatter((features_3d.transpose())[1], (features_3d.transpose())[2], s=8, marker='.')
 
     fig1.show()
 
@@ -127,7 +127,7 @@ if __name__ == "__main__":
     ax2d.set_xlabel('x')
     ax2d.set_ylabel('y')
 
-    ax2d.scatter((features_2d.transpose())[0], (features_2d.transpose())[1], marker='.')
+    ax2d.scatter((features_2d.transpose())[0], (features_2d.transpose())[1], s=8, marker='.')
 
     fig2.show()
 
@@ -151,9 +151,9 @@ if __name__ == "__main__":
     ax2d.set_xlabel('x')
     ax2d.set_ylabel('y')
 
-    ax3d.scatter((features_3d.transpose())[0], (features_3d.transpose())[1], (features_3d.transpose())[2], c=colors, marker='.')
+    ax3d.scatter((features_3d.transpose())[0], (features_3d.transpose())[1], (features_3d.transpose())[2], c=colors, s=16, marker='.')
     
-    ax2d.scatter((features_2d.transpose())[0], (features_2d.transpose())[1], c=colors, marker='.')
+    ax2d.scatter((features_2d.transpose())[0], (features_2d.transpose())[1], c=colors, s=16, marker='.')
 
     fig3.show()
 
@@ -176,20 +176,20 @@ if __name__ == "__main__":
     ax2d.set_xlabel('x')
     ax2d.set_ylabel('y')
 
-    ax3d.scatter((features_3d[labels3d == 0].transpose())[0], (features_3d[labels3d == 0].transpose())[1], (features_3d[labels3d == 0].transpose())[2], c='red', marker='.')
-    ax3d.scatter((features_3d[labels3d == 1].transpose())[0], (features_3d[labels3d == 1].transpose())[1], (features_3d[labels3d == 1].transpose())[2], c='green', marker='.')
-    ax3d.scatter((features_3d[labels3d == 2].transpose())[0], (features_3d[labels3d == 2].transpose())[1], (features_3d[labels3d == 2].transpose())[2], c='blue', marker='.')
-    ax3d.scatter((features_3d[labels3d == 3].transpose())[0], (features_3d[labels3d == 3].transpose())[1], (features_3d[labels3d == 3].transpose())[2], c='yellow', marker='.')
+    ax3d.scatter((features_3d[labels3d == 0].transpose())[0], (features_3d[labels3d == 0].transpose())[1], (features_3d[labels3d == 0].transpose())[2], c='red', s=8, marker='.')
+    ax3d.scatter((features_3d[labels3d == 1].transpose())[0], (features_3d[labels3d == 1].transpose())[1], (features_3d[labels3d == 1].transpose())[2], c='green', s=8, marker='.')
+    ax3d.scatter((features_3d[labels3d == 2].transpose())[0], (features_3d[labels3d == 2].transpose())[1], (features_3d[labels3d == 2].transpose())[2], c='blue', s=8, marker='.')
+    ax3d.scatter((features_3d[labels3d == 3].transpose())[0], (features_3d[labels3d == 3].transpose())[1], (features_3d[labels3d == 3].transpose())[2], c='yellow', s=8, marker='.')
     
     ax3d.scatter(centers3d[0][0], centers3d[0][1], centers3d[0][2], c='red', marker='v')
     ax3d.scatter(centers3d[1][0], centers3d[1][1], centers3d[1][2], c='green', marker='v')
     ax3d.scatter(centers3d[2][0], centers3d[2][1], centers3d[2][2], c='blue', marker='v')
     ax3d.scatter(centers3d[3][0], centers3d[3][1], centers3d[3][2], c='yellow', marker='v')
 
-    ax2d.scatter((features_3d[labels3d == 0].transpose())[0], (features_3d[labels3d == 0].transpose())[1], c='red', marker='.')
-    ax2d.scatter((features_3d[labels3d == 1].transpose())[0], (features_3d[labels3d == 1].transpose())[1], c='green', marker='.')
-    ax2d.scatter((features_3d[labels3d == 2].transpose())[0], (features_3d[labels3d == 2].transpose())[1], c='blue', marker='.')
-    ax2d.scatter((features_3d[labels3d == 3].transpose())[0], (features_3d[labels3d == 3].transpose())[1], c='yellow', marker='.')
+    ax2d.scatter((features_3d[labels3d == 0].transpose())[0], (features_3d[labels3d == 0].transpose())[1], c='red', s=16, marker='.')
+    ax2d.scatter((features_3d[labels3d == 1].transpose())[0], (features_3d[labels3d == 1].transpose())[1], c='green', s=16, marker='.')
+    ax2d.scatter((features_3d[labels3d == 2].transpose())[0], (features_3d[labels3d == 2].transpose())[1], c='blue', s=16, marker='.')
+    ax2d.scatter((features_3d[labels3d == 3].transpose())[0], (features_3d[labels3d == 3].transpose())[1], c='yellow', s=16, marker='.')
 
     ax2d.scatter(centers3d[0][0], centers3d[0][1], c='red', marker='v')
     ax2d.scatter(centers3d[1][0], centers3d[1][1], c='green', marker='v')

@@ -1,7 +1,7 @@
 #! /usr/bin/python3
 
 import sys
-import random
+import os
 
 import pandas as pd
 import numpy as np
@@ -9,20 +9,45 @@ import matplotlib.pyplot as plt
 
 from mpl_toolkits.mplot3d import Axes3D
 from sklearn.decomposition import PCA as sklearnPCA
-from sklearn.cluster import KMeans
-from sklearn.datasets.samples_generator import make_blobs
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import KFold
+from sklearn.model_selection import RepeatedKFold
+from sklearn.metrics import accuracy_score
 from sklearn.neural_network import MLPClassifier
 
 import ppar
 
+def create_folder(directory):
+    try:
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+    except OSError:
+        print ("error: could not create directory: " + directory)
+
 if __name__ == "__main__":
 
-    print("=== MPL Classifier statistical learning ===")
+    print("=== Support Vector Machines (SVM) statistical learning ===")
     raw_data_filename = sys.argv[1]
-    report_filename = sys.argv[2]
-    print("MPL Classifier input: " + raw_data_filename)
-    print("MPL Classifier report: " + report_filename)
-    
+    report_folder = sys.argv[2]
+    std_num = int(sys.argv[3]) # outliers screening parameter
+    norm = sys.argv[4]
+
+    if not os.path.exists(raw_data_filename):
+        sys.exit("error: " + raw_data_filename + " data file does not exist!")
+
+    if not os.path.exists(report_folder):
+        sys.exit("error: " + report_folder + " report folder does not exist!")
+
+    print("Raw data input: " + raw_data_filename)
+    print("Report folder: " + report_folder)
+    print("Screen outliers outside " + str(std_num) + "-sigma standard deviations")
+
+    normalized_folder = report_folder + "/normalized-values/"
+    absolute_folder = report_folder + "/absolute-values/"
+
+    create_folder(normalized_folder)
+    create_folder(absolute_folder)
+
     # load raw data file
     data = pd.read_csv(raw_data_filename)
     # loop locations in benchmark source code
@@ -32,9 +57,28 @@ if __name__ == "__main__":
     # prepare statistical learning features 
     features = data.drop(['loop-location','icc-parallel'], axis=1)
 
+    # remove outliers from the data
+    if std_num != 0:
+        filtered_idxs = {}
+        for metric in ppar.metric_list:  
+            d = features[metric]
+            filtered_idxs[metric] = features[abs(d-d.mean()) < std_num*d.std()].index
+    
+        filtered_idx = features.index
+        for metric in ppar.metric_list:  
+            filtered_idx &= filtered_idxs[metric]
+
+        loop_icc_classifications = loop_icc_classifications[filtered_idx]
+        idxs_to_drop = features.index.drop(filtered_idx)
+        features = features.drop(idxs_to_drop)
+
+        loop_icc_classifications = loop_icc_classifications.reset_index(drop=True)
+        features = features.reset_index(drop=True)
+
     # normalize the data
-    for feature in ppar.metric_list:
-        features[feature] = (features[feature] - features[feature].min())/(features[feature].max() - features[feature].min())
+    if norm == "norm":
+        for feature in ppar.metric_list:
+            features[feature] = (features[feature] - features[feature].min())/(features[feature].max() - features[feature].min())
 
     # prepare data for different metric groups
     metrics_data = {}
@@ -46,70 +90,44 @@ if __name__ == "__main__":
     for metric in ppar.metric_list:
         metric_data[metric] = features[metric]
 
+    # prepare data for different metric groups
+    metric_set_data = {}
+    for metric_set in ppar.metric_sets:
+        metric_set_data[metric_set] = features[ppar.metric_sets[metric_set]]
+
+    report_filename = report_folder + "mpl.report"
     report_file = open(report_filename,'w')
 
     # print the header into the report file
-    print('MPLClassifier.report', file=report_file)
+    print('MPL.report', file=report_file)
     
-    # SVM for groups of metrics
-    for metric_group in ppar.metric_groups:
-        dataset = metrics_data[metric_group]
-        print("MPL Classifier with features from " + metric_group + " metric group")
+    # SVM for sets of metrics
+    for metric_set in ppar.metric_sets:
+        dataset = metric_set_data[metric_set]
+        print("MPL with features from " + metric_set + " metric set")
 
-        for training_set_size in list(range(100,1000,100)): 
-            training_set = dataset[0:training_set_size]
-            testing_set = dataset[training_set_size:]
-            training_labels = loop_icc_classifications[0:training_set_size]
-            testing_labels = loop_icc_classifications[training_set_size:]
+        report_file.write("[") 
+        for metric in ppar.metric_sets[metric_set]: 
+            report_file.write(" " + str(metric))
+        report_file.write(" ]\n") 
 
-            clf = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(5, 2), random_state=1)
-            clf.fit(training_set, training_labels)
-            predictions = clf.predict(testing_set)
+        random_state = 12883823
+        for splits_num in [5,10,15]:
+            report_file.write("splits num:" + str(splits_num)+ "\n")
 
-            random_labels = []
-            for x in range(0,len(predictions)):
-                random_labels.append(random.randint(0,1))
+            rkf = RepeatedKFold(n_splits=splits_num, n_repeats=3, random_state=random_state)
 
-            error = 0
-            random_error = 0
-            for i in range(0,len(testing_labels)):
-                test = testing_labels.tolist()
-                if predictions[i] != test[i]:
-                    error += 1
-                if random_labels[i] != test[i]:
-                    random_error += 1
+            for train, test in rkf.split(dataset):
+                training_data = dataset.iloc[train]
+                testing_data = dataset.iloc[test]
+                training_labels = loop_icc_classifications.iloc[train]
+                testing_labels = loop_icc_classifications.iloc[test]
 
-            print("training set: [0:" + str(training_set_size) + "]" + ", mpl-classifier-error: " + str(error/len(testing_labels)*100) + "%" +
-                   ", random-error: " + str(random_error/len(testing_labels)*100) + "%")
-
-    # SVM for single metrics
-    for metric in ppar.metric_list:
-        dataset = metric_data[metric]
-        dataset = dataset.values.reshape(-1,1)
-        print("MPL Classifier with " + metric + " feature")
-
-        for training_set_size in list(range(100,1000,100)): 
-            training_set = dataset[0:training_set_size]
-            testing_set = dataset[training_set_size:]
-            training_labels = loop_icc_classifications[0:training_set_size]
-            testing_labels = loop_icc_classifications[training_set_size:]
-
-            clf = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(5, 2), random_state=1)
-            clf.fit(training_set, training_labels)
-            predictions = clf.predict(testing_set)
-
-            random_labels = []
-            for x in range(0,len(predictions)):
-                random_labels.append(random.randint(0,1))
-
-            error = 0
-            random_error = 0
-            for i in range(0,len(testing_labels)):
-                test = testing_labels.tolist()
-                if predictions[i] != test[i]:
-                    error += 1
-                if random_labels[i] != test[i]:
-                    random_error += 1
-
-            print("training set: [0:" + str(training_set_size) + "]" + ", mpl-classifier-error: " + str(error/len(testing_labels)*100) + "%" +
-                   ", random-error: " + str(random_error/len(testing_labels)*100) + "%")
+                # fit SVM model to the training dataset
+                clf = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(5, 2), random_state=1)
+                clf.fit(training_data, training_labels)
+                # calculate prediction accuracy 
+                accuracy = accuracy_score(testing_labels, clf.predict(testing_data))
+                report_file.write("mpl-accuracy:" + "{0:.2f}".format(accuracy*100) + "\n")
+    
+    report_file.close() 

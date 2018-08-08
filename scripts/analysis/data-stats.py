@@ -95,53 +95,11 @@ if __name__ == "__main__":
     for metric_set in ppar.metric_sets:
         metric_set_data[metric_set] = features[ppar.metric_sets[metric_set]]
 
-    report_filename = report_folder + "decision-tree.report"
-    report_file = open(report_filename,'w')
+    for metric in ppar.metric_list:
+        NP = metric_data[metric][loop_icc_classifications == 0]
+        P = metric_data[metric][loop_icc_classifications == 1]
+        
+        NP_mean = NP.mean()
+        P_mean = P.mean()
 
-    # print the header into the report file
-    print('DecisionTree.report', file=report_file)
-    
-    # SVM for sets of metrics
-    for metric_set in ppar.metric_sets:
-        dataset = metric_set_data[metric_set]
-        print("DT with features from " + metric_set + " metric set")
-
-        report_file.write("[") 
-        for metric in ppar.metric_sets[metric_set]: 
-            report_file.write(" " + str(metric))
-        report_file.write(" ]\n") 
-
-        random_state = 12883823
-        for splits_num in [5,10,15]:
-            report_file.write("splits num:" + str(splits_num)+ "\n")
-
-            rkf = RepeatedKFold(n_splits=splits_num, n_repeats=3, random_state=random_state)
-
-            for train, test in rkf.split(dataset):
-                training_data = dataset.iloc[train]
-                testing_data = dataset.iloc[test]
-                training_labels = loop_icc_classifications.iloc[train]
-                testing_labels = loop_icc_classifications.iloc[test]
-
-                # fit SVM model to the training dataset
-                clf = tree.DecisionTreeClassifier()
-                clf.fit(training_data, training_labels)
-                # calculate prediction accuracy 
-                accuracy = accuracy_score(testing_labels, clf.predict(testing_data))
-                report_file.write("dt-accuracy:" + "{0:.2f}".format(accuracy*100) + "\n")
-    
-    report_file.close()
-
-    # SVM for sets of metrics
-    for metric_set in ppar.metric_sets:
-        dataset = metric_set_data[metric_set]
-        print("DT with features from " + metric_set + " metric set")
-
-        training_data = dataset
-        training_labels = loop_icc_classifications
-
-        # fit SVM model to the training dataset
-        clf = tree.DecisionTreeClassifier(max_depth=3)
-        clf.fit(training_data, training_labels)
-
-        tree.export_graphviz(clf, feature_names=ppar.metric_sets[metric_set], class_names=['non-parallelizible','parallelizible'], filled=True, out_file=report_folder + 'decision-tree.' + metric_set + '.dot')
+        print(metric + ": P[>" + str(len(P[P>P_mean])) + "/<" + str(len(P[P<P_mean])) + "], " + "NP[>" + str(len(NP[NP>NP_mean])) + "/<" + str(len(NP[NP<NP_mean])) + "]")

@@ -26,7 +26,7 @@ def create_folder(directory):
 
 if __name__ == "__main__":
 
-    print("=== Decision Tree statistical learning ===")
+    print("=== Decision Tree (DT) statistical learning ===")
     raw_data_filename = sys.argv[1]
     report_folder = sys.argv[2]
     std_num = int(sys.argv[3]) # outliers screening parameter
@@ -95,28 +95,60 @@ if __name__ == "__main__":
     for metric_set in ppar.metric_sets:
         metric_set_data[metric_set] = features[ppar.metric_sets[metric_set]]
 
-    report_filename = report_folder + "decision-tree.report"
+    report_filename = report_folder + "dt.report"
     report_file = open(report_filename,'w')
 
     # print the header into the report file
-    print('DecisionTree.report', file=report_file)
-    
+    print('DT.report', file=report_file)
+
+    # SVM for single metrics
+    for metric in ppar.metric_list:
+        dataset = metric_data[metric]
+        print("DT for single " + metric + " metric")
+
+        report_file.write("[ ") 
+        report_file.write(str(metric))
+        report_file.write(" ]\n") 
+
+        random_state = 12883823
+        for splits_num in [5,10,15,20,30]:
+            report_file.write("splits-num:" + str(splits_num)+ "\n")
+
+            rkf = RepeatedKFold(n_splits=splits_num, n_repeats=5, random_state=random_state)
+            
+            accuracy_samples = []
+            for train, test in rkf.split(dataset):
+                training_data = dataset.iloc[train]
+                testing_data = dataset.iloc[test]
+                training_labels = loop_icc_classifications.iloc[train]
+                testing_labels = loop_icc_classifications.iloc[test]
+
+                # fit SVM model to the training dataset
+                clf = tree.DecisionTreeClassifier()
+                clf.fit(training_data.values.reshape(-1,1), training_labels)
+                # calculate prediction accuracy 
+                accuracy = accuracy_score(testing_labels, clf.predict(testing_data.values.reshape(-1,1)))
+                accuracy_samples.append(accuracy)
+            report_file.write("dt-accuracy:" + "{0:.2f}".format(pd.Series(accuracy_samples).mean()*100) + "\n")
+
     # SVM for sets of metrics
     for metric_set in ppar.metric_sets:
         dataset = metric_set_data[metric_set]
         print("DT with features from " + metric_set + " metric set")
 
+        report_file.write(metric_set + " ") 
         report_file.write("[") 
         for metric in ppar.metric_sets[metric_set]: 
             report_file.write(" " + str(metric))
         report_file.write(" ]\n") 
 
         random_state = 12883823
-        for splits_num in [5,10,15]:
+        for splits_num in [5,10,15,20,30]:
             report_file.write("splits num:" + str(splits_num)+ "\n")
 
-            rkf = RepeatedKFold(n_splits=splits_num, n_repeats=3, random_state=random_state)
+            rkf = RepeatedKFold(n_splits=splits_num, n_repeats=5, random_state=random_state)
 
+            accuracy_samples = []
             for train, test in rkf.split(dataset):
                 training_data = dataset.iloc[train]
                 testing_data = dataset.iloc[test]
@@ -128,20 +160,7 @@ if __name__ == "__main__":
                 clf.fit(training_data, training_labels)
                 # calculate prediction accuracy 
                 accuracy = accuracy_score(testing_labels, clf.predict(testing_data))
-                report_file.write("dt-accuracy:" + "{0:.2f}".format(accuracy*100) + "\n")
+                accuracy_samples.append(accuracy)
+            report_file.write("dt-accuracy:" + "{0:.2f}".format(pd.Series(accuracy_samples).mean()*100) + "\n")
     
     report_file.close()
-
-    # SVM for sets of metrics
-    for metric_set in ppar.metric_sets:
-        dataset = metric_set_data[metric_set]
-        print("DT with features from " + metric_set + " metric set")
-
-        training_data = dataset
-        training_labels = loop_icc_classifications
-
-        # fit SVM model to the training dataset
-        clf = tree.DecisionTreeClassifier(max_depth=3)
-        clf.fit(training_data, training_labels)
-
-        tree.export_graphviz(clf, feature_names=ppar.metric_sets[metric_set], class_names=['non-parallelizible','parallelizible'], filled=True, out_file=report_folder + 'decision-tree.' + metric_set + '.dot')

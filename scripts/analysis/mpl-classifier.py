@@ -26,7 +26,7 @@ def create_folder(directory):
 
 if __name__ == "__main__":
 
-    print("=== Support Vector Machines (SVM) statistical learning ===")
+    print("=== MPL classifier statistical learning ===")
     raw_data_filename = sys.argv[1]
     report_folder = sys.argv[2]
     std_num = int(sys.argv[3]) # outliers screening parameter
@@ -100,23 +100,23 @@ if __name__ == "__main__":
 
     # print the header into the report file
     print('MPL.report', file=report_file)
-    
-    # SVM for sets of metrics
-    for metric_set in ppar.metric_sets:
-        dataset = metric_set_data[metric_set]
-        print("MPL with features from " + metric_set + " metric set")
 
-        report_file.write("[") 
-        for metric in ppar.metric_sets[metric_set]: 
-            report_file.write(" " + str(metric))
+    # SVM for single metrics
+    for metric in ppar.metric_list:
+        dataset = metric_data[metric]
+        print("MPL for single " + metric + " metric")
+
+        report_file.write("[ ") 
+        report_file.write(str(metric))
         report_file.write(" ]\n") 
 
         random_state = 12883823
-        for splits_num in [5,10,15]:
-            report_file.write("splits num:" + str(splits_num)+ "\n")
+        for splits_num in [5,10,15,20,30]:
+            report_file.write("splits-num:" + str(splits_num)+ "\n")
 
-            rkf = RepeatedKFold(n_splits=splits_num, n_repeats=3, random_state=random_state)
-
+            rkf = RepeatedKFold(n_splits=splits_num, n_repeats=5, random_state=random_state)
+            
+            accuracy_samples = []
             for train, test in rkf.split(dataset):
                 training_data = dataset.iloc[train]
                 testing_data = dataset.iloc[test]
@@ -124,10 +124,43 @@ if __name__ == "__main__":
                 testing_labels = loop_icc_classifications.iloc[test]
 
                 # fit SVM model to the training dataset
-                clf = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(5, 2), random_state=1)
+                clf = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(5, 2), random_state=random_state)
+                clf.fit(training_data.values.reshape(-1,1), training_labels)
+                # calculate prediction accuracy 
+                accuracy = accuracy_score(testing_labels, clf.predict(testing_data.values.reshape(-1,1)))
+                accuracy_samples.append(accuracy)
+            report_file.write("mpl-accuracy:" + "{0:.2f}".format(pd.Series(accuracy_samples).mean()*100) + "\n")
+
+    # SVM for sets of metrics
+    for metric_set in ppar.metric_sets:
+        dataset = metric_set_data[metric_set]
+        print("MPL with features from " + metric_set + " metric set")
+
+        report_file.write(metric_set + " ") 
+        report_file.write("[") 
+        for metric in ppar.metric_sets[metric_set]: 
+            report_file.write(" " + str(metric))
+        report_file.write(" ]\n") 
+
+        random_state = 12883823
+        for splits_num in [5,10,15,20,30]:
+            report_file.write("splits-num:" + str(splits_num)+ "\n")
+
+            rkf = RepeatedKFold(n_splits=splits_num, n_repeats=5, random_state=random_state)
+
+            accuracy_samples = []
+            for train, test in rkf.split(dataset):
+                training_data = dataset.iloc[train]
+                testing_data = dataset.iloc[test]
+                training_labels = loop_icc_classifications.iloc[train]
+                testing_labels = loop_icc_classifications.iloc[test]
+
+                # fit SVM model to the training dataset
+                clf = MLPClassifier(solver='lbfgs', alpha=1e-5, hidden_layer_sizes=(5, 2), random_state=random_state)
                 clf.fit(training_data, training_labels)
                 # calculate prediction accuracy 
                 accuracy = accuracy_score(testing_labels, clf.predict(testing_data))
-                report_file.write("mpl-accuracy:" + "{0:.2f}".format(accuracy*100) + "\n")
+                accuracy_samples.append(accuracy)
+            report_file.write("mpl-accuracy:" + "{0:.2f}".format(pd.Series(accuracy_samples).mean()*100) + "\n")
     
     report_file.close() 

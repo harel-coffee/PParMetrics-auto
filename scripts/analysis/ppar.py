@@ -44,13 +44,45 @@ if __name__ != "__main__":
     # prepare a set of metrics for further reference
     # each metric group contains a list of its metrics
     metric_sets = {}
-    metric_sets['set_0'] = metric_groups['all'] 
+    
+    # set_0 - all metrics altogether
+    metric_sets['set_0'] = metric_groups['all']
+    
+    # set_1 - metrics, correlating with parallelizability
     metric_sets['set_1'] = ['iterator-payload-total-cohesion', 
                             'iterator-payload-non-cf-cohesion',
                             'loop-critical-payload-fraction',
-                            'loop-payload-fraction',
-                            'loop-proper-sccs-number']
-    metric_sets['set_2'] = ['iterator-payload-total-cohesion', 
-                            'iterator-payload-non-cf-cohesion',
-                            'loop-critical-payload-fraction',
                             'loop-payload-fraction']
+    
+    # set_2 - everything, but dependencies number metrics
+    metric_sets['set_2'] = []
+    metric_sets['set_2'].extend(metric_groups['loop-proportion'])
+    metric_sets['set_2'].extend(metric_groups['iterator-payload-cohesion'])
+    metric_sets['set_2'].extend(metric_groups['critical-payload-cohesion'])
+
+    # set_3 - everything, but cohesion number metrics
+    metric_sets['set_3'] = []
+    metric_sets['set_3'].extend(metric_groups['loop-proportion'])
+    metric_sets['set_3'].extend(metric_groups['payload-dependencies-number'])
+    metric_sets['set_3'].extend(metric_groups['critical-payload-dependencies-number'])
+    
+    # set_4 - everything, but proportion metrics
+    metric_sets['set_4'] = []
+    metric_sets['set_4'].extend(metric_groups['iterator-payload-cohesion'])
+    metric_sets['set_4'].extend(metric_groups['critical-payload-cohesion'])
+    metric_sets['set_4'].extend(metric_groups['payload-dependencies-number'])
+    metric_sets['set_4'].extend(metric_groups['critical-payload-dependencies-number'])
+
+    # set_5 - exclude dependencies number
+    metric_sets['set_5'] = []
+    metric_sets['set_5'].extend(metric_groups['loop-proportion'])
+    metric_sets['set_5'].extend(metric_groups['iterator-payload-cohesion'])
+    metric_sets['set_5'].extend(metric_groups['critical-payload-cohesion'])
+    metric_sets['set_5'].extend(metric_groups['critical-payload-dependencies-number'])
+
+    # set_6 - exclude critical dependencies number
+    metric_sets['set_6'] = []
+    metric_sets['set_6'].extend(metric_groups['loop-proportion'])
+    metric_sets['set_6'].extend(metric_groups['iterator-payload-cohesion'])
+    metric_sets['set_6'].extend(metric_groups['critical-payload-cohesion'])
+    metric_sets['set_6'].extend(metric_groups['payload-dependencies-number'])

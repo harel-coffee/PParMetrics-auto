@@ -1,0 +1,16 @@
+digraph Tree {
+node [shape=box, style="filled", color="black"] ;
+0 [label="critical-payload-true-dependencies-number <= 5.5\ngini = 0.472\nsamples = 1277\nvalue = [790, 487]\nclass = non-parallelizable", fillcolor="#e5813962"] ;
+1 [label="critical-payload-true-dependencies-number <= 1.5\ngini = 0.488\nsamples = 730\nvalue = [421, 309]\nclass = non-parallelizable", fillcolor="#e5813944"] ;
+0 -> 1 [labeldistance=2.5, labelangle=45, headlabel="True"] ;
+2 [label="(...)", fillcolor="#C0C0C0"] ;
+1 -> 2 ;
+5 [label="(...)", fillcolor="#C0C0C0"] ;
+1 -> 5 ;
+12 [label="critical-payload-true-dependencies-number <= 21.5\ngini = 0.439\nsamples = 547\nvalue = [369, 178]\nclass = non-parallelizable", fillcolor="#e5813984"] ;
+0 -> 12 [labeldistance=2.5, labelangle=-45, headlabel="False"] ;
+13 [label="(...)", fillcolor="#C0C0C0"] ;
+12 -> 13 ;
+44 [label="(...)", fillcolor="#C0C0C0"] ;
+12 -> 44 ;
+}

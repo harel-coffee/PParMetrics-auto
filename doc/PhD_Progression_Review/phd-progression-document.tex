@@ -1,0 +1,153 @@
+\documentclass[12pt, a4paper]{article}
+
+\usepackage{cite}
+
+\usepackage{float}
+
+\usepackage{graphics}
+
+\usepackage{graphicx}
+
+\graphicspath{{./figs/}}
+
+\usepackage{subcaption}
+
+\usepackage{amsthm}
+\usepackage{amsmath,amssymb}
+%\usepackage{mathrsfs}
+\usepackage{mathtools}
+
+\usepackage{url}
+\usepackage{hyperref}
+
+\usepackage{enumitem}
+\usepackage{rotating}
+\usepackage{pdflscape}
+
+\usepackage{listings}
+\usepackage{color}
+
+\lstset{
+	backgroundcolor=\color{white}, % choose the background color; you must add \usepackage{color} or \usepackage{xcolor}; should come as last argument
+	basicstyle=\normalsize\ttfamily, % the size of the fonts that are used for the code
+	breakatwhitespace=false, % sets if automatic breaks should only happen at whitespace
+	breaklines=false,                 % sets automatic line breaking
+	captionpos=b,                    % sets the caption-position to bottom  
+	commentstyle=\itshape\color{purple!40!black}, % comment style
+	deletekeywords={...},            % if you want to delete keywords from the given language
+	escapeinside={\%*}{*)},          % if you want to add LaTeX within your code
+	extendedchars=true,              % lets you use non-ASCII characters; for 8-bits encodings only, does not work with UTF-8
+	frame=single,	                   % adds a frame around the code
+	keepspaces=true,                 % keeps spaces in text, useful for keeping indentation of code (possibly needs columns=flexible)
+	keywordstyle=\bfseries\color{blue},       % keyword style
+	language=C,                 % the language of the code
+	morekeywords={*,...},            % if you want to add more keywords to the set
+	numbers=none,                    % where to put the line-numbers; possible values are (none, left, right)
+	numbersep=5pt,                   % how far the line-numbers are from the code
+	numberstyle=\tiny\color{black}, % the style that is used for the line-numbers
+	rulecolor=\color{black},         % if not set, the frame-color may be changed on line-breaks within not-black text (e.g. comments (green here))
+	showspaces=false,                % show spaces everywhere adding particular underscores; it overrides 'showstringspaces'
+	showstringspaces=false,          % underline spaces within strings only
+	showtabs=false,                  % show tabs within strings adding particular underscores
+	stepnumber=2,                    % the step between two line-numbers. If it's 1, each line will be numbered
+	stringstyle=\color{red},     % string literal style
+	tabsize=4,	                   % sets default tabsize to 2 spaces
+	title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
+}
+
+\title{
+	PhD Progression Document\thanks{This document describes the lessons learnt from the undertaken MSc by Research project and revised PhD vision.}\\
+	{\normalsize\textit{MSc by Research, CDT in Pervasive Parallelism}}
+	}
+\author{
+	{\large\textit{Student:}}\\
+	{\Large Aleksandr Maramzin}\\[0.5cm]
+	{\large\textit{Supervision Team:}}\\
+	{\Large Bj\"orn Franke, Michael O'Boyle, Kenneth Heafield}
+}
+\date{
+	{\normalsize 30 August 2018}
+}
+
+\begin{document}
+\maketitle
+\section*{\centering	General words on Parallel Programming}
+\qquad In the modern computing world parallel programming is more actual than ever. From small embedded processors to warehouse-scale servers and supercomputers, all modern hardware is designed for running parallel computations. Unfortunately, the problem in the field of parallel computation is still present, and has shifted from the design of parallel hardware onto the development of parallel software.\newline
+\null\qquad Manual parallel programming is a complex task. It requires a combination of skills: solid algorithmic background, familiarity with the domain software is written for, general knowledge of parallel software development theory (deadlocks, race conditions, etc), familiarity with exact
+parallel programming frameworks to be used (MPI, OpenMP, etc.) and maybe even some knowledge of the exact underlying hardware architecture, software is to be run on (GPU, heterogeneous system).\newline 
+\null\qquad The tuning of software mapping to such diverse and complex parallel hardware systems can be done with arbitrary granularity. Different tools have been developed for alleviating this hard and skill-requiring parallel software development process. Intel Parallel Studio 2018 \cite{intel-parallel-studio} is probably the state-of-the-art. But these tools are quite complex and elaborate by themselves and require an intensive training, before they can be used. Intel C/C++ compiler on the other hand provides only short and simple reports, which are limited to binary ''yes, parallelizible''/''no, non-parallelizible'' answers. Moreover, compiler alias and memory dependence analyses are sometimes imprecise and conservative. The latter introduces confusion and mistakes into user reports.\newline
+\null\qquad Sometimes a software developer does not really need fine-grained tuning opportunities of Intel Parallel Studio 2018, but wants to know a bit more, than Intel C/C++ compiler can provide. Here we decided to conduct a research of a possible parallelizability user feedback forms.
+
+\section*{\centering Software Metrics for Parallelism\\
+	{\footnotesize \textit{(MSc by Research)}}}
+\qquad Software source code metrics are not new to the field of software engineering. Numerous software source code quality metrics have been proposed (like McCabe$'$s Cyclomatic Complexity \cite{cyclomatic-complexity-paper} and Halstead$'$s Software Science \cite{halstead-book}). These metrics are somewhat controversial and some practitioners think, that these simplistic software quality measures can do more harm, than good. Others, integrate calculation of these metrics into regular software development subtasks.
+As our research has concluded, these metrics are not directly applicable to software source code parallelizability property and none metrics have been proposed to judge about source code parallelisability. The only metrics we could find in the field of parallel programming represent different variants of parallel program speedup and are not applicable to our task:\newline
+\begin{equation}
+speedup=\frac{serial\ execution\ time}{parallel\ execution\ time}
+\end{equation}\newline
+\null\qquad In this MSc project we conducted a research of a set of software source code metrics and their applicability to the problem of loop parallelisation. We decided to base our metrics on compiler dependence analysis theory, and particularly on the structural properties of Program Dependence Graph (PDG) \cite{pdg-paper}. The undertaken project relied heavily on the loop iterator recognition work \cite{iterator-recognition-paper} as well.\newline
+\null\qquad As a result a set of loop parallelizability metrics has been devised and proposed. An LLVM-based tool has been developed for computation of these metrics. Values of proposed metrics have been computed for all loops of NAS Parallel Benchmarks \cite{nas-official-website}, \cite{snu-nas-website}. And after that different statistical analysis techniques have been applied to computed data in order to evaluate devised software metrics for parallelism.\newline
+\null\qquad The outcomes of the project resemble the situation in the area of software quality. Like software quality metrics, software metrics for parallelism can be used to capture some parallelisability properties, but they cannot be used blindly without any human analysis. The main lessons learnt from the undertaked MSc by Research project could be enumerated as follows:
+\begin{enumerate}[align=left,leftmargin=*]
+\item \textbf{Difficulty of parallelisability problem.} Software parallelizability is a complex task with a long, rich and vast research history, and it would be naive to expect perfect correlation between simplistic PDG structure based metrics and parallelizability property. 
+\item \textbf{Errors in parallelisability classification.} Devised metric give probabilistic answers (like this loop is likely to be parallelisible with probability of 65\%) and are blurred. In other words, we do not expect precise decision boundary between parallelisible and not. Some problem inherent errors are always going to present.
+\item \textbf{PDG structural properties $+$ nature of PDG instructions.} While proposed metrics are based on the structural properties of PDG, it would be worthwhile to consider the nature of instructions, which constitute the graph (motivating example is a call instruction in a loop payload, hindering loop parallelisation without application of interprocedural analisis).
+\item \textbf{The need for supplementary insights.} Even after introduction of better tuned parallelizability metrics and some more research efforts, we feel, that these metrics are still going to possess blurred and probabilistic nature. Thus, if we are talking about software developer feedback and assistance we need to research some other approaches.
+\end{enumerate}
+
+\section*{\centering Data-Centric Parallelisation\\
+	{\footnotesize \textit{(PhD vision)}}}
+\qquad As the results of the MSc by Research project show, loop features alone might not be enough, to provide a software engineer with a comprehesive insight into parallelisability of his/her source code and its problems. Fortunately, there are other supplementary approaches to this problem.
+
+\subsection*{\centering 10,000 foot problem view}
+\begin{lstlisting}[caption={Irregular loop. Parallelisible algorithm is hidden behind suboptimal implementation.}, captionpos=b, label=lst:irregular-loop, float,floatplacement=H]
+while(ptr) {
+	ptr->val++;
+	ptr = ptr->next;
+}
+\end{lstlisting}
+\qquad Let's consider a loop, illustrated in the listing \ref{lst:irregular-loop}. Having figured out, that \textit{ptr} points to C language structure with integer \textit{val} field, which represent an element of an integer array, we can conclude, that this parallelisible algorithm is implemented with suboptimal underlying data structure. Intel compiler won't proceed with parallelisation of this loop. We are going to get "loop is not a candidate for parallelisation" feedback in the report.\newline 
+\null\qquad Here the state-of-the-art compiler analyses and transformations cannot proceed any further. Although, a human programmer can easily see a solution. If we replace linked-list with just a regular array, we will immediately expose all inherent parallelism to the compiler and it will do its job. If we don't stop here and go even further we can "rejuvenate" the code, by replacing a simple C-style array with C++ standard library's \textit{std::vector} like illustrated in the listing \ref{lst:std-vector}. If we can prove that increment operation order does not matter, then we can even replace \textit{std::vector} with the \textit{std::set}. The latter can bring some additional performance improvements.     
+\begin{lstlisting}[caption={Linked-list based array in listing \ref{lst:irregular-loop} has been replaced with C++ STL vector. Now we can parallelise the loop manually. Intel compiler can do that automatically as well.}, captionpos=b, label=lst:std-vector, float,floatplacement=H]
+std::vector<int> container;
+#pragma openmp parallel for
+for (int& val : container) {
+	val++;
+}
+\end{lstlisting}\newline
+\null\qquad Above example described the niche of this PhD project. We are going to concentrate our attention on "irregular" applications, like the one in the example. Irregular applications are abundant in legacy code. These applications work with "naked" C-style pointers and often contain suboptimal implementations. Such problems did not show up at the time of legacy applications development, but are critical for modern parallel hardware systems.
+\subsection*{\centering The value of the work}
+\qquad While linked-list example in the previous section is rather simple, it would still be useful to detect such suboptimalities automatically. Some software developers might not even spot that performance (and quality as well) problem of the code, and automatic feedback tool would be handy.\newline \null\qquad Moreover, sometimes data structures can be rather complex and one cannot fully understand how the data structure is being built and used, until he/she fully examines surrounding code with all data structure manipulations (element insertions, deletions, etc). Automatic abstract data structure recogniser would significantly help here. If data structure exhibit a random pattern of accesses, then this tool could advice a programmer to keep to a sequantial array, rather than a linked list. If, on the other hand, a data structure is being constantly modified, it becomes cumbersome to shift and realign an array in the memory and linked-list might be the optimal choice.\newline
+\null\qquad All these common sense considerations might be engraved into proposed static analysis tool. Intel compiler does not provide such reports. Intel VTune is supposed to fine-tune already parallelised applications and works on the very low level with a lot of details. High algorithmic level static discorery tool could take the market space in between.\newline
+\null\qquad The value of the work of course is not limited to a user feedback only. As presented in the previous section, rejuvenated code can be further parallelised and executed more efficiently. Performance motivation is another potential value of this work.
+
+\subsection*{\centering Outline of the 1\textsuperscript{st} year activities \footnote{All time estimates and workload percentages of stages are based on the projections of my first MSc by Research year experiences. These estimations are quite rough and are certainly going to change. Phases are going to overlap as well, and these numbers represent rather total efforts.}}
+
+\begin{enumerate}[align=left,leftmargin=*]
+\item \textbf{[25\% - 3 months] Background study for the ongoing "Discovery" project. Startup overheads.}\newline 
+\null\qquad Before the first results and outputs on abstract data structures recognition can be collected, I need to get into the context of the field and get familiar with the work, which has already been done. As an example, this includes reading of papers on algorithmic skeletons and idioms (such as matrix multiplications, stencils, etc) recognition \cite{algorithmic-skeletons-recognition-paper}, \cite{general-reductions-recognition-paper}, \cite{idioms-recognition-paper}. These works are based on the developed domain specific Compiler Analysis Description Language (CAnDL) \cite{candl-paper}. I will need to get comfortable with the language and the tool, which implements it.\newline
+\null\qquad These papers will serve me as a starting point, from which I will go down deeper to study the foundations and the main results of surrounding fields, such as constraint programming, abstract data structures and algorithms, etc.
+\item \textbf{[50\% - 6 months] Feasibility study.}\newline
+\null\qquad During this stage existent CAnDL tool will be extended with abstract data structures recognition related work. If necessary, supplementary tools and facilities will be developed.\newline 
+\null\qquad In this stage I plan to actually write my own CAnDL templates and constraints for different abstract data structures. I plan to start with linked-lists and gradually pass onto more complex data structures like binary and quad trees, different sorts of sets, etc.\newline
+\null\qquad Small hand-written examples will be used to conduct feasibility study of ideas. Some benchmarks will be manually parallelised and checked for performance motivations.
+	
+\item \textbf{[10\% - 1 month] Benchmarks run.}\newline 
+\null\qquad Once proposed and developed concepts will prove to work, a massive result collection will be conducted. I plam to use SPEC/Olden benchmarks for that purpose. 
+	
+\item \textbf{[15\% - 2 months] Analysis and results interpretation.} Once all results are collected, the data can be visualized, processed and studied in any other possible way in order to get correlations and present the results into the most suitable form.
+\end{enumerate}
+
+\subsection*{\centering 1\textsuperscript{st} year goal}
+\qquad The goal I am going to aim at throughout my 1\textsuperscript{st} PhD year is to publish a paper "Towards Data-Centric Parallelisation" in Programming Languages Design and Implementation (PLDI) conference.\newline
+\null\qquad All 1\textsuperscript{st} PhD year schedules and estimates are based on the experiences I got throughout my MSc by Research stage, when I mainly worked on "Software Metrics for Parallelism" topic. The skills (technical like LLVM) combined with better understanding of academic working environment, I acquired througout the first MSc by Research year, presence of publications \cite{algorithmic-skeletons-recognition-paper}, \cite{general-reductions-recognition-paper}, \cite{idioms-recognition-paper} on the topic, as well as the fact, that abstract data structures recognition seem to be more fertile ground for an interesting research results make me feel highly optimistic about my goal.
+
+\subsection*{\centering 2\textsuperscript{nd} and 3\textsuperscript{nd} year plans and the ultimate PhD goal}
+\qquad During these years the work on abstract data structures recognition and parallelisability feedback is supposed to gain a significant extension in the level of details and the amount of content. While my MSc by Reserach studied parallelisability metrics of source code loops, data structures can also be characterized by some quantitative properties (features). Machine learning techniques can also be applied here and we can try to classify types of abstract data structures with a certain precision.\newline 
+\null\qquad Loop metrics work combined with abstract data structures discovery can shape the PhD into a final state of a static analysis tool, which can distantly resemble those of a software formal verification. The tool would be capable of giving parallel-wise advices to a programmer. Furthermore, these feedback directions can take optimization effect even for the serial hardware systems.
+
+\bibliographystyle{unsrt}
+
+\bibliography{bibliography}
+
+\end{document}

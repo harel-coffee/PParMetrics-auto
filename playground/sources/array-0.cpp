@@ -4,7 +4,7 @@
 
 using namespace std;
 
-static const unsigned int size = 100;
+static const unsigned int size = 100000;
 static const unsigned int range = 10;
 
 int main() {
@@ -17,9 +17,11 @@ int main() {
         c[i] = rand() % range; 
     }
 
-    for (unsigned int i = 2; i < size; i++) {
-        c[i] = c[i-1] + c[i-2];
+    int sum = 0;
+    unsigned int i = 0;
+    while(i < size) {
+        sum += c[i++];
     }
 
-    return 0;
+    return sum;
 }

@@ -1,0 +1,12 @@
+digraph Tree {
+node [shape=box, style="filled", color="black"] ;
+0 [label="loop-proper-sccs-number <= 4.5\ngini = 0.472\nsamples = 1277\nvalue = [790, 487]\nclass = non-parallelizable", fillcolor="#e5813962"] ;
+1 [label="loop-proper-sccs-number <= 1.5\ngini = 0.474\nsamples = 1259\nvalue = [774, 485]\nclass = non-parallelizable", fillcolor="#e581395f"] ;
+0 -> 1 [labeldistance=2.5, labelangle=45, headlabel="True"] ;
+2 [label="(...)", fillcolor="#C0C0C0"] ;
+1 -> 2 ;
+5 [label="(...)", fillcolor="#C0C0C0"] ;
+1 -> 5 ;
+10 [label="gini = 0.198\nsamples = 18\nvalue = [16, 2]\nclass = non-parallelizable", fillcolor="#e58139df"] ;
+0 -> 10 [labeldistance=2.5, labelangle=-45, headlabel="False"] ;
+}

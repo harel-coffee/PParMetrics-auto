@@ -1,6 +1,7 @@
 #! /usr/bin/python3
 
 import re
+import sys
 
 LOOP_BEGIN_RE = re.compile("LOOP BEGIN at (.*)\((.*),")
 LOOP_END_RE = re.compile("LOOP END")
@@ -78,7 +79,7 @@ if __name__ == "__main__":
     loop_classification = {}
 
     loop_depth = 0
-    icc_report_file = open("/home/s1736883/Work/PParMetrics/reports/icc-ppar-report/REPORT.icc","r")
+    icc_report_file = open(sys.argv[1],"r")
     while True:
         line = icc_report_file.readline()
         if line == "":

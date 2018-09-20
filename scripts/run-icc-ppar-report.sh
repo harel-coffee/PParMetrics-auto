@@ -3,7 +3,7 @@
 echo "=== Running ICC compiler on the collection of NAS benchmarks! ==="
 
 TOOL_DIR="${PWD}"
-REPORT_DIR="${PWD}/reports/"
+REPORT_DIR="${PWD}/reports/ppar-metrics/"
 BENCHMARKS_BUILD_DIR="${TOOL_DIR}/benchmarks-build/"
 ICC_PPAR_RUN_DIR="${BENCHMARKS_BUILD_DIR}/icc-snu-npb-build/"
 ICC_REPORT_DIR=${REPORT_DIR}/icc-ppar-report/
@@ -41,7 +41,7 @@ for BenchmarkFolderName in BT CG DC EP FT IS LU MG SP UA; do
 done
 echo "Final report: ${ICC_REPORT_DIR}/REPORT.icc"
 
-python3 ${TOOL_DIR}/scripts/transform-icc-report.py < ${ICC_REPORT_DIR}/REPORT.icc > ${ICC_REPORT_DIR}/REPORT.icc.excel
+python3 ${TOOL_DIR}/scripts/transform-icc-report.py ${ICC_REPORT_DIR}/REPORT.icc > ${ICC_REPORT_DIR}/REPORT.icc.excel
 
 cd ${TOOL_DIR}
 echo "=== ICC running script finished! ==="

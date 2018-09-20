@@ -34,7 +34,6 @@ echo "= Generating CMake-based testing system ="
 PPAR_METRICS_COLLECTOR_DIR="${BENCHMARKS_BUILD_DIR}/snu-npb-ppar-metrics/"
 ICC_LOGS_COLLECTOR_DIR="${BENCHMARKS_BUILD_DIR}/icc-snu-npb-build/"
 GCC_COMPILATION_DIR="${BENCHMARKS_BUILD_DIR}/gcc-build/"
-ICC_COMPILATION_DIR="${BENCHMARKS_BUILD_DIR}/icc-build/"
 
 if [[ -e ${PPAR_METRICS_COLLECTOR_DIR} ]]; then
     rm -rf ${PPAR_METRICS_COLLECTOR_DIR}
@@ -50,11 +49,6 @@ if [[ -e ${GCC_COMPILATION_DIR} ]]; then
     rm -rf ${GCC_COMPILATION_DIR}
 fi
 mkdir ${GCC_COMPILATION_DIR}
-
-if [[ -e ${ICC_COMPILATION_DIR} ]]; then
-    rm -rf ${ICC_COMPILATION_DIR}
-fi
-mkdir ${ICC_COMPILATION_DIR}
 
 echo "= Testing system for SNU NPB PPar metrics collection ="
 echo "DIR: ${PPAR_METRICS_COLLECTOR_DIR}"

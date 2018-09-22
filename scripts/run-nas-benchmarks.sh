@@ -2,13 +2,13 @@
 
 echo "=== Running PPar tool on the collection of NAS benchmarks! ==="
 
-TOOL_DIR="${PWD}"
-REPORT_DIR="${PWD}/reports/ppar-metrics/"
-BENCHMARKS_BUILD_DIR="${TOOL_DIR}/benchmarks-build/"
-PPAR_METRICS_COLLECTOR_DIR="${BENCHMARKS_BUILD_DIR}/snu-npb-ppar-metrics/"
-METRICS_REPORT_DIR=${REPORT_DIR}/metrics-ppar-report/
+PPAR_PROJECT_DIR="${PWD}"
+REPORT_DIR="${PPAR_PROJECT_DIR}/reports/ppar-metrics/"
+BENCHMARKS_RUN_DIR="${PPAR_PROJECT_DIR}/benchmarks-run/"
+METRICS_RUN_DIR="${BENCHMARKS_RUN_DIR}/nas-ppar-metrics-run/"
+METRICS_REPORT_DIR=${REPORT_DIR}/ppar-metrics-report/
 
-cd ${PPAR_METRICS_COLLECTOR_DIR}
+cd ${METRICS_RUN_DIR}
 
 echo "= Cleaning up before the start ="
 
@@ -23,14 +23,14 @@ for BenchmarkFolderName in BT CG DC EP FT IS LU MG SP UA; do
     echo "Removing ${BenchmarkFolderName}/${BenchmarkFolderName}.metrics.excel"
     rm -rf ${BenchmarkFolderName}/${BenchmarkFolderName}.metrics.excel
 done
-echo "Removing ${PPAR_METRICS_COLLECTOR_DIR}/REPORT.metrics.excel"
-rm -rf ${PPAR_METRICS_COLLECTOR_DIR}/REPORT.metrics.excel
+echo "Removing ${METRICS_RUN_DIR}/REPORT.metrics.excel"
+rm -rf ${METRICS_RUN_DIR}/REPORT.metrics.excel
 
 for BenchmarkFolderName in BT CG DC EP FT IS LU MG SP UA; do
-    echo "Removing ${PPAR_METRICS_COLLECTOR_DIR}/${BenchmarkFolderName}/*.metrics"
-    rm -rf ${PPAR_METRICS_COLLECTOR_DIR}/${BenchmarkFolderName}/*.metrics
-    echo "Removing ${PPAR_METRICS_COLLECTOR_DIR}/${BenchmarkFolderName}/metrics.excel"
-    rm -rf ${PPAR_METRICS_COLLECTOR_DIR}/${BenchmarkFolderName}/metrics.excel
+    echo "Removing ${METRICS_RUN_DIR}/${BenchmarkFolderName}/*.metrics"
+    rm -rf ${METRICS_RUN_DIR}/${BenchmarkFolderName}/*.metrics
+    echo "Removing ${METRICS_RUN_DIR}/${BenchmarkFolderName}/metrics.excel"
+    rm -rf ${METRICS_RUN_DIR}/${BenchmarkFolderName}/metrics.excel
 done 
 
 echo "= Running PPar metrics collector on benchmarks ="
@@ -42,11 +42,11 @@ done
 
 for BenchmarkFolderName in BT CG DC EP FT IS LU MG SP UA; do
     echo "Benchmark: ${BenchmarkFolderName}" >> ${METRICS_REPORT_DIR}/${BenchmarkFolderName}.metrics.excel
-    cat ${PPAR_METRICS_COLLECTOR_DIR}/${BenchmarkFolderName}/metrics.excel >> ${METRICS_REPORT_DIR}/${BenchmarkFolderName}.metrics.excel
+    cat ${METRICS_RUN_DIR}/${BenchmarkFolderName}/metrics.excel >> ${METRICS_REPORT_DIR}/${BenchmarkFolderName}.metrics.excel
     echo "${BenchmarkFolderName} benchmark report: ${METRICS_REPORT_DIR}/${BenchmarkFolderName}.metrics.excel"
     cat ${METRICS_REPORT_DIR}/${BenchmarkFolderName}.metrics.excel >> ${METRICS_REPORT_DIR}/REPORT.metrics.excel
 done
 echo "Final report: ${METRICS_REPORT_DIR}/REPORT.metrics.excel"
 
-cd ${TOOL_DIR}
+cd ${PPAR_PROJECT_DIR}
 echo "=== PPar tool finished! ==="

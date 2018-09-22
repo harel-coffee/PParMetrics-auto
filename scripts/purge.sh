@@ -2,34 +2,34 @@
 
 echo "=== Cleaning up all reports, builds, runs! ==="
 
-TOOL_DIR="${PWD}"
-BENCHMARKS_BUILD_DIR="${TOOL_DIR}/benchmarks-build/"
-TOOL_BUILD_DIR="${TOOL_DIR}/build/"
-REPORTS_DIR="${TOOL_DIR}/reports/ppar-metrics/"
-ICC_COMPILER_PPAR_REPORTS_DIR="${REPORTS_DIR}/icc-ppar-report/"
-METRICS_PPAR_REPORTS_DIR="${REPORTS_DIR}/metrics-ppar-report/"
+PPAR_PROJECT_DIR="${PWD}"
+PPAR_TOOL_BUILD_DIR="${PPAR_PROJECT_DIR}/build/"
+BENCHMARKS_RUN_DIR="${PPAR_PROJECT_DIR}/benchmarks-run/"
+REPORTS_DIR="${PPAR_PROJECT_DIR}/reports/ppar-metrics/"
+ICC_REPORTS_DIR="${REPORTS_DIR}/icc-report/"
+METRICS_REPORTS_DIR="${REPORTS_DIR}/metrics-report/"
 ANALYSIS_REPORTS_DIR="${REPORTS_DIR}/analysis/"
 
-if [[ -e ${ICC_COMPILER_PPAR_REPORTS_DIR} ]]; then
-    rm -rf ${ICC_COMPILER_PPAR_REPORTS_DIR}
+if [[ -e ${ICC_REPORTS_DIR} ]]; then
+    rm -rf ${ICC_REPORTS_DIR}
 fi
 
-if [[ -e ${METRICS_PPAR_REPORTS_DIR} ]]; then
-    rm -rf ${METRICS_PPAR_REPORTS_DIR}
+if [[ -e ${METRICS_REPORTS_DIR} ]]; then
+    rm -rf ${METRICS_REPORTS_DIR}
 fi
 
 if [[ -e ${ANALYSIS_REPORTS_DIR} ]]; then
     rm -rf ${ANALYSIS_REPORTS_DIR}
 fi
 
-if [[ -e ${BENCHMARKS_BUILD_DIR} ]]; then
-    rm -rf ${BENCHMARKS_BUILD_DIR}/*
-    rm -rf ${BENCHMARKS_BUILD_DIR}
+if [[ -e ${BENCHMARKS_RUN_DIR} ]]; then
+    rm -rf ${BENCHMARKS_RUN_DIR}/*
+    rm -rf ${BENCHMARKS_RUN_DIR}
 fi
 
-if [[ -e ${TOOL_BUILD_DIR} ]]; then
-    rm -rf ${TOOL_BUILD_DIR}/*
-    rm -rf ${TOOL_BUILD_DIR}
+if [[ -e ${PPAR_TOOL_BUILD_DIR} ]]; then
+    rm -rf ${PPAR_TOOL_BUILD_DIR}/*
+    rm -rf ${PPAR_TOOL_BUILD_DIR}
 fi
 
 echo "=== Purge script finished! ==="

@@ -5,6 +5,9 @@ import sys
 
 LOOP_BEGIN_RE = re.compile("LOOP BEGIN at (.*)\((.*),")
 LOOP_END_RE = re.compile("LOOP END")
+OPENMP_CONSTRUCT_RE = re.compile("OpenMP Construct at (.*)\((.*),")
+OPENMP_PARALLEL_RE = re.compile("OpenMP DEFINED LOOP PARALLELIZED")
+
 LOOP_PARALLEL_RE = re.compile("LOOP WAS AUTO-PARALLELIZED")
 LOOP_REMAINDER_0_RE = re.compile("Remainder loop for vectorization")
 LOOP_REMAINDER_1_RE = re.compile("Remainder")
@@ -88,9 +91,21 @@ if __name__ == "__main__":
         if loop_begin_match != None:
             loop_name = loop_begin_match.group(1) + "(" + loop_begin_match.group(2) + ")"
             if loop_name not in loop_classification:
-                loop_classification[loop_name] = 3 # uninitialized - haven't seen loop remarks yet
+                loop_classification[loop_name] = 3 # uninitialized - haven't seen remarks of this loop yet
             process_loop(loop_name)
-    
+        else:
+            openmp_construct_match = OPENMP_CONSTRUCT_RE.search(line)
+            if openmp_construct_match != None:
+                loop_name = openmp_construct_match.group(1) + "(" + openmp_construct_match.group(2) + ")"
+                line = icc_report_file.readline()
+                openmp_parallel_match = OPENMP_PARALLEL_RE.search(line)
+                if openmp_parallel_match != None:
+                    if loop_name not in loop_classification:
+                        loop_classification[loop_name] = 1 # OpenMP parallelized
+                    else:
+                        if loop_classification[loop_name] == 3 or loop_classification[loop_name] == 0:
+                            loop_classification[loop_name] = 1 # OpenMP parallelized
+
     for name, classification in loop_classification.items():
         if (classification == 0) or (classification == 1):
             print(name + ":" + str(classification))

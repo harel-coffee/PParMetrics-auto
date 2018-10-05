@@ -1,38 +1,20 @@
 #! /usr/bin/python3
 
 import re
+import os
 import sys
 
-#
-# Regular expressions, identifying loop boundaries in ICC compiler report
 LOOP_BEGIN_RE = re.compile("LOOP BEGIN at (.*)\((.*),")
 LOOP_END_RE = re.compile("LOOP END")
-#
-# ICC compiler OpenMP report
 OPENMP_CONSTRUCT_RE = re.compile("OpenMP Construct at (.*)\((.*),")
 OPENMP_PARALLEL_RE = re.compile("OpenMP DEFINED LOOP PARALLELIZED")
-#
-# Regular expressions for different sorts of loop remarks, 
-# provided by the Intel compiler in it's report
 
-# Remarks identifying parallelisible/vectorizable loops 
-LOOP_PARALLEL_0_RE = re.compile("LOOP WAS AUTO-PARALLELIZED")
-LOOP_VECTORIZED_0_RE = re.compile("LOOP WAS VECTORIZED")
-LOOP_VECTORIZED_1_RE = re.compile("loop was not vectorized: inner loop was already vectorized")
-
-# 
-# Remarks identifying non-parallelisible/non-vectorizable loops 
-LOOP_NON_PARALLEL_0_RE = re.compile("loop was not parallelized: existence of parallel dependence")
-LOOP_NON_PARALLEL_1_RE = re.compile("loop was not parallelized: inner loop")
-LOOP_NON_VECTORIZABLE_0_RE = re.compile("loop was not vectorized: vector dependence prevents vectorization")
-
-LOOP_NO_OPTIMIZATIONS_RE = re.compile("No loop optimizations reported")
-
-#
-# Remarks, which do not affect loop parallelisability report (loop remainders, peeled off loop parts, etc.)
+LOOP_PARALLEL_RE = re.compile("LOOP WAS AUTO-PARALLELIZED")
 LOOP_REMAINDER_0_RE = re.compile("Remainder loop for vectorization")
 LOOP_REMAINDER_1_RE = re.compile("Remainder")
 LOOP_PEELED_RE = re.compile("Peeled loop for vectorization")
+LOOP_NON_PARALLEL_RE = re.compile("loop was not parallelized")
+LOOP_NO_OPTIMIZATIONS_RE = re.compile("No loop optimizations reported")
 
 def process_loop(loop_name):
     global loop_depth
@@ -53,50 +35,36 @@ def process_loop(loop_name):
             continue
         
         # loop is parallelizible
-        loop_parallel_match = LOOP_PARALLEL_0_RE.search(line)
+        loop_parallel_match = LOOP_PARALLEL_RE.search(line)
         if loop_parallel_match != None:
-            if loop_classification[loop_name] == 3 or loop_classification[loop_name] == 2 or loop_classification[loop_name] == 0:
-                loop_classification[loop_name] = 1 # parallelizible
-            continue
-        loop_vectorized_match = LOOP_VECTORIZED_0_RE.search(line)
-        if loop_vectorized_match != None:
-            if loop_classification[loop_name] == 3 or loop_classification[loop_name] == 2:
-                loop_classification[loop_name] = 1 # parallelizible
-            continue
-        loop_vectorized_match = LOOP_VECTORIZED_1_RE.search(line)
-        if loop_vectorized_match != None:
-            if loop_classification[loop_name] == 3 or loop_classification[loop_name] == 2:
+            if loop_classification[loop_name] == 3 or loop_classification[loop_name] == 0:
                 loop_classification[loop_name] = 1 # parallelizible
             continue
 
         # loop remainder, split, peel etc. - do not carry classifying information
         loop_remainder_0_match = LOOP_REMAINDER_0_RE.search(line)
         loop_remainder_1_match = LOOP_REMAINDER_1_RE.search(line)
-        loop_peeled_match = LOOP_PEELED_RE.search(line)
-        if loop_remainder_0_match != None or loop_remainder_1_match != None or loop_peeled_match != None:
+        if loop_remainder_0_match != None or loop_remainder_1_match != None:
             continue
 
         # loop is not parallelizible
-        loop_non_parallel_match = LOOP_NON_PARALLEL_0_RE.search(line)
+        loop_non_parallel_match = LOOP_NON_PARALLEL_RE.search(line)
         if loop_non_parallel_match != None:
-            if loop_classification[loop_name] == 3 or loop_classification[loop_name] == 2:
+            if loop_classification[loop_name] == 3:
                 loop_classification[loop_name] = 0 # non-parallelizible
             continue
-        loop_non_parallel_match = LOOP_NON_PARALLEL_1_RE.search(line)
-        if loop_non_parallel_match != None:
-            if loop_classification[loop_name] == 3 or loop_classification[loop_name] == 2:
-                loop_classification[loop_name] = 0 # non-parallelizible
-            continue
-        loop_non_parallel_match = LOOP_NON_VECTORIZABLE_0_RE.search(line)
-        if loop_non_parallel_match != None:
-            if loop_classification[loop_name] == 3 or loop_classification[loop_name] == 2:
-                loop_classification[loop_name] = 0 # non-parallelizible
+
+        # peeled loop for vectorization
+        loop_peeled_match = LOOP_PEELED_RE.search(line)
+        if loop_peeled_match != None:
+            if loop_classification[loop_name] == 3 or loop_classification[loop_name] == 0:
+                loop_classification[loop_name] = 1 # peeled -> parallelized
             continue
 
         # no loop optimizations
         loop_no_optimizations_match = LOOP_NO_OPTIMIZATIONS_RE.search(line)
         if loop_no_optimizations_match != None:
-            if loop_classification[loop_name] == 3 or loop_classification[loop_name] == 2:
+            if loop_classification[loop_name] == 3:
                 loop_classification[loop_name] = 0 # non-parallelizible
             continue
 
@@ -110,6 +78,9 @@ def process_loop(loop_name):
 
 if __name__ == "__main__":
 
+    sources_dir  = sys.argv[1]
+    
+    
     # 0 - non-parallel, 1 - parallel, 2 - don't know, 3 - uninitialized
     #
     loop_classification = {}

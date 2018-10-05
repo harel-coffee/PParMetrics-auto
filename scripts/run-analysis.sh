@@ -20,6 +20,6 @@ mkdir ${ANALYSIS_REPORT_DIR}
 RAW_DATA_FILENAME="${ANALYSIS_DATA_DIR}/raw_data.csv"
 
 SVM_REPORT_FILENAME="${ANALYSIS_REPORT_DIR}/SVM.report"
-python3 ${ANALYSIS_SCRIPTS_DIR}/svm.py ${RAW_DATA_FILENAME} ${SVM_REPORT_FILENAME}
+python3 ${ANALYSIS_SCRIPTS_DIR}/svm.py ${RAW_DATA_FILENAME} ${SVM_REPORT_FILENAME} 3 n
 
 echo "=== Statistical analysis script finished! ==="

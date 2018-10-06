@@ -4,8 +4,9 @@ echo "=== Running PPar tool on the collection of NAS benchmarks! ==="
 
 PPAR_PROJECT_DIR="${PWD}"
 REPORT_DIR="${PPAR_PROJECT_DIR}/reports/ppar-metrics/"
-BENCHMARKS_RUN_DIR="${PPAR_PROJECT_DIR}/benchmarks-run/"
-METRICS_RUN_DIR="${BENCHMARKS_RUN_DIR}/nas-ppar-metrics-run/"
+BENCHMARKS_RUN_DIR="${PPAR_PROJECT_DIR}/benchmarks-run"
+NAS_BENCHMARKS_RUN_DIR="${BENCHMARKS_RUN_DIR}/snu-npb-run/"
+METRICS_RUN_DIR="${NAS_BENCHMARKS_RUN_DIR}/ppar-metrics-run/"
 METRICS_REPORT_DIR=${REPORT_DIR}/ppar-metrics-report/
 
 cd ${METRICS_RUN_DIR}

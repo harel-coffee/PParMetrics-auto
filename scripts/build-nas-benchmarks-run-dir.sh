@@ -1,25 +1,26 @@
 #!/bin/bash
 
-echo "=== Building NAS Benchmarks running directory! ==="
+echo "=== Building NAS benchmarks running directory! ==="
 
 PPAR_PROJECT_DIR="${PWD}"
-BENCHMARKS_DIR="${PPAR_PROJECT_DIR}/benchmarks/"
-NAS_SOURCES_DIR="${BENCHMARKS_DIR}/SNU_NPB/"
-NAS_SER_SOURCES_DIR="${NAS_SOURCES_DIR}/NPB3.3-SER-C/"
-NAS_OMP_SOURCES_DIR="${NAS_SOURCES_DIR}/NPB3.3-OMP-C/"
-NAUSEOUS_SER_HARNESS_DIR="${BENCHMARKS_DIR}/nauseous/"
-NAUSEOUS_OMP_HARNESS_DIR="${BENCHMARKS_DIR}/nauseous-omp/"
-BENCHMARKS_RUN_DIR="${PPAR_PROJECT_DIR}/benchmarks-run/"
-PPAR_METRICS_RUN_DIR="${BENCHMARKS_RUN_DIR}/nas-ppar-metrics-run/"
-ICC_RUN_DIR="${BENCHMARKS_RUN_DIR}/nas-icc-run/"
+BENCHMARKS_DIR="${PPAR_PROJECT_DIR}/benchmarks/snu-npb"
+NAS_SOURCES_DIR="${BENCHMARKS_DIR}/SNU_NPB"
+NAS_SER_SOURCES_DIR="${NAS_SOURCES_DIR}/NPB3.3-SER-C"
+NAS_OMP_SOURCES_DIR="${NAS_SOURCES_DIR}/NPB3.3-OMP-C"
+NAUSEOUS_SER_HARNESS_DIR="${BENCHMARKS_DIR}/nauseous"
+NAUSEOUS_OMP_HARNESS_DIR="${BENCHMARKS_DIR}/nauseous-omp"
+BENCHMARKS_RUN_DIR="${PPAR_PROJECT_DIR}/benchmarks-run"
+NAS_BENCHMARKS_RUN_DIR="${BENCHMARKS_RUN_DIR}/snu-npb-run"
+PPAR_METRICS_RUN_DIR="${NAS_BENCHMARKS_RUN_DIR}/ppar-metrics-run"
+ICC_RUN_DIR="${NAS_BENCHMARKS_RUN_DIR}/icc-run"
 
 C_FLAGS=""
 
 # clean up all previous builds 
-if [[ -e ${BENCHMARKS_RUN_DIR} ]]; then
-    rm -rf ${BENCHMARKS_RUN_DIR}
+if [[ -e ${NAS_BENCHMARKS_RUN_DIR} ]]; then
+    rm -rf ${NAS_BENCHMARKS_RUN_DIR}
 fi
-mkdir ${BENCHMARKS_RUN_DIR}
+mkdir ${NAS_BENCHMARKS_RUN_DIR}
 
 # create symbolic links from the nauseous NAS benchmark build harness to NAS benchmark C source code
 echo "= Creating symbolic links from NAS CMake build harness to SNU NAS C sources ="

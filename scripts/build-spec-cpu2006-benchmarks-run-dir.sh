@@ -56,7 +56,7 @@ mkdir ${ICC_RUN_DIR}
 echo "= Testing system for SNU NPB PPar metrics collection ="
 echo "DIR: ${PPAR_METRICS_RUN_DIR}"
 cd ${PPAR_METRICS_RUN_DIR} 
-build-llvm-ppar-metrics.sh
+build-llvm-loopc14n.sh
 
 echo "= Testing system for ICC logs collection ="
 echo "DIR: ${ICC_RUN_DIR}"

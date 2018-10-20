@@ -5,7 +5,8 @@ echo "=== Running ICC compiler on the collection of NAS benchmarks! ==="
 PPAR_PROJECT_DIR="${PWD}"
 REPORT_DIR="${PPAR_PROJECT_DIR}/reports/ppar-metrics/"
 BENCHMARKS_RUN_DIR="${PPAR_PROJECT_DIR}/benchmarks-run/"
-ICC_RUN_DIR="${BENCHMARKS_RUN_DIR}/nas-icc-run/"
+SNU_NPB_RUN_DIR="${BENCHMARKS_RUN_DIR}/snu-npb-run/"
+ICC_RUN_DIR="${SNU_NPB_RUN_DIR}/icc-run/"
 ICC_REPORT_DIR=${REPORT_DIR}/icc-par-report/
 
 cd ${ICC_RUN_DIR}

@@ -16,6 +16,10 @@ ICC_RUN_DIR="${NAS_BENCHMARKS_RUN_DIR}/icc-run"
 
 C_FLAGS=""
 
+if [[ ! -e ${BENCHMARKS_RUN_DIR} ]]; then
+    mkdir ${BENCHMARKS_RUN_DIR}
+fi
+
 # clean up all previous builds 
 if [[ -e ${NAS_BENCHMARKS_RUN_DIR} ]]; then
     rm -rf ${NAS_BENCHMARKS_RUN_DIR}

@@ -4,12 +4,12 @@ import re
 import sys
 
 #
-# Regular expressions, identifying loop boundaries in ICC compiler report
-LOOP_BEGIN_RE = re.compile("LOOP BEGIN at (.*)\((.*),")
+# Regular expressions identifying loop boundaries in ICC compiler report
+LOOP_BEGIN_RE = re.compile("LOOP BEGIN at (.*)\(([0-9]+),.+")
 LOOP_END_RE = re.compile("LOOP END")
 #
 # ICC compiler OpenMP report
-OPENMP_CONSTRUCT_RE = re.compile("OpenMP Construct at (.*)\((.*),")
+OPENMP_CONSTRUCT_RE = re.compile("OpenMP Construct at (.*)\((.*),.+")
 OPENMP_PARALLEL_RE = re.compile("OpenMP DEFINED LOOP PARALLELIZED")
 #
 # Regular expressions for different sorts of loop remarks, 
@@ -19,11 +19,11 @@ OPENMP_PARALLEL_RE = re.compile("OpenMP DEFINED LOOP PARALLELIZED")
 LOOP_PARALLEL_0_RE = re.compile("LOOP WAS AUTO-PARALLELIZED")
 LOOP_VECTORIZED_0_RE = re.compile("LOOP WAS VECTORIZED")
 LOOP_VECTORIZED_1_RE = re.compile("loop was not vectorized: inner loop was already vectorized")
+LOOP_VECTORIZED_2_RE = re.compile("PARTIAL LOOP WAS VECTORIZED")
 
 # 
 # Remarks identifying non-parallelisible/non-vectorizable loops 
 LOOP_NON_PARALLEL_0_RE = re.compile("loop was not parallelized: existence of parallel dependence")
-LOOP_NON_PARALLEL_1_RE = re.compile("loop was not parallelized: inner loop")
 LOOP_NON_VECTORIZABLE_0_RE = re.compile("loop was not vectorized: vector dependence prevents vectorization")
 
 LOOP_NO_OPTIMIZATIONS_RE = re.compile("No loop optimizations reported")
@@ -55,18 +55,29 @@ def process_loop(loop_name):
         # loop is parallelizible
         loop_parallel_match = LOOP_PARALLEL_0_RE.search(line)
         if loop_parallel_match != None:
-            if loop_classification[loop_name] == 3 or loop_classification[loop_name] == 2 or loop_classification[loop_name] == 0:
+            if loop_classification[loop_name] == 3 or loop_classification[loop_name] == 2:
                 loop_classification[loop_name] = 1 # parallelizible
+            elif loop_classification[loop_name] == 0:
+                sys.exit("Loop parallelisation ambiguity: " + str(loop_name))
             continue
         loop_vectorized_match = LOOP_VECTORIZED_0_RE.search(line)
         if loop_vectorized_match != None:
             if loop_classification[loop_name] == 3 or loop_classification[loop_name] == 2:
                 loop_classification[loop_name] = 1 # parallelizible
+            elif loop_classification[loop_name] == 0:
+                sys.exit("Loop parallelisation ambiguity: " + str(loop_name))
             continue
         loop_vectorized_match = LOOP_VECTORIZED_1_RE.search(line)
         if loop_vectorized_match != None:
             if loop_classification[loop_name] == 3 or loop_classification[loop_name] == 2:
                 loop_classification[loop_name] = 1 # parallelizible
+            continue
+        loop_vectorized_match = LOOP_VECTORIZED_2_RE.search(line)
+        if loop_vectorized_match != None:
+            if loop_classification[loop_name] == 3 or loop_classification[loop_name] == 2:
+                loop_classification[loop_name] = 1 # parallelizible
+            elif loop_classification[loop_name] == 0:
+                sys.exit("Loop parallelisation ambiguity: " + str(loop_name))
             continue
 
         # loop remainder, split, peel etc. - do not carry classifying information
@@ -81,16 +92,15 @@ def process_loop(loop_name):
         if loop_non_parallel_match != None:
             if loop_classification[loop_name] == 3 or loop_classification[loop_name] == 2:
                 loop_classification[loop_name] = 0 # non-parallelizible
-            continue
-        loop_non_parallel_match = LOOP_NON_PARALLEL_1_RE.search(line)
-        if loop_non_parallel_match != None:
-            if loop_classification[loop_name] == 3 or loop_classification[loop_name] == 2:
-                loop_classification[loop_name] = 0 # non-parallelizible
+            elif loop_classification[loop_name] == 1:
+                sys.exit("Loop parallelisation ambiguity: " + str(loop_name))
             continue
         loop_non_parallel_match = LOOP_NON_VECTORIZABLE_0_RE.search(line)
         if loop_non_parallel_match != None:
             if loop_classification[loop_name] == 3 or loop_classification[loop_name] == 2:
                 loop_classification[loop_name] = 0 # non-parallelizible
+            elif loop_classification[loop_name] == 1:
+                sys.exit("Loop parallelisation ambiguity: " + str(loop_name))
             continue
 
         # no loop optimizations

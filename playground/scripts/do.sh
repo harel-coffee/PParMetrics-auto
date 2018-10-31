@@ -30,11 +30,13 @@ DOTS_DIR="${PLAYGROUND_DIR}/dot"
 PDFS_DIR="${PLAYGROUND_DIR}/pdf"
 EXECUTABLES_DIR="${PLAYGROUND_DIR}/exe"
 METRICS_DIR="${PLAYGROUND_DIR}/metric"
+REPORTS_DIR="${PLAYGROUND_DIR}/report"
 
 declare -a NECESSARY_DIRS=("${ASSEMBLY_DIR} 
                             ${EXECUTABLES_DIR} 
                             ${DOTS_DIR} 
                             ${PDFS_DIR}
+                            ${REPORTS_DIR}
                             ${METRICS_DIR} ")
 
 echo "2) Checking all the necessary directories"
@@ -55,6 +57,11 @@ CLANG_COMPILER_FLAGS="${COMPILER_FLAGS} -emit-llvm -O0"
 declare -a COMPILERS=( "${ICC_COMPILER}" "${GCC_COMPILER}" "${CLANG_COMPILER}" )
 declare -a COMPILER_EXTS=( "icc" "gcc" "clang" )
 declare -a COMPILER_FLAGS=( "${ICC_COMPILER_FLAGS}" "${GCC_COMPILER_FLAGS}" "${CLANG_COMPILER_FLAGS}" )
+
+
+OPT_OPTIONS=""
+OPT_OPTIONS="${OPT_OPTIONS} -O0"
+
 
 for src in $@; do
     echo "3) Checking all the necessary directories for sources: ${@}"
@@ -82,12 +89,31 @@ for src in $@; do
         ${COMPILERS[i]} ${COMPILER_FLAGS[i]} "-S" "-g" "${SOURCES_DIR}/${src}.cpp" -o "${ASSEMBLY_DIR}/${src}/${src}.g.s.${COMPILER_EXTS[i]}"
     done
 
+    # produce ICC compiler optimization report
+    ICC_PAR_REPORT_FLAGS=""
+    ICC_PAR_REPORT_FLAGS="${ICC_PAR_REPORT_FLAGS} \
+        -g \
+        -xHost \
+        -qopt-report-file=${REPORTS_DIR}/${src}/icc.report \
+        -qopt-report-phase=vec,par,loop,openmp,ipo \
+        -vec-threshold0 \
+        -par-threshold0 \
+        -unroll0 \
+        -vec \
+        -parallel \
+        -no-ip \
+        -fno-inline \
+        -O2"
+   
+    ${ICC_COMPILER} ${ICC_PAR_REPORT_FLAGS} ${SOURCES_DIR}/${src}.cpp -o ${PLAYGROUND_DIR}/${src}.out
+    rm -rf ${PLAYGROUND_DIR}/${src}.out
+
     # run PPar tool in order to collect PDGs of the source
     ASSEMBLY_FILE="${ASSEMBLY_DIR}/${src}/${src}.g.s.clang"
 
     for GraphType in ddg mdg cdg pdg; do
         echo "PPar metrics tool: generating ${GraphType} graphs"
-        ${OPT_TOOL} "-load ${PPAR_METRICS_LIBRARY} -dot-${GraphType} ${ASSEMBLY_FILE}"
+        ${OPT_TOOL} -load "${PPAR_METRICS_LIBRARY}" "-dot-${GraphType}" "${ASSEMBLY_FILE}"
         mv *.dot "${DOTS_DIR}/${src}/${GraphType}"
     done
 
@@ -95,11 +121,11 @@ for src in $@; do
         echo "DOT->PDF files generation for ${GraphType} graphs"
         for DotFile in ${DOTS_DIR}/${src}/${GraphType}/*
         do
-            echo $DotFile
-            dot "-Tpdf ${DotFile} -o ${PDFS_DIR}/${src}/${GraphType}/${DotFile}.pdf"
+            DotFile=${DotFile##*/}
+            dot -Tpdf ${DOTS_DIR}/${src}/${GraphType}/${DotFile} -o ${PDFS_DIR}/${src}/${GraphType}/${DotFile}.pdf
         done
     done
 
-    ${OPT_TOOL} "-load ${PPAR_METRICS_LIBRARY} -ppar-metrics-collector ${ASSEMBLY_FILE}"
+    ${OPT_TOOL} -load ${PPAR_METRICS_LIBRARY} -ppar-metrics-collector ${ASSEMBLY_FILE}
     mv ./*.metrics ${METRICS_DIR}/${src}
 done

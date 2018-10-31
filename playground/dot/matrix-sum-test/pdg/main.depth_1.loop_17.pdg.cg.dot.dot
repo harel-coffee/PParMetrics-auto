@@ -1,0 +1,30 @@
+
+digraph G {
+
+
+node3852 [fillcolor=lightcoral,label="[6/29]  %5 = load i32, i32* %i, align 4, !dbg !1320",shape=ellipse,style=filled ]
+node3851 [fillcolor=lightcoral,label="[0/5]  %call2 = call i8* @_Znam(i64 4000) #10, !dbg !1314",shape=ellipse,style=filled ]
+node3850 [fillcolor=grey,label="[13/16]  %idxprom = zext i32 %4 to i64, !dbg !1316",shape=rectangle,style=filled ]
+node3847 [fillcolor=grey,label="[1/4]  %2 = bitcast i8* %call2 to i32*, !dbg !1314",shape=rectangle,style=filled ]
+node3844 [fillcolor=lemonchiffon,label="[18/19]  br label %for.cond, !dbg !1321, !llvm.loop !1322",shape=ellipse,style=filled ]
+node3845 [fillcolor=grey,label="[14/15]  %arrayidx = getelementptr inbounds i32*, i32** %3, i64 %idxprom, !dbg !1316",shape=rectangle,style=filled ]
+node3846 [fillcolor=lightcoral,label="[20/21]  %3 = load i32**, i32*** %a, align 8, !dbg !1316",shape=ellipse,style=filled ]
+node3848 [fillcolor=lightcoral,label="[2/3]  store i32* %2, i32** %arrayidx, align 8, !dbg !1318",shape=ellipse,style=filled ]
+node3849 [fillcolor=lemonchiffon,label="[22/23]  br label %for.inc, !dbg !1319",shape=ellipse,style=filled ]
+
+node3845->node3848 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node3852->node3850 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node3852->node3847 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node3852->node3848 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node3852->node3851 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node3852->node3849 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node3851->node3847 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node3852->node3844 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node3852->node3845 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node3846->node3845 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node3852->node3846 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node3850->node3845 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node3847->node3848 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+
+
+}

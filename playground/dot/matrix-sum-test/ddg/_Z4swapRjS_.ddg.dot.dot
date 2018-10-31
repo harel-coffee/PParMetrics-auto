@@ -1,0 +1,42 @@
+
+digraph G {
+
+
+node32 [fillcolor=grey,label="  call void @llvm.dbg.declare(metadata i32** %b.addr, metadata !1298, metadata !DIExpression()), !dbg !1299",shape=rectangle,style=filled ]
+node19 [fillcolor=lightcoral,label="  store i32* %b, i32** %b.addr, align 8",shape=ellipse,style=filled ]
+node24 [fillcolor=grey,label="  call void @llvm.dbg.declare(metadata i32* %tmp, metadata !1300, metadata !DIExpression()), !dbg !1301",shape=rectangle,style=filled ]
+node18 [fillcolor=lightcoral,label="  store i32* %a, i32** %a.addr, align 8",shape=ellipse,style=filled ]
+node33 [fillcolor=lightcoral,label="  %3 = load i32, i32* %2, align 4, !dbg !1302",shape=ellipse,style=filled ]
+node22 [fillcolor=grey,label="  %b.addr = alloca i32*, align 8",shape=rectangle,style=filled ]
+node31 [fillcolor=lightcoral,label="  store i32 %1, i32* %tmp, align 4, !dbg !1301",shape=ellipse,style=filled ]
+node17 [fillcolor=lemonchiffon,label="  ret void, !dbg !1308",shape=ellipse,style=filled ]
+node23 [fillcolor=grey,label="  %a.addr = alloca i32*, align 8",shape=rectangle,style=filled ]
+node20 [fillcolor=lightcoral,label="  %4 = load i32*, i32** %a.addr, align 8, !dbg !1303",shape=ellipse,style=filled ]
+node29 [fillcolor=lightcoral,label="  store i32 %5, i32* %6, align 4, !dbg !1307",shape=ellipse,style=filled ]
+node21 [fillcolor=grey,label="  %tmp = alloca i32, align 4",shape=rectangle,style=filled ]
+node25 [fillcolor=lightcoral,label="  store i32 %3, i32* %4, align 4, !dbg !1304",shape=ellipse,style=filled ]
+node15 [fillcolor=lightcoral,label="  %6 = load i32*, i32** %b.addr, align 8, !dbg !1306",shape=ellipse,style=filled ]
+node26 [fillcolor=lightcoral,label="  %5 = load i32, i32* %tmp, align 4, !dbg !1305",shape=ellipse,style=filled ]
+node16 [fillcolor=grey,label="  call void @llvm.dbg.declare(metadata i32** %a.addr, metadata !1296, metadata !DIExpression()), !dbg !1297",shape=rectangle,style=filled ]
+node27 [fillcolor=lightcoral,label="  %2 = load i32*, i32** %b.addr, align 8, !dbg !1302",shape=ellipse,style=filled ]
+node28 [fillcolor=lightcoral,label="  %1 = load i32, i32* %0, align 4, !dbg !1300",shape=ellipse,style=filled ]
+node30 [fillcolor=lightcoral,label="  %0 = load i32*, i32** %a.addr, align 8, !dbg !1300",shape=ellipse,style=filled ]
+
+node22->node19 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node22->node27 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node21->node31 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node23->node18 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node23->node20 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node27->node33 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node30->node28 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node26->node29 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node20->node25 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node15->node29 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node33->node25 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node28->node31 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node22->node15 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node21->node26 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node23->node30 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+
+
+}

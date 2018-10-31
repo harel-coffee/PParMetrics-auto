@@ -1,0 +1,70 @@
+
+digraph G {
+
+
+
+node42->node41 [ ]
+node41->node42 [ ]
+node40->node43 [ ]
+node44->node46 [ ]
+node45->node46 [ ]
+node40->node42 [ ]
+node46->node44 [ ]
+node43->node41 [ ]
+node43->node40 [ ]
+node42->node40 [ ]
+node46->node45 [ ]
+node47->node49 [ ]
+node49->node47 [ ]
+node41->node43 [ ]
+node50->node51 [ ]
+node51->node50 [ ]
+node49->node48 [ ]
+node48->node49 [ ]
+
+
+subgraph cluster3 {
+
+
+node51 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[14/17]  %5 = load i32, i32* %tmp, align 4, !dbg !1305",shape=ellipse,style=filled ]
+node50 [fillcolor=lightcoral,label="[15/16]  store i32 %1, i32* %tmp, align 4, !dbg !1301",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster2 {
+
+
+node49 [fillcolor=lightcoral,label="[19/22]  store i32* %a, i32** %a.addr, align 8",shape=ellipse,style=filled ]
+node47 [fillcolor=lightcoral,label="[20/21]  %0 = load i32*, i32** %a.addr, align 8, !dbg !1300",shape=ellipse,style=filled ]
+node48 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[18/23]  %4 = load i32*, i32** %a.addr, align 8, !dbg !1303",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster0 {
+
+
+node43 [fillcolor=lightcoral,label="[1/6]  %1 = load i32, i32* %0, align 4, !dbg !1300",shape=ellipse,style=filled ]
+node42 [fillcolor=lightcoral,label="[3/4]  %3 = load i32, i32* %2, align 4, !dbg !1302",shape=ellipse,style=filled ]
+node40 [fillcolor=lightcoral,label="[2/5]  store i32 %3, i32* %4, align 4, !dbg !1304",shape=ellipse,style=filled ]
+node41 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/7]  store i32 %5, i32* %6, align 4, !dbg !1307",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster1 {
+
+
+node46 [fillcolor=lightcoral,label="[9/12]  store i32* %b, i32** %b.addr, align 8",shape=ellipse,style=filled ]
+node44 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[8/13]  %6 = load i32*, i32** %b.addr, align 8, !dbg !1306",shape=ellipse,style=filled ]
+node45 [fillcolor=lightcoral,label="[10/11]  %2 = load i32*, i32** %b.addr, align 8, !dbg !1302",shape=ellipse,style=filled ]
+
+
+
+}
+
+}

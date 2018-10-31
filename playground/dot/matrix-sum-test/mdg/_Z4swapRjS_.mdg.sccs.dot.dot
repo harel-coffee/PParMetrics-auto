@@ -1,0 +1,70 @@
+
+digraph G {
+
+
+
+
+
+subgraph cluster3 {
+
+
+node39 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[14/17]  %5 = load i32, i32* %tmp, align 4, !dbg !1305",shape=ellipse,style=filled ]
+node38 [fillcolor=lightcoral,label="[15/16]  store i32 %1, i32* %tmp, align 4, !dbg !1301",shape=ellipse,style=filled ]
+
+node38->node39 [ ]
+node39->node38 [ ]
+
+
+}
+
+subgraph cluster2 {
+
+
+node37 [fillcolor=lightcoral,label="[19/22]  store i32* %a, i32** %a.addr, align 8",shape=ellipse,style=filled ]
+node35 [fillcolor=lightcoral,label="[20/21]  %0 = load i32*, i32** %a.addr, align 8, !dbg !1300",shape=ellipse,style=filled ]
+node36 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[18/23]  %4 = load i32*, i32** %a.addr, align 8, !dbg !1303",shape=ellipse,style=filled ]
+
+node35->node37 [ ]
+node36->node37 [ ]
+node37->node36 [ ]
+node37->node35 [ ]
+
+
+}
+
+subgraph cluster0 {
+
+
+node31 [fillcolor=lightcoral,label="[1/6]  %1 = load i32, i32* %0, align 4, !dbg !1300",shape=ellipse,style=filled ]
+node30 [fillcolor=lightcoral,label="[3/4]  %3 = load i32, i32* %2, align 4, !dbg !1302",shape=ellipse,style=filled ]
+node28 [fillcolor=lightcoral,label="[2/5]  store i32 %3, i32* %4, align 4, !dbg !1304",shape=ellipse,style=filled ]
+node29 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/7]  store i32 %5, i32* %6, align 4, !dbg !1307",shape=ellipse,style=filled ]
+
+node30->node29 [ ]
+node29->node30 [ ]
+node28->node31 [ ]
+node31->node29 [ ]
+node31->node28 [ ]
+node29->node31 [ ]
+node28->node30 [ ]
+node30->node28 [ ]
+
+
+}
+
+subgraph cluster1 {
+
+
+node34 [fillcolor=lightcoral,label="[9/12]  store i32* %b, i32** %b.addr, align 8",shape=ellipse,style=filled ]
+node32 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[8/13]  %6 = load i32*, i32** %b.addr, align 8, !dbg !1306",shape=ellipse,style=filled ]
+node33 [fillcolor=lightcoral,label="[10/11]  %2 = load i32*, i32** %b.addr, align 8, !dbg !1302",shape=ellipse,style=filled ]
+
+node34->node33 [ ]
+node34->node32 [ ]
+node33->node34 [ ]
+node32->node34 [ ]
+
+
+}
+
+}

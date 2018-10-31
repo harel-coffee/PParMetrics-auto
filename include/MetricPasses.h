@@ -89,6 +89,27 @@ struct LoopDependenceMetrics {
         { return "The set of metrics measuring the amount of different types of dependencies in the payload of the loop"; }
 };
 
+struct LoopNatureMetrics {
+    public:
+        LoopNatureMetrics() {}
+
+        typedef enum ProportionMetricType {
+            LOOP_CALL_COUNT = 0, // the number of call instructions in the loop
+        } NatureMetric_t;
+
+        using MetricSubtype = NatureMetric_t;
+
+        static llvm::StringRef getPassName()
+        { return "Loop Nature Metrics"; } 
+        
+        static llvm::StringRef getMetricPassOption()
+        { return "loop-nature-metrics"; }
+        
+        static llvm::StringRef getMetricPassOptionDesc()
+        { return "Compute metrics, which take into account the nature of\
+                  loop constituting instructions (call instructions number, etc.)"; }
+};
+
 } // namespace ppar
 
 #endif // #ifndef PPAR_METRIC_PASSES_H

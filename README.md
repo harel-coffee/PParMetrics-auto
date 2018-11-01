@@ -2,6 +2,9 @@
 
 Software Metrics for Parallelism 
 
+[Requirements]
+The project is wrapped up controlled by a set of scripts, stored in the {project-root}/scripts/ directory.
+
 [Motivation]
 
 This work stems from the existing work in the field of Software Quality. There are numerous software metrics available 

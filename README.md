@@ -2,11 +2,11 @@
 
 Software Metrics for Parallelism
 
-[Brief project description]
+# [Brief project description]
 This project is an endeavour to develop a machine learning based tool for software source code parallelisability analysis and prediction.    
 
 
-[Project requirements]
+# [Project requirements]
 The project is built, run and controlled by a set of scripts, stored in the {project-root}/scripts/ directory.
 
 The project uses and is dependent upon a number of software libraries, software frameworks 
@@ -15,7 +15,7 @@ tools and technologies:
 1)
 2)
 
-[Project motivation & history]
+# [Project motivation & history]
 
 PPar project started as an attempt to device and evaluate develop
 
@@ -24,7 +24,7 @@ for judging about source code readability, maintainability, etc. Cyclomatic Comp
 the most illustrative example. This work is an attempt to develop an analogous set of software metrics, suitable for 
 assessing source code parallelisability.
 
-[Overview]
+# [High-level project overview]
 
 This tool is implemented as a set of LLVM passes and is based on the work [2], described in paper [3]. First, the tool uses 
 LLVM framework to build Dependence Graph of the Program (PDG). Program Dependence Graph (PDG) consists of the 3 constituent 

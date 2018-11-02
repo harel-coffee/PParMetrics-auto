@@ -5,15 +5,16 @@ Software Metrics for Parallelism
 # [Brief project description]
 This project is an endeavour to develop a machine learning based tool for software source code parallelisability analysis and prediction.    
 
-
 # [Project requirements]
-The project is built, run and controlled by a set of scripts, stored in the {project-root}/scripts/ directory.
+The project uses and is dependent upon a number of software libraries, software frameworks tools and technologies:
+* Python
+* CMake
+* C/C++ compiler with C++11 support
+* LLVM library of compiler components
+* scikit-learn machine learning library
 
-The project uses and is dependent upon a number of software libraries, software frameworks 
-
-tools and technologies: 
-1)
-2)
+# [Project directory layout]
+**1)** The project is built, run and controlled by a set of scripts, stored in the {project-root}/scripts/ directory.
 
 # [Project motivation & history]
 

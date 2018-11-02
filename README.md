@@ -1,11 +1,23 @@
 # PParMetrics (Pervasive Parallelism Software Metrics)
 
-Software Metrics for Parallelism 
+Software Metrics for Parallelism
 
-[Requirements]
-The project is wrapped up controlled by a set of scripts, stored in the {project-root}/scripts/ directory.
+[Brief project description]
+This project is an endeavour to develop a machine learning based tool for software source code parallelisability analysis and prediction.    
 
-[Motivation]
+
+[Project requirements]
+The project is built, run and controlled by a set of scripts, stored in the {project-root}/scripts/ directory.
+
+The project uses and is dependent upon a number of software libraries, software frameworks 
+
+tools and technologies: 
+1)
+2)
+
+[Project motivation & history]
+
+PPar project started as an attempt to device and evaluate develop
 
 This work stems from the existing work in the field of Software Quality. There are numerous software metrics available 
 for judging about source code readability, maintainability, etc. Cyclomatic Complexity (CC) metric [1] probably serves as 

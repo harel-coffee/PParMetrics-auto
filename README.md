@@ -1,15 +1,31 @@
 # PParMetrics (Pervasive Parallelism Software Metrics)
 
-Software Metrics for Parallelism 
+Software Metrics for Parallelism
 
-[Motivation]
+# [Brief project description]
+This project is an endeavour to develop a machine learning based tool for software source code parallelisability analysis and prediction.    
+
+# [Project requirements]
+The project uses and is dependent upon a number of software libraries, software frameworks tools and technologies:
+* Python
+* CMake
+* C/C++ compiler with C++11 support
+* LLVM library of compiler components
+* scikit-learn machine learning library
+
+# [Project directory layout]
+**1)** The project is built, run and controlled by a set of scripts, stored in the {project-root}/scripts/ directory.
+
+# [Project motivation & history]
+
+PPar project started as an attempt to device and evaluate develop
 
 This work stems from the existing work in the field of Software Quality. There are numerous software metrics available 
 for judging about source code readability, maintainability, etc. Cyclomatic Complexity (CC) metric [1] probably serves as 
 the most illustrative example. This work is an attempt to develop an analogous set of software metrics, suitable for 
 assessing source code parallelisability.
 
-[Overview]
+# [High-level project overview]
 
 This tool is implemented as a set of LLVM passes and is based on the work [2], described in paper [3]. First, the tool uses 
 LLVM framework to build Dependence Graph of the Program (PDG). Program Dependence Graph (PDG) consists of the 3 constituent 

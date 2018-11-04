@@ -75,10 +75,13 @@ PPAR_TOOL_BUILD_DIR="${PROJECT_ROOT_DIR}/build"
 
 REPORTS_DIR="${PROJECT_ROOT_DIR}/reports"
 PPAR_REPORTS_DIR="${REPORTS_DIR}/ppar-metrics"
+NAS_REPORTS_DIR="${PPAR_REPORTS_DIR}/snu-npb"
 
-ICC_REPORTS_DIR="${PPAR_REPORTS_DIR}/icc-report"
-METRICS_REPORTS_DIR="${REPORTS_DIR}/metrics-report"
-ANALYSIS_REPORTS_DIR="${REPORTS_DIR}/analysis"
-declare -a PPAR_REPORTS_DIRS=("${ICC_REPORTS_DIR}"
-                              "${METRICS_REPORTS_DIR}"
-                              "${ANALYSIS_REPORTS_DIR}")
+NAS_ICC_REPORTS_DIR="${NAS_REPORTS_DIR}/icc-report"
+NAS_METRICS_REPORTS_DIR="${NAS_REPORTS_DIR}/metrics-report"
+NAS_ANALYSIS_REPORTS_DIR="${NAS_REPORTS_DIR}/analysis"
+declare -a NAS_REPORTS_DIRS=("${NAS_ICC_REPORTS_DIR}"
+                             "${NAS_METRICS_REPORTS_DIR}"
+                             "${NAS_ANALYSIS_REPORTS_DIR}")
+
+source ${PROJECT_ROOT_DIR}/scripts/include/nas-benchmarks-info.sh

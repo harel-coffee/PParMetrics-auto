@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source $(dirname "$0")/../project-environment.sh
+source $(dirname "$0")/../include/project-environment.sh
 
 echo "< build-nas-benchmarks-run-dir.sh script >"
 echo "=> Building NAS benchmarks running directory!"

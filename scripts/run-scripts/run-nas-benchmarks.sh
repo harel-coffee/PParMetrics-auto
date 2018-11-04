@@ -1,24 +1,28 @@
 #!/bin/bash
 
-echo "=== Running PPar tool on the collection of NAS benchmarks! ==="
+source $(dirname "$0")/../include/project-environment.sh
 
-PPAR_PROJECT_DIR="${PWD}"
-REPORT_DIR="${PPAR_PROJECT_DIR}/reports/ppar-metrics/"
-BENCHMARKS_RUN_DIR="${PPAR_PROJECT_DIR}/benchmarks-run"
-NAS_BENCHMARKS_RUN_DIR="${BENCHMARKS_RUN_DIR}/snu-npb-run/"
-METRICS_RUN_DIR="${NAS_BENCHMARKS_RUN_DIR}/ppar-metrics-run/"
-METRICS_REPORT_DIR=${REPORT_DIR}/ppar-metrics-report/
+echo "< run-nas-ppar-metrics.sh script >"
+echo "=> Running PPar tool on NAS benchmarks in order to collect metrics"
 
-cd ${METRICS_RUN_DIR}
+if [[ ! -e ${NAS_PPAR_METRICS_RUN_DIR} ]]; then
+    ERROR_MSG="Error: NAS benchmarks PPar tool run directory ${NAS_PPAR_METRICS_RUN_DIR} has not been found! Run NAS benchmarks building script first."
+    error_exit "${ERROR_MSG}" 
+fi
 
-echo "= Cleaning up before the start ="
+if [[ -e ${NAS_METRICS_REPORTS_DIR} ]]; then
+    rm -rf ${NAS_METRICS_REPORTS_DIR}
+fi
+mkdir ${NAS_METRICS_REPORTS_DIR}
+
+(
+cd ${NAS_PPAR_METRICS_RUN_DIR}
 
 make clean
-
-if [[ -e ${METRICS_REPORT_DIR} ]]; then
-    rm -rf ${METRICS_REPORT_DIR}
+if [[ -e ${NAS_METRICS_REPORTS_DIR} ]]; then
+    rm -rf ${NAS_METRICS_REPORTS_DIR}
 fi
-mkdir ${METRICS_REPORT_DIR}
+mkdir ${NAS_METRICS_REPORTS_DIR}
 
 for BenchmarkFolderName in BT CG DC EP FT IS LU MG SP UA; do
     echo "Removing ${BenchmarkFolderName}/${BenchmarkFolderName}.metrics.excel"

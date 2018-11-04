@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source $(dirname "$0")/../project-environment.sh
+source $(dirname "$0")/../include/project-environment.sh
 
 echo "< build-ppar-metrics-so-library.sh script >"
 echo "=> Building PPar tool *.so library"

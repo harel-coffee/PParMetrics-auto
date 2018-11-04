@@ -22,6 +22,7 @@ done
 
 if [[ -e ${PPAR_TOOL_BUILD_DIR} ]]; then
     rm -rf ${PPAR_TOOL_BUILD_DIR}
+    echo "Deleted ${PPAR_TOOL_BUILD_DIR}"
 fi
 
 echo "Cleaning script finished!"

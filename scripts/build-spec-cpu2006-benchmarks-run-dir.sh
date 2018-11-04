@@ -1,5 +1,10 @@
 #!/bin/bash
 
+source $(dirname "$0")/../project-environment.sh
+
+echo "< build-nas-benchmarks-run-dir.sh script >"
+echo "=> Building NAS benchmarks running directory!"
+
 echo "=== Building SPEC CPU2006 benchmarks running directory! ==="
 
 PPAR_PROJECT_DIR="${PWD}"

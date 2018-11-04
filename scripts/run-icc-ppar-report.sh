@@ -1,5 +1,12 @@
 #!/bin/bash
 
+source $(dirname "$0")/../project-environment.sh
+
+echo "< run-icc-ppar-report.sh script >"
+echo "=> Building NAS benchmarks running directory!"
+
+
+
 echo "=== Running ICC compiler on the collection of NAS benchmarks! ==="
 
 PPAR_PROJECT_DIR="${PWD}"

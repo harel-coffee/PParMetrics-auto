@@ -1,22 +1,33 @@
 #! /usr/bin/python3
 
-import re
 import sys
+import os
 
-from intel_compiler.opt_report.compiler import IccOptReportCompiler
-from intel_compiler.opt_report.ir import *
-from benchmark_loop_tables.loop_class_table import LoopClassTable
+from icc.opt_report.compiler import IccOptReportCompiler
+from icc.opt_report.ir import *
+from loop_table.loop_class_table import LoopClassTable
 
 if __name__ == "__main__":
 
-    icc_report_filename = sys.argv[1]
+    print("= Intel C/C++ Compiler (ICC) optimization report processing =")
+    print("ICC opt report -> Loop classification table\n")
 
-    loop_class_table = LoopClassTable()
+    if len(sys.argv) != 2:
+        error_str = "error: "
+        error_str += "ICC opt report procesor: "
+        error_str += "incorrect argument list => use ./process-icc-report.py opt-report-filename"
+        sys.exit(error_str)
 
-    compiler = IccOptReportCompiler(icc_report_filename)
-
+    compiler = IccOptReportCompiler(sys.argv[1])
     compiler.compile()
+    loop_ir = compiler.get_ir()
+    loops = loop_ir.get_loops()
+   
+    loop_class_table = LoopClassTable()
+    
+    for loop_name in loops:
+        loop_class_table.add_loop(loops[loop_name])
 
-    loop_nest_structure = compiler.get_ir()
+    loop_class_table.print_black_box()
 
-    print("Done!")
+    sys.exit()

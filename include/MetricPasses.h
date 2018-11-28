@@ -94,20 +94,32 @@ struct LoopNatureMetrics {
         LoopNatureMetrics() {}
 
         typedef enum ProportionMetricType {
-            LOOP_CALL_COUNT = 0, // the number of call instructions in the loop
+            ITERATOR_MEM_WRITE_COUNT = 0, // the number of may-write-to-memory instructions in the loop iterator
+            ITERATOR_MEM_WRITE_FRACTION, // the fraction of may-write-to-memory instructions in the loop iterator out of all iterator instructions
+            ITERATOR_CALL_COUNT, // the number of call instructions in the loop iterator
+            ITERATOR_CALL_FRACTION, // the fraction of call instructions in the loop iterator
+            PAYLOAD_MEM_WRITE_COUNT,
+            PAYLOAD_MEM_WRITE_FRACTION,
+            PAYLOAD_CALL_COUNT,
+            PAYLOAD_CALL_FRACTION,
+            CRITICAL_PAYLOAD_MEM_WRITE_COUNT,
+            CRITICAL_PAYLOAD_MEM_WRITE_FRACTION,
+            CRITICAL_PAYLOAD_CALL_COUNT,
+            CRITICAL_PAYLOAD_CALL_FRACTION,
+            METRIC_SUBTYPE_LAST
         } NatureMetric_t;
 
         using MetricSubtype = NatureMetric_t;
 
         static llvm::StringRef getPassName()
-        { return "Loop Nature Metrics"; } 
+        { return "Loop Instruction Nature Metrics"; } 
         
         static llvm::StringRef getMetricPassOption()
         { return "loop-nature-metrics"; }
         
         static llvm::StringRef getMetricPassOptionDesc()
         { return "Compute metrics, which take into account the nature of\
-                  loop constituting instructions (call instructions number, etc.)"; }
+                  loop constituting instructions (call instructions number, memory writes number, etc.)"; }
 };
 
 } // namespace ppar

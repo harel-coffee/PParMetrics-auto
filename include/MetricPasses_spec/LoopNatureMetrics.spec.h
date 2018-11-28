@@ -52,52 +52,115 @@ bool MetricPass<ppar::LoopNatureMetrics>::runOnFunction(Function& F) {
         Metrics_func->LoopMetrics[L] = std::make_unique<MetricSet_loop<LoopNatureMetrics>>(L); 
         MetricSet_loop<LoopNatureMetrics>* Metrics_loop = (Metrics_func->LoopMetrics[L]).get();
        
-        // compute LOOP_ABSOLUTE_SIZE metric
-        double LoopAbsoluteSize_value = LoopPDG.getNodesNumber();
-
-        idx = ppar::LoopProportionMetrics::ProportionMetric_t::LOOP_ABSOLUTE_SIZE;
-        Metrics_loop->Metrics[idx] = LoopAbsoluteSize_value;
-
-        // compute LOOP_PAYLOAD_FRACTION metric
-        uint64_t IteratorSize = 0;
-        for (auto iter = Iterator.cbegin(); iter != Iterator.cend(); ++iter) {
-            IteratorSize += (*iter)->getNodesNumber();
-        }
-        uint64_t PayloadSize = 0;
+        // compute payload related loop instruction nature metrics
+        uint64_t MemoryWriteNum = 0;
+        uint64_t CallInstrsNum = 0;
+        uint64_t TotalSize = 0;
         for (auto iter = Payload.cbegin(); iter != Payload.cend(); ++iter) {
-            PayloadSize += (*iter)->getNodesNumber();
-        }
+            const Graph<llvm::Instruction*,ppar::Dependence*>* PayoadSccPDG = (*iter);
+            TotalSize += PayoadSccPDG->getNodesNumber();
 
-        if ((IteratorSize + PayloadSize) != LoopPDG.getNodesNumber()) {
-            llvm_unreachable("ppar::MetricPass<LoopProportionMetrics> : (IteratorSize + PayloadSize) != Loop PDG nodes number!");
-            return false;
-        }
+            for (auto node_it = PayoadSccPDG->nodes_cbegin(); node_it != PayoadSccPDG->nodes_cend(); node_it++) {
+                const GraphNode<Instruction*,ppar::Dependence*>& Node = *node_it;
+                const llvm::Instruction* Inst = Node.getNode();
 
-        double LoopPayloadFraction_value = static_cast<double>(PayloadSize)/LoopAbsoluteSize_value;
+                if (Inst->mayWriteToMemory()) {
+                    MemoryWriteNum++;
+                }
 
-        idx = ppar::LoopProportionMetrics::ProportionMetric_t::LOOP_PAYLOAD_FRACTION;
-        Metrics_loop->Metrics[idx] = LoopPayloadFraction_value;
-
-        // compute LOOP_PROPER_SCCS_NUMBER metric
-        double LoopProperSCCsNumber_value = 0;
-        for (auto it = Payload.cbegin(); it != Payload.cend(); ++it) {
-            if ((*it)->getNodesNumber() > 1) {
-                LoopProperSCCsNumber_value++;
+                if (dyn_cast<llvm::CallInst>(Inst)) {
+                    CallInstrsNum++;
+                }
             }
         }
- 
-        idx = ppar::LoopProportionMetrics::ProportionMetric_t::LOOP_PROPER_SCCS_NUMBER;
-        Metrics_loop->Metrics[idx] = LoopProperSCCsNumber_value;
 
-        // compute LOOP_CRITICAL_PAYLOAD_FRACTION metric
-        double LoopCriticalPayloadFraction_value = 0;
-        for (auto it = Payload.cbegin(); it != Payload.cend(); ++it) {
-            if ((*it)->getNodesNumber() > 1) {
-                LoopCriticalPayloadFraction_value += (*it)->getNodesNumber();
+        idx = ppar::LoopNatureMetrics::NatureMetric_t::PAYLOAD_MEM_WRITE_COUNT;
+        Metrics_loop->Metrics[idx] = MemoryWriteNum;
+
+        double PayloadMemWriteFraction_value = static_cast<double>(MemoryWriteNum)/static_cast<double>(TotalSize);
+        idx = ppar::LoopNatureMetrics::NatureMetric_t::PAYLOAD_MEM_WRITE_FRACTION;
+        Metrics_loop->Metrics[idx] = PayloadMemWriteFraction_value;
+
+        idx = ppar::LoopNatureMetrics::NatureMetric_t::PAYLOAD_CALL_COUNT;
+        Metrics_loop->Metrics[idx] = CallInstrsNum;
+
+        double PayloadCallFraction_value = static_cast<double>(CallInstrsNum)/static_cast<double>(TotalSize);
+        idx = ppar::LoopNatureMetrics::NatureMetric_t::PAYLOAD_CALL_FRACTION;
+        Metrics_loop->Metrics[idx] = PayloadCallFraction_value;
+
+        // compute iterator related loop instruction nature metrics
+        MemoryWriteNum = 0;
+        CallInstrsNum = 0;
+        TotalSize = 0;
+        for (auto iter = Iterator.cbegin(); iter != Iterator.cend(); ++iter) {
+            const Graph<llvm::Instruction*,ppar::Dependence*>* PayoadSccPDG = (*iter);
+            TotalSize += PayoadSccPDG->getNodesNumber();
+
+            for (auto node_it = PayoadSccPDG->nodes_cbegin(); node_it != PayoadSccPDG->nodes_cend(); node_it++) {
+                const GraphNode<llvm::Instruction*,ppar::Dependence*>& Node = *node_it;
+                const llvm::Instruction* Inst = Node.getNode();
+
+                if (Inst->mayWriteToMemory()) {
+                    MemoryWriteNum++;
+                }
+
+                if (dyn_cast<llvm::CallInst>(Inst)) {
+                    CallInstrsNum++;
+                }
             }
         }
-        idx = ppar::LoopProportionMetrics::ProportionMetric_t::LOOP_CRITICAL_PAYLOAD_FRACTION;
-        Metrics_loop->Metrics[idx] = LoopCriticalPayloadFraction_value/PayloadSize;
+
+        idx = ppar::LoopNatureMetrics::NatureMetric_t::PAYLOAD_MEM_WRITE_COUNT;
+        Metrics_loop->Metrics[idx] = MemoryWriteNum;
+
+        double IteratorMemWriteFraction_value = static_cast<double>(MemoryWriteNum)/static_cast<double>(TotalSize);
+        idx = ppar::LoopNatureMetrics::NatureMetric_t::PAYLOAD_MEM_WRITE_FRACTION;
+        Metrics_loop->Metrics[idx] = IteratorMemWriteFraction_value;
+
+        idx = ppar::LoopNatureMetrics::NatureMetric_t::ITERATOR_CALL_COUNT;
+        Metrics_loop->Metrics[idx] = CallInstrsNum;
+
+        double IteratorCallFraction_value = static_cast<double>(CallInstrsNum)/static_cast<double>(TotalSize);
+        idx = ppar::LoopNatureMetrics::NatureMetric_t::ITERATOR_CALL_FRACTION;
+        Metrics_loop->Metrics[idx] = IteratorCallFraction_value;
+
+        // compute critical payload related loop instruction nature metrics
+        MemoryWriteNum = 0;
+        CallInstrsNum = 0;
+        TotalSize = 0;
+        for (auto iter = Payload.cbegin(); iter != Payload.cend(); ++iter) {
+            if ((*iter)->getNodesNumber() > 1) {
+                const Graph<llvm::Instruction*,ppar::Dependence*>* PayoadSccPDG = (*iter);
+                TotalSize += PayoadSccPDG->getNodesNumber();
+
+                for (auto node_it = PayoadSccPDG->nodes_cbegin(); node_it != PayoadSccPDG->nodes_cend(); node_it++) {
+                    const GraphNode<llvm::Instruction*,ppar::Dependence*>& Node = *node_it;
+                    const Instruction* Inst = Node.getNode();
+
+                    if (Inst->mayWriteToMemory()) {
+                        MemoryWriteNum++;
+                    }
+
+                    if (dyn_cast<llvm::CallInst>(Inst)) {
+                        CallInstrsNum++;
+                    }
+                }
+            }
+        }
+
+        idx = ppar::LoopNatureMetrics::NatureMetric_t::CRITICAL_PAYLOAD_MEM_WRITE_COUNT;
+        Metrics_loop->Metrics[idx] = MemoryWriteNum;
+
+        double CriticalPayloadMemWriteFraction_value = static_cast<double>(MemoryWriteNum)/static_cast<double>(TotalSize);
+        idx = ppar::LoopNatureMetrics::NatureMetric_t::CRITICAL_PAYLOAD_MEM_WRITE_FRACTION;
+        Metrics_loop->Metrics[idx] = CriticalPayloadMemWriteFraction_value;
+
+        idx = ppar::LoopNatureMetrics::NatureMetric_t::CRITICAL_PAYLOAD_CALL_COUNT;
+        Metrics_loop->Metrics[idx] = CallInstrsNum;
+
+        double CriticalPayloadCallFraction_value = static_cast<double>(CallInstrsNum)/static_cast<double>(TotalSize);
+        idx = ppar::LoopNatureMetrics::NatureMetric_t::CRITICAL_PAYLOAD_CALL_FRACTION;
+        Metrics_loop->Metrics[idx] = CriticalPayloadCallFraction_value;
     }
 
     return false;

@@ -83,7 +83,7 @@ bool GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraph
                 Dep->LoopIndependent = FullDep->isLoopIndependent();
             }
             Dep->Consistent = MemDep->isConsistent();
-            
+
             getFunctionGraph().addEdge(Edge.getFrom(), Edge.getTo(), Dep);
         }
     }
@@ -159,27 +159,38 @@ bool GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraph
                 ppar::Dependence* Dep(new ppar::Dependence());
                 llvm::Dependence* MemDep = Edge.getData();
 
-                Dep->setData();
-                if (MemDep->isFlow()) {
-                    Dep->setFlow();
-                } else if (MemDep->isAnti()) {
-                    Dep->setAnti();
-                } else if (MemDep->isOutput()) {
-                    Dep->setOutput();
-                } else {
-                    Dep->setUnknown();
-                }
-                Dep->setMem();
-
                 if (MemDep->isConfused()) {
+                    Dep->setData();
+                    Dep->setMem();
+                    Dep->setUnknown();
                     Dep->Confused = true;
                 } else {
                     Dep->Confused = false;
-                    llvm::FullDependence* FullDep = static_cast<llvm::FullDependence*>(MemDep);
-                    Dep->LoopIndependent = FullDep->isLoopIndependent();
+                    Dep->Consistent = MemDep->isConsistent();
+                    
+                    Dep->setData();
+                    
+                    if (MemDep->isFlow()) {
+                        Dep->setFlow();
+                    } else if (MemDep->isAnti()) {
+                        Dep->setAnti();
+                    } else if (MemDep->isOutput()) {
+                        Dep->setOutput();
+                    } else {
+                        Dep->setUnknown();
+                    }
+                    Dep->setMem();
+
+                    Dep->LoopIndependent = MemDep->isLoopIndependent();
+                    Dep->Direction = MemDep->getDirection(L->getLoopDepth());
+                    const SCEV* Distance = MemDep->getDistance(L->getLoopDepth());
+                    if (Distance != nullptr) {
+                        Dep->Distance = 0;
+                    } else if (MemDep->isScalar(L->getLoopDepth())) {
+                        Dep->Scalar = true;
+                    }
                 }
-                Dep->Consistent = MemDep->isConsistent();
-            
+                
                 getLoopGraph(L).addEdge(Edge.getFrom(), Edge.getTo(), Dep);
             }   
         }

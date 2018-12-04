@@ -1,0 +1,135 @@
+# mark_description "Intel(R) C Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 19.0.0.117 Build 20180804";
+# mark_description "-S -o /home/s1736883/Work/PParMetrics/playground/assembly/experiment-1/experiment-1.s.icc";
+	.file "experiment-1.cpp"
+	.text
+..TXTST0:
+.L_2__routine_start_main_0:
+# -- Begin  main
+	.text
+# mark_begin;
+       .align    16,0x90
+	.globl main
+# --- main()
+main:
+..B1.1:                         # Preds ..B1.0
+                                # Execution count [1.00e+00]
+	.cfi_startproc
+	.cfi_personality 0x3,__gxx_personality_v0
+..___tag_value_main.1:
+..L2:
+                                                          #10.12
+        pushq     %rbp                                          #10.12
+	.cfi_def_cfa_offset 16
+        movq      %rsp, %rbp                                    #10.12
+	.cfi_def_cfa 6, 16
+	.cfi_offset 6, -16
+        andq      $-128, %rsp                                   #10.12
+        pushq     %r12                                          #10.12
+        pushq     %r13                                          #10.12
+        subq      $880, %rsp                                    #10.12
+        xorl      %esi, %esi                                    #10.12
+        movl      $3, %edi                                      #10.12
+        call      __intel_new_feature_proc_init                 #10.12
+	.cfi_escape 0x10, 0x0c, 0x0e, 0x38, 0x1c, 0x0d, 0x80, 0xff, 0xff, 0xff, 0x1a, 0x0d, 0xf8, 0xff, 0xff, 0xff, 0x22
+	.cfi_escape 0x10, 0x0d, 0x0e, 0x38, 0x1c, 0x0d, 0x80, 0xff, 0xff, 0xff, 0x1a, 0x0d, 0xf0, 0xff, 0xff, 0xff, 0x22
+                                # LOE rbx r12 r13 r14 r15
+..B1.13:                        # Preds ..B1.1
+                                # Execution count [1.00e+00]
+        stmxcsr   (%rsp)                                        #10.12
+        xorl      %edi, %edi                                    #15.16
+        orl       $32832, (%rsp)                                #10.12
+        ldmxcsr   (%rsp)                                        #10.12
+#       time(time_t *)
+        call      time                                          #15.16
+                                # LOE rax rbx r12 r13 r14 r15
+..B1.2:                         # Preds ..B1.13
+                                # Execution count [1.00e+00]
+        movl      %eax, %edi                                    #15.5
+#       srand(unsigned int)
+        call      srand                                         #15.5
+                                # LOE rbx r12 r13 r14 r15
+..B1.3:                         # Preds ..B1.2
+                                # Execution count [1.00e+00]
+        xorl      %edx, %edx                                    #18.25
+        xorl      %eax, %eax                                    #18.40
+        movl      %eax, %r12d                                   #18.40
+        movq      %rdx, %r13                                    #18.40
+                                # LOE rbx r13 r14 r15 r12d
+..B1.4:                         # Preds ..B1.6 ..B1.3
+                                # Execution count [1.00e+02]
+#       rand()
+        call      rand                                          #19.16
+                                # LOE rbx r13 r14 r15 eax r12d
+..B1.14:                        # Preds ..B1.4
+                                # Execution count [1.00e+02]
+        movl      %eax, %esi                                    #19.16
+                                # LOE rbx r13 r14 r15 esi r12d
+..B1.5:                         # Preds ..B1.14
+                                # Execution count [1.00e+02]
+        movl      $-858993459, %eax                             #19.25
+        mull      %esi                                          #19.25
+        shrl      $3, %edx                                      #19.25
+        lea       (%rdx,%rdx,4), %ecx                           #19.25
+        addl      %ecx, %ecx                                    #19.25
+        subl      %ecx, %esi                                    #19.25
+        movl      %esi, (%rsp,%r13,4)                           #19.9
+#       rand()
+        call      rand                                          #20.16
+                                # LOE rbx r13 r14 r15 eax r12d
+..B1.15:                        # Preds ..B1.5
+                                # Execution count [1.00e+02]
+        movl      %eax, %esi                                    #20.16
+                                # LOE rbx r13 r14 r15 esi r12d
+..B1.6:                         # Preds ..B1.15
+                                # Execution count [1.00e+02]
+        movl      $-858993459, %eax                             #20.25
+        incl      %r12d                                         #18.40
+        mull      %esi                                          #20.25
+        shrl      $3, %edx                                      #20.25
+        lea       (%rdx,%rdx,4), %ecx                           #20.25
+        addl      %ecx, %ecx                                    #20.25
+        subl      %ecx, %esi                                    #20.25
+        movl      %esi, 400(%rsp,%r13,4)                        #20.9
+        movl      %r12d, %r13d                                  #18.40
+        cmpl      $100, %r12d                                   #18.34
+        jb        ..B1.4        # Prob 99%                      #18.34
+                                # LOE rbx r13 r14 r15 r12d
+..B1.7:                         # Preds ..B1.6
+                                # Execution count [1.00e+00]
+        xorb      %al, %al                                      #23.5
+                                # LOE rbx r12 r13 r14 r15 al
+..B1.8:                         # Preds ..B1.8 ..B1.7
+                                # Execution count [1.00e+02]
+        movzbl    %al, %edx                                     #24.16
+        addb      $4, %al                                       #23.5
+        movdqu    (%rsp,%rdx,4), %xmm0                          #24.16
+        paddd     400(%rsp,%rdx,4), %xmm0                       #24.23
+        movdqu    %xmm0, (%rsp,%rdx,4)                          #24.9
+        cmpb      $100, %al                                     #23.5
+        jb        ..B1.8        # Prob 99%                      #23.5
+                                # LOE rbx r12 r13 r14 r15 al
+..B1.9:                         # Preds ..B1.8
+                                # Execution count [1.00e+00]
+        xorl      %eax, %eax                                    #27.12
+        addq      $880, %rsp                                    #27.12
+	.cfi_restore 13
+        popq      %r13                                          #27.12
+	.cfi_restore 12
+        popq      %r12                                          #27.12
+        movq      %rbp, %rsp                                    #27.12
+        popq      %rbp                                          #27.12
+	.cfi_def_cfa 7, 8
+	.cfi_restore 6
+        ret                                                     #27.12
+        .align    16,0x90
+                                # LOE
+	.cfi_endproc
+# mark_end;
+	.type	main,@function
+	.size	main,.-main
+..LNmain.0:
+	.data
+# -- End  main
+	.data
+	.section .note.GNU-stack, ""
+# End

@@ -26,6 +26,8 @@ bool GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphP
     );
 
     llvm::DependenceInfo& DI = Pass::getAnalysis<llvm::DependenceAnalysisWrapperPass>().getDI();
+    Pass::getAnalysis<llvm::DependenceAnalysisWrapperPass>().print(llvm::outs());
+
 
     // we are only interested in memory referencing instructions
     std::vector<Instruction*> MemRefs;
@@ -44,7 +46,9 @@ bool GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphP
     for (auto SrcI : MemRefs) {
         for (auto DstI : MemRefs) {
             if (llvm::Dependence* D = (DI.depends(SrcI, DstI, true)).release()) {
-                if (D->isFlow() || D->isAnti()) getFunctionGraph().addEdge(SrcI, DstI, D);
+                if (D->isFlow() || D->isAnti() || D->isOutput()) {
+                    getFunctionGraph().addEdge(SrcI, DstI, D);
+                }
             }
         }
     }
@@ -88,7 +92,9 @@ bool GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphP
                     GraphNode<llvm::Instruction*,llvm::Dependence*> DepNode = *dst_node_it;
                     const llvm::Instruction* DstI = DepNode.getNode();
                     if (llvm::Dependence* D = (DI.depends(const_cast<llvm::Instruction*>(SrcI), const_cast<llvm::Instruction*>(DstI), true)).release()) {
-                        if (D->isFlow() || D->isAnti()) LG.addEdge(SrcI, DstI, D);
+                        if (D->isFlow() || D->isAnti() || D->isOutput()) {
+                            LG.addEdge(SrcI, DstI, D);
+                        }
                     }
                 }
             }

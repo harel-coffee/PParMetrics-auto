@@ -60,8 +60,7 @@ declare -a COMPILER_FLAGS=( "${ICC_COMPILER_FLAGS}" "${GCC_COMPILER_FLAGS}" "${C
 
 
 OPT_OPTIONS=""
-OPT_OPTIONS="${OPT_OPTIONS} -O0"
-
+OPT_OPTIONS="${OPT_OPTIONS} -O0 -scev-aa"
 
 for src in $@; do
     echo "3) Checking all the necessary directories for sources: ${@}"
@@ -113,7 +112,7 @@ for src in $@; do
 
     for GraphType in ddg mdg cdg pdg; do
         echo "PPar metrics tool: generating ${GraphType} graphs"
-        ${OPT_TOOL} -load "${PPAR_METRICS_LIBRARY}" "-dot-${GraphType}" "${ASSEMBLY_FILE}"
+        ${OPT_TOOL} ${OPT_OPTIONS} -load "${PPAR_METRICS_LIBRARY}" "-dot-${GraphType}" "${ASSEMBLY_FILE}"
         mv *.dot "${DOTS_DIR}/${src}/${GraphType}"
     done
 
@@ -126,6 +125,6 @@ for src in $@; do
         done
     done
 
-    ${OPT_TOOL} -load ${PPAR_METRICS_LIBRARY} -ppar-metrics-collector ${ASSEMBLY_FILE}
+    ${OPT_TOOL} ${OPT_OPTIONS} -load ${PPAR_METRICS_LIBRARY} -ppar-metrics-collector ${ASSEMBLY_FILE}
     mv ./*.metrics ${METRICS_DIR}/${src}
 done

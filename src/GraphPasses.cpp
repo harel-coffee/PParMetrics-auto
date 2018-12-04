@@ -8,6 +8,7 @@
 #include "llvm/IR/InstIterator.h"
 #include "llvm/Analysis/PostDominators.h"
 #include "llvm/Analysis/DependenceAnalysis.h"
+#include "llvm/Analysis/ScalarEvolution.h"
 using namespace llvm;
 
 #include <string>

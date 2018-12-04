@@ -1,0 +1,40 @@
+
+digraph G {
+
+
+node50 [label="[3/4]
+for.body:                                         ; preds = %for.cond
+  %call1 = call i32 @rand() #3, !dbg !624
+  %rem = urem i32 %call1, 10, !dbg !626
+  %1 = load i32, i32* %i, align 4, !dbg !627
+  %idxprom = zext i32 %1 to i64, !dbg !628
+  %arrayidx = getelementptr inbounds [100 x i32], [100 x i32]* %a, i64 0, i64 %idxprom, !dbg !628
+  store i32 %rem, i32* %arrayidx, align 4, !dbg !629
+  %call2 = call i32 @rand() #3, !dbg !630
+  %rem3 = urem i32 %call2, 10, !dbg !631
+  %2 = load i32, i32* %i, align 4, !dbg !632
+  %idxprom4 = zext i32 %2 to i64, !dbg !633
+  %arrayidx5 = getelementptr inbounds [100 x i32], [100 x i32]* %b, i64 0, i64 %idxprom4, !dbg !633
+  store i32 %rem3, i32* %arrayidx5, align 4, !dbg !634
+  br label %for.inc, !dbg !635
+",shape=rectangle ]
+node48 [label="[0/1]
+for.inc:                                          ; preds = %for.body
+  %3 = load i32, i32* %i, align 4, !dbg !636
+  %inc = add i32 %3, 1, !dbg !636
+  store i32 %inc, i32* %i, align 4, !dbg !636
+  br label %for.cond, !dbg !637, !llvm.loop !638
+",shape=rectangle ]
+node49 [label="[2/5]
+for.cond:                                         ; preds = %for.inc, %entry
+  %0 = load i32, i32* %i, align 4, !dbg !620
+  %cmp = icmp ult i32 %0, 100, !dbg !622
+  br i1 %cmp, label %for.body, label %for.end, !dbg !623
+",shape=rectangle ]
+
+node49->node50 [ ]
+node49->node48 [ ]
+node49->node49 [ ]
+
+
+}

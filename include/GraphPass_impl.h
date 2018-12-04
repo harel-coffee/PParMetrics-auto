@@ -62,7 +62,7 @@ void GraphPass<NODE*,EDGE*,PASS>::allocateGraphs(llvm::Function& F) {
     }
     // allocate dependence graphs for function loops
     for (const llvm::Loop* L : *LList) {
-        LG[L] = std::make_unique<Graph<NODE*,EDGE*>>(this, &F); 
+        LG[L] = std::make_unique<Graph<NODE*,EDGE*>>(this, &F, L); 
     }
 }
 

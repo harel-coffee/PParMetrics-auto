@@ -1,0 +1,155 @@
+
+digraph G {
+
+
+
+
+
+subgraph cluster11 {
+
+
+node360 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[18/19]  store i32 %rem, i32* %arrayidx, align 4, !dbg !629",shape=ellipse,style=filled ]
+
+node360->node360 [style=solid,color=dodgerblue,label="O|indep|all",penwidth=1.0,fontcolor=dodgerblue ]
+
+
+}
+
+subgraph cluster10 {
+
+
+node359 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[16/21]  %idxprom = zext i32 %1 to i64, !dbg !628",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster9 {
+
+
+node358 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[30/31]  %call1 = call i32 @rand() #3, !dbg !624",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster8 {
+
+
+node357 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[1/2]  store i32 %rem3, i32* %arrayidx5, align 4, !dbg !634",shape=ellipse,style=filled ]
+
+node357->node357 [style=solid,color=dodgerblue,label="O|indep|all",penwidth=1.0,fontcolor=dodgerblue ]
+
+
+}
+
+subgraph cluster7 {
+
+
+node356 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[28/29]  %rem = urem i32 %call1, 10, !dbg !626",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster6 {
+
+
+node355 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[7/8]  %rem3 = urem i32 %call2, 10, !dbg !631",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster0 {
+
+
+node342 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[0/3]  %arrayidx5 = getelementptr inbounds [100 x i32], [100 x i32]* %b, i64 0, i64 %idxprom4, !dbg !633",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster12 {
+
+
+node361 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[26/27]  br label %for.cond, !dbg !637, !llvm.loop !638",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster5 {
+
+
+node354 [fillcolor=lemonchiffon,label="[15/34]  br i1 %cmp, label %for.body, label %for.end, !dbg !623",shape=ellipse,style=filled ]
+node353 [fillcolor=grey,label="[14/35]  %cmp = icmp ult i32 %0, 100, !dbg !622",shape=rectangle,style=filled ]
+node348 [fillcolor=lightcoral,label="[12/37]  store i32 %inc, i32* %i, align 4, !dbg !636",shape=ellipse,style=filled ]
+node352 [fillcolor=lightcoral,label="[24/25]  %1 = load i32, i32* %i, align 4, !dbg !627",shape=ellipse,style=filled ]
+node347 [fillcolor=grey,label="[11/38]  %inc = add i32 %3, 1, !dbg !636",shape=rectangle,style=filled ]
+node349 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[10/39]  %3 = load i32, i32* %i, align 4, !dbg !636",shape=ellipse,style=filled ]
+node350 [fillcolor=lightcoral,label="[13/36]  %0 = load i32, i32* %i, align 4, !dbg !620",shape=ellipse,style=filled ]
+node351 [fillcolor=lightcoral,label="[22/23]  %2 = load i32, i32* %i, align 4, !dbg !632",shape=ellipse,style=filled ]
+
+node354->node349 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node354->node347 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node353->node354 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node348->node349 [style=solid,color=forestgreen,label="T|indep|all|Const",penwidth=1.0,fontcolor=forestgreen ]
+node348->node352 [style=solid,color=forestgreen,label="T|indep|all|Const",penwidth=1.0,fontcolor=forestgreen ]
+node351->node348 [style=solid,color=firebrick3,label="A|indep|all|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node354->node352 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node347->node348 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node350->node353 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node354->node351 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node349->node348 [style=solid,color=firebrick3,label="A|indep|all|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node354->node354 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node352->node348 [style=solid,color=firebrick3,label="A|indep|all|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node348->node350 [style=solid,color=forestgreen,label="T|indep|all|Const",penwidth=1.0,fontcolor=forestgreen ]
+node354->node350 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node349->node347 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node348->node351 [style=solid,color=forestgreen,label="T|indep|all|Const",penwidth=1.0,fontcolor=forestgreen ]
+node350->node348 [style=solid,color=firebrick3,label="A|indep|all|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node348->node348 [style=solid,color=dodgerblue,label="O|indep|all|Const",penwidth=1.0,fontcolor=dodgerblue ]
+node354->node348 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node354->node353 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+
+
+}
+
+subgraph cluster1 {
+
+
+node343 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[6/9]  %call2 = call i32 @rand() #3, !dbg !630",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster2 {
+
+
+node344 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[17/20]  %arrayidx = getelementptr inbounds [100 x i32], [100 x i32]* %a, i64 0, i64 %idxprom, !dbg !628",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster3 {
+
+
+node345 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[32/33]  br label %for.inc, !dbg !635",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster4 {
+
+
+node346 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[4/5]  %idxprom4 = zext i32 %2 to i64, !dbg !633",shape=rectangle,style=filled ]
+
+
+
+}
+
+}

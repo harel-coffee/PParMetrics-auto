@@ -41,6 +41,8 @@ void GraphPrinter<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGr
     std::string EdgeFontColor {"black"};
     const std::string DepConfused {"Conf"};
     const std::string DepConsistent {"Const"};
+    const std::string DepDirections[] = {"0","<","=","<=",">","!=",">=","all"};
+
     uint64_t DepDir = 0;
     
     if (Dep->isData()) {
@@ -73,8 +75,13 @@ void GraphPrinter<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGr
                 } else {
                     EdgeLabel += ("|dep");
                 }
+                if (Dep->Distance != -1) {
+                    EdgeLabel += ("|!");
+                }
             }
-            
+ 
+            EdgeLabel += ("|" + DepDirections[Dep->getDirection()]);
+
             if (Dep->isConsistent()) {
                 EdgeLabel += ("|" + DepConsistent);
             }

@@ -22,6 +22,7 @@
 #include "llvm/IR/Function.h"
 #include "llvm/IR/Instruction.h"
 #include "llvm/Analysis/DependenceAnalysis.h"
+#include "llvm/Analysis/LoopInfo.h"
 
 namespace ppar {
 
@@ -42,7 +43,8 @@ class Dependence {
               Flow(false), Anti(false), Output(false),
               Mem(false), Reg(false),
               Confused(true), Consistent(false),
-              direction(0),
+              Direction(llvm::Dependence::DVEntry::NONE),
+              Distance(-1),
               LoopIndependent(true),
               Scalar(true),
               Unknown(true) {}
@@ -53,7 +55,8 @@ class Dependence {
               Flow(Dep.Flow), Anti(Dep.Anti), Output(Dep.Output),
               Mem(Dep.Mem), Reg(Dep.Reg),
               Confused(Dep.Confused), Consistent(Dep.Consistent),
-              direction(Dep.direction),
+              Direction(Dep.Direction),
+              Distance(Dep.Distance),
               Unknown(Dep.Unknown) {}
 
         Dependence& operator=(const Dependence& Dep) {
@@ -70,7 +73,8 @@ class Dependence {
             Confused = Dep.Confused; 
             Consistent = Dep.Consistent;
 
-            direction = Dep.direction;
+            Direction = Dep.Direction;
+            Distance = Dep.Distance;
             
             Unknown = Dep.Unknown;
 
@@ -151,7 +155,8 @@ class Dependence {
         bool isConfused() const { return Confused; }
         bool isConsistent() const { return Consistent; }
 
-        uint64_t getDirection() const { return direction; }
+        uint64_t getDirection() const { return Direction; }
+        uint64_t getDistance() const { return Distance; }
         bool isScalar() const { return Scalar; }
         bool isLoopIndependent() const { return LoopIndependent; }
 
@@ -209,9 +214,10 @@ class Dependence {
         // types of memory dependences        
         bool Confused;
         bool Consistent;
-        unsigned int direction;
         bool Scalar;
         bool LoopIndependent;
+        uint64_t Direction;
+        int Distance;
         // default 
         bool Unknown;
 };
@@ -368,7 +374,7 @@ class Graph<NODE*,EDGE*> {
         using edge_t = EDGE;
         using edge_ptr_t = EDGE*;
 
-        Graph(llvm::Pass* GraphPass = nullptr, const llvm::Function* F = nullptr, const Graph<NODE*,EDGE*>* Parent = nullptr);
+        Graph(llvm::Pass* GraphPass = nullptr, const llvm::Function* F = nullptr, const llvm::Loop* L = nullptr, const Graph<NODE*,EDGE*>* Parent = nullptr);
         ~Graph();
 
         // data structures for storing and working with graph nodes and edges
@@ -417,6 +423,7 @@ class Graph<NODE*,EDGE*> {
 
         bool operator==(const Graph<NODE*,EDGE*>& G) const {
             if ( (this->Func == G.Func) &&
+                 (this->Loop == G.Loop) &&
                  (this->GraphPass == G.GraphPass)) {
                 if (this->Root == G.Root) {
                     return true;
@@ -603,8 +610,10 @@ class Graph<NODE*,EDGE*> {
 
     private:
         
-        // Function, graph is built on
+        // Function the graph is built on
         const llvm::Function* Func;
+        // Loop the graph is built on
+        const llvm::Loop* Loop;
         // Pass, building the graph
         llvm::Pass* GraphPass;
         // SCCs must refer to the parent graph they have been computed on

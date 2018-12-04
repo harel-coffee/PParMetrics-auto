@@ -1,0 +1,1508 @@
+	.section .text
+.LNDBG_TX:
+# mark_description "Intel(R) C Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 19.0.0.117 Build 20180804";
+# mark_description "-S -g -o /home/s1736883/Work/PParMetrics/playground/assembly/experiment-2/experiment-2.g.s.icc";
+	.file "experiment-2.cpp"
+	.text
+..TXTST0:
+.L_2__routine_start_main_0:
+# -- Begin  main
+	.text
+# mark_begin;
+
+	.globl main
+# --- main()
+main:
+..B1.1:                         # Preds ..B1.0
+                                # Execution count [0.00e+00]
+	.cfi_startproc
+	.cfi_personality 0x3,__gxx_personality_v0
+..___tag_value_main.2:
+..L3:
+                                                          #10.12
+..LN0:
+	.file   1 "/home/s1736883/Work/PParMetrics/playground/sources/experiment-2.cpp"
+	.loc    1  10  is_stmt 1
+        pushq     %rbp                                          #10.12
+	.cfi_def_cfa_offset 16
+..LN1:
+        movq      %rsp, %rbp                                    #10.12
+	.cfi_def_cfa 6, 16
+	.cfi_offset 6, -16
+..LN2:
+        subq      $848, %rsp                                    #10.12
+..LN3:
+	.loc    1  15  prologue_end  is_stmt 1
+        movl      $0, %eax                                      #15.16
+..LN4:
+        movq      %rax, %rdi                                    #15.16
+..___tag_value_main.8:
+..LN5:
+#       time(time_t *)
+        call      time                                          #15.16
+..___tag_value_main.9:
+..LN6:
+                                # LOE rax rbx rbp rsp r12 r13 r14 r15 rip
+..B1.14:                        # Preds ..B1.1
+                                # Execution count [0.00e+00]
+..LN7:
+        movq      %rax, -32(%rbp)                               #15.16
+..LN8:
+                                # LOE rbx rbp rsp r12 r13 r14 r15 rip
+..B1.2:                         # Preds ..B1.14
+                                # Execution count [0.00e+00]
+..LN9:
+        movl      -32(%rbp), %eax                               #15.5
+..LN10:
+        movl      %eax, %edi                                    #15.5
+..___tag_value_main.10:
+..LN11:
+#       srand(unsigned int)
+        call      srand                                         #15.5
+..___tag_value_main.11:
+..LN12:
+                                # LOE rbx rbp rsp r12 r13 r14 r15 rip
+..B1.3:                         # Preds ..B1.2
+                                # Execution count [0.00e+00]
+..LN13:
+	.loc    1  18  is_stmt 1
+        movl      $0, -848(%rbp)                                #18.25
+..LN14:
+                                # LOE rbx rbp rsp r12 r13 r14 r15 rip
+..B1.4:                         # Preds ..B1.7 ..B1.3
+                                # Execution count [0.00e+00]
+..LN15:
+        movl      -848(%rbp), %eax                              #18.30
+..LN16:
+        cmpl      $100, %eax                                    #18.34
+..LN17:
+        jae       ..B1.8        # Prob 50%                      #18.34
+..LN18:
+                                # LOE rbx rbp rsp r12 r13 r14 r15 rip
+..B1.5:                         # Preds ..B1.4
+                                # Execution count [0.00e+00]
+..___tag_value_main.12:
+..LN19:
+	.loc    1  19  is_stmt 1
+#       rand()
+        call      rand                                          #19.16
+..___tag_value_main.13:
+..LN20:
+                                # LOE rbx rbp rsp r12 r13 r14 r15 rip eax
+..B1.15:                        # Preds ..B1.5
+                                # Execution count [0.00e+00]
+..LN21:
+        movl      %eax, -844(%rbp)                              #19.16
+..LN22:
+                                # LOE rbx rbp rsp r12 r13 r14 r15 rip
+..B1.6:                         # Preds ..B1.15
+                                # Execution count [0.00e+00]
+..LN23:
+        movl      -844(%rbp), %eax                              #19.16
+..LN24:
+        movl      $10, %edx                                     #19.9
+..LN25:
+        movl      %edx, -24(%rbp)                               #19.25[spill]
+..LN26:
+        movl      $0, %edx                                      #19.25
+..LN27:
+        movl      -24(%rbp), %ecx                               #19.25[spill]
+..LN28:
+        divl      %ecx                                          #19.25
+..LN29:
+        lea       -836(%rbp), %rax                              #19.9
+..LN30:
+        movl      -848(%rbp), %ecx                              #19.11
+..LN31:
+        imulq     $4, %rcx, %rcx                                #19.9
+..LN32:
+        addq      %rcx, %rax                                    #19.9
+..LN33:
+        movl      %edx, (%rax)                                  #19.9
+..___tag_value_main.16:
+..LN34:
+	.loc    1  20  is_stmt 1
+#       rand()
+        call      rand                                          #20.16
+..___tag_value_main.17:
+..LN35:
+                                # LOE rbx rbp rsp r12 r13 r14 r15 rip eax
+..B1.16:                        # Preds ..B1.6
+                                # Execution count [0.00e+00]
+..LN36:
+        movl      %eax, -436(%rbp)                              #20.16
+..LN37:
+                                # LOE rbx rbp rsp r12 r13 r14 r15 rip
+..B1.7:                         # Preds ..B1.16
+                                # Execution count [0.00e+00]
+..LN38:
+        movl      -436(%rbp), %eax                              #20.16
+..LN39:
+        movl      $10, %edx                                     #20.9
+..LN40:
+        movl      %edx, -16(%rbp)                               #20.25[spill]
+..LN41:
+        movl      $0, %edx                                      #20.25
+..LN42:
+        movl      -16(%rbp), %ecx                               #20.25[spill]
+..LN43:
+        divl      %ecx                                          #20.25
+..LN44:
+        lea       -432(%rbp), %rax                              #20.9
+..LN45:
+        movl      -848(%rbp), %ecx                              #20.11
+..LN46:
+        imulq     $4, %rcx, %rcx                                #20.9
+..LN47:
+        addq      %rcx, %rax                                    #20.9
+..LN48:
+        movl      %edx, (%rax)                                  #20.9
+..LN49:
+	.loc    1  18  is_stmt 1
+        movl      $1, %eax                                      #18.40
+..LN50:
+        addl      -848(%rbp), %eax                              #18.40
+..LN51:
+        movl      %eax, -848(%rbp)                              #18.40
+..LN52:
+        jmp       ..B1.4        # Prob 100%                     #18.40
+..LN53:
+                                # LOE rbx rbp rsp r12 r13 r14 r15 rip
+..B1.8:                         # Preds ..B1.4
+                                # Execution count [0.00e+00]
+..LN54:
+	.loc    1  23  is_stmt 1
+        movl      $0, -840(%rbp)                                #23.25
+..LN55:
+                                # LOE rbx rbp rsp r12 r13 r14 r15 rip
+..B1.9:                         # Preds ..B1.10 ..B1.8
+                                # Execution count [0.00e+00]
+..LN56:
+        movl      -840(%rbp), %eax                              #23.30
+..LN57:
+        cmpl      $100, %eax                                    #23.34
+..LN58:
+        jae       ..B1.11       # Prob 50%                      #23.34
+..LN59:
+                                # LOE rbx rbp rsp r12 r13 r14 r15 rip
+..B1.10:                        # Preds ..B1.9
+                                # Execution count [0.00e+00]
+..LN60:
+	.loc    1  24  is_stmt 1
+        lea       -836(%rbp), %rax                              #24.18
+..LN61:
+        movl      -840(%rbp), %edx                              #24.20
+..LN62:
+        imulq     $4, %rdx, %rdx                                #24.18
+..LN63:
+        addq      %rdx, %rax                                    #24.18
+..LN64:
+        lea       -432(%rbp), %rdx                              #24.25
+..LN65:
+        movl      -840(%rbp), %ecx                              #24.27
+..LN66:
+        imulq     $4, %rcx, %rcx                                #24.25
+..LN67:
+        addq      %rcx, %rdx                                    #24.25
+..LN68:
+        movl      (%rdx), %edx                                  #24.25
+..LN69:
+        addl      (%rax), %edx                                  #24.25
+..LN70:
+        lea       -836(%rbp), %rax                              #24.9
+..LN71:
+        movl      $1, %ecx                                      #24.9
+..LN72:
+        addl      -840(%rbp), %ecx                              #24.13
+..LN73:
+        imulq     $4, %rcx, %rcx                                #24.9
+..LN74:
+        addq      %rcx, %rax                                    #24.9
+..LN75:
+        movl      %edx, (%rax)                                  #24.9
+..LN76:
+	.loc    1  23  is_stmt 1
+        movl      $1, %eax                                      #23.40
+..LN77:
+        addl      -840(%rbp), %eax                              #23.40
+..LN78:
+        movl      %eax, -840(%rbp)                              #23.40
+..LN79:
+        jmp       ..B1.9        # Prob 100%                     #23.40
+..LN80:
+                                # LOE rbx rbp rsp r12 r13 r14 r15 rip
+..B1.11:                        # Preds ..B1.9
+                                # Execution count [0.00e+00]
+..LN81:
+	.loc    1  27  is_stmt 1
+        movl      $0, %eax                                      #27.12
+..LN82:
+	.loc    1  27  epilogue_begin  is_stmt 1
+        leave                                                   #27.12
+	.cfi_restore 6
+..LN83:
+        ret                                                     #27.12
+..LN84:
+                                # LOE
+..LN85:
+	.cfi_endproc
+# mark_end;
+	.type	main,@function
+	.size	main,.-main
+..LNmain.86:
+.LNmain:
+	.data
+	.file   2 "/usr/include/x86_64-linux-gnu/c++/7.2.0/bits/c++config.h"
+# -- End  main
+	.section .rodata, "a"
+	.align 4
+	.align 4
+size:
+	.long	100
+	.type	size,@object
+	.size	size,4
+	.align 4
+range:
+	.long	10
+	.type	range,@object
+	.size	range,4
+	.data
+	.section .note.GNU-stack, ""
+	.file   3 "/usr/include/stdlib.h"
+	.file   4 "/usr/include/time.h"
+	.file   5 "/usr/include/bits/types.h"
+	.file   6 "/usr/include/bits/mathdef.h"
+// -- Begin DWARF2 SEGMENT .debug_info
+	.section .debug_info
+.debug_info_seg:
+	.align 1
+	.4byte 0x0000037a
+	.2byte 0x0004
+	.4byte .debug_abbrev_seg
+	.byte 0x08
+//	DW_TAG_compile_unit:
+	.byte 0x01
+//	DW_AT_comp_dir:
+	.4byte .debug_str
+//	DW_AT_name:
+	.4byte .debug_str+0x2b
+//	DW_AT_producer:
+	.4byte .debug_str+0x6f
+	.4byte .debug_str+0xdb
+//	DW_AT_language:
+	.byte 0x04
+//	DW_AT_use_UTF8:
+	.byte 0x01
+//	DW_AT_low_pc:
+	.8byte ..L3
+//	DW_AT_high_pc:
+	.8byte ..LNmain.86-..L3
+	.byte 0x01
+//	DW_AT_stmt_list:
+	.4byte .debug_line_seg
+//	DW_TAG_namespace:
+	.byte 0x02
+//	DW_AT_name:
+	.4byte 0x00647473
+//	DW_TAG_namespace:
+	.byte 0x03
+//	DW_AT_decl_line:
+	.byte 0xfd
+//	DW_AT_decl_file:
+	.byte 0x02
+//	DW_AT_name:
+	.4byte .debug_str+0x13a
+//	DW_TAG_imported_module:
+	.byte 0x04
+//	DW_AT_import:
+	.4byte 0x00000038
+//	DW_TAG_imported_declaration:
+	.byte 0x05
+//	DW_AT_import:
+	.4byte 0x00000155
+//	DW_TAG_imported_declaration:
+	.byte 0x05
+//	DW_AT_import:
+	.4byte 0x00000181
+//	DW_TAG_imported_declaration:
+	.byte 0x05
+//	DW_AT_import:
+	.4byte 0x000001b4
+//	DW_TAG_imported_declaration:
+	.byte 0x05
+//	DW_AT_import:
+	.4byte 0x000001d1
+//	DW_TAG_imported_declaration:
+	.byte 0x05
+//	DW_AT_import:
+	.4byte 0x000001e3
+//	DW_TAG_imported_declaration:
+	.byte 0x05
+//	DW_AT_import:
+	.4byte 0x000001f7
+//	DW_TAG_imported_declaration:
+	.byte 0x05
+//	DW_AT_import:
+	.4byte 0x0000022a
+//	DW_TAG_imported_declaration:
+	.byte 0x05
+//	DW_AT_import:
+	.4byte 0x00000240
+//	DW_TAG_imported_declaration:
+	.byte 0x05
+//	DW_AT_import:
+	.4byte 0x00000256
+//	DW_TAG_imported_declaration:
+	.byte 0x05
+//	DW_AT_import:
+	.4byte 0x00000309
+//	DW_TAG_imported_declaration:
+	.byte 0x05
+//	DW_AT_import:
+	.4byte 0x00000325
+//	DW_TAG_imported_declaration:
+	.byte 0x05
+//	DW_AT_import:
+	.4byte 0x00000337
+	.byte 0x00
+//	DW_TAG_namespace:
+	.byte 0x06
+//	DW_AT_name:
+	.4byte .debug_str+0x142
+//	DW_TAG_namespace:
+	.byte 0x07
+//	DW_AT_decl_line:
+	.2byte 0x0101
+//	DW_AT_decl_file:
+	.byte 0x02
+//	DW_AT_name:
+	.4byte .debug_str+0x13a
+//	DW_TAG_imported_module:
+	.byte 0x04
+//	DW_AT_import:
+	.4byte 0x00000086
+//	DW_TAG_imported_declaration:
+	.byte 0x05
+//	DW_AT_import:
+	.4byte 0x000001f7
+	.byte 0x00
+//	DW_TAG_namespace:
+	.byte 0x08
+//	DW_AT_name:
+	.4byte .debug_str+0x14c
+//	DW_TAG_base_type:
+	.byte 0x09
+//	DW_AT_byte_size:
+	.byte 0x04
+//	DW_AT_encoding:
+	.byte 0x05
+//	DW_AT_name:
+	.4byte 0x00746e69
+//	DW_TAG_subprogram:
+	.byte 0x0a
+//	DW_AT_decl_line:
+	.byte 0x0a
+//	DW_AT_decl_file:
+	.byte 0x01
+//	DW_AT_type:
+	.4byte 0x0000009e
+//	DW_AT_name:
+	.4byte .debug_str+0x157
+	.4byte .debug_str+0x157
+//	DW_AT_low_pc:
+	.8byte ..L3
+//	DW_AT_high_pc:
+	.8byte ..LNmain.86-..L3
+	.byte 0x01
+//	DW_AT_external:
+	.byte 0x01
+//	DW_TAG_variable:
+	.byte 0x0b
+//	DW_AT_decl_line:
+	.byte 0x0b
+//	DW_AT_decl_file:
+	.byte 0x01
+//	DW_AT_name:
+	.2byte 0x0061
+//	DW_AT_type:
+	.4byte 0x00000137
+//	DW_AT_location:
+	.4byte 0x79bc7603
+//	DW_TAG_variable:
+	.byte 0x0b
+//	DW_AT_decl_line:
+	.byte 0x0c
+//	DW_AT_decl_file:
+	.byte 0x01
+//	DW_AT_name:
+	.2byte 0x0062
+//	DW_AT_type:
+	.4byte 0x00000141
+//	DW_AT_location:
+	.4byte 0x7cd07603
+//	DW_TAG_variable:
+	.byte 0x0b
+//	DW_AT_decl_line:
+	.byte 0x0d
+//	DW_AT_decl_file:
+	.byte 0x01
+//	DW_AT_name:
+	.2byte 0x0063
+//	DW_AT_type:
+	.4byte 0x0000014b
+//	DW_AT_location:
+	.4byte 0x79b07603
+//	DW_TAG_lexical_block:
+	.byte 0x0c
+//	DW_AT_decl_line:
+	.byte 0x12
+//	DW_AT_decl_file:
+	.byte 0x01
+//	DW_AT_low_pc:
+	.8byte ..LN13
+//	DW_AT_high_pc:
+	.8byte ..LN54
+//	DW_TAG_variable:
+	.byte 0x0b
+//	DW_AT_decl_line:
+	.byte 0x12
+//	DW_AT_decl_file:
+	.byte 0x01
+//	DW_AT_name:
+	.2byte 0x0069
+//	DW_AT_type:
+	.4byte 0x00000130
+//	DW_AT_location:
+	.4byte 0x79b07603
+	.byte 0x00
+//	DW_TAG_lexical_block:
+	.byte 0x0c
+//	DW_AT_decl_line:
+	.byte 0x17
+//	DW_AT_decl_file:
+	.byte 0x01
+//	DW_AT_low_pc:
+	.8byte ..LN54
+//	DW_AT_high_pc:
+	.8byte ..LN81
+//	DW_TAG_variable:
+	.byte 0x0b
+//	DW_AT_decl_line:
+	.byte 0x17
+//	DW_AT_decl_file:
+	.byte 0x01
+//	DW_AT_name:
+	.2byte 0x0069
+//	DW_AT_type:
+	.4byte 0x00000130
+//	DW_AT_location:
+	.4byte 0x79b87603
+	.byte 0x00
+	.byte 0x00
+//	DW_TAG_base_type:
+	.byte 0x0d
+//	DW_AT_byte_size:
+	.byte 0x04
+//	DW_AT_encoding:
+	.byte 0x07
+//	DW_AT_name:
+	.4byte .debug_str+0x15c
+//	DW_TAG_array_type:
+	.byte 0x0e
+//	DW_AT_type:
+	.4byte 0x00000130
+//	DW_AT_byte_size:
+	.2byte 0x0190
+//	DW_TAG_subrange_type:
+	.byte 0x0f
+//	DW_AT_upper_bound:
+	.byte 0x63
+	.byte 0x00
+//	DW_TAG_array_type:
+	.byte 0x0e
+//	DW_AT_type:
+	.4byte 0x00000130
+//	DW_AT_byte_size:
+	.2byte 0x0190
+//	DW_TAG_subrange_type:
+	.byte 0x0f
+//	DW_AT_upper_bound:
+	.byte 0x63
+	.byte 0x00
+//	DW_TAG_array_type:
+	.byte 0x0e
+//	DW_AT_type:
+	.4byte 0x00000130
+//	DW_AT_byte_size:
+	.2byte 0x0190
+//	DW_TAG_subrange_type:
+	.byte 0x0f
+//	DW_AT_upper_bound:
+	.byte 0x63
+	.byte 0x00
+//	DW_TAG_typedef:
+	.byte 0x10
+//	DW_AT_decl_line:
+	.byte 0x65
+//	DW_AT_decl_file:
+	.byte 0x03
+//	DW_AT_name:
+	.4byte .debug_str+0x169
+//	DW_AT_type:
+	.4byte 0x00000160
+//	DW_TAG_structure_type:
+	.byte 0x11
+//	DW_AT_decl_line:
+	.byte 0x62
+//	DW_AT_decl_file:
+	.byte 0x03
+//	DW_AT_byte_size:
+	.byte 0x08
+//	DW_TAG_member:
+	.byte 0x12
+//	DW_AT_decl_line:
+	.byte 0x63
+//	DW_AT_decl_file:
+	.byte 0x03
+//	DW_AT_data_member_location:
+	.2byte 0x2302
+	.byte 0x00
+//	DW_AT_name:
+	.4byte .debug_str+0x16f
+//	DW_AT_type:
+	.4byte 0x0000009e
+//	DW_TAG_member:
+	.byte 0x13
+//	DW_AT_decl_line:
+	.byte 0x64
+//	DW_AT_decl_file:
+	.byte 0x03
+//	DW_AT_data_member_location:
+	.2byte 0x2302
+	.byte 0x04
+//	DW_AT_name:
+	.4byte 0x006d6572
+//	DW_AT_type:
+	.4byte 0x0000009e
+	.byte 0x00
+//	DW_TAG_typedef:
+	.byte 0x10
+//	DW_AT_decl_line:
+	.byte 0x6d
+//	DW_AT_decl_file:
+	.byte 0x03
+//	DW_AT_name:
+	.4byte .debug_str+0x174
+//	DW_AT_type:
+	.4byte 0x0000018c
+//	DW_TAG_structure_type:
+	.byte 0x11
+//	DW_AT_decl_line:
+	.byte 0x6a
+//	DW_AT_decl_file:
+	.byte 0x03
+//	DW_AT_byte_size:
+	.byte 0x10
+//	DW_TAG_member:
+	.byte 0x12
+//	DW_AT_decl_line:
+	.byte 0x6b
+//	DW_AT_decl_file:
+	.byte 0x03
+//	DW_AT_data_member_location:
+	.2byte 0x2302
+	.byte 0x00
+//	DW_AT_name:
+	.4byte .debug_str+0x16f
+//	DW_AT_type:
+	.4byte 0x000001ad
+//	DW_TAG_member:
+	.byte 0x13
+//	DW_AT_decl_line:
+	.byte 0x6c
+//	DW_AT_decl_file:
+	.byte 0x03
+//	DW_AT_data_member_location:
+	.2byte 0x2302
+	.byte 0x08
+//	DW_AT_name:
+	.4byte 0x006d6572
+//	DW_AT_type:
+	.4byte 0x000001ad
+	.byte 0x00
+//	DW_TAG_base_type:
+	.byte 0x0d
+//	DW_AT_byte_size:
+	.byte 0x08
+//	DW_AT_encoding:
+	.byte 0x05
+//	DW_AT_name:
+	.4byte .debug_str+0x17b
+//	DW_TAG_subprogram:
+	.byte 0x14
+//	DW_AT_decl_line:
+	.2byte 0x0316
+//	DW_AT_decl_file:
+	.byte 0x03
+//	DW_AT_declaration:
+	.byte 0x01
+//	DW_AT_type:
+	.4byte 0x00000181
+//	DW_AT_name:
+	.4byte .debug_str+0x180
+	.4byte .debug_str+0x180
+//	DW_AT_external:
+	.byte 0x01
+//	DW_TAG_formal_parameter:
+	.byte 0x15
+//	DW_AT_type:
+	.4byte 0x000001ad
+//	DW_TAG_formal_parameter:
+	.byte 0x15
+//	DW_AT_type:
+	.4byte 0x000001ad
+	.byte 0x00
+//	DW_TAG_subprogram:
+	.byte 0x16
+//	DW_AT_decl_line:
+	.2byte 0x0176
+//	DW_AT_decl_file:
+	.byte 0x03
+//	DW_AT_declaration:
+	.byte 0x01
+//	DW_AT_type:
+	.4byte 0x0000009e
+//	DW_AT_name:
+	.4byte .debug_str+0x185
+	.4byte .debug_str+0x185
+//	DW_AT_external:
+	.byte 0x01
+//	DW_TAG_subprogram:
+	.byte 0x17
+//	DW_AT_decl_line:
+	.2byte 0x0178
+//	DW_AT_decl_file:
+	.byte 0x03
+//	DW_AT_declaration:
+	.byte 0x01
+//	DW_AT_name:
+	.4byte .debug_str+0x18a
+	.4byte .debug_str+0x18a
+//	DW_AT_external:
+	.byte 0x01
+//	DW_TAG_formal_parameter:
+	.byte 0x15
+//	DW_AT_type:
+	.4byte 0x00000130
+	.byte 0x00
+//	DW_TAG_typedef:
+	.byte 0x10
+//	DW_AT_decl_line:
+	.byte 0x79
+//	DW_AT_decl_file:
+	.byte 0x03
+//	DW_AT_name:
+	.4byte .debug_str+0x190
+//	DW_AT_type:
+	.4byte 0x00000202
+//	DW_TAG_structure_type:
+	.byte 0x11
+//	DW_AT_decl_line:
+	.byte 0x76
+//	DW_AT_decl_file:
+	.byte 0x03
+//	DW_AT_byte_size:
+	.byte 0x10
+//	DW_TAG_member:
+	.byte 0x12
+//	DW_AT_decl_line:
+	.byte 0x77
+//	DW_AT_decl_file:
+	.byte 0x03
+//	DW_AT_data_member_location:
+	.2byte 0x2302
+	.byte 0x00
+//	DW_AT_name:
+	.4byte .debug_str+0x16f
+//	DW_AT_type:
+	.4byte 0x00000223
+//	DW_TAG_member:
+	.byte 0x13
+//	DW_AT_decl_line:
+	.byte 0x78
+//	DW_AT_decl_file:
+	.byte 0x03
+//	DW_AT_data_member_location:
+	.2byte 0x2302
+	.byte 0x08
+//	DW_AT_name:
+	.4byte 0x006d6572
+//	DW_AT_type:
+	.4byte 0x00000223
+	.byte 0x00
+//	DW_TAG_base_type:
+	.byte 0x0d
+//	DW_AT_byte_size:
+	.byte 0x08
+//	DW_AT_encoding:
+	.byte 0x05
+//	DW_AT_name:
+	.4byte .debug_str+0x198
+//	DW_TAG_typedef:
+	.byte 0x10
+//	DW_AT_decl_line:
+	.byte 0x3b
+//	DW_AT_decl_file:
+	.byte 0x04
+//	DW_AT_name:
+	.4byte .debug_str+0x1a2
+//	DW_AT_type:
+	.4byte 0x00000235
+//	DW_TAG_typedef:
+	.byte 0x10
+//	DW_AT_decl_line:
+	.byte 0x87
+//	DW_AT_decl_file:
+	.byte 0x05
+//	DW_AT_name:
+	.4byte .debug_str+0x1aa
+//	DW_AT_type:
+	.4byte 0x000001ad
+//	DW_TAG_typedef:
+	.byte 0x10
+//	DW_AT_decl_line:
+	.byte 0x4b
+//	DW_AT_decl_file:
+	.byte 0x04
+//	DW_AT_name:
+	.4byte .debug_str+0x1b4
+//	DW_AT_type:
+	.4byte 0x0000024b
+//	DW_TAG_typedef:
+	.byte 0x10
+//	DW_AT_decl_line:
+	.byte 0x8b
+//	DW_AT_decl_file:
+	.byte 0x05
+//	DW_AT_name:
+	.4byte .debug_str+0x1bb
+//	DW_AT_type:
+	.4byte 0x000001ad
+//	DW_TAG_structure_type:
+	.byte 0x18
+//	DW_AT_decl_line:
+	.byte 0x85
+//	DW_AT_decl_file:
+	.byte 0x04
+//	DW_AT_byte_size:
+	.byte 0x38
+//	DW_AT_name:
+	.2byte 0x6d74
+	.byte 0x00
+//	DW_TAG_member:
+	.byte 0x12
+//	DW_AT_decl_line:
+	.byte 0x87
+//	DW_AT_decl_file:
+	.byte 0x04
+//	DW_AT_data_member_location:
+	.2byte 0x2302
+	.byte 0x00
+//	DW_AT_name:
+	.4byte .debug_str+0x1c4
+//	DW_AT_type:
+	.4byte 0x0000009e
+//	DW_TAG_member:
+	.byte 0x12
+//	DW_AT_decl_line:
+	.byte 0x88
+//	DW_AT_decl_file:
+	.byte 0x04
+//	DW_AT_data_member_location:
+	.2byte 0x2302
+	.byte 0x04
+//	DW_AT_name:
+	.4byte .debug_str+0x1cb
+//	DW_AT_type:
+	.4byte 0x0000009e
+//	DW_TAG_member:
+	.byte 0x12
+//	DW_AT_decl_line:
+	.byte 0x89
+//	DW_AT_decl_file:
+	.byte 0x04
+//	DW_AT_data_member_location:
+	.2byte 0x2302
+	.byte 0x08
+//	DW_AT_name:
+	.4byte .debug_str+0x1d2
+//	DW_AT_type:
+	.4byte 0x0000009e
+//	DW_TAG_member:
+	.byte 0x12
+//	DW_AT_decl_line:
+	.byte 0x8a
+//	DW_AT_decl_file:
+	.byte 0x04
+//	DW_AT_data_member_location:
+	.2byte 0x2302
+	.byte 0x0c
+//	DW_AT_name:
+	.4byte .debug_str+0x1da
+//	DW_AT_type:
+	.4byte 0x0000009e
+//	DW_TAG_member:
+	.byte 0x12
+//	DW_AT_decl_line:
+	.byte 0x8b
+//	DW_AT_decl_file:
+	.byte 0x04
+//	DW_AT_data_member_location:
+	.2byte 0x2302
+	.byte 0x10
+//	DW_AT_name:
+	.4byte .debug_str+0x1e2
+//	DW_AT_type:
+	.4byte 0x0000009e
+//	DW_TAG_member:
+	.byte 0x12
+//	DW_AT_decl_line:
+	.byte 0x8c
+//	DW_AT_decl_file:
+	.byte 0x04
+//	DW_AT_data_member_location:
+	.2byte 0x2302
+	.byte 0x14
+//	DW_AT_name:
+	.4byte .debug_str+0x1e9
+//	DW_AT_type:
+	.4byte 0x0000009e
+//	DW_TAG_member:
+	.byte 0x12
+//	DW_AT_decl_line:
+	.byte 0x8d
+//	DW_AT_decl_file:
+	.byte 0x04
+//	DW_AT_data_member_location:
+	.2byte 0x2302
+	.byte 0x18
+//	DW_AT_name:
+	.4byte .debug_str+0x1f1
+//	DW_AT_type:
+	.4byte 0x0000009e
+//	DW_TAG_member:
+	.byte 0x12
+//	DW_AT_decl_line:
+	.byte 0x8e
+//	DW_AT_decl_file:
+	.byte 0x04
+//	DW_AT_data_member_location:
+	.2byte 0x2302
+	.byte 0x1c
+//	DW_AT_name:
+	.4byte .debug_str+0x1f9
+//	DW_AT_type:
+	.4byte 0x0000009e
+//	DW_TAG_member:
+	.byte 0x12
+//	DW_AT_decl_line:
+	.byte 0x8f
+//	DW_AT_decl_file:
+	.byte 0x04
+//	DW_AT_data_member_location:
+	.2byte 0x2302
+	.byte 0x20
+//	DW_AT_name:
+	.4byte .debug_str+0x201
+//	DW_AT_type:
+	.4byte 0x0000009e
+//	DW_TAG_member:
+	.byte 0x12
+//	DW_AT_decl_line:
+	.byte 0x92
+//	DW_AT_decl_file:
+	.byte 0x04
+//	DW_AT_data_member_location:
+	.2byte 0x2302
+	.byte 0x28
+//	DW_AT_name:
+	.4byte .debug_str+0x20a
+//	DW_AT_type:
+	.4byte 0x000001ad
+//	DW_TAG_member:
+	.byte 0x12
+//	DW_AT_decl_line:
+	.byte 0x93
+//	DW_AT_decl_file:
+	.byte 0x04
+//	DW_AT_data_member_location:
+	.2byte 0x2302
+	.byte 0x30
+//	DW_AT_name:
+	.4byte .debug_str+0x214
+//	DW_AT_type:
+	.4byte 0x000002f8
+	.byte 0x00
+//	DW_TAG_pointer_type:
+	.byte 0x19
+//	DW_AT_type:
+	.4byte 0x000002fd
+//	DW_TAG_const_type:
+	.byte 0x1a
+//	DW_AT_type:
+	.4byte 0x00000302
+//	DW_TAG_base_type:
+	.byte 0x0d
+//	DW_AT_byte_size:
+	.byte 0x01
+//	DW_AT_encoding:
+	.byte 0x06
+//	DW_AT_name:
+	.4byte .debug_str+0x21c
+//	DW_TAG_subprogram:
+	.byte 0x1b
+//	DW_AT_decl_line:
+	.byte 0xc0
+//	DW_AT_decl_file:
+	.byte 0x04
+//	DW_AT_declaration:
+	.byte 0x01
+//	DW_AT_type:
+	.4byte 0x00000240
+//	DW_AT_name:
+	.4byte .debug_str+0x221
+	.4byte .debug_str+0x221
+//	DW_AT_external:
+	.byte 0x01
+//	DW_TAG_formal_parameter:
+	.byte 0x15
+//	DW_AT_type:
+	.4byte 0x00000320
+	.byte 0x00
+//	DW_TAG_pointer_type:
+	.byte 0x19
+//	DW_AT_type:
+	.4byte 0x00000240
+//	DW_TAG_typedef:
+	.byte 0x10
+//	DW_AT_decl_line:
+	.byte 0x1d
+//	DW_AT_decl_file:
+	.byte 0x06
+//	DW_AT_name:
+	.4byte .debug_str+0x226
+//	DW_AT_type:
+	.4byte 0x00000330
+//	DW_TAG_base_type:
+	.byte 0x0d
+//	DW_AT_byte_size:
+	.byte 0x08
+//	DW_AT_encoding:
+	.byte 0x04
+//	DW_AT_name:
+	.4byte .debug_str+0x22f
+//	DW_TAG_typedef:
+	.byte 0x10
+//	DW_AT_decl_line:
+	.byte 0x1c
+//	DW_AT_decl_file:
+	.byte 0x06
+//	DW_AT_name:
+	.4byte .debug_str+0x236
+//	DW_AT_type:
+	.4byte 0x00000342
+//	DW_TAG_base_type:
+	.byte 0x0d
+//	DW_AT_byte_size:
+	.byte 0x04
+//	DW_AT_encoding:
+	.byte 0x04
+//	DW_AT_name:
+	.4byte .debug_str+0x23e
+//	DW_TAG_variable:
+	.byte 0x1c
+//	DW_AT_decl_line:
+	.byte 0x07
+//	DW_AT_decl_file:
+	.byte 0x01
+//	DW_AT_name:
+	.4byte .debug_str+0x244
+//	DW_AT_type:
+	.4byte 0x0000035e
+//	DW_AT_location:
+	.2byte 0x0309
+	.8byte size
+//	DW_TAG_const_type:
+	.byte 0x1a
+//	DW_AT_type:
+	.4byte 0x00000130
+//	DW_TAG_variable:
+	.byte 0x1c
+//	DW_AT_decl_line:
+	.byte 0x08
+//	DW_AT_decl_file:
+	.byte 0x01
+//	DW_AT_name:
+	.4byte .debug_str+0x249
+//	DW_AT_type:
+	.4byte 0x0000035e
+//	DW_AT_location:
+	.2byte 0x0309
+	.8byte range
+//	DW_TAG_imported_module:
+	.byte 0x04
+//	DW_AT_import:
+	.4byte 0x00000033
+	.byte 0x00
+// -- Begin DWARF2 SEGMENT .debug_line
+	.section .debug_line
+.debug_line_seg:
+	.align 1
+// -- Begin DWARF2 SEGMENT .debug_abbrev
+	.section .debug_abbrev
+.debug_abbrev_seg:
+	.align 1
+	.byte 0x01
+	.byte 0x11
+	.byte 0x01
+	.byte 0x1b
+	.byte 0x0e
+	.byte 0x03
+	.byte 0x0e
+	.byte 0x25
+	.byte 0x0e
+	.2byte 0x7681
+	.byte 0x0e
+	.byte 0x13
+	.byte 0x0b
+	.byte 0x53
+	.byte 0x0c
+	.byte 0x11
+	.byte 0x01
+	.byte 0x12
+	.byte 0x07
+	.byte 0x6a
+	.byte 0x0c
+	.byte 0x10
+	.byte 0x17
+	.2byte 0x0000
+	.byte 0x02
+	.byte 0x39
+	.byte 0x01
+	.byte 0x03
+	.byte 0x08
+	.2byte 0x0000
+	.byte 0x03
+	.byte 0x39
+	.byte 0x00
+	.byte 0x3b
+	.byte 0x0b
+	.byte 0x3a
+	.byte 0x0b
+	.byte 0x03
+	.byte 0x0e
+	.2byte 0x0000
+	.byte 0x04
+	.byte 0x3a
+	.byte 0x00
+	.byte 0x18
+	.byte 0x13
+	.2byte 0x0000
+	.byte 0x05
+	.byte 0x08
+	.byte 0x00
+	.byte 0x18
+	.byte 0x13
+	.2byte 0x0000
+	.byte 0x06
+	.byte 0x39
+	.byte 0x01
+	.byte 0x03
+	.byte 0x0e
+	.2byte 0x0000
+	.byte 0x07
+	.byte 0x39
+	.byte 0x00
+	.byte 0x3b
+	.byte 0x05
+	.byte 0x3a
+	.byte 0x0b
+	.byte 0x03
+	.byte 0x0e
+	.2byte 0x0000
+	.byte 0x08
+	.byte 0x39
+	.byte 0x00
+	.byte 0x03
+	.byte 0x0e
+	.2byte 0x0000
+	.byte 0x09
+	.byte 0x24
+	.byte 0x00
+	.byte 0x0b
+	.byte 0x0b
+	.byte 0x3e
+	.byte 0x0b
+	.byte 0x03
+	.byte 0x08
+	.2byte 0x0000
+	.byte 0x0a
+	.byte 0x2e
+	.byte 0x01
+	.byte 0x3b
+	.byte 0x0b
+	.byte 0x3a
+	.byte 0x0b
+	.byte 0x49
+	.byte 0x13
+	.byte 0x03
+	.byte 0x0e
+	.2byte 0x4087
+	.byte 0x0e
+	.byte 0x11
+	.byte 0x01
+	.byte 0x12
+	.byte 0x07
+	.byte 0x6a
+	.byte 0x0c
+	.byte 0x3f
+	.byte 0x0c
+	.2byte 0x0000
+	.byte 0x0b
+	.byte 0x34
+	.byte 0x00
+	.byte 0x3b
+	.byte 0x0b
+	.byte 0x3a
+	.byte 0x0b
+	.byte 0x03
+	.byte 0x08
+	.byte 0x49
+	.byte 0x13
+	.byte 0x02
+	.byte 0x18
+	.2byte 0x0000
+	.byte 0x0c
+	.byte 0x0b
+	.byte 0x01
+	.byte 0x3b
+	.byte 0x0b
+	.byte 0x3a
+	.byte 0x0b
+	.byte 0x11
+	.byte 0x01
+	.byte 0x12
+	.byte 0x01
+	.2byte 0x0000
+	.byte 0x0d
+	.byte 0x24
+	.byte 0x00
+	.byte 0x0b
+	.byte 0x0b
+	.byte 0x3e
+	.byte 0x0b
+	.byte 0x03
+	.byte 0x0e
+	.2byte 0x0000
+	.byte 0x0e
+	.byte 0x01
+	.byte 0x01
+	.byte 0x49
+	.byte 0x13
+	.byte 0x0b
+	.byte 0x05
+	.2byte 0x0000
+	.byte 0x0f
+	.byte 0x21
+	.byte 0x00
+	.byte 0x2f
+	.byte 0x0b
+	.2byte 0x0000
+	.byte 0x10
+	.byte 0x16
+	.byte 0x00
+	.byte 0x3b
+	.byte 0x0b
+	.byte 0x3a
+	.byte 0x0b
+	.byte 0x03
+	.byte 0x0e
+	.byte 0x49
+	.byte 0x13
+	.2byte 0x0000
+	.byte 0x11
+	.byte 0x13
+	.byte 0x01
+	.byte 0x3b
+	.byte 0x0b
+	.byte 0x3a
+	.byte 0x0b
+	.byte 0x0b
+	.byte 0x0b
+	.2byte 0x0000
+	.byte 0x12
+	.byte 0x0d
+	.byte 0x00
+	.byte 0x3b
+	.byte 0x0b
+	.byte 0x3a
+	.byte 0x0b
+	.byte 0x38
+	.byte 0x18
+	.byte 0x03
+	.byte 0x0e
+	.byte 0x49
+	.byte 0x13
+	.2byte 0x0000
+	.byte 0x13
+	.byte 0x0d
+	.byte 0x00
+	.byte 0x3b
+	.byte 0x0b
+	.byte 0x3a
+	.byte 0x0b
+	.byte 0x38
+	.byte 0x18
+	.byte 0x03
+	.byte 0x08
+	.byte 0x49
+	.byte 0x13
+	.2byte 0x0000
+	.byte 0x14
+	.byte 0x2e
+	.byte 0x01
+	.byte 0x3b
+	.byte 0x05
+	.byte 0x3a
+	.byte 0x0b
+	.byte 0x3c
+	.byte 0x0c
+	.byte 0x49
+	.byte 0x13
+	.byte 0x03
+	.byte 0x0e
+	.2byte 0x4087
+	.byte 0x0e
+	.byte 0x3f
+	.byte 0x0c
+	.2byte 0x0000
+	.byte 0x15
+	.byte 0x05
+	.byte 0x00
+	.byte 0x49
+	.byte 0x13
+	.2byte 0x0000
+	.byte 0x16
+	.byte 0x2e
+	.byte 0x00
+	.byte 0x3b
+	.byte 0x05
+	.byte 0x3a
+	.byte 0x0b
+	.byte 0x3c
+	.byte 0x0c
+	.byte 0x49
+	.byte 0x13
+	.byte 0x03
+	.byte 0x0e
+	.2byte 0x4087
+	.byte 0x0e
+	.byte 0x3f
+	.byte 0x0c
+	.2byte 0x0000
+	.byte 0x17
+	.byte 0x2e
+	.byte 0x01
+	.byte 0x3b
+	.byte 0x05
+	.byte 0x3a
+	.byte 0x0b
+	.byte 0x3c
+	.byte 0x0c
+	.byte 0x03
+	.byte 0x0e
+	.2byte 0x4087
+	.byte 0x0e
+	.byte 0x3f
+	.byte 0x0c
+	.2byte 0x0000
+	.byte 0x18
+	.byte 0x13
+	.byte 0x01
+	.byte 0x3b
+	.byte 0x0b
+	.byte 0x3a
+	.byte 0x0b
+	.byte 0x0b
+	.byte 0x0b
+	.byte 0x03
+	.byte 0x08
+	.2byte 0x0000
+	.byte 0x19
+	.byte 0x0f
+	.byte 0x00
+	.byte 0x49
+	.byte 0x13
+	.2byte 0x0000
+	.byte 0x1a
+	.byte 0x26
+	.byte 0x00
+	.byte 0x49
+	.byte 0x13
+	.2byte 0x0000
+	.byte 0x1b
+	.byte 0x2e
+	.byte 0x01
+	.byte 0x3b
+	.byte 0x0b
+	.byte 0x3a
+	.byte 0x0b
+	.byte 0x3c
+	.byte 0x0c
+	.byte 0x49
+	.byte 0x13
+	.byte 0x03
+	.byte 0x0e
+	.2byte 0x4087
+	.byte 0x0e
+	.byte 0x3f
+	.byte 0x0c
+	.2byte 0x0000
+	.byte 0x1c
+	.byte 0x34
+	.byte 0x00
+	.byte 0x3b
+	.byte 0x0b
+	.byte 0x3a
+	.byte 0x0b
+	.byte 0x03
+	.byte 0x0e
+	.byte 0x49
+	.byte 0x13
+	.byte 0x02
+	.byte 0x18
+	.2byte 0x0000
+	.byte 0x00
+// -- Begin DWARF2 SEGMENT .debug_str
+	.section .debug_str,"MS",@progbits,1
+.debug_str_seg:
+	.align 1
+	.8byte 0x31732f656d6f682f
+	.8byte 0x572f333838363337
+	.8byte 0x726150502f6b726f
+	.8byte 0x2f7363697274654d
+	.8byte 0x756f726779616c70
+	.2byte 0x646e
+	.byte 0x00
+	.8byte 0x31732f656d6f682f
+	.8byte 0x572f333838363337
+	.8byte 0x726150502f6b726f
+	.8byte 0x2f7363697274654d
+	.8byte 0x756f726779616c70
+	.8byte 0x6372756f732f646e
+	.8byte 0x72657078652f7365
+	.8byte 0x2e322d746e656d69
+	.4byte 0x00707063
+	.8byte 0x2952286c65746e49
+	.8byte 0x6c65746e49204320
+	.8byte 0x4320343620295228
+	.8byte 0x2072656c69706d6f
+	.8byte 0x6c70706120726f66
+	.8byte 0x736e6f6974616369
+	.8byte 0x676e696e6e757220
+	.8byte 0x65746e49206e6f20
+	.8byte 0x2c3436202952286c
+	.8byte 0x6e6f697372655620
+	.8byte 0x2e302e302e393120
+	.8byte 0x6c69754220373131
+	.8byte 0x3830383130322064
+	.4byte 0x000a3430
+	.8byte 0x6f2d20672d20532d
+	.8byte 0x732f656d6f682f20
+	.8byte 0x2f33383836333731
+	.8byte 0x6150502f6b726f57
+	.8byte 0x7363697274654d72
+	.8byte 0x6f726779616c702f
+	.8byte 0x657373612f646e75
+	.8byte 0x7078652f796c626d
+	.8byte 0x2d746e656d697265
+	.8byte 0x6972657078652f32
+	.8byte 0x672e322d746e656d
+	.4byte 0x692e732e
+	.2byte 0x6363
+	.byte 0x00
+	.8byte 0x0031317878635f5f
+	.8byte 0x78635f756e675f5f
+	.2byte 0x0078
+	.8byte 0x6962617878635f5f
+	.2byte 0x3176
+	.byte 0x00
+	.4byte 0x6e69616d
+	.byte 0x00
+	.8byte 0x64656e6769736e75
+	.4byte 0x746e6920
+	.byte 0x00
+	.4byte 0x5f766964
+	.2byte 0x0074
+	.4byte 0x746f7571
+	.byte 0x00
+	.4byte 0x7669646c
+	.2byte 0x745f
+	.byte 0x00
+	.4byte 0x676e6f6c
+	.byte 0x00
+	.4byte 0x7669646c
+	.byte 0x00
+	.4byte 0x646e6172
+	.byte 0x00
+	.4byte 0x6e617273
+	.2byte 0x0064
+	.8byte 0x00745f7669646c6c
+	.8byte 0x6e6f6c20676e6f6c
+	.2byte 0x0067
+	.8byte 0x00745f6b636f6c63
+	.8byte 0x5f6b636f6c635f5f
+	.2byte 0x0074
+	.4byte 0x656d6974
+	.2byte 0x745f
+	.byte 0x00
+	.8byte 0x745f656d69745f5f
+	.byte 0x00
+	.4byte 0x735f6d74
+	.2byte 0x6365
+	.byte 0x00
+	.4byte 0x6d5f6d74
+	.2byte 0x6e69
+	.byte 0x00
+	.8byte 0x0072756f685f6d74
+	.8byte 0x007961646d5f6d74
+	.4byte 0x6d5f6d74
+	.2byte 0x6e6f
+	.byte 0x00
+	.8byte 0x00726165795f6d74
+	.8byte 0x00796164775f6d74
+	.8byte 0x00796164795f6d74
+	.8byte 0x74736473695f6d74
+	.byte 0x00
+	.8byte 0x666f746d675f6d74
+	.2byte 0x0066
+	.8byte 0x00656e6f7a5f6d74
+	.4byte 0x72616863
+	.byte 0x00
+	.4byte 0x656d6974
+	.byte 0x00
+	.8byte 0x745f656c62756f64
+	.byte 0x00
+	.4byte 0x62756f64
+	.2byte 0x656c
+	.byte 0x00
+	.8byte 0x00745f74616f6c66
+	.4byte 0x616f6c66
+	.2byte 0x0074
+	.4byte 0x657a6973
+	.byte 0x00
+	.4byte 0x676e6172
+	.2byte 0x0065
+	.section .text
+.LNDBG_TXe:
+# End

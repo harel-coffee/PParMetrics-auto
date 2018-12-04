@@ -1,0 +1,31 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/sources/experiment-1.cpp(18,5)
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization. First dependence is shown below. Use level 5 report for details
+   remark #15346: vector dependence: assumed OUTPUT dependence between call:rand() (19:16) and call:rand() (20:16)
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/sources/experiment-1.cpp(23,5)
+   remark #17109: LOOP WAS AUTO-PARALLELIZED
+   remark #15300: LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/sources/experiment-1.cpp(23,5)
+<Remainder loop for vectorization>
+   remark #15301: REMAINDER LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/sources/experiment-1.cpp(23,5)
+   remark #15300: LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/sources/experiment-1.cpp(23,5)
+<Remainder loop for vectorization>
+LOOP END

@@ -9,13 +9,14 @@
 namespace ppar {
 
 template <typename NODE, typename EDGE>
-Graph<NODE*,EDGE*>::Graph(llvm::Pass* GPass, const llvm::Function* F, const Graph<NODE*,EDGE*>* Parent) {
+Graph<NODE*,EDGE*>::Graph(llvm::Pass* GPass, const llvm::Function* F, const llvm::Loop* L, const Graph<NODE*,EDGE*>* Parent) {
 
     DEBUG_WITH_TYPE("ppar-pass-pipeline",
         llvm::dbgs() << "Graph::Graph()\n";
     );
 
     Func = F;
+    Loop = L;
     GraphPass = GPass;
 
     ParentGraph = Parent;
@@ -418,7 +419,7 @@ void Graph<NODE*,EDGE*>::findSCCs() const {
     // of the graph among its strongly connected components
     while (!SearchSet.empty()) { // we still have undiscovered (white) nodes
         GraphNode<NODE*,EDGE*> SCC_root = *(SearchSet.begin()); // take the next node (in finishing time descending order)
-        Graph<NODE*,EDGE*>* CurrentSCC = new Graph<NODE*,EDGE*>(GraphPass,Func,this);
+        Graph<NODE*,EDGE*>* CurrentSCC = new Graph<NODE*,EDGE*>(GraphPass, Func, Loop, this);
         CurrentSCC->setRoot(SCC_root.getNode());
         SCCs[SCC_root] = CurrentSCC;
         
@@ -518,7 +519,7 @@ void Graph<NODE*,EDGE*>::buildComponentGraph() const {
     }
  
     if (ComponentGraph == nullptr) {
-        ComponentGraph = new Graph<NODE*,EDGE*>(GraphPass, Func, this);
+        ComponentGraph = new Graph<NODE*,EDGE*>(GraphPass, Func, Loop, this);
     } else {
         llvm_unreachable("Component Graph memory allocation: CG pointer must be nullptr!");
     }

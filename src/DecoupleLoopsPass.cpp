@@ -60,7 +60,7 @@ DecoupleLoopsPass::~DecoupleLoopsPass() {
 
 void DecoupleLoopsPass::releaseMemory() {
 
-    DEBUG(
+    LLVM_DEBUG(
         llvm::dbgs() << "[debug] DecoupleLoopsPass::releaseMemory()\n";
     );
 
@@ -150,10 +150,15 @@ bool DecoupleLoopsPass::runOnFunction(llvm::Function& F) {
             }
            
             for (BasicBlock::iterator inst_it = bb_it->begin(); inst_it != bb_it->end(); ++inst_it) {
+                
+                if (PDG.getNode(&*inst_it) == DependenceGraph::InvalidNode) {
+                    continue;
+                }
+                    
                 DependenceGraph* SCC = PDG.nodeToSCC(&(*inst_it));
                 DecoupleLoopsInfo_func[InnermostL]->addSCC(SCC);
 
-                DEBUG(
+                LLVM_DEBUG(
                     std::string str;
                     llvm::raw_string_ostream rso(str);
                     (SCC->getRoot()).getNode()->print(rso);
@@ -173,12 +178,12 @@ bool DecoupleLoopsPass::runOnFunction(llvm::Function& F) {
                 }
 
                 if (outsideLoop) {
-                    DEBUG(
+                    LLVM_DEBUG(
                         llvm::dbgs() << "SCC(" << SCC << ") is the iterator of the " << loop_name_it->second + "\n";
                     );
                     DecoupleLoopsInfo_func[InnermostL]->addIteratorSCC(SCC);
                 } else {
-                    DEBUG(
+                    LLVM_DEBUG(
                         llvm::dbgs() << "added SCC(" << SCC << ") is the workload of the " << loop_name_it->second + "\n";
                     );
                     DecoupleLoopsInfo_func[InnermostL]->addPayloadSCC(SCC);
@@ -203,6 +208,11 @@ bool DecoupleLoopsPass::runOnFunction(llvm::Function& F) {
 
         for (Loop::block_iterator bb_it = L->block_begin(); bb_it != L->block_end(); ++bb_it) {
             for (BasicBlock::iterator inst_it = (*bb_it)->begin(); inst_it != (*bb_it)->end(); ++inst_it) {
+
+                if (LoopPDG.getNode(&*inst_it) == DependenceGraph::InvalidNode) {
+                    continue;
+                }
+
                 DependenceGraph* SCC = LoopPDG.nodeToSCC(&(*inst_it));
                 DecoupleLoopsInfo_loop[L]->addSCC(SCC);
 

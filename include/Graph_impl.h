@@ -154,7 +154,7 @@ typename Graph<NODE*,EDGE*>::dfs_iterator Graph<NODE*,EDGE*>::dfs_end(DFS_callba
 template <typename NODE, typename EDGE>
 void Graph<NODE*,EDGE*>::addNode(const NODE* Node) {
     Nodes.insert(GraphNode<NODE*,EDGE*>(Node));
-    DEBUG(
+    LLVM_DEBUG(
         std::string str;
         llvm::raw_string_ostream rso(str);
         Node->print(rso);
@@ -171,7 +171,7 @@ void Graph<NODE*,EDGE*>::addEdge(const NODE* From, const NODE* To, EDGE* Data) {
     if ( (FromNode != InvalidNode) &&
          (ToNode != InvalidNode) ) {
 
-        DEBUG(
+        LLVM_DEBUG(
             std::string from_str;
             llvm::raw_string_ostream from_rso(from_str);
             From->print(from_rso);
@@ -222,7 +222,7 @@ void Graph<NODE*,EDGE*>::dfsTraverse(DFS_callback<NODE*,EDGE*>* VisitorFunc) con
     // CurrentTime - DFS tracks traversal time 
     uint64_t CurrentTime = 0;
   
-    DEBUG(
+    LLVM_DEBUG(
         llvm::dbgs() << "[[" << CurrentTime << "] new DFS traversal on the Graph(" << this << ") for " << Func->getName() << "]\n";
     );
 
@@ -234,7 +234,7 @@ void Graph<NODE*,EDGE*>::dfsTraverse(DFS_callback<NODE*,EDGE*>* VisitorFunc) con
     while (!SearchSet.empty()) { // we still have undiscovered (white) nodes
         Stack.push(*SearchSet.begin());
 
-        DEBUG(
+        LLVM_DEBUG(
             std::string str;
             llvm::raw_string_ostream rso(str);
             ((SearchSet.begin())->getNode())->print(rso);
@@ -246,7 +246,7 @@ void Graph<NODE*,EDGE*>::dfsTraverse(DFS_callback<NODE*,EDGE*>* VisitorFunc) con
             GraphNode<NODE*,EDGE*> CurrentNode(Stack.top());
             DFS_node_properties* Node_props = DFS_properties[CurrentNode].get();
 
-            DEBUG(
+            LLVM_DEBUG(
                 std::string str;
                 llvm::raw_string_ostream rso(str);
                 (CurrentNode.getNode())->print(rso);
@@ -270,7 +270,7 @@ void Graph<NODE*,EDGE*>::dfsTraverse(DFS_callback<NODE*,EDGE*>* VisitorFunc) con
                     VisitorFunc->operator()();
                 }
 
-                DEBUG(
+                LLVM_DEBUG(
                     std::string str;
                     llvm::raw_string_ostream rso(str);
                     (CurrentNode.getNode())->print(rso);
@@ -302,7 +302,7 @@ void Graph<NODE*,EDGE*>::dfsTraverse(DFS_callback<NODE*,EDGE*>* VisitorFunc) con
                         // we mark corresponding edge as of tree edge type
                         Type = GraphEdge<NODE*,EDGE*>::EdgeType::TREE;
         
-                        DEBUG(
+                        LLVM_DEBUG(
                             std::string str;
                             llvm::raw_string_ostream rso(str);
                             ((*succ_it).getNode())->print(rso);
@@ -312,7 +312,7 @@ void Graph<NODE*,EDGE*>::dfsTraverse(DFS_callback<NODE*,EDGE*>* VisitorFunc) con
                     } else if (SuccNodeColor == DFS_node_properties::NodeColor::GREY) {
                         Type = GraphEdge<NODE*,EDGE*>::EdgeType::BACK;
 
-                        DEBUG(
+                        LLVM_DEBUG(
                             std::string str;
                             llvm::raw_string_ostream rso(str);
                             ((*succ_it).getNode())->print(rso);
@@ -326,7 +326,7 @@ void Graph<NODE*,EDGE*>::dfsTraverse(DFS_callback<NODE*,EDGE*>* VisitorFunc) con
                             Type = GraphEdge<NODE*,EDGE*>::EdgeType::CROSS;
                         }
 
-                        DEBUG(
+                        LLVM_DEBUG(
                             std::string str;
                             llvm::raw_string_ostream rso(str);
                             ((*succ_it).getNode())->print(rso);
@@ -339,7 +339,7 @@ void Graph<NODE*,EDGE*>::dfsTraverse(DFS_callback<NODE*,EDGE*>* VisitorFunc) con
                     }
                 }
             } else {
-                DEBUG(
+                LLVM_DEBUG(
                     std::string str;
                     llvm::raw_string_ostream rso(str);
                     (CurrentNode.getNode())->print(rso);
@@ -358,7 +358,7 @@ void Graph<NODE*,EDGE*>::dfsTraverse(DFS_callback<NODE*,EDGE*>* VisitorFunc) con
                     VisitorFunc->operator()();
                 }
 
-                DEBUG(
+                LLVM_DEBUG(
                     std::string str;
                     llvm::raw_string_ostream rso(str);
                     (CurrentNode.getNode())->print(rso);
@@ -391,17 +391,17 @@ void Graph<NODE*,EDGE*>::findSCCs() const {
 
     SCCs_data_valid = false;
 
-    DEBUG(
+    LLVM_DEBUG(
         llvm::dbgs() << "[ finding SCCs algorithm on the Graph(" << this << ") for Func(" << Func->getName() << "]\n";
     );
 
     // compute finishing times of nodes in DFS traversal
     if (!DFS_data_valid) {
-        DEBUG(
+        LLVM_DEBUG(
             llvm::dbgs() << "[ run DFS to collect required timestamps ]\n";
         );
         dfsTraverse();
-        DEBUG(
+        LLVM_DEBUG(
             llvm::dbgs() << "[ DFS done ]\n";
         );
     }
@@ -423,7 +423,7 @@ void Graph<NODE*,EDGE*>::findSCCs() const {
         CurrentSCC->setRoot(SCC_root.getNode());
         SCCs[SCC_root] = CurrentSCC;
         
-        DEBUG(
+        LLVM_DEBUG(
             std::string str;
             llvm::raw_string_ostream rso(str);
             SCC_root.getNode()->print(rso);
@@ -444,7 +444,7 @@ void Graph<NODE*,EDGE*>::findSCCs() const {
             NodeToSCCs_addr[CurrentNode] = CurrentSCC;
             NodeToSCCRoot[CurrentNode] = SCC_root;
     
-            DEBUG(
+            LLVM_DEBUG(
                 std::string str;
                 llvm::raw_string_ostream rso(str);
                 CurrentNode.getNode()->print(rso);

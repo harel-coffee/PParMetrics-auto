@@ -26,8 +26,6 @@ bool GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphP
     );
 
     llvm::DependenceInfo& DI = Pass::getAnalysis<llvm::DependenceAnalysisWrapperPass>().getDI();
-    Pass::getAnalysis<llvm::DependenceAnalysisWrapperPass>().print(llvm::outs());
-
 
     // we are only interested in memory referencing instructions
     std::vector<Instruction*> MemRefs;
@@ -42,16 +40,42 @@ bool GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphP
     for (auto Inst : MemRefs) {
         getFunctionGraph().addNode(Inst);
     }
-    
+   /* 
     for (auto SrcI : MemRefs) {
         for (auto DstI : MemRefs) {
+
+            llvm::dbgs() << "-===-\n";
+            
+            llvm::dbgs() << *SrcI << "\n";
+            llvm::dbgs() << *DstI << "\n";
+
+            if (SrcI->hasMetadata() && DstI->hasMetadata()) {
+                const DebugLoc& SrcDbgLoc = SrcI->getDebugLoc();  
+                const DebugLoc& DstDbgLoc = DstI->getDebugLoc();  
+            
+                DILocation* SrcLoc = SrcDbgLoc.get();
+                DILocation* DstLoc = DstDbgLoc.get();
+            
+                uint64_t SrcLine = SrcLoc->getLine();
+                StringRef SrcFile = SrcLoc->getFilename();
+
+                uint64_t DstLine = DstLoc->getLine();
+                StringRef DstFile = DstLoc->getFilename();
+
+                llvm::dbgs() << "src: " << SrcFile << ":" << SrcLine << "\n";
+                llvm::dbgs() << "dst: " << DstFile << ":" << DstLine << "\n";
+            } else {
+                llvm::dbgs() << "No metadata\n";
+            }
+
             if (llvm::Dependence* D = (DI.depends(SrcI, DstI, true)).release()) {
                 if (D->isFlow() || D->isAnti() || D->isOutput()) {
                     getFunctionGraph().addEdge(SrcI, DstI, D);
                 }
             }
+            llvm::dbgs() << "-= Done! =-\n\n";
         }
-    }
+    }*/
     
     /* Build Memory Dependence Graphs for all loops of the given function F */
     

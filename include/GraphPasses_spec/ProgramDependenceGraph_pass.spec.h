@@ -60,29 +60,28 @@ bool GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraph
         const std::pair<const Instruction*,const Instruction*> NodePair = edge_it->first;
         const Graph<Instruction*,llvm::Dependence*>::edge_set& EdgeSet = edge_it->second;
         for (const auto& Edge : EdgeSet) {
-            ppar::Dependence* Dep(new ppar::Dependence());
             llvm::Dependence* MemDep = Edge.getData();
+            ppar::Dependence* Dep(new ppar::Dependence());
 
             Dep->setData();
-            if (MemDep->isFlow()) {
-                Dep->setFlow();
-            } else if (MemDep->isAnti()) {
-                Dep->setAnti();
-            } else if (MemDep->isOutput()){
-                Dep->setOutput();
-            } else {
-                Dep->setUnknown();
-            }
             Dep->setMem();
 
             if (MemDep->isConfused()) {
                 Dep->Confused = true;
             } else {
                 Dep->Confused = false;
-                llvm::FullDependence* FullDep = static_cast<llvm::FullDependence*>(MemDep);
-                Dep->LoopIndependent = FullDep->isLoopIndependent();
+                
+                if (MemDep->isFlow()) {
+                    Dep->setFlow();
+                } else if (MemDep->isAnti()) {
+                    Dep->setAnti();
+                } else if (MemDep->isOutput()){
+                    Dep->setOutput();
+                }
+
+                Dep->Consistent = MemDep->isConsistent();
+                Dep->LoopIndependent = MemDep->isLoopIndependent();
             }
-            Dep->Consistent = MemDep->isConsistent();
 
             getFunctionGraph().addEdge(Edge.getFrom(), Edge.getTo(), Dep);
         }
@@ -96,10 +95,16 @@ bool GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraph
         const Graph<BasicBlock*,ppar::Dependence*>::edge_set& EdgeSet = edge_it->second;
         for (const auto& Edge : EdgeSet) {
             const Instruction& source = Edge.getFrom()->back();
+            if (skipInstruction(&source)) {
+                continue;
+            }
             for (BasicBlock::const_iterator it = Edge.getTo()->begin(); it != Edge.getTo()->end(); ++it) {
-                ppar::Dependence* Dep(new ppar::Dependence());
-                Dep->setControl();
-                getFunctionGraph().addEdge(const_cast<Instruction*>(&source), const_cast<Instruction*>(&*it), Dep);
+                const llvm::Instruction* Inst = &*it;
+                if (!skipInstruction(Inst)) {
+                    ppar::Dependence* Dep(new ppar::Dependence());
+                    Dep->setControl();
+                    getFunctionGraph().addEdge(const_cast<Instruction*>(&source), const_cast<Instruction*>(&*it), Dep);
+                }
             } 
         }
     }
@@ -156,19 +161,17 @@ bool GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraph
             const std::pair<const Instruction*,const Instruction*> NodePair = edge_it->first;
             const Graph<Instruction*,llvm::Dependence*>::edge_set& EdgeSet = edge_it->second;
             for (const auto& Edge : EdgeSet) {
-                ppar::Dependence* Dep(new ppar::Dependence());
                 llvm::Dependence* MemDep = Edge.getData();
+                ppar::Dependence* Dep(new ppar::Dependence());
+
+                Dep->setData();
+                Dep->setMem();
 
                 if (MemDep->isConfused()) {
-                    Dep->setData();
-                    Dep->setMem();
-                    Dep->setUnknown();
                     Dep->Confused = true;
                 } else {
                     Dep->Confused = false;
                     Dep->Consistent = MemDep->isConsistent();
-                    
-                    Dep->setData();
                     
                     if (MemDep->isFlow()) {
                         Dep->setFlow();
@@ -176,19 +179,12 @@ bool GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraph
                         Dep->setAnti();
                     } else if (MemDep->isOutput()) {
                         Dep->setOutput();
-                    } else {
-                        Dep->setUnknown();
                     }
-                    Dep->setMem();
 
                     Dep->LoopIndependent = MemDep->isLoopIndependent();
                     Dep->Direction = MemDep->getDirection(L->getLoopDepth());
-                    const SCEV* Distance = MemDep->getDistance(L->getLoopDepth());
-                    if (Distance != nullptr) {
-                        Dep->Distance = 0;
-                    } else if (MemDep->isScalar(L->getLoopDepth())) {
-                        Dep->Scalar = true;
-                    }
+                    Dep->Distance = MemDep->getDistance(L->getLoopDepth());
+                    Dep->Scalar = MemDep->isScalar(L->getLoopDepth());
                 }
                 
                 getLoopGraph(L).addEdge(Edge.getFrom(), Edge.getTo(), Dep);
@@ -204,9 +200,13 @@ bool GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraph
             for (const auto& Edge : EdgeSet) {
                 const Instruction& source = Edge.getFrom()->back();
                 for (BasicBlock::const_iterator it = Edge.getTo()->begin(); it != Edge.getTo()->end(); ++it) {
-                    ppar::Dependence* Dep(new ppar::Dependence());
-                    Dep->setControl();
-                    getLoopGraph(L).addEdge(const_cast<Instruction*>(&source), const_cast<Instruction*>(&*it), Dep);
+                    if (getLoopGraph(L).getNode(&*it) == Graph<llvm::Instruction*,ppar::Dependence*>::InvalidNode) {
+                        continue;
+                    } else {
+                        ppar::Dependence* Dep(new ppar::Dependence());
+                        Dep->setControl();
+                        getLoopGraph(L).addEdge(const_cast<Instruction*>(&source), const_cast<Instruction*>(&*it), Dep);
+                    }
                 } 
             }
         }

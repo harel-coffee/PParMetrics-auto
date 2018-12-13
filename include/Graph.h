@@ -23,6 +23,7 @@
 #include "llvm/IR/Instruction.h"
 #include "llvm/Analysis/DependenceAnalysis.h"
 #include "llvm/Analysis/LoopInfo.h"
+#include "llvm/Analysis/ScalarEvolution.h"
 
 namespace ppar {
 
@@ -44,7 +45,7 @@ class Dependence {
               Mem(false), Reg(false),
               Confused(true), Consistent(false),
               Direction(llvm::Dependence::DVEntry::NONE),
-              Distance(-1),
+              Distance(nullptr),
               LoopIndependent(true),
               Scalar(true),
               Unknown(true) {}
@@ -156,7 +157,7 @@ class Dependence {
         bool isConsistent() const { return Consistent; }
 
         uint64_t getDirection() const { return Direction; }
-        uint64_t getDistance() const { return Distance; }
+        const llvm::SCEV* getDistance() const { return Distance; }
         bool isScalar() const { return Scalar; }
         bool isLoopIndependent() const { return LoopIndependent; }
 
@@ -217,7 +218,7 @@ class Dependence {
         bool Scalar;
         bool LoopIndependent;
         uint64_t Direction;
-        int Distance;
+        const llvm::SCEV* Distance;
         // default 
         bool Unknown;
 };

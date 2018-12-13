@@ -42,6 +42,9 @@ void GraphPrinter<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGr
     const std::string DepConfused {"Conf"};
     const std::string DepConsistent {"Const"};
     const std::string DepDirections[] = {"0","<","=","<=",">","!=",">=","all"};
+    // for SCEV distance 
+    std::string distance_str;
+    llvm::raw_string_ostream rso(distance_str);
 
     uint64_t DepDir = 0;
     
@@ -75,8 +78,9 @@ void GraphPrinter<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGr
                 } else {
                     EdgeLabel += ("|dep");
                 }
-                if (Dep->Distance != -1) {
-                    EdgeLabel += ("|!");
+                if (Dep->Distance != nullptr) {
+                    rso << *(Dep->Distance);
+                    EdgeLabel += ("|" + rso.str());
                 }
             }
  

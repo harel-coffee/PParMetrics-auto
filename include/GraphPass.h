@@ -22,6 +22,7 @@
 #include "llvm/PassAnalysisSupport.h"
 #include "llvm/IR/Function.h"
 #include "llvm/IR/Instruction.h"
+#include "llvm/IR/IntrinsicInst.h"
 #include "llvm/Analysis/LoopInfo.h"
 
 namespace ppar {
@@ -31,6 +32,9 @@ struct GraphPass;
 
 template <typename NODE, typename EDGE, typename PASS>
 struct GraphPass<NODE*,EDGE*,PASS> : public llvm::FunctionPass {
+    public:
+        static bool skipInstruction(const llvm::Instruction* Inst);
+
     public:
         static char ID;
         GraphPass();

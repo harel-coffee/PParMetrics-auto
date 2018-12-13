@@ -83,6 +83,20 @@ bool GraphPass<NODE*,EDGE*,PASS>::runOnFunction(llvm::Function& F) {
     llvm_unreachable("Class template GraphPass cannot be used directly (without concrete specialization)!");
 }
 
+template <typename NODE, typename EDGE, typename PASS>
+bool GraphPass<NODE*,EDGE*,PASS>::skipInstruction(const llvm::Instruction* Inst) {
+    
+    //  
+    // We may need to omit some of the LLVM IR instructions
+    // (debug intrinsics, etc.) out of dependence graphs
+    
+    if (isa<DbgInfoIntrinsic>(*Inst)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 } // namespace ppar
 
 #endif // #ifndef PPAR_GRAPH_PASS_IMPL_H

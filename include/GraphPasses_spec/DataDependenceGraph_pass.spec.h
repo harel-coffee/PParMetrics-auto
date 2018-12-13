@@ -28,10 +28,38 @@ bool GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::DataDependenceGraphPas
 
     // add nodes
     for (inst_iterator I = inst_begin(F), E = inst_end(F); I != E; I++) {
-        Instruction* Inst = &*I;
-        getFunctionGraph().addNode(Inst);
+        const Instruction* Inst = &*I;
+        if (skipInstruction(Inst)) {
+            continue;
+        } else {
+            getFunctionGraph().addNode(Inst);
+        }
     }
+    
     // add edges
+    for (typename Graph<llvm::Instruction*,ppar::Dependence*>::const_node_iterator node_it = getFunctionGraph().nodes_cbegin(); 
+            node_it != getFunctionGraph().nodes_cend(); node_it++) 
+    {
+        GraphNode<llvm::Instruction*,ppar::Dependence*> DepNode = *node_it;
+        const llvm::Instruction* I = DepNode.getNode();
+        
+        // every user of an instruction is its user
+        for (const User* U : I->users()) {
+            const Instruction* Inst = dyn_cast<Instruction>(U);
+
+            if ( (Inst != nullptr) && 
+                 (getFunctionGraph().getNode(Inst) != Graph<llvm::Instruction*,ppar::Dependence*>::InvalidNode) ) {
+                ppar::Dependence* Dep = new ppar::Dependence();
+                Dep->setData();
+                Dep->setFlow();
+                Dep->setReg();
+                
+                getFunctionGraph().addEdge(&*I, Inst, Dep);
+            }
+        }
+    }
+    
+    /*
     for (inst_iterator I = inst_begin(F), E = inst_end(F); I != E; ++I) {
         // every user of an instruction is its user
         for (User* U : I->users()) {
@@ -44,7 +72,7 @@ bool GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::DataDependenceGraphPas
                 getFunctionGraph().addEdge(&*I, Inst, Dep);
             }
         }
-    }
+    }*/
     
     /* Build Data Dependence Graphs for all loops of the given function F */
 
@@ -69,8 +97,10 @@ bool GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::DataDependenceGraphPas
             // add nodes to the loop graph
             for (typename Loop::block_iterator bb_it = L->block_begin(); bb_it != L->block_end(); ++bb_it) {
                 for (typename BasicBlock::iterator inst_it = (*bb_it)->begin(); inst_it != (*bb_it)->end(); ++inst_it) {
-                    Instruction* Inst = &(*inst_it);
-                    LG.addNode(Inst);
+                    const Instruction* Inst = &(*inst_it);
+                    if (!skipInstruction(Inst)) {
+                        LG.addNode(Inst);
+                    }
                 }
             }
             // add edges to the loop graph
@@ -78,11 +108,15 @@ bool GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::DataDependenceGraphPas
                  node_it != LG.nodes_cend(); node_it++) {
                 GraphNode<llvm::Instruction*,ppar::Dependence*> DepNode = *node_it;
                 const llvm::Instruction* I = DepNode.getNode();
-                // every user of an instruction is its user
+                
+                // every user of an instruction is it's user
                 for (const User* U : I->users()) {
-                    if (const Instruction* UserInst = dyn_cast<const Instruction>(U)) {
+                    const Instruction* UserInst = dyn_cast<const Instruction>(U);
+                    
+                    if ( (UserInst != nullptr) &&
+                         (LG.getNode(UserInst) != Graph<llvm::Instruction*,ppar::Dependence*>::InvalidNode) ) {
                         llvm::Loop* UserL = LI.getLoopFor(UserInst->getParent());
-                        if (UserL == L) {
+                        if (UserL == L) { // user must be in the same loop as the instruction
                             ppar::Dependence* Dep = new ppar::Dependence();
                             Dep->setData();
                             Dep->setFlow();

@@ -6,6 +6,8 @@
 #include "llvm/IR/BasicBlock.h"
 #include "llvm/IR/Instruction.h"
 #include "llvm/IR/InstIterator.h"
+#include "llvm/IR/DebugInfoMetadata.h"
+#include "llvm/IR/DebugInfo.h"
 #include "llvm/Analysis/PostDominators.h"
 #include "llvm/Analysis/DependenceAnalysis.h"
 #include "llvm/Analysis/ScalarEvolution.h"

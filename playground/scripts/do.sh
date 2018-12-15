@@ -2,16 +2,16 @@
 
 # 1) check for the necessary tools to use
 ICC_COMPILER="/opt/intel/compilers_and_libraries/linux/bin/intel64/icc"
-CLANG_COMPILER="/home/s1736883/Work/llvm/debug-build-60/bin/clang++"
+CLANG_COMPILER="/home/s1736883/Work/llvm/build-70/bin/clang++"
 GCC_COMPILER="/usr/bin/g++"
-OPT_TOOL="/home/s1736883/Work/llvm/debug-build-60/bin/opt"
+OPT_TOOL="/home/s1736883/Work/llvm/build-70/bin/opt"
 PPAR_METRICS_LIBRARY="/home/s1736883/Work/PParMetrics/build/libppar.so"
 
 declare -a REQUIRED_TOOLS=("${ICC_COMPILER} 
                             ${GCC_COMPILER} 
                             ${CLANG_COMPILER} 
                             ${OPT_TOOL}
-                            ${PPAR_METRICS_LIBRARY} ")
+                            ${PPAR_METRICS_LIBRARY}")
 
 echo "1) Checking all the required tools"
 for tool in ${GENERATED_OUTPUT_DIRS[@]}; do
@@ -24,8 +24,8 @@ done
 
 # 2) check for the existence of the main result directories
 PLAYGROUND_DIR="${PWD}"
-SOURCES_DIR="${PLAYGROUND_DIR}/sources"
-ASSEMBLY_DIR="${PLAYGROUND_DIR}/assembly"
+SOURCES_DIR="${PLAYGROUND_DIR}/src"
+ASSEMBLY_DIR="${PLAYGROUND_DIR}/asm"
 DOTS_DIR="${PLAYGROUND_DIR}/dot"
 PDFS_DIR="${PLAYGROUND_DIR}/pdf"
 EXECUTABLES_DIR="${PLAYGROUND_DIR}/exe"
@@ -47,12 +47,14 @@ for dir in ${NECESSARY_DIRS[@]}; do
     echo "${dir}: OK"
 done
 
-COMPILER_FLAGS=""
-COMPILER_FLAGS="${COMPILER_FLAGS} "
+COMMON_COMPILER_FLAGS=""
+COMMON_COMPILER_FLAGS="${COMMON_COMPILER_FLAGS} "
 
-GCC_COMPILER_FLAGS="${COMPILER_FLAGS}"
-ICC_COMPILER_FLAGS="${COMPILER_FLAGS}"
-CLANG_COMPILER_FLAGS="${COMPILER_FLAGS} -emit-llvm -O0"
+GCC_COMPILER_FLAGS="${COMMON_COMPILER_FLAGS}"
+ICC_COMPILER_FLAGS="${COMMON_COMPILER_FLAGS}"
+#CLANG_COMPILER_FLAGS="${COMMON_COMPILER_FLAGS} -emit-llvm -g -O1 -Xclang -disable-llvm-optzns"
+CLANG_COMPILER_FLAGS="${COMMON_COMPILER_FLAGS} -emit-llvm -O0 -Xclang -disable-O0-optnone"
+#CLANG_COMPILER_FLAGS="${COMMON_COMPILER_FLAGS} -emit-llvm -O1"
 
 declare -a COMPILERS=( "${ICC_COMPILER}" "${GCC_COMPILER}" "${CLANG_COMPILER}" )
 declare -a COMPILER_EXTS=( "icc" "gcc" "clang" )
@@ -60,9 +62,10 @@ declare -a COMPILER_FLAGS=( "${ICC_COMPILER_FLAGS}" "${GCC_COMPILER_FLAGS}" "${C
 
 
 OPT_OPTIONS=""
-OPT_OPTIONS="${OPT_OPTIONS} -O0 -scev-aa"
+OPT_OPTIONS="${OPT_OPTIONS} -mem2reg"
 
 for src in $@; do
+    
     echo "3) Checking all the necessary directories for sources: ${@}"
     for dir in ${NECESSARY_DIRS[@]}; do
         if [[ -d "${dir}/${src}" ]]; then
@@ -72,6 +75,12 @@ for src in $@; do
         if [ ${dir} = ${DOTS_DIR} ] || [ ${dir} = ${PDFS_DIR} ]; then
             for GraphType in ddg mdg cdg pdg; do
                 mkdir "${dir}/${src}/${GraphType}"
+            done
+        fi
+
+        if [ ${dir} = ${ASSEMBLY_DIR} ]; then
+            for AsmType in clang opt; do
+                mkdir "${dir}/${src}/${AsmType}"
             done
         fi
     done
@@ -84,9 +93,16 @@ for src in $@; do
 
     # produce assembly files with different compilers
     for (( i=0; i < ${#COMPILERS[@]}; ++i )); do
-        ${COMPILERS[i]} ${COMPILER_FLAGS[i]} "-S" "${SOURCES_DIR}/${src}.cpp" -o "${ASSEMBLY_DIR}/${src}/${src}.s.${COMPILER_EXTS[i]}"
-        ${COMPILERS[i]} ${COMPILER_FLAGS[i]} "-S" "-g" "${SOURCES_DIR}/${src}.cpp" -o "${ASSEMBLY_DIR}/${src}/${src}.g.s.${COMPILER_EXTS[i]}"
+        ${COMPILERS[i]} ${COMPILER_FLAGS[i]} "-S" "${SOURCES_DIR}/${src}.cpp" -o "${ASSEMBLY_DIR}/${src}/clang/${src}.s.${COMPILER_EXTS[i]}"
+        ${COMPILERS[i]} ${COMPILER_FLAGS[i]} "-S" "-g" "${SOURCES_DIR}/${src}.cpp" -o "${ASSEMBLY_DIR}/${src}/clang/${src}.g.s.${COMPILER_EXTS[i]}"
     done
+
+    # run specified opt tool passes on the initial Clang generated bitcode
+    ${OPT_TOOL} ${OPT_OPTIONS} "${ASSEMBLY_DIR}/${src}/clang/${src}.g.s.clang" -o "${ASSEMBLY_DIR}/${src}/opt/${src}.opt.g.bc"
+    llvm-dis "${ASSEMBLY_DIR}/${src}/opt/${src}.opt.g.bc" -o "${ASSEMBLY_DIR}/${src}/opt/${src}.opt.g.ll"
+    
+    ${OPT_TOOL} ${OPT_OPTIONS} "${ASSEMBLY_DIR}/${src}/clang/${src}.s.clang" -o "${ASSEMBLY_DIR}/${src}/opt/${src}.opt.bc"
+    llvm-dis "${ASSEMBLY_DIR}/${src}/opt/${src}.opt.g.bc" -o "${ASSEMBLY_DIR}/${src}/opt/${src}.opt.ll"
 
     # produce ICC compiler optimization report
     ICC_PAR_REPORT_FLAGS=""
@@ -108,7 +124,7 @@ for src in $@; do
     rm -rf ${PLAYGROUND_DIR}/${src}.out
 
     # run PPar tool in order to collect PDGs of the source
-    ASSEMBLY_FILE="${ASSEMBLY_DIR}/${src}/${src}.g.s.clang"
+    ASSEMBLY_FILE="${ASSEMBLY_DIR}/${src}/opt/${src}.s.clang"
 
     for GraphType in ddg mdg cdg pdg; do
         echo "PPar metrics tool: generating ${GraphType} graphs"
@@ -127,4 +143,5 @@ for src in $@; do
 
     ${OPT_TOOL} ${OPT_OPTIONS} -load ${PPAR_METRICS_LIBRARY} -ppar-metrics-collector ${ASSEMBLY_FILE}
     mv ./*.metrics ${METRICS_DIR}/${src}
+
 done

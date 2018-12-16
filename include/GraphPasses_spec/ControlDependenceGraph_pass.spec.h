@@ -109,11 +109,46 @@ bool GraphPass<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphP
 
     /* Build Control Dependence Graphs for all loops of the given function F */
 
-    const LoopInfo& LI = (getAnalysis<LoopInfoWrapperPass>()).getLoopInfo();
-    if (LI.empty()) {
-        return false; 
+    ppar::FunctionLoopInfoPass& LInfoPass = (getAnalysis<FunctionLoopInfoPass>());
+    const FunctionLoopInfoPass::FunctionLoopList* LList = LInfoPass.getFunctionLoopList(&F);
+    if (LList->empty()) {
+        // no loops -> no work to do
+        return false;
+    }
+    // allocate dependence graphs for function loops
+    for (const llvm::Loop* L : *LList) {
+        Graph<llvm::BasicBlock*,ppar::Dependence*>& LG = getLoopGraph(L);
+
+        if (LG == InvalidGraph) {
+            // all loop graphs must have been allocated in allocateGraphs by that point
+            llvm_unreachable("llvm::Loop cannot have InvalidGraph allocated to it!");
+        } else {
+            // add all basic blocks of the loop to the graph
+            for (typename Loop::block_iterator bb_it = L->block_begin(); bb_it != L->block_end(); ++bb_it) {
+                LG.addNode(*bb_it);
+            }
+        }
+
+        // add edges to the loop graph
+        for (typename Graph<llvm::BasicBlock*,ppar::Dependence*>::const_node_iterator node_it = LG.nodes_cbegin(); 
+                 node_it != LG.nodes_cend(); node_it++) {
+            GraphNode<llvm::BasicBlock*,ppar::Dependence*> DepNode = *node_it;
+            const llvm::BasicBlock* To = DepNode.getNode();
+            std::set<const llvm::BasicBlock*>& pDomFrontier = post_dom_frontier[To];
+ 
+            for (const llvm::BasicBlock* From : pDomFrontier) {
+                if (LG.getNode(From) != Graph<llvm::BasicBlock*,ppar::Dependence*>::InvalidNode) {
+                    ppar::Dependence* Dep = new ppar::Dependence();
+                    Dep->setControl();
+                    LG.addEdge(const_cast<BasicBlock*>(From), 
+                               const_cast<BasicBlock*>(To), 
+                               Dep);
+                }
+            }                
+        }
     }
 
+    /*
     // Reverse the post_dom_frontier map and store as a graph.
     for (auto& kv : post_dom_frontier) {
         const BasicBlock* Node = kv.first;
@@ -144,7 +179,7 @@ bool GraphPass<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphP
                                           Dep);
             }
         }
-    }
+    }*/
 
     return false;
 }

@@ -62,7 +62,7 @@ declare -a COMPILER_FLAGS=( "${ICC_COMPILER_FLAGS}" "${GCC_COMPILER_FLAGS}" "${C
 
 
 OPT_OPTIONS=""
-OPT_OPTIONS="${OPT_OPTIONS} -mem2reg"
+OPT_OPTIONS="${OPT_OPTIONS}"
 
 for src in $@; do
     
@@ -124,7 +124,7 @@ for src in $@; do
     rm -rf ${PLAYGROUND_DIR}/${src}.out
 
     # run PPar tool in order to collect PDGs of the source
-    ASSEMBLY_FILE="${ASSEMBLY_DIR}/${src}/opt/${src}.s.clang"
+    ASSEMBLY_FILE="${ASSEMBLY_DIR}/${src}/opt/${src}.opt.g.bc"
 
     for GraphType in ddg mdg cdg pdg; do
         echo "PPar metrics tool: generating ${GraphType} graphs"

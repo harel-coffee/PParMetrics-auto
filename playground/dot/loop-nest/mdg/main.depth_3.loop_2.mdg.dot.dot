@@ -1,0 +1,44 @@
+
+digraph G {
+
+
+node157 [fillcolor=lightcoral,label="  %9 = load i32, i32* %k, align 4, !dbg !1012",shape=ellipse,style=filled ]
+node156 [fillcolor=lightcoral,label="  %3 = load i32, i32* %m, align 4, !dbg !993",shape=ellipse,style=filled ]
+node153 [fillcolor=lightcoral,label="  %2 = load i32, i32* %k, align 4, !dbg !984",shape=ellipse,style=filled ]
+node155 [fillcolor=lightcoral,label="  %4 = load i32, i32* %i, align 4, !dbg !1000",shape=ellipse,style=filled ]
+node148 [fillcolor=lightcoral,label="  %8 = load i32, i32* %m, align 4, !dbg !1007",shape=ellipse,style=filled ]
+node154 [fillcolor=lightcoral,label="  %6 = load i32, i32* %k, align 4, !dbg !1003",shape=ellipse,style=filled ]
+node152 [fillcolor=lightcoral,label="  store i32 0, i32* %m, align 4, !dbg !991",shape=ellipse,style=filled ]
+node147 [fillcolor=lightcoral,label="  store i32 %inc, i32* %m, align 4, !dbg !1007",shape=ellipse,style=filled ]
+node158 [fillcolor=lightcoral,label="  store i32 %inc18, i32* %k, align 4, !dbg !1012",shape=ellipse,style=filled ]
+node149 [fillcolor=lightcoral,label="  store i32 %rem, i32* %arrayidx16, align 4, !dbg !1005",shape=ellipse,style=filled ]
+node150 [fillcolor=lightcoral,label="  %7 = load i32, i32* %m, align 4, !dbg !1004",shape=ellipse,style=filled ]
+node151 [fillcolor=lightcoral,label="  %5 = load i32, i32* %j, align 4, !dbg !1002",shape=ellipse,style=filled ]
+
+node156->node152 [ ]
+node152->node148 [ ]
+node150->node147 [ ]
+node152->node147 [ ]
+node148->node152 [ ]
+node158->node154 [ ]
+node147->node152 [ ]
+node150->node152 [ ]
+node158->node157 [ ]
+node153->node158 [ ]
+node157->node158 [ ]
+node147->node150 [ ]
+node147->node156 [ ]
+node152->node152 [ ]
+node147->node148 [ ]
+node156->node147 [ ]
+node154->node158 [ ]
+node158->node153 [ ]
+node152->node150 [ ]
+node158->node158 [ ]
+node148->node147 [ ]
+node147->node147 [ ]
+node152->node156 [ ]
+node149->node149 [ ]
+
+
+}

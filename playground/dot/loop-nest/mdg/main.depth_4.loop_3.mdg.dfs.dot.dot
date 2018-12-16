@@ -1,0 +1,24 @@
+
+digraph G {
+
+
+node125 [fillcolor=lightcoral,label="[5/6]  %7 = load i32, i32* %m, align 4, !dbg !1004",shape=ellipse,style=filled ]
+node119 [fillcolor=lightcoral,label="[1/2]  %8 = load i32, i32* %m, align 4, !dbg !1007",shape=ellipse,style=filled ]
+node120 [fillcolor=lightcoral,label="[8/9]  %5 = load i32, i32* %j, align 4, !dbg !1002",shape=ellipse,style=filled ]
+node118 [fillcolor=lightcoral,label="[0/7]  store i32 %inc, i32* %m, align 4, !dbg !1007",shape=ellipse,style=filled ]
+node124 [fillcolor=lightcoral,label="[14/15]  %6 = load i32, i32* %k, align 4, !dbg !1003",shape=ellipse,style=filled ]
+node121 [fillcolor=lightcoral,label="[10/11]  store i32 %rem, i32* %arrayidx16, align 4, !dbg !1005",shape=ellipse,style=filled ]
+node123 [fillcolor=lightcoral,label="[12/13]  %4 = load i32, i32* %i, align 4, !dbg !1000",shape=ellipse,style=filled ]
+node122 [fillcolor=lightcoral,label="[3/4]  %3 = load i32, i32* %m, align 4, !dbg !993",shape=ellipse,style=filled ]
+
+node118->node125 [ ]
+node125->node118 [ ]
+node119->node118 [ ]
+node118->node119 [ ]
+node121->node121 [ ]
+node122->node118 [ ]
+node118->node118 [ ]
+node118->node122 [ ]
+
+
+}

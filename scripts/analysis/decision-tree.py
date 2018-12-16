@@ -221,11 +221,12 @@ if __name__ == "__main__":
                 rate = mispredicts/len(predictions)
                 error_rates.append(rate)
 
-                rate = safe_mispredicts/mispredicts
-                safe_mispredict_rates.append(rate)
+                if mispredicts != 0:
+                    rate = safe_mispredicts/mispredicts
+                    safe_mispredict_rates.append(rate)
 
-                rate = unsafe_mispredicts/mispredicts
-                unsafe_mispredict_rates.append(rate)
+                    rate = unsafe_mispredicts/mispredicts
+                    unsafe_mispredict_rates.append(rate)
 
                 # calculate prediction accuracy 
                 accuracy = accuracy_score(testing_labels, clf.predict(testing_data))

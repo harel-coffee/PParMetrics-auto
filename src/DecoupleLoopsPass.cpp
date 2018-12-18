@@ -123,7 +123,7 @@ bool DecoupleLoopsPass::runOnFunction(llvm::Function& F) {
     if (LList->empty()) {
         // no loops -> no work to do
         llvm::outs() << "\tError: empty Function Loop Info structure!\n";
-        llvm_unreachable("llvm::FunctionLoopInfo cannot be empty when thare are loops!");
+        llvm_unreachable("llvm::FunctionLoopInfo cannot be empty when there are loops!");
         return false;
     }
 

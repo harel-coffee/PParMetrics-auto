@@ -24,8 +24,8 @@ bool GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::DataDependenceGraphPas
 
     allocateGraphs(F);
 
-    /* Build Data Dependence Graph for the given function F */
-
+    /* Build Data Dependence Graph (DDG) for the given function F */
+    
     // add nodes
     for (inst_iterator I = inst_begin(F), E = inst_end(F); I != E; I++) {
         const Instruction* Inst = &*I;
@@ -35,7 +35,6 @@ bool GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::DataDependenceGraphPas
             getFunctionGraph().addNode(Inst);
         }
     }
-    
     // add edges
     for (typename Graph<llvm::Instruction*,ppar::Dependence*>::const_node_iterator node_it = getFunctionGraph().nodes_cbegin(); 
             node_it != getFunctionGraph().nodes_cend(); node_it++) 
@@ -59,22 +58,7 @@ bool GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::DataDependenceGraphPas
         }
     }
     
-    /*
-    for (inst_iterator I = inst_begin(F), E = inst_end(F); I != E; ++I) {
-        // every user of an instruction is its user
-        for (User* U : I->users()) {
-            ppar::Dependence* Dep = new ppar::Dependence();
-            Dep->setData();
-            Dep->setFlow();
-            Dep->setReg();
-
-            if (Instruction* Inst = dyn_cast<Instruction>(U)) {
-                getFunctionGraph().addEdge(&*I, Inst, Dep);
-            }
-        }
-    }*/
-    
-    /* Build Data Dependence Graphs for all loops of the given function F */
+    /* Build Data Dependence Graphs (DDG) for all loops of the given function F */
 
     const LoopInfo& LI = (getAnalysis<LoopInfoWrapperPass>()).getLoopInfo();
     if (LI.empty()) {
@@ -87,7 +71,7 @@ bool GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::DataDependenceGraphPas
         // no loops -> no work to do
         return false;
     }
-    // allocate dependence graphs for function loops
+    // build dependence graphs for all function loops
     for (const llvm::Loop* L : *LList) {
         Graph<llvm::Instruction*,ppar::Dependence*>& LG = getLoopGraph(L);
         if (LG == InvalidGraph) {
@@ -115,15 +99,12 @@ bool GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::DataDependenceGraphPas
                     
                     if ( (UserInst != nullptr) &&
                          (LG.getNode(UserInst) != Graph<llvm::Instruction*,ppar::Dependence*>::InvalidNode) ) {
-                        llvm::Loop* UserL = LI.getLoopFor(UserInst->getParent());
-                        if (UserL == L) { // user must be in the same loop as the instruction
                             ppar::Dependence* Dep = new ppar::Dependence();
                             Dep->setData();
                             Dep->setFlow();
                             Dep->setReg();
 
                             LG.addEdge(&*I, UserInst, Dep);
-                        }
                     }
                 }
             }

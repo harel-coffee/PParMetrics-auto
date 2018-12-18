@@ -164,11 +164,20 @@ class Dependence {
         void setUnknown() {
             Data = false;
             Control = false;
+            
             Mem = false;
             Reg = false;
+            
             Flow = false;
             Anti = false;
             Output = false;
+           
+            Distance = nullptr;
+            Direction = llvm::Dependence::DVEntry::NONE;
+
+            LoopIndependent = true;
+            Scalar = true;
+
             Unknown = true;
         }
 
@@ -322,8 +331,13 @@ class GraphEdge<NODE*,EDGE*> {
  
         struct Hash_Edge {
             size_t operator()(const GraphEdge<NODE*,EDGE*>& Edge) const {
+                // hash must take into account both To and From nodes (XOR),
+                // moreover it must be different for A -> B and A <- B edges;
+                // different data associated with edges must lead to different hashes as well;
                 return ( std::hash<const void*>()(static_cast<const void*>(Edge.getFrom())) ^ 
-                         std::hash<const void*>()(static_cast<const void*>(Edge.getTo())) );
+                         std::hash<const void*>()(static_cast<const void*>(Edge.getTo())) +
+                         std::hash<const void*>()(static_cast<const void*>(Edge.getFrom())) +
+                         std::hash<const void*>()(static_cast<const void*>(Edge.getData())) );
             }
         };
         using hash = Hash_Edge;
@@ -418,7 +432,8 @@ class Graph<NODE*,EDGE*> {
         struct Hash_NodePair {
             size_t operator()(const std::pair<const NODE*,const NODE*>& Pair) const {
                 return ( std::hash<const void*>()(static_cast<const void*>(Pair.first)) ^ 
-                         std::hash<const void*>()(static_cast<const void*>(Pair.second)) );
+                         std::hash<const void*>()(static_cast<const void*>(Pair.second)) +
+                         std::hash<const void*>()(static_cast<const void*>(Pair.first)) );
             }
         };
 
@@ -541,8 +556,18 @@ class Graph<NODE*,EDGE*> {
         bool isComponentGraphDataValid() const { return CG_data_valid; }
 
         Graph<NODE*,EDGE*>* nodeToSCC(NODE* Node) const {
+            // 1) check if the node is present in a graph at all
+            if (nodeExists(Node) == InvalidNode) {
+                // no such node in a graph
+                return nullptr;
+            }
+            // 2)  
             if (SCCs_data_valid) {
-                return NodeToSCCs_addr[GraphNode<NODE*,EDGE*>(Node)];
+                if (NodeToSCCs_addr.find(GraphNode<NODE*,EDGE*>(Node) != NodeToSCCs_addr.end()) {
+                    return NodeToSCCs_addr[GraphNode<NODE*,EDGE*>(Node)];
+                } else {
+                    return nullptr;
+                }
             } else {
                 return nullptr;
             }

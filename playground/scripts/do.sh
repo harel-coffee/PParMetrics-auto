@@ -60,9 +60,8 @@ declare -a COMPILERS=( "${ICC_COMPILER}" "${GCC_COMPILER}" "${CLANG_COMPILER}" )
 declare -a COMPILER_EXTS=( "icc" "gcc" "clang" )
 declare -a COMPILER_FLAGS=( "${ICC_COMPILER_FLAGS}" "${GCC_COMPILER_FLAGS}" "${CLANG_COMPILER_FLAGS}" )
 
-
 OPT_OPTIONS=""
-OPT_OPTIONS="${OPT_OPTIONS}"
+OPT_OPTIONS="${OPT_OPTIONS} -mem2reg"
 
 for src in $@; do
     

@@ -22,11 +22,6 @@ _ZL6size_j:
 	.type	_ZL6size_k, @object
 	.size	_ZL6size_k, 4
 _ZL6size_k:
-	.long	10
-	.align 4
-	.type	_ZL6size_m, @object
-	.size	_ZL6size_m, 4
-_ZL6size_m:
 	.long	5
 	.text
 	.globl	main
@@ -34,55 +29,47 @@ _ZL6size_m:
 main:
 .LFB1490:
 	.file 1 "/home/s1736883/Work/PParMetrics/playground/src/loop-nest.cpp"
-	.loc 1 10 0
+	.loc 1 9 0
 	.cfi_startproc
 	pushq	%rbp
 	.cfi_def_cfa_offset 16
 	.cfi_offset 6, -16
 	movq	%rsp, %rbp
 	.cfi_def_cfa_register 6
-	subq	$200032, %rsp
-	.loc 1 10 0
+	subq	$20032, %rsp
+	.loc 1 9 0
 	movq	%fs:40, %rax
 	movq	%rax, -8(%rbp)
 	xorl	%eax, %eax
-	.loc 1 13 0
+	.loc 1 12 0
 	movl	$0, %edi
 	call	time
 	movl	%eax, %edi
 	call	srand
 .LBB2:
-	.loc 1 16 0
-	movl	$0, -200032(%rbp)
-.L9:
-	.loc 1 16 0 is_stmt 0 discriminator 1
-	cmpl	$99, -200032(%rbp)
+	.loc 1 15 0
+	movl	$0, -20028(%rbp)
+.L7:
+	.loc 1 15 0 is_stmt 0 discriminator 1
+	cmpl	$99, -20028(%rbp)
 	jg	.L2
 .LBB3:
 .LBB4:
-	.loc 1 17 0 is_stmt 1
-	movl	$0, -200028(%rbp)
-.L8:
-	.loc 1 17 0 is_stmt 0 discriminator 1
-	cmpl	$9, -200028(%rbp)
+	.loc 1 16 0 is_stmt 1
+	movl	$0, -20024(%rbp)
+.L6:
+	.loc 1 16 0 is_stmt 0 discriminator 1
+	cmpl	$9, -20024(%rbp)
 	jg	.L3
 .LBB5:
 .LBB6:
-	.loc 1 18 0 is_stmt 1
-	movl	$0, -200024(%rbp)
-.L7:
-	.loc 1 18 0 is_stmt 0 discriminator 1
-	cmpl	$9, -200024(%rbp)
+	.loc 1 17 0 is_stmt 1
+	movl	$0, -20020(%rbp)
+.L5:
+	.loc 1 17 0 is_stmt 0 discriminator 3
+	cmpl	$4, -20020(%rbp)
 	jg	.L4
-.LBB7:
-.LBB8:
-	.loc 1 19 0 is_stmt 1
-	movl	$0, -200020(%rbp)
-.L6:
-	.loc 1 19 0 is_stmt 0 discriminator 3
-	cmpl	$4, -200020(%rbp)
-	jg	.L5
-	.loc 1 20 0 is_stmt 1 discriminator 2
+	.loc 1 18 0 is_stmt 1 discriminator 2
 	call	rand
 	movl	%eax, %ecx
 	movl	$1717986919, %edx
@@ -96,61 +83,51 @@ main:
 	sall	$2, %eax
 	addl	%edx, %eax
 	addl	%eax, %eax
-	subl	%eax, %ecx
 	movl	%ecx, %edx
-	movl	-200020(%rbp), %eax
+	subl	%eax, %edx
+	movl	-20020(%rbp), %eax
 	movslq	%eax, %rdi
-	movl	-200028(%rbp), %eax
-	movslq	%eax, %rsi
-	movl	-200024(%rbp), %eax
+	movl	-20028(%rbp), %eax
 	movslq	%eax, %rcx
-	movl	-200032(%rbp), %eax
-	movslq	%eax, %r8
-	movq	%rsi, %rax
-	salq	$2, %rax
-	addq	%rsi, %rax
-	leaq	0(,%rax,4), %rsi
-	addq	%rsi, %rax
-	addq	%rax, %rax
-	imulq	$500, %r8, %rsi
-	addq	%rax, %rsi
+	movl	-20024(%rbp), %eax
+	movslq	%eax, %rsi
 	movq	%rcx, %rax
 	salq	$2, %rax
 	addq	%rcx, %rax
-	addq	%rsi, %rax
+	leaq	0(,%rax,4), %rcx
+	addq	%rcx, %rax
+	addq	%rax, %rax
+	movq	%rsi, %rcx
+	salq	$2, %rcx
+	addq	%rsi, %rcx
+	addq	%rcx, %rax
 	addq	%rdi, %rax
-	movl	%edx, -200016(%rbp,%rax,4)
-	.loc 1 19 0 discriminator 2
-	addl	$1, -200020(%rbp)
-	jmp	.L6
-.L5:
-.LBE8:
-.LBE7:
-	.loc 1 18 0 discriminator 2
-	addl	$1, -200024(%rbp)
-	jmp	.L7
+	movl	%edx, -20016(%rbp,%rax,4)
+	.loc 1 17 0 discriminator 2
+	addl	$1, -20020(%rbp)
+	jmp	.L5
 .L4:
 .LBE6:
 .LBE5:
-	.loc 1 17 0 discriminator 2
-	addl	$1, -200028(%rbp)
-	jmp	.L8
+	.loc 1 16 0 discriminator 2
+	addl	$1, -20024(%rbp)
+	jmp	.L6
 .L3:
 .LBE4:
 .LBE3:
-	.loc 1 16 0 discriminator 2
-	addl	$1, -200032(%rbp)
-	jmp	.L9
+	.loc 1 15 0 discriminator 2
+	addl	$1, -20028(%rbp)
+	jmp	.L7
 .L2:
 .LBE2:
-	.loc 1 26 0
+	.loc 1 23 0
 	movl	$0, %eax
-	.loc 1 27 0
-	movq	-8(%rbp), %rdi
-	xorq	%fs:40, %rdi
-	je	.L11
+	.loc 1 24 0
+	movq	-8(%rbp), %rsi
+	xorq	%fs:40, %rsi
+	je	.L9
 	call	__stack_chk_fail
-.L11:
+.L9:
 	leave
 	.cfi_def_cfa 7, 8
 	ret
@@ -160,7 +137,7 @@ main:
 	.type	_Z41__static_initialization_and_destruction_0ii, @function
 _Z41__static_initialization_and_destruction_0ii:
 .LFB1971:
-	.loc 1 27 0
+	.loc 1 24 0
 	.cfi_startproc
 	pushq	%rbp
 	.cfi_def_cfa_offset 16
@@ -170,12 +147,12 @@ _Z41__static_initialization_and_destruction_0ii:
 	subq	$16, %rsp
 	movl	%edi, -4(%rbp)
 	movl	%esi, -8(%rbp)
-	.loc 1 27 0
+	.loc 1 24 0
 	cmpl	$1, -4(%rbp)
-	jne	.L14
-	.loc 1 27 0 is_stmt 0 discriminator 1
+	jne	.L12
+	.loc 1 24 0 is_stmt 0 discriminator 1
 	cmpl	$65535, -8(%rbp)
-	jne	.L14
+	jne	.L12
 	.file 2 "/usr/include/c++/7/iostream"
 	.loc 2 74 0 is_stmt 1
 	movl	$_ZStL8__ioinit, %edi
@@ -184,8 +161,8 @@ _Z41__static_initialization_and_destruction_0ii:
 	movl	$_ZStL8__ioinit, %esi
 	movl	$_ZNSt8ios_base4InitD1Ev, %edi
 	call	__cxa_atexit
-.L14:
-	.loc 1 27 0
+.L12:
+	.loc 1 24 0
 	nop
 	leave
 	.cfi_def_cfa 7, 8
@@ -196,14 +173,14 @@ _Z41__static_initialization_and_destruction_0ii:
 	.type	_GLOBAL__sub_I_main, @function
 _GLOBAL__sub_I_main:
 .LFB1972:
-	.loc 1 27 0
+	.loc 1 24 0
 	.cfi_startproc
 	pushq	%rbp
 	.cfi_def_cfa_offset 16
 	.cfi_offset 6, -16
 	movq	%rsp, %rbp
 	.cfi_def_cfa_register 6
-	.loc 1 27 0
+	.loc 1 24 0
 	movl	$65535, %esi
 	movl	$1, %edi
 	call	_Z41__static_initialization_and_destruction_0ii
@@ -258,15 +235,15 @@ _GLOBAL__sub_I_main:
 	.file 40 "/usr/include/wctype.h"
 	.section	.debug_info,"",@progbits
 .Ldebug_info0:
-	.long	0x2a36
+	.long	0x29fb
 	.value	0x4
 	.long	.Ldebug_abbrev0
 	.byte	0x8
 	.uleb128 0x1
-	.long	.LASF466
+	.long	.LASF465
 	.byte	0x4
+	.long	.LASF466
 	.long	.LASF467
-	.long	.LASF468
 	.quad	.Ltext0
 	.quad	.Letext0-.Ltext0
 	.long	.Ldebug_line0
@@ -873,10 +850,10 @@ _GLOBAL__sub_I_main:
 	.long	0x1fc9
 	.byte	0
 	.uleb128 0x15
-	.long	.LASF469
+	.long	.LASF468
 	.byte	0x6
 	.byte	0x90
-	.long	.LASF470
+	.long	.LASF469
 	.long	0x1fcf
 	.byte	0x1
 	.long	0x4e6
@@ -922,7 +899,7 @@ _GLOBAL__sub_I_main:
 	.byte	0xeb
 	.long	0x1fa6
 	.uleb128 0x19
-	.long	.LASF471
+	.long	.LASF470
 	.uleb128 0xa
 	.long	0x53b
 	.uleb128 0x7
@@ -1148,7 +1125,7 @@ _GLOBAL__sub_I_main:
 	.long	.LASF65
 	.byte	0xc
 	.byte	0xf4
-	.long	.LASF472
+	.long	.LASF471
 	.long	0x741
 	.uleb128 0x10
 	.long	0x2019
@@ -1781,7 +1758,7 @@ _GLOBAL__sub_I_main:
 	.long	.LASF95
 	.byte	0x12
 	.value	0x25d
-	.long	.LASF473
+	.long	.LASF472
 	.byte	0x1
 	.long	0xcb0
 	.long	0xcb6
@@ -1879,7 +1856,7 @@ _GLOBAL__sub_I_main:
 	.string	"cin"
 	.byte	0x2
 	.byte	0x3c
-	.long	.LASF474
+	.long	.LASF473
 	.long	0xd75
 	.uleb128 0x18
 	.long	.LASF108
@@ -2276,7 +2253,7 @@ _GLOBAL__sub_I_main:
 	.long	0x1148
 	.byte	0
 	.uleb128 0x37
-	.long	.LASF475
+	.long	.LASF474
 	.byte	0x1
 	.byte	0x18
 	.byte	0x37
@@ -3939,7 +3916,7 @@ _GLOBAL__sub_I_main:
 	.long	0x1164
 	.byte	0
 	.uleb128 0x4f
-	.long	.LASF476
+	.long	.LASF475
 	.uleb128 0x3b
 	.byte	0x8
 	.long	0x30c
@@ -4396,7 +4373,7 @@ _GLOBAL__sub_I_main:
 	.byte	0x19
 	.long	0x2332
 	.uleb128 0x55
-	.long	.LASF477
+	.long	.LASF476
 	.byte	0x1f
 	.byte	0x96
 	.uleb128 0x7
@@ -4448,7 +4425,7 @@ _GLOBAL__sub_I_main:
 	.byte	0x13
 	.byte	0
 	.uleb128 0x56
-	.long	.LASF478
+	.long	.LASF477
 	.uleb128 0x54
 	.long	.LASF392
 	.byte	0x1f
@@ -4943,162 +4920,142 @@ _GLOBAL__sub_I_main:
 	.uleb128 0x9
 	.byte	0x3
 	.quad	_ZL6size_k
-	.uleb128 0x5a
-	.long	.LASF448
-	.byte	0x1
-	.byte	0x8
-	.long	0x116b
-	.uleb128 0x9
-	.byte	0x3
-	.quad	_ZL6size_m
 	.uleb128 0x5b
-	.long	.LASF449
+	.long	.LASF448
 	.long	0x11a8
 	.uleb128 0x5c
-	.long	.LASF450
+	.long	.LASF449
 	.long	0x551
 	.byte	0
 	.uleb128 0x5c
-	.long	.LASF451
+	.long	.LASF450
 	.long	0x5c7
 	.byte	0x1
 	.uleb128 0x5d
-	.long	.LASF452
+	.long	.LASF451
 	.long	0xf14
 	.sleb128 -2147483648
 	.uleb128 0x5e
-	.long	.LASF453
+	.long	.LASF452
 	.long	0xf1f
 	.long	0x7fffffff
 	.uleb128 0x5c
-	.long	.LASF454
+	.long	.LASF453
 	.long	0xf77
 	.byte	0x26
 	.uleb128 0x5f
-	.long	.LASF455
+	.long	.LASF454
 	.long	0xfb9
 	.value	0x134
 	.uleb128 0x5f
-	.long	.LASF456
+	.long	.LASF455
 	.long	0xffb
 	.value	0x1344
 	.uleb128 0x5c
-	.long	.LASF457
+	.long	.LASF456
 	.long	0x103d
 	.byte	0x40
 	.uleb128 0x5c
-	.long	.LASF458
+	.long	.LASF457
 	.long	0x1069
 	.byte	0x7f
 	.uleb128 0x5d
-	.long	.LASF459
+	.long	.LASF458
 	.long	0x10a0
 	.sleb128 -32768
 	.uleb128 0x5f
-	.long	.LASF460
+	.long	.LASF459
 	.long	0x10ab
 	.value	0x7fff
 	.uleb128 0x5d
-	.long	.LASF461
+	.long	.LASF460
 	.long	0x10de
 	.sleb128 -9223372036854775808
 	.uleb128 0x60
-	.long	.LASF462
+	.long	.LASF461
 	.long	0x10e9
 	.quad	0x7fffffffffffffff
 	.uleb128 0x61
-	.long	.LASF479
+	.long	.LASF478
 	.quad	.LFB1972
 	.quad	.LFE1972-.LFB1972
 	.uleb128 0x1
 	.byte	0x9c
 	.uleb128 0x62
-	.long	.LASF480
+	.long	.LASF479
 	.quad	.LFB1971
 	.quad	.LFE1971-.LFB1971
 	.uleb128 0x1
 	.byte	0x9c
-	.long	0x296b
+	.long	0x2956
 	.uleb128 0x63
-	.long	.LASF463
+	.long	.LASF462
 	.byte	0x1
-	.byte	0x1b
+	.byte	0x18
 	.long	0x1164
 	.uleb128 0x2
 	.byte	0x91
 	.sleb128 -20
 	.uleb128 0x63
-	.long	.LASF464
+	.long	.LASF463
 	.byte	0x1
-	.byte	0x1b
+	.byte	0x18
 	.long	0x1164
 	.uleb128 0x2
 	.byte	0x91
 	.sleb128 -24
 	.byte	0
 	.uleb128 0x64
-	.long	.LASF465
+	.long	.LASF464
 	.byte	0x1
-	.byte	0xa
+	.byte	0x9
 	.long	0x1164
 	.quad	.LFB1490
 	.quad	.LFE1490-.LFB1490
 	.uleb128 0x1
 	.byte	0x9c
-	.long	0x2a1b
+	.long	0x29e6
 	.uleb128 0x65
 	.string	"a"
 	.byte	0x1
-	.byte	0xb
-	.long	0x2a1b
+	.byte	0xa
+	.long	0x29e6
 	.uleb128 0x4
 	.byte	0x91
-	.sleb128 -200032
+	.sleb128 -20032
 	.uleb128 0x66
 	.quad	.LBB2
 	.quad	.LBE2-.LBB2
 	.uleb128 0x65
 	.string	"i"
 	.byte	0x1
-	.byte	0x10
+	.byte	0xf
 	.long	0x1164
 	.uleb128 0x4
 	.byte	0x91
-	.sleb128 -200048
+	.sleb128 -20044
 	.uleb128 0x66
 	.quad	.LBB4
 	.quad	.LBE4-.LBB4
 	.uleb128 0x65
 	.string	"j"
 	.byte	0x1
-	.byte	0x11
+	.byte	0x10
 	.long	0x1164
 	.uleb128 0x4
 	.byte	0x91
-	.sleb128 -200044
+	.sleb128 -20040
 	.uleb128 0x66
 	.quad	.LBB6
 	.quad	.LBE6-.LBB6
 	.uleb128 0x65
 	.string	"k"
 	.byte	0x1
-	.byte	0x12
+	.byte	0x11
 	.long	0x1164
 	.uleb128 0x4
 	.byte	0x91
-	.sleb128 -200040
-	.uleb128 0x66
-	.quad	.LBB8
-	.quad	.LBE8-.LBB8
-	.uleb128 0x65
-	.string	"m"
-	.byte	0x1
-	.byte	0x13
-	.long	0x1164
-	.uleb128 0x4
-	.byte	0x91
-	.sleb128 -200036
-	.byte	0
+	.sleb128 -20036
 	.byte	0
 	.byte	0
 	.byte	0
@@ -5108,9 +5065,6 @@ _GLOBAL__sub_I_main:
 	.uleb128 0x3f
 	.long	0x1120
 	.byte	0x63
-	.uleb128 0x3f
-	.long	0x1120
-	.byte	0x9
 	.uleb128 0x3f
 	.long	0x1120
 	.byte	0x9
@@ -6634,7 +6588,7 @@ _GLOBAL__sub_I_main:
 	.string	"div_t"
 .LASF199:
 	.string	"strtoull"
-.LASF457:
+.LASF456:
 	.string	"_ZN9__gnu_cxx24__numeric_traits_integerImE8__digitsE"
 .LASF303:
 	.string	"wcsxfrm"
@@ -6648,7 +6602,7 @@ _GLOBAL__sub_I_main:
 	.string	"_ZNSt11char_traitsIwE7compareEPKwS2_m"
 .LASF225:
 	.string	"_shortbuf"
-.LASF477:
+.LASF476:
 	.string	"_IO_lock_t"
 .LASF424:
 	.string	"setvbuf"
@@ -6676,7 +6630,7 @@ _GLOBAL__sub_I_main:
 	.string	"fflush"
 .LASF51:
 	.string	"char_type"
-.LASF450:
+.LASF449:
 	.string	"_ZNSt17integral_constantIbLb0EE5valueE"
 .LASF416:
 	.string	"ftell"
@@ -6740,7 +6694,7 @@ _GLOBAL__sub_I_main:
 	.string	"int_p_sep_by_space"
 .LASF214:
 	.string	"_IO_buf_end"
-.LASF452:
+.LASF451:
 	.string	"_ZN9__gnu_cxx24__numeric_traits_integerIiE5__minE"
 .LASF27:
 	.string	"nullptr_t"
@@ -6884,7 +6838,7 @@ _GLOBAL__sub_I_main:
 	.string	"_M_exception_object"
 .LASF196:
 	.string	"lldiv"
-.LASF451:
+.LASF450:
 	.string	"_ZNSt17integral_constantIbLb1EE5valueE"
 .LASF3:
 	.string	"_ZNSt9nothrow_tC4Ev"
@@ -6910,8 +6864,8 @@ _GLOBAL__sub_I_main:
 	.string	"size_k"
 .LASF366:
 	.string	"p_sign_posn"
-.LASF448:
-	.string	"size_m"
+.LASF462:
+	.string	"__initialize_p"
 .LASF66:
 	.string	"_ZNSt11char_traitsIcE6assignEPcmc"
 .LASF95:
@@ -6932,7 +6886,7 @@ _GLOBAL__sub_I_main:
 	.string	"__numeric_traits_floating<double>"
 .LASF37:
 	.string	"_ZNKSt17integral_constantIbLb1EEclEv"
-.LASF455:
+.LASF454:
 	.string	"_ZN9__gnu_cxx25__numeric_traits_floatingIdE16__max_exponent10E"
 .LASF112:
 	.string	"cerr"
@@ -6942,7 +6896,7 @@ _GLOBAL__sub_I_main:
 	.string	"_IO_read_base"
 .LASF437:
 	.string	"difftime"
-.LASF464:
+.LASF463:
 	.string	"__priority"
 .LASF29:
 	.string	"operator std::integral_constant<bool, false>::value_type"
@@ -6990,7 +6944,7 @@ _GLOBAL__sub_I_main:
 	.string	"__is_integer<double>"
 .LASF41:
 	.string	"__is_integer<long double>"
-.LASF479:
+.LASF478:
 	.string	"_GLOBAL__sub_I_main"
 .LASF7:
 	.string	"_ZNSt15__exception_ptr13exception_ptr9_M_addrefEv"
@@ -7026,7 +6980,7 @@ _GLOBAL__sub_I_main:
 	.string	"quick_exit"
 .LASF243:
 	.string	"__wch"
-.LASF475:
+.LASF474:
 	.string	"__numeric_traits_integer<long int>"
 .LASF323:
 	.string	"uint8_t"
@@ -7056,7 +7010,7 @@ _GLOBAL__sub_I_main:
 	.string	"wctrans_t"
 .LASF254:
 	.string	"fwprintf"
-.LASF462:
+.LASF461:
 	.string	"_ZN9__gnu_cxx24__numeric_traits_integerIlE5__maxE"
 .LASF107:
 	.string	"istream"
@@ -7068,7 +7022,7 @@ _GLOBAL__sub_I_main:
 	.string	"wcstof"
 .LASF297:
 	.string	"wcsspn"
-.LASF460:
+.LASF459:
 	.string	"_ZN9__gnu_cxx24__numeric_traits_integerIsE5__maxE"
 .LASF426:
 	.string	"tmpnam"
@@ -7090,7 +7044,7 @@ _GLOBAL__sub_I_main:
 	.string	"9_G_fpos_t"
 .LASF318:
 	.string	"wcstoull"
-.LASF472:
+.LASF471:
 	.string	"_ZNSt11char_traitsIcE6assignERcRKc"
 .LASF440:
 	.string	"asctime"
@@ -7154,11 +7108,11 @@ _GLOBAL__sub_I_main:
 	.string	"_Value"
 .LASF408:
 	.string	"fgetc"
-.LASF473:
+.LASF472:
 	.string	"_ZNSt8ios_base4InitC4Ev"
 .LASF411:
 	.string	"fopen"
-.LASF466:
+.LASF465:
 	.string	"GNU C++14 7.2.0 -mtune=generic -march=x86-64 -g -fstack-protector-strong"
 .LASF224:
 	.string	"_vtable_offset"
@@ -7166,9 +7120,9 @@ _GLOBAL__sub_I_main:
 	.string	"_ZSt4cerr"
 .LASF410:
 	.string	"fgets"
-.LASF454:
-	.string	"_ZN9__gnu_cxx25__numeric_traits_floatingIfE16__max_exponent10E"
 .LASF453:
+	.string	"_ZN9__gnu_cxx25__numeric_traits_floatingIfE16__max_exponent10E"
+.LASF452:
 	.string	"_ZN9__gnu_cxx24__numeric_traits_integerIiE5__maxE"
 .LASF246:
 	.string	"__mbstate_t"
@@ -7190,7 +7144,7 @@ _GLOBAL__sub_I_main:
 	.string	"uint16_t"
 .LASF277:
 	.string	"wcscoll"
-.LASF465:
+.LASF464:
 	.string	"main"
 .LASF97:
 	.string	"_S_synced_with_stdio"
@@ -7200,7 +7154,7 @@ _GLOBAL__sub_I_main:
 	.string	"_ZNSt11char_traitsIcE4moveEPcPKcm"
 .LASF381:
 	.string	"timezone"
-.LASF480:
+.LASF479:
 	.string	"__static_initialization_and_destruction_0"
 .LASF100:
 	.string	"ios_base"
@@ -7264,7 +7218,7 @@ _GLOBAL__sub_I_main:
 	.string	"basic_istream<wchar_t, std::char_traits<wchar_t> >"
 .LASF412:
 	.string	"fread"
-.LASF471:
+.LASF470:
 	.string	"type_info"
 .LASF367:
 	.string	"n_sign_posn"
@@ -7306,11 +7260,11 @@ _GLOBAL__sub_I_main:
 	.string	"_ZNSt11char_traitsIwE4findEPKwmRS1_"
 .LASF294:
 	.string	"wcsncmp"
-.LASF474:
+.LASF473:
 	.string	"_ZSt3cin"
 .LASF227:
 	.string	"_offset"
-.LASF478:
+.LASF477:
 	.string	"_IO_FILE_plus"
 .LASF126:
 	.string	"__gnu_cxx"
@@ -7338,7 +7292,7 @@ _GLOBAL__sub_I_main:
 	.string	"getc"
 .LASF333:
 	.string	"uint_least32_t"
-.LASF469:
+.LASF468:
 	.string	"operator bool"
 .LASF23:
 	.string	"_ZNKSt15__exception_ptr13exception_ptr20__cxa_exception_typeEv"
@@ -7350,7 +7304,7 @@ _GLOBAL__sub_I_main:
 	.string	"_G_fpos_t"
 .LASF307:
 	.string	"wmemmove"
-.LASF470:
+.LASF469:
 	.string	"_ZNKSt15__exception_ptr13exception_ptrcvbEv"
 .LASF344:
 	.string	"uintptr_t"
@@ -7400,7 +7354,7 @@ _GLOBAL__sub_I_main:
 	.string	"wcstol"
 .LASF291:
 	.string	"tm_zone"
-.LASF468:
+.LASF467:
 	.string	"/home/s1736883/Work/PParMetrics/playground"
 .LASF321:
 	.string	"__int128"
@@ -7412,8 +7366,6 @@ _GLOBAL__sub_I_main:
 	.string	"_ZNSt11char_traitsIcE6lengthEPKc"
 .LASF146:
 	.string	"unsigned char"
-.LASF463:
-	.string	"__initialize_p"
 .LASF376:
 	.string	"__tzname"
 .LASF390:
@@ -7422,7 +7374,7 @@ _GLOBAL__sub_I_main:
 	.string	"tmpfile"
 .LASF25:
 	.string	"_ZSt17rethrow_exceptionNSt15__exception_ptr13exception_ptrE"
-.LASF449:
+.LASF448:
 	.string	"__dso_handle"
 .LASF211:
 	.string	"_IO_write_ptr"
@@ -7430,7 +7382,7 @@ _GLOBAL__sub_I_main:
 	.string	"thousands_sep"
 .LASF6:
 	.string	"_M_release"
-.LASF476:
+.LASF475:
 	.string	"decltype(nullptr)"
 .LASF200:
 	.string	"strtof"
@@ -7442,9 +7394,9 @@ _GLOBAL__sub_I_main:
 	.string	"wcstombs"
 .LASF191:
 	.string	"strtol"
-.LASF467:
+.LASF466:
 	.string	"/home/s1736883/Work/PParMetrics/playground/src/loop-nest.cpp"
-.LASF459:
+.LASF458:
 	.string	"_ZN9__gnu_cxx24__numeric_traits_integerIsE5__minE"
 .LASF183:
 	.string	"mblen"
@@ -7476,7 +7428,7 @@ _GLOBAL__sub_I_main:
 	.string	"uint_least64_t"
 .LASF28:
 	.string	"value_type"
-.LASF458:
+.LASF457:
 	.string	"_ZN9__gnu_cxx24__numeric_traits_integerIcE5__maxE"
 .LASF202:
 	.string	"strtold"
@@ -7548,7 +7500,7 @@ _GLOBAL__sub_I_main:
 	.string	"vswprintf"
 .LASF103:
 	.string	"basic_ostream<wchar_t, std::char_traits<wchar_t> >"
-.LASF456:
+.LASF455:
 	.string	"_ZN9__gnu_cxx25__numeric_traits_floatingIeE16__max_exponent10E"
 .LASF87:
 	.string	"_ZNSt11char_traitsIwE11to_int_typeERKw"
@@ -7574,7 +7526,7 @@ _GLOBAL__sub_I_main:
 	.string	"_unused2"
 .LASF213:
 	.string	"_IO_buf_base"
-.LASF461:
+.LASF460:
 	.string	"_ZN9__gnu_cxx24__numeric_traits_integerIlE5__minE"
 .LASF305:
 	.string	"wmemcmp"

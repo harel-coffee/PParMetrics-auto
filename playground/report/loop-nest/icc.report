@@ -6,22 +6,17 @@ See "https://software.intel.com/en-us/intel-advisor-xe" for details.
     Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
 
 
-LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/src/loop-nest.cpp(16,5)
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/src/loop-nest.cpp(15,5)
    remark #17104: loop was not parallelized: existence of parallel dependence
    remark #15541: outer loop was not auto-vectorized: consider using SIMD directive
 
-   LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/src/loop-nest.cpp(17,9)
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/src/loop-nest.cpp(16,9)
       remark #17104: loop was not parallelized: existence of parallel dependence
       remark #15541: outer loop was not auto-vectorized: consider using SIMD directive
 
-      LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/src/loop-nest.cpp(18,13)
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/src/loop-nest.cpp(17,13)
          remark #17104: loop was not parallelized: existence of parallel dependence
-         remark #15541: outer loop was not auto-vectorized: consider using SIMD directive
-
-         LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/src/loop-nest.cpp(19,17)
-            remark #17104: loop was not parallelized: existence of parallel dependence
-            remark #15527: loop was not vectorized: function call to rand() cannot be vectorized   [ /home/s1736883/Work/PParMetrics/playground/src/loop-nest.cpp(20,37) ]
-         LOOP END
+         remark #15527: loop was not vectorized: function call to rand() cannot be vectorized   [ /home/s1736883/Work/PParMetrics/playground/src/loop-nest.cpp(18,30) ]
       LOOP END
    LOOP END
 LOOP END

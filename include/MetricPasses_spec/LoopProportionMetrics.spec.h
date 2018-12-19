@@ -98,6 +98,30 @@ bool MetricPass<ppar::LoopProportionMetrics>::runOnFunction(Function& F) {
         }
         idx = ppar::LoopProportionMetrics::ProportionMetric_t::LOOP_CRITICAL_PAYLOAD_FRACTION;
         Metrics_loop->Metrics[idx] = LoopCriticalPayloadFraction_value/PayloadSize;
+
+        // compute LOOP_DEPTH metric
+        double LoopDepth_value = L->getLoopDepth();
+
+        idx = ppar::LoopProportionMetrics::ProportionMetric_t::LOOP_DEPTH;
+        Metrics_loop->Metrics[idx] = LoopDepth_value;
+
+        // compute LOOP_INNER_LOOP_NUM metric
+        double LoopInnerLoopNum_value = 0;
+        std::queue<const llvm::Loop*> LQueue;
+        std::vector<const llvm::Loop*> InnerLList;
+        LQueue.push(L);
+        while(!LQueue.empty()) {
+            const llvm::Loop* CurrentLoop = LQueue.front();
+            InnerLList.push_back(CurrentLoop);
+            LQueue.pop();
+            for (llvm::Loop::iterator inner_loop_it = CurrentLoop->begin(); inner_loop_it != CurrentLoop->end(); ++inner_loop_it) {
+                LQueue.push(*inner_loop_it);
+            }
+        }
+        LoopInnerLoopNum_value = InnerLList.size() - 1;
+
+        idx = ppar::LoopProportionMetrics::ProportionMetric_t::LOOP_INNER_LOOP_NUM;
+        Metrics_loop->Metrics[idx] = LoopInnerLoopNum_value;
     }
 
     return false;

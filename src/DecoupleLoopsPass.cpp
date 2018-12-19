@@ -31,6 +31,7 @@ bool LoopDecoupleInfo::nodeBelongsToIterator(const llvm::Instruction* Node) {
     for (const DependenceGraph* IterSCC : Iterator) {
         if (IterSCC->getNode(Node) != DependenceGraph::InvalidNode) {
             NodeFound = true;
+            break;
         }
     }
     return NodeFound;
@@ -41,6 +42,7 @@ bool LoopDecoupleInfo::nodeBelongsToPayload(const llvm::Instruction* Node) {
     for (const DependenceGraph* PayloadSCC : Payload) {
         if (PayloadSCC->getNode(Node) != DependenceGraph::InvalidNode) {
             NodeFound = true;
+            break;
         }
     }
     return NodeFound;
@@ -199,11 +201,15 @@ bool DecoupleLoopsPass::runOnFunction(llvm::Function& F) {
             llvm_unreachable("llvm::Loop cannot have InvalidGraph allocated to it!");
         }
 
-        // 1) Pre-compute SCCs of the Loop's dependence graph 
-        if (!LoopPDG.isSCCsDataValid() || !LoopPDG.isComponentGraphDataValid()) {
+        // 1) Pre-compute SCCs and CG of the Loop's dependence graph 
+        if (!LoopPDG.isSCCsDataValid()) {
             LoopPDG.findSCCs();
+        }
+        
+        if (!LoopPDG.isComponentGraphDataValid()) {
             LoopPDG.buildComponentGraph();
         }
+
         const DependenceGraph* LoopCGraph = LoopPDG.getComponentGraph();
 
         for (Loop::block_iterator bb_it = L->block_begin(); bb_it != L->block_end(); ++bb_it) {
@@ -220,12 +226,12 @@ bool DecoupleLoopsPass::runOnFunction(llvm::Function& F) {
                 const auto& Preds = LoopCGraph->getPredecessors();
                 auto preds_it = Preds.find(SCC->getRoot());
                 if (preds_it != Preds.end()) {
-                    for (DependenceGraph::const_node_iterator pred_it = preds_it->second.cbegin(); pred_it != preds_it->second.cend(); pred_it++) {
-                        Loop* Parent = LI.getLoopFor((pred_it->getNode())->getParent());
-                        if (Parent == L) {
+//                    for (DependenceGraph::const_node_iterator pred_it = preds_it->second.cbegin(); pred_it != preds_it->second.cend(); pred_it++) {
+//                        Loop* Parent = LI.getLoopFor((pred_it->getNode())->getParent());
+//                        if (Parent == L) {
                             outsideLoop = false;
-                        }
-                    }
+//                        }
+//                    }
                 }
 
                 if (outsideLoop) {

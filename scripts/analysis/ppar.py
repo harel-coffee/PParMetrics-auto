@@ -24,7 +24,9 @@ if __name__ != "__main__":
     metric_groups['loop-proportion'] = ['loop-absolute-size', 
                                         'loop-payload-fraction', 
                                         'loop-proper-sccs-number',
-                                        'loop-critical-payload-fraction']
+                                        'loop-critical-payload-fraction',
+                                        'loop-depth',
+                                        'loop-inner-loop-num']
     metric_groups['iterator-payload-cohesion'] = ['iterator-payload-total-cohesion', 
                                                   'iterator-payload-non-cf-cohesion']
     metric_groups['critical-payload-cohesion'] = ['critical-payload-total-cohesion', 

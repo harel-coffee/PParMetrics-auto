@@ -563,7 +563,7 @@ class Graph<NODE*,EDGE*> {
             }
             // 2)  
             if (SCCs_data_valid) {
-                if (NodeToSCCs_addr.find(GraphNode<NODE*,EDGE*>(Node) != NodeToSCCs_addr.end()) {
+                if (NodeToSCCs_addr.find(GraphNode<NODE*,EDGE*>(Node)) != NodeToSCCs_addr.end()) {
                     return NodeToSCCs_addr[GraphNode<NODE*,EDGE*>(Node)];
                 } else {
                     return nullptr;

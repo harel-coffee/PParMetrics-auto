@@ -16,6 +16,9 @@ struct LoopProportionMetrics {
             LOOP_PAYLOAD_FRACTION, // the fraction payload constitutes of the whole loop
             LOOP_PROPER_SCCS_NUMBER, // the number of SCCs in the payload of the loop, with the amount of instructions greater than 1
             LOOP_CRITICAL_PAYLOAD_FRACTION, // the fraction critical part of the payload constitutes of the whole payload
+            // in case if this loop relates to the loop nest
+            LOOP_DEPTH, // the depth of the loop in a loop nest
+            LOOP_INNER_LOOP_NUM, // the number of inner loops inside the given loop
             METRIC_SUBTYPE_LAST
         } ProportionMetric_t;
 

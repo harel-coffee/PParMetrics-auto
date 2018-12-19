@@ -56,6 +56,8 @@ MetricPrinter::MetricPrinter()
     MetricFileStream_excel << "loop-payload-fraction:";
     MetricFileStream_excel << "loop-proper-sccs-number:";
     MetricFileStream_excel << "loop-critical-payload-fraction:";
+    MetricFileStream_excel << "loop-depth:";
+    MetricFileStream_excel << "loop-inner-loop-num:";
     // loop cohesion metrics
     MetricFileStream_excel << "iterator-payload-total-cohesion:";
     MetricFileStream_excel << "iterator-payload-non-cf-cohesion:";
@@ -240,11 +242,32 @@ bool MetricPrinter::runOnFunction(llvm::Function& F) {
                     FuncMetricsFile << "\tloop-critical-payload-fraction:\n";
                     MetricFileStream_excel << "-:";
                 }
+                Metric = LoopProportionMetrics_loop->getMetricValue(ppar::LoopProportionMetrics::ProportionMetric_t::LOOP_DEPTH);
+                if (Metric >= 0) {
+                    FuncMetricsFile << "\tloop-depth: " << llvm::format("%d", (uint64_t)Metric) << "\n";
+                    MetricFileStream_excel << (uint64_t)Metric << ":";
+                } else {
+                    FuncMetricsFile << "\tloop-depth:\n";
+                    MetricFileStream_excel << "-:";
+                }
+                Metric = LoopProportionMetrics_loop->getMetricValue(ppar::LoopProportionMetrics::ProportionMetric_t::LOOP_INNER_LOOP_NUM);
+                if (Metric >= 0) {
+                    FuncMetricsFile << "\tloop-inner-loop-num: " << llvm::format("%d", (uint64_t)Metric) << "\n";
+                    MetricFileStream_excel << (uint64_t)Metric << ":";
+                } else {
+                    FuncMetricsFile << "\tloop-inner-loop-num:\n";
+                    MetricFileStream_excel << "-:";
+                }
            } else {
                FuncMetricsFile << "\tloop-absolute-size:\n";
                FuncMetricsFile << "\tloop-payload-fraction:\n";
                FuncMetricsFile << "\tloop-proper-sccs-number:\n";
                FuncMetricsFile << "\tloop-critical-payload-fraction:\n";
+               FuncMetricsFile << "\tloop-depth:\n";
+               FuncMetricsFile << "\tloop-inner-loop-num:\n";
+               MetricFileStream_excel << "-:";
+               MetricFileStream_excel << "-:";
+               MetricFileStream_excel << "-:";
                MetricFileStream_excel << "-:";
                MetricFileStream_excel << "-:";
                MetricFileStream_excel << "-:";

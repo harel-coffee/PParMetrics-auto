@@ -44,7 +44,7 @@ bool GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphP
     for (auto SrcI : MemRefs) {
         for (auto DstI : MemRefs) {
             if (llvm::Dependence* D = (DI.depends(SrcI, DstI, true)).release()) {
-                if (D->isFlow() || D->isAnti() || D->isOutput()) {
+                if (D->isFlow() || D->isAnti() || D->isOutput() && !D->isLoopIndependent()) {
                     getFunctionGraph().addEdge(SrcI, DstI, D);
                 }
             }
@@ -90,7 +90,8 @@ bool GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphP
                     GraphNode<llvm::Instruction*,llvm::Dependence*> DepNode = *dst_node_it;
                     const llvm::Instruction* DstI = DepNode.getNode();
                     if (llvm::Dependence* D = (DI.depends(const_cast<llvm::Instruction*>(SrcI), const_cast<llvm::Instruction*>(DstI), true)).release()) {
-                        if (D->isFlow() || D->isAnti() || D->isOutput()) {
+                        if ( (D->isFlow() || D->isAnti() || D->isOutput()) &&
+                             !D->isLoopIndependent()) {
                             LG.addEdge(SrcI, DstI, D);
                         }
                     }

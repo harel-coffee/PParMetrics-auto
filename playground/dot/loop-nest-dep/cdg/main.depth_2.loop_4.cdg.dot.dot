@@ -1,0 +1,36 @@
+
+digraph G {
+
+
+node112 [label="
+for.body3:                                        ; preds = %for.cond1
+  %call = call i32 @rand() #3, !dbg !975
+  %rem = srem i32 %call, 10, !dbg !977
+  %idxprom = sext i32 %i.0 to i64, !dbg !978
+  %arrayidx = getelementptr inbounds [100 x [10 x [5 x i32]]], [100 x [10 x [5 x i32]]]* %a, i64 0, i64 %idxprom, !dbg !978
+  %idxprom4 = sext i32 %j.0 to i64, !dbg !978
+  %arrayidx5 = getelementptr inbounds [10 x [5 x i32]], [10 x [5 x i32]]* %arrayidx, i64 0, i64 %idxprom4, !dbg !978
+  %arrayidx6 = getelementptr inbounds [5 x i32], [5 x i32]* %arrayidx5, i64 0, i64 0, !dbg !978
+  store i32 %rem, i32* %arrayidx6, align 4, !dbg !979
+  br label %for.inc, !dbg !980
+",shape=rectangle ]
+node110 [label="
+for.cond1:                                        ; preds = %for.inc, %for.body
+  %j.0 = phi i32 [ 0, %for.body ], [ %inc, %for.inc ], !dbg !971
+  call void @llvm.dbg.value(metadata i32 %j.0, metadata !966, metadata !DIExpression()), !dbg !969
+  %cmp2 = icmp slt i32 %j.0, 10, !dbg !973
+  br i1 %cmp2, label %for.body3, label %for.end, !dbg !974
+",shape=rectangle ]
+node111 [label="
+for.inc:                                          ; preds = %for.body3
+  %inc = add nsw i32 %j.0, 1, !dbg !981
+  call void @llvm.dbg.value(metadata i32 %inc, metadata !966, metadata !DIExpression()), !dbg !969
+  br label %for.cond1, !dbg !982, !llvm.loop !983
+",shape=rectangle ]
+
+node110->node111 [ ]
+node110->node110 [ ]
+node110->node112 [ ]
+
+
+}

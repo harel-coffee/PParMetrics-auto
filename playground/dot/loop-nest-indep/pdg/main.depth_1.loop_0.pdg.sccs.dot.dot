@@ -1,0 +1,263 @@
+
+digraph G {
+
+
+
+
+
+subgraph cluster22 {
+
+
+node876 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[33/34]  %idxprom33 = sext i32 %k25.0 to i64, !dbg !1030",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster20 {
+
+
+node873 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[2/43]  br i1 %cmp27, label %for.body28, label %for.end43, !dbg !1029",shape=ellipse,style=filled ]
+node874 [fillcolor=grey,label="[37/38]  %cmp27 = icmp slt i32 %k25.0, 5, !dbg !1028",shape=rectangle,style=filled ]
+node871 [fillcolor=grey,label="[35/40]  %inc42 = add nsw i32 %k25.0, 1, !dbg !1036",shape=rectangle,style=filled ]
+node872 [fillcolor=grey,label="[36/39]  %k25.0 = phi i32 [ 1, %for.body24 ], [ %inc42, %for.inc41 ], !dbg !1026",shape=rectangle,style=filled ]
+
+node873->node873 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node873->node871 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node873->node874 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node874->node873 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node872->node874 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node871->node872 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node872->node871 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node873->node872 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+
+
+}
+
+subgraph cluster18 {
+
+
+node869 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[44/45]  br label %for.cond18, !dbg !1047, !llvm.loop !1048",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster16 {
+
+
+node864 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[31/32]  %idxprom29 = sext i32 %i17.0 to i64, !dbg !1030",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster17 {
+
+
+node867 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[46/69]  br i1 %cmp19, label %for.body20, label %for.end49, !dbg !1011",shape=ellipse,style=filled ]
+node865 [fillcolor=grey,label="[62/63]  %inc48 = add nsw i32 %i17.0, 1, !dbg !1046",shape=rectangle,style=filled ]
+node868 [fillcolor=grey,label="[47/48]  %cmp19 = icmp slt i32 %i17.0, 100, !dbg !1010",shape=rectangle,style=filled ]
+node866 [fillcolor=grey,label="[61/64]  %i17.0 = phi i32 [ 0, %for.end16 ], [ %inc48, %for.inc47 ], !dbg !1008",shape=rectangle,style=filled ]
+
+node867->node867 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node867->node865 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node868->node867 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node867->node868 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node866->node865 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node865->node866 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node867->node866 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node866->node868 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+
+
+}
+
+subgraph cluster4 {
+
+
+node849 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[11/14]  %arrayidx32 = getelementptr inbounds [10 x [5 x i32]], [10 x [5 x i32]]* %arrayidx30, i64 0, i64 %idxprom31, !dbg !1030",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster3 {
+
+
+node848 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[9/10]  %arrayidx40 = getelementptr inbounds [5 x i32], [5 x i32]* %arrayidx38, i64 0, i64 %idxprom39, !dbg !1033",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster2 {
+
+
+node847 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[12/13]  %arrayidx34 = getelementptr inbounds [5 x i32], [5 x i32]* %arrayidx32, i64 0, i64 %idxprom33, !dbg !1030",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster1 {
+
+
+node846 [fillcolor=grey,label="[5/6]  %add = add nsw i32 %0, 1, !dbg !1032",shape=rectangle,style=filled ]
+node844 [fillcolor=lightcoral,label="[4/7]  %0 = load i32, i32* %arrayidx34, align 4, !dbg !1030",shape=ellipse,style=filled ]
+node845 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[3/8]  store i32 %add, i32* %arrayidx40, align 4, !dbg !1034",shape=ellipse,style=filled ]
+
+node845->node844 [style=solid,color=forestgreen,label="T|indep|all",penwidth=1.0,fontcolor=forestgreen ]
+node844->node846 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node845->node845 [style=solid,color=dodgerblue,label="O|indep|all",penwidth=1.0,fontcolor=dodgerblue ]
+node846->node845 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+
+
+}
+
+subgraph cluster12 {
+
+
+node857 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[29/30]  %idxprom31 = sext i32 %j21.0 to i64, !dbg !1030",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster5 {
+
+
+node850 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[15/16]  br label %for.inc41, !dbg !1035",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster0 {
+
+
+node843 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[0/1]  br label %for.inc44, !dbg !1040",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster6 {
+
+
+node851 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[17/18]  %arrayidx38 = getelementptr inbounds [10 x [5 x i32]], [10 x [5 x i32]]* %arrayidx36, i64 0, i64 %idxprom37, !dbg !1033",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster14 {
+
+
+node859 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[67/68]  br label %for.inc47, !dbg !1045",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster7 {
+
+
+node852 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[19/20]  %arrayidx30 = getelementptr inbounds [100 x [10 x [5 x i32]]], [100 x [10 x [5 x i32]]]* %a, i64 0, i64 %idxprom29, !dbg !1030",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster23 {
+
+
+node877 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[21/22]  %idxprom37 = sext i32 %j21.0 to i64, !dbg !1033",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster8 {
+
+
+node853 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[54/55]  br label %for.cond22, !dbg !1042, !llvm.loop !1043",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster21 {
+
+
+node875 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[41/42]  br label %for.cond26, !dbg !1037, !llvm.loop !1038",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster9 {
+
+
+node854 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[23/24]  %arrayidx36 = getelementptr inbounds [100 x [10 x [5 x i32]]], [100 x [10 x [5 x i32]]]* %a, i64 0, i64 %idxprom35, !dbg !1033",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster19 {
+
+
+node870 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[25/26]  %idxprom35 = sext i32 %i17.0 to i64, !dbg !1033",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster10 {
+
+
+node855 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[56/57]  br label %for.cond26, !dbg !1025",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster11 {
+
+
+node856 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[65/66]  br label %for.cond22, !dbg !1016",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster13 {
+
+
+node858 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[27/28]  %idxprom39 = sext i32 %k25.0 to i64, !dbg !1033",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster15 {
+
+
+node860 [fillcolor=grey,label="[52/59]  %cmp23 = icmp slt i32 %j21.0, 10, !dbg !1019",shape=rectangle,style=filled ]
+node863 [fillcolor=grey,label="[50/51]  %inc45 = add nsw i32 %j21.0, 1, !dbg !1041",shape=rectangle,style=filled ]
+node862 [fillcolor=lemonchiffon,label="[53/58]  br i1 %cmp23, label %for.body24, label %for.end46, !dbg !1020",shape=ellipse,style=filled ]
+node861 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[49/60]  %j21.0 = phi i32 [ %i17.0, %for.body20 ], [ %inc45, %for.inc44 ], !dbg !1017",shape=rectangle,style=filled ]
+
+node862->node861 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node862->node860 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node862->node863 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node863->node861 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node860->node862 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node861->node860 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node861->node863 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node862->node862 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+
+
+}
+
+}

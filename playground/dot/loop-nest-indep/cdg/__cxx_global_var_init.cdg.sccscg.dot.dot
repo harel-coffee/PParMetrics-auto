@@ -1,0 +1,22 @@
+
+digraph G {
+
+
+
+
+
+subgraph cluster0 {
+
+
+node4 [penwidth=3.0,fontsize=20,shape=rectangle,label="[0/1]
+entry:
+  call void @_ZNSt8ios_base4InitC1Ev(%"class.std::ios_base::Init"* @_ZStL8__ioinit), !dbg !951
+  %0 = call i32 @__cxa_atexit(void (i8*)* bitcast (void (%"class.std::ios_base::Init"*)* @_ZNSt8ios_base4InitD1Ev to void (i8*)*), i8* getelementptr inbounds (%"class.std::ios_base::Init", %"class.std::ios_base::Init"* @_ZStL8__ioinit, i32 0, i32 0), i8* @__dso_handle) #3, !dbg !951
+  ret void, !dbg !951
+" ]
+
+
+
+}
+
+}

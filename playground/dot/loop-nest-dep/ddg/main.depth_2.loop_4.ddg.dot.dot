@@ -1,0 +1,34 @@
+
+digraph G {
+
+
+node327 [fillcolor=grey,label="  %idxprom = sext i32 %i.0 to i64, !dbg !978",shape=rectangle,style=filled ]
+node326 [fillcolor=grey,label="  %rem = srem i32 %call, 10, !dbg !977",shape=rectangle,style=filled ]
+node324 [fillcolor=lemonchiffon,label="  br label %for.inc, !dbg !980",shape=ellipse,style=filled ]
+node322 [fillcolor=grey,label="  %inc = add nsw i32 %j.0, 1, !dbg !981",shape=rectangle,style=filled ]
+node321 [fillcolor=grey,label="  %cmp2 = icmp slt i32 %j.0, 10, !dbg !973",shape=rectangle,style=filled ]
+node316 [fillcolor=lightcoral,label="  store i32 %rem, i32* %arrayidx6, align 4, !dbg !979",shape=ellipse,style=filled ]
+node315 [fillcolor=lemonchiffon,label="  br label %for.cond1, !dbg !982, !llvm.loop !983",shape=ellipse,style=filled ]
+node325 [fillcolor=grey,label="  %j.0 = phi i32 [ 0, %for.body ], [ %inc, %for.inc ], !dbg !971",shape=rectangle,style=filled ]
+node317 [fillcolor=grey,label="  %arrayidx6 = getelementptr inbounds [5 x i32], [5 x i32]* %arrayidx5, i64 0, i64 0, !dbg !978",shape=rectangle,style=filled ]
+node328 [fillcolor=lightcoral,label="  %call = call i32 @rand() #3, !dbg !975",shape=ellipse,style=filled ]
+node323 [fillcolor=lemonchiffon,label="  br i1 %cmp2, label %for.body3, label %for.end, !dbg !974",shape=ellipse,style=filled ]
+node320 [fillcolor=grey,label="  %arrayidx = getelementptr inbounds [100 x [10 x [5 x i32]]], [100 x [10 x [5 x i32]]]* %a, i64 0, i64 %idxprom, !dbg !978",shape=rectangle,style=filled ]
+node318 [fillcolor=grey,label="  %idxprom4 = sext i32 %j.0 to i64, !dbg !978",shape=rectangle,style=filled ]
+node319 [fillcolor=grey,label="  %arrayidx5 = getelementptr inbounds [10 x [5 x i32]], [10 x [5 x i32]]* %arrayidx, i64 0, i64 %idxprom4, !dbg !978",shape=rectangle,style=filled ]
+
+node321->node323 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node322->node325 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node320->node319 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node319->node317 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node325->node321 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node325->node318 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node327->node320 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node325->node322 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node326->node316 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node317->node316 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node328->node326 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node318->node319 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+
+
+}

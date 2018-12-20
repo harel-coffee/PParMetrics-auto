@@ -1,0 +1,1653 @@
+Function: transf {
+
+===== Loop [transf.depth_1.loop_0] =====
+llvm::LoopInfo name: for.cond
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:66-66
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 866
+	loop-payload-fraction: 0.1328
+	loop-proper-sccs-number: 0
+	loop-critical-payload-fraction: 0.0000
+	loop-depth: 1
+	loop-inner-loop-num: 32
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.0351
+	iterator-payload-non-cf-cohesion: 0.0003
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.0000
+	critical-payload-non-cf-cohesion: 0.0000
+	critical-payload-mem-cohesion: 0.0000
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 5
+	payload-true-dependencies-number: 3
+	payload-anti-dependencies-number: 0
+	payload-output-dependencies-number: 0
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 3
+	payload-mem-dependencies-number: 0
+	critical-payload-total-dependencies-number: 0
+	critical-payload-true-dependencies-number: 0
+	critical-payload-anti-dependencies-number: 0
+	critical-payload-output-dependencies-number: 0
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 0
+	critical-payload-mem-dependencies-number: 0
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 19
+	iterator-mem-write-fraction: 0.0253
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 1
+	payload-mem-write-fraction: 0.0087
+	payload-call-count: 1
+	payload-call-fraction: 0.0087
+	critical-payload-mem-write-count: 0
+	critical-payload-mem-write-fraction:
+	critical-payload-call-count: 0
+	critical-payload-call-fraction:
+
+===== Loop [transf.depth_2.loop_1] =====
+llvm::LoopInfo name: for.cond1
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:67-67
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 858
+	loop-payload-fraction: 0.9953
+	loop-proper-sccs-number: 16
+	loop-critical-payload-fraction: 0.5785
+	loop-depth: 2
+	loop-inner-loop-num: 31
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.0434
+	iterator-payload-non-cf-cohesion: 0.0119
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.1355
+	critical-payload-non-cf-cohesion: 0.0458
+	critical-payload-mem-cohesion: 0.0168
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 3034
+	payload-true-dependencies-number: 894
+	payload-anti-dependencies-number: 66
+	payload-output-dependencies-number: 156
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 814
+	payload-mem-dependencies-number: 1373
+	critical-payload-total-dependencies-number: 2257
+	critical-payload-true-dependencies-number: 591
+	critical-payload-anti-dependencies-number: 66
+	critical-payload-output-dependencies-number: 156
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 511
+	critical-payload-mem-dependencies-number: 1322
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 20
+	payload-mem-write-fraction: 0.0234
+	payload-call-count: 1
+	payload-call-fraction: 0.0012
+	critical-payload-mem-write-count: 19
+	critical-payload-mem-write-fraction: 0.0385
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+===== Loop [transf.depth_3.loop_2] =====
+llvm::LoopInfo name: for.cond324
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:172-172
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 39
+	loop-payload-fraction: 0.8974
+	loop-proper-sccs-number: 2
+	loop-critical-payload-fraction: 0.3429
+	loop-depth: 3
+	loop-inner-loop-num: 1
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.0964
+	iterator-payload-non-cf-cohesion: 0.0241
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.3582
+	critical-payload-non-cf-cohesion: 0.0597
+	critical-payload-mem-cohesion: 0.0000
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 67
+	payload-true-dependencies-number: 31
+	payload-anti-dependencies-number: 0
+	payload-output-dependencies-number: 1
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 31
+	payload-mem-dependencies-number: 4
+	critical-payload-total-dependencies-number: 19
+	critical-payload-true-dependencies-number: 11
+	critical-payload-anti-dependencies-number: 0
+	critical-payload-output-dependencies-number: 1
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 11
+	critical-payload-mem-dependencies-number: 4
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 1
+	payload-mem-write-fraction: 0.0286
+	payload-call-count: 0
+	payload-call-fraction: 0.0000
+	critical-payload-mem-write-count: 1
+	critical-payload-mem-write-fraction: 0.0833
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+===== Loop [transf.depth_3.loop_3] =====
+llvm::LoopInfo name: for.cond420
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:196-196
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 30
+	loop-payload-fraction: 0.8667
+	loop-proper-sccs-number: 1
+	loop-critical-payload-fraction: 0.3077
+	loop-depth: 3
+	loop-inner-loop-num: 0
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.4444
+	iterator-payload-non-cf-cohesion: 0.0317
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.0741
+	critical-payload-non-cf-cohesion: 0.0741
+	critical-payload-mem-cohesion: 0.0000
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 27
+	payload-true-dependencies-number: 23
+	payload-anti-dependencies-number: 0
+	payload-output-dependencies-number: 1
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 23
+	payload-mem-dependencies-number: 4
+	critical-payload-total-dependencies-number: 11
+	critical-payload-true-dependencies-number: 7
+	critical-payload-anti-dependencies-number: 0
+	critical-payload-output-dependencies-number: 1
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 7
+	critical-payload-mem-dependencies-number: 4
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 1
+	payload-mem-write-fraction: 0.0385
+	payload-call-count: 0
+	payload-call-fraction: 0.0000
+	critical-payload-mem-write-count: 1
+	critical-payload-mem-write-fraction: 0.1250
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+===== Loop [transf.depth_3.loop_4] =====
+llvm::LoopInfo name: for.cond368
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:184-184
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 59
+	loop-payload-fraction: 0.9322
+	loop-proper-sccs-number: 3
+	loop-critical-payload-fraction: 0.4000
+	loop-depth: 3
+	loop-inner-loop-num: 2
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.1250
+	iterator-payload-non-cf-cohesion: 0.0156
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.2981
+	critical-payload-non-cf-cohesion: 0.0769
+	critical-payload-mem-cohesion: 0.0096
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 104
+	payload-true-dependencies-number: 52
+	payload-anti-dependencies-number: 0
+	payload-output-dependencies-number: 1
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 51
+	payload-mem-dependencies-number: 6
+	critical-payload-total-dependencies-number: 35
+	critical-payload-true-dependencies-number: 23
+	critical-payload-anti-dependencies-number: 0
+	critical-payload-output-dependencies-number: 1
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 22
+	critical-payload-mem-dependencies-number: 5
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 1
+	payload-mem-write-fraction: 0.0182
+	payload-call-count: 0
+	payload-call-fraction: 0.0000
+	critical-payload-mem-write-count: 1
+	critical-payload-mem-write-fraction: 0.0455
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+===== Loop [transf.depth_3.loop_5] =====
+llvm::LoopInfo name: for.cond509
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:217-217
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 30
+	loop-payload-fraction: 0.8667
+	loop-proper-sccs-number: 1
+	loop-critical-payload-fraction: 0.3077
+	loop-depth: 3
+	loop-inner-loop-num: 0
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.4444
+	iterator-payload-non-cf-cohesion: 0.0317
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.0741
+	critical-payload-non-cf-cohesion: 0.0741
+	critical-payload-mem-cohesion: 0.0000
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 27
+	payload-true-dependencies-number: 23
+	payload-anti-dependencies-number: 0
+	payload-output-dependencies-number: 1
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 23
+	payload-mem-dependencies-number: 4
+	critical-payload-total-dependencies-number: 11
+	critical-payload-true-dependencies-number: 7
+	critical-payload-anti-dependencies-number: 0
+	critical-payload-output-dependencies-number: 1
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 7
+	critical-payload-mem-dependencies-number: 4
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 1
+	payload-mem-write-fraction: 0.0385
+	payload-call-count: 0
+	payload-call-fraction: 0.0000
+	critical-payload-mem-write-count: 1
+	critical-payload-mem-write-fraction: 0.1250
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+===== Loop [transf.depth_3.loop_6] =====
+llvm::LoopInfo name: for.cond457
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:205-205
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 59
+	loop-payload-fraction: 0.9322
+	loop-proper-sccs-number: 3
+	loop-critical-payload-fraction: 0.4182
+	loop-depth: 3
+	loop-inner-loop-num: 2
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.1250
+	iterator-payload-non-cf-cohesion: 0.0156
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.2788
+	critical-payload-non-cf-cohesion: 0.0673
+	critical-payload-mem-cohesion: 0.0000
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 104
+	payload-true-dependencies-number: 52
+	payload-anti-dependencies-number: 0
+	payload-output-dependencies-number: 1
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 51
+	payload-mem-dependencies-number: 6
+	critical-payload-total-dependencies-number: 37
+	critical-payload-true-dependencies-number: 24
+	critical-payload-anti-dependencies-number: 0
+	critical-payload-output-dependencies-number: 1
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 23
+	critical-payload-mem-dependencies-number: 6
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 1
+	payload-mem-write-fraction: 0.0182
+	payload-call-count: 0
+	payload-call-fraction: 0.0000
+	critical-payload-mem-write-count: 1
+	critical-payload-mem-write-fraction: 0.0435
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+===== Loop [transf.depth_3.loop_7] =====
+llvm::LoopInfo name: for.cond598
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:238-238
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 30
+	loop-payload-fraction: 0.8667
+	loop-proper-sccs-number: 1
+	loop-critical-payload-fraction: 0.3077
+	loop-depth: 3
+	loop-inner-loop-num: 0
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.4444
+	iterator-payload-non-cf-cohesion: 0.0317
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.0741
+	critical-payload-non-cf-cohesion: 0.0741
+	critical-payload-mem-cohesion: 0.0000
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 27
+	payload-true-dependencies-number: 23
+	payload-anti-dependencies-number: 0
+	payload-output-dependencies-number: 1
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 23
+	payload-mem-dependencies-number: 4
+	critical-payload-total-dependencies-number: 11
+	critical-payload-true-dependencies-number: 7
+	critical-payload-anti-dependencies-number: 0
+	critical-payload-output-dependencies-number: 1
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 7
+	critical-payload-mem-dependencies-number: 4
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 1
+	payload-mem-write-fraction: 0.0385
+	payload-call-count: 0
+	payload-call-fraction: 0.0000
+	critical-payload-mem-write-count: 1
+	critical-payload-mem-write-fraction: 0.1250
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+===== Loop [transf.depth_3.loop_8] =====
+llvm::LoopInfo name: for.cond546
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:226-226
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 59
+	loop-payload-fraction: 0.9322
+	loop-proper-sccs-number: 3
+	loop-critical-payload-fraction: 0.4182
+	loop-depth: 3
+	loop-inner-loop-num: 2
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.1250
+	iterator-payload-non-cf-cohesion: 0.0156
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.2788
+	critical-payload-non-cf-cohesion: 0.0673
+	critical-payload-mem-cohesion: 0.0000
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 104
+	payload-true-dependencies-number: 52
+	payload-anti-dependencies-number: 0
+	payload-output-dependencies-number: 1
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 51
+	payload-mem-dependencies-number: 6
+	critical-payload-total-dependencies-number: 37
+	critical-payload-true-dependencies-number: 24
+	critical-payload-anti-dependencies-number: 0
+	critical-payload-output-dependencies-number: 1
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 23
+	critical-payload-mem-dependencies-number: 6
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 1
+	payload-mem-write-fraction: 0.0182
+	payload-call-count: 0
+	payload-call-fraction: 0.0000
+	critical-payload-mem-write-count: 1
+	critical-payload-mem-write-fraction: 0.0435
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+===== Loop [transf.depth_3.loop_9] =====
+llvm::LoopInfo name: for.cond687
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:258-258
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 30
+	loop-payload-fraction: 0.8667
+	loop-proper-sccs-number: 1
+	loop-critical-payload-fraction: 0.3077
+	loop-depth: 3
+	loop-inner-loop-num: 0
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.4444
+	iterator-payload-non-cf-cohesion: 0.0317
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.0741
+	critical-payload-non-cf-cohesion: 0.0741
+	critical-payload-mem-cohesion: 0.0000
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 27
+	payload-true-dependencies-number: 23
+	payload-anti-dependencies-number: 0
+	payload-output-dependencies-number: 1
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 23
+	payload-mem-dependencies-number: 4
+	critical-payload-total-dependencies-number: 11
+	critical-payload-true-dependencies-number: 7
+	critical-payload-anti-dependencies-number: 0
+	critical-payload-output-dependencies-number: 1
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 7
+	critical-payload-mem-dependencies-number: 4
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 1
+	payload-mem-write-fraction: 0.0385
+	payload-call-count: 0
+	payload-call-fraction: 0.0000
+	critical-payload-mem-write-count: 1
+	critical-payload-mem-write-fraction: 0.1250
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+===== Loop [transf.depth_3.loop_10] =====
+llvm::LoopInfo name: for.cond635
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:247-247
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 59
+	loop-payload-fraction: 0.9322
+	loop-proper-sccs-number: 3
+	loop-critical-payload-fraction: 0.4000
+	loop-depth: 3
+	loop-inner-loop-num: 2
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.1250
+	iterator-payload-non-cf-cohesion: 0.0156
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.2981
+	critical-payload-non-cf-cohesion: 0.0769
+	critical-payload-mem-cohesion: 0.0096
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 104
+	payload-true-dependencies-number: 52
+	payload-anti-dependencies-number: 0
+	payload-output-dependencies-number: 1
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 51
+	payload-mem-dependencies-number: 6
+	critical-payload-total-dependencies-number: 35
+	critical-payload-true-dependencies-number: 23
+	critical-payload-anti-dependencies-number: 0
+	critical-payload-output-dependencies-number: 1
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 22
+	critical-payload-mem-dependencies-number: 5
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 1
+	payload-mem-write-fraction: 0.0182
+	payload-call-count: 0
+	payload-call-fraction: 0.0000
+	critical-payload-mem-write-count: 1
+	critical-payload-mem-write-fraction: 0.0455
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+===== Loop [transf.depth_3.loop_11] =====
+llvm::LoopInfo name: for.cond81
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:100-100
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 109
+	loop-payload-fraction: 0.9633
+	loop-proper-sccs-number: 4
+	loop-critical-payload-fraction: 0.1524
+	loop-depth: 3
+	loop-inner-loop-num: 4
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.0458
+	iterator-payload-non-cf-cohesion: 0.0208
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.4615
+	critical-payload-non-cf-cohesion: 0.0724
+	critical-payload-mem-cohesion: 0.0000
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 221
+	payload-true-dependencies-number: 105
+	payload-anti-dependencies-number: 2
+	payload-output-dependencies-number: 3
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 105
+	payload-mem-dependencies-number: 5
+	critical-payload-total-dependencies-number: 32
+	critical-payload-true-dependencies-number: 16
+	critical-payload-anti-dependencies-number: 0
+	critical-payload-output-dependencies-number: 0
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 16
+	critical-payload-mem-dependencies-number: 0
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 2
+	payload-mem-write-fraction: 0.0190
+	payload-call-count: 0
+	payload-call-fraction: 0.0000
+	critical-payload-mem-write-count: 0
+	critical-payload-mem-write-fraction: 0.0000
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+===== Loop [transf.depth_3.loop_12] =====
+llvm::LoopInfo name: for.cond170
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:125-125
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 180
+	loop-payload-fraction: 0.9778
+	loop-proper-sccs-number: 8
+	loop-critical-payload-fraction: 0.3580
+	loop-depth: 3
+	loop-inner-loop-num: 7
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.0499
+	iterator-payload-non-cf-cohesion: 0.0181
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.3504
+	critical-payload-non-cf-cohesion: 0.0876
+	critical-payload-mem-cohesion: 0.0195
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 411
+	payload-true-dependencies-number: 178
+	payload-anti-dependencies-number: 8
+	payload-output-dependencies-number: 10
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 170
+	payload-mem-dependencies-number: 58
+	critical-payload-total-dependencies-number: 140
+	critical-payload-true-dependencies-number: 70
+	critical-payload-anti-dependencies-number: 8
+	critical-payload-output-dependencies-number: 10
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 62
+	critical-payload-mem-dependencies-number: 50
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 4
+	payload-mem-write-fraction: 0.0227
+	payload-call-count: 0
+	payload-call-fraction: 0.0000
+	critical-payload-mem-write-count: 4
+	critical-payload-mem-write-fraction: 0.0635
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+===== Loop [transf.depth_4.loop_13] =====
+llvm::LoopInfo name: for.cond327
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:173-173
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 32
+	loop-payload-fraction: 0.8750
+	loop-proper-sccs-number: 1
+	loop-critical-payload-fraction: 0.2857
+	loop-depth: 4
+	loop-inner-loop-num: 0
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.4478
+	iterator-payload-non-cf-cohesion: 0.0299
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.0690
+	critical-payload-non-cf-cohesion: 0.0690
+	critical-payload-mem-cohesion: 0.0000
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 29
+	payload-true-dependencies-number: 25
+	payload-anti-dependencies-number: 0
+	payload-output-dependencies-number: 1
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 25
+	payload-mem-dependencies-number: 4
+	critical-payload-total-dependencies-number: 11
+	critical-payload-true-dependencies-number: 7
+	critical-payload-anti-dependencies-number: 0
+	critical-payload-output-dependencies-number: 1
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 7
+	critical-payload-mem-dependencies-number: 4
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 1
+	payload-mem-write-fraction: 0.0357
+	payload-call-count: 0
+	payload-call-fraction: 0.0000
+	critical-payload-mem-write-count: 1
+	critical-payload-mem-write-fraction: 0.1250
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+===== Loop [transf.depth_4.loop_14] =====
+llvm::LoopInfo name: for.cond378
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:186-186
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 44
+	loop-payload-fraction: 0.9091
+	loop-proper-sccs-number: 2
+	loop-critical-payload-fraction: 0.3500
+	loop-depth: 4
+	loop-inner-loop-num: 1
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.0851
+	iterator-payload-non-cf-cohesion: 0.0213
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.3718
+	critical-payload-non-cf-cohesion: 0.0769
+	critical-payload-mem-cohesion: 0.0000
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 78
+	payload-true-dependencies-number: 37
+	payload-anti-dependencies-number: 0
+	payload-output-dependencies-number: 1
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 36
+	payload-mem-dependencies-number: 5
+	critical-payload-total-dependencies-number: 22
+	critical-payload-true-dependencies-number: 14
+	critical-payload-anti-dependencies-number: 0
+	critical-payload-output-dependencies-number: 1
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 13
+	critical-payload-mem-dependencies-number: 5
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 1
+	payload-mem-write-fraction: 0.0250
+	payload-call-count: 0
+	payload-call-fraction: 0.0000
+	critical-payload-mem-write-count: 1
+	critical-payload-mem-write-fraction: 0.0714
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+===== Loop [transf.depth_4.loop_15] =====
+llvm::LoopInfo name: for.cond467
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:207-207
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 44
+	loop-payload-fraction: 0.9091
+	loop-proper-sccs-number: 2
+	loop-critical-payload-fraction: 0.3500
+	loop-depth: 4
+	loop-inner-loop-num: 1
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.0851
+	iterator-payload-non-cf-cohesion: 0.0213
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.3718
+	critical-payload-non-cf-cohesion: 0.0769
+	critical-payload-mem-cohesion: 0.0000
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 78
+	payload-true-dependencies-number: 37
+	payload-anti-dependencies-number: 0
+	payload-output-dependencies-number: 1
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 36
+	payload-mem-dependencies-number: 5
+	critical-payload-total-dependencies-number: 22
+	critical-payload-true-dependencies-number: 14
+	critical-payload-anti-dependencies-number: 0
+	critical-payload-output-dependencies-number: 1
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 13
+	critical-payload-mem-dependencies-number: 5
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 1
+	payload-mem-write-fraction: 0.0250
+	payload-call-count: 0
+	payload-call-fraction: 0.0000
+	critical-payload-mem-write-count: 1
+	critical-payload-mem-write-fraction: 0.0714
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+===== Loop [transf.depth_4.loop_16] =====
+llvm::LoopInfo name: for.cond556
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:228-228
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 44
+	loop-payload-fraction: 0.9091
+	loop-proper-sccs-number: 2
+	loop-critical-payload-fraction: 0.3500
+	loop-depth: 4
+	loop-inner-loop-num: 1
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.0851
+	iterator-payload-non-cf-cohesion: 0.0213
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.3718
+	critical-payload-non-cf-cohesion: 0.0769
+	critical-payload-mem-cohesion: 0.0000
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 78
+	payload-true-dependencies-number: 37
+	payload-anti-dependencies-number: 0
+	payload-output-dependencies-number: 1
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 36
+	payload-mem-dependencies-number: 5
+	critical-payload-total-dependencies-number: 22
+	critical-payload-true-dependencies-number: 14
+	critical-payload-anti-dependencies-number: 0
+	critical-payload-output-dependencies-number: 1
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 13
+	critical-payload-mem-dependencies-number: 5
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 1
+	payload-mem-write-fraction: 0.0250
+	payload-call-count: 0
+	payload-call-fraction: 0.0000
+	critical-payload-mem-write-count: 1
+	critical-payload-mem-write-fraction: 0.0714
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+===== Loop [transf.depth_4.loop_17] =====
+llvm::LoopInfo name: for.cond645
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:249-249
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 44
+	loop-payload-fraction: 0.9091
+	loop-proper-sccs-number: 2
+	loop-critical-payload-fraction: 0.3500
+	loop-depth: 4
+	loop-inner-loop-num: 1
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.0851
+	iterator-payload-non-cf-cohesion: 0.0213
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.3718
+	critical-payload-non-cf-cohesion: 0.0769
+	critical-payload-mem-cohesion: 0.0000
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 78
+	payload-true-dependencies-number: 37
+	payload-anti-dependencies-number: 0
+	payload-output-dependencies-number: 1
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 36
+	payload-mem-dependencies-number: 5
+	critical-payload-total-dependencies-number: 22
+	critical-payload-true-dependencies-number: 14
+	critical-payload-anti-dependencies-number: 0
+	critical-payload-output-dependencies-number: 1
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 13
+	critical-payload-mem-dependencies-number: 5
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 1
+	payload-mem-write-fraction: 0.0250
+	payload-call-count: 0
+	payload-call-fraction: 0.0000
+	critical-payload-mem-write-count: 1
+	critical-payload-mem-write-fraction: 0.0714
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+===== Loop [transf.depth_4.loop_18] =====
+llvm::LoopInfo name: for.cond84
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:101-101
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 102
+	loop-payload-fraction: 0.9608
+	loop-proper-sccs-number: 3
+	loop-critical-payload-fraction: 0.1224
+	loop-depth: 4
+	loop-inner-loop-num: 3
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.0452
+	iterator-payload-non-cf-cohesion: 0.0181
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.4680
+	critical-payload-non-cf-cohesion: 0.0591
+	critical-payload-mem-cohesion: 0.0000
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 203
+	payload-true-dependencies-number: 97
+	payload-anti-dependencies-number: 2
+	payload-output-dependencies-number: 3
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 97
+	payload-mem-dependencies-number: 5
+	critical-payload-total-dependencies-number: 24
+	critical-payload-true-dependencies-number: 12
+	critical-payload-anti-dependencies-number: 0
+	critical-payload-output-dependencies-number: 0
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 12
+	critical-payload-mem-dependencies-number: 0
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 2
+	payload-mem-write-fraction: 0.0204
+	payload-call-count: 0
+	payload-call-fraction: 0.0000
+	critical-payload-mem-write-count: 0
+	critical-payload-mem-write-fraction: 0.0000
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+===== Loop [transf.depth_4.loop_19] =====
+llvm::LoopInfo name: for.cond173
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:132-132
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 46
+	loop-payload-fraction: 0.9130
+	loop-proper-sccs-number: 2
+	loop-critical-payload-fraction: 0.3571
+	loop-depth: 4
+	loop-inner-loop-num: 1
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.1735
+	iterator-payload-non-cf-cohesion: 0.0204
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.2877
+	critical-payload-non-cf-cohesion: 0.0685
+	critical-payload-mem-cohesion: 0.0000
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 73
+	payload-true-dependencies-number: 40
+	payload-anti-dependencies-number: 0
+	payload-output-dependencies-number: 1
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 39
+	payload-mem-dependencies-number: 4
+	critical-payload-total-dependencies-number: 23
+	critical-payload-true-dependencies-number: 16
+	critical-payload-anti-dependencies-number: 0
+	critical-payload-output-dependencies-number: 1
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 15
+	critical-payload-mem-dependencies-number: 4
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 1
+	payload-mem-write-fraction: 0.0238
+	payload-call-count: 0
+	payload-call-fraction: 0.0000
+	critical-payload-mem-write-count: 1
+	critical-payload-mem-write-fraction: 0.0667
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+===== Loop [transf.depth_4.loop_20] =====
+llvm::LoopInfo name: for.cond213
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:141-141
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 79
+	loop-payload-fraction: 0.9494
+	loop-proper-sccs-number: 3
+	loop-critical-payload-fraction: 0.4667
+	loop-depth: 4
+	loop-inner-loop-num: 2
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.2056
+	iterator-payload-non-cf-cohesion: 0.0222
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.2889
+	critical-payload-non-cf-cohesion: 0.0889
+	critical-payload-mem-cohesion: 0.0000
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 135
+	payload-true-dependencies-number: 74
+	payload-anti-dependencies-number: 2
+	payload-output-dependencies-number: 3
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 72
+	payload-mem-dependencies-number: 15
+	critical-payload-total-dependencies-number: 59
+	critical-payload-true-dependencies-number: 38
+	critical-payload-anti-dependencies-number: 2
+	critical-payload-output-dependencies-number: 3
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 36
+	critical-payload-mem-dependencies-number: 15
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 2
+	payload-mem-write-fraction: 0.0267
+	payload-call-count: 0
+	payload-call-fraction: 0.0000
+	critical-payload-mem-write-count: 2
+	critical-payload-mem-write-fraction: 0.0571
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+===== Loop [transf.depth_4.loop_21] =====
+llvm::LoopInfo name: for.cond280
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:160-160
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 46
+	loop-payload-fraction: 0.9130
+	loop-proper-sccs-number: 2
+	loop-critical-payload-fraction: 0.3571
+	loop-depth: 4
+	loop-inner-loop-num: 1
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.1735
+	iterator-payload-non-cf-cohesion: 0.0204
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.2877
+	critical-payload-non-cf-cohesion: 0.0685
+	critical-payload-mem-cohesion: 0.0000
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 73
+	payload-true-dependencies-number: 40
+	payload-anti-dependencies-number: 0
+	payload-output-dependencies-number: 1
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 39
+	payload-mem-dependencies-number: 4
+	critical-payload-total-dependencies-number: 23
+	critical-payload-true-dependencies-number: 16
+	critical-payload-anti-dependencies-number: 0
+	critical-payload-output-dependencies-number: 1
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 15
+	critical-payload-mem-dependencies-number: 4
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 1
+	payload-mem-write-fraction: 0.0238
+	payload-call-count: 0
+	payload-call-fraction: 0.0000
+	critical-payload-mem-write-count: 1
+	critical-payload-mem-write-fraction: 0.0667
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+===== Loop [transf.depth_5.loop_22] =====
+llvm::LoopInfo name: for.cond381
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:187-187
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 37
+	loop-payload-fraction: 0.8919
+	loop-proper-sccs-number: 1
+	loop-critical-payload-fraction: 0.3030
+	loop-depth: 5
+	loop-inner-loop-num: 0
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.4487
+	iterator-payload-non-cf-cohesion: 0.0256
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.1143
+	critical-payload-non-cf-cohesion: 0.1143
+	critical-payload-mem-cohesion: 0.0000
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 35
+	payload-true-dependencies-number: 31
+	payload-anti-dependencies-number: 0
+	payload-output-dependencies-number: 1
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 30
+	payload-mem-dependencies-number: 5
+	critical-payload-total-dependencies-number: 14
+	critical-payload-true-dependencies-number: 10
+	critical-payload-anti-dependencies-number: 0
+	critical-payload-output-dependencies-number: 1
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 9
+	critical-payload-mem-dependencies-number: 5
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 1
+	payload-mem-write-fraction: 0.0303
+	payload-call-count: 0
+	payload-call-fraction: 0.0000
+	critical-payload-mem-write-count: 1
+	critical-payload-mem-write-fraction: 0.1000
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+===== Loop [transf.depth_5.loop_23] =====
+llvm::LoopInfo name: for.cond470
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:208-208
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 37
+	loop-payload-fraction: 0.8919
+	loop-proper-sccs-number: 1
+	loop-critical-payload-fraction: 0.3030
+	loop-depth: 5
+	loop-inner-loop-num: 0
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.4487
+	iterator-payload-non-cf-cohesion: 0.0256
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.1143
+	critical-payload-non-cf-cohesion: 0.1143
+	critical-payload-mem-cohesion: 0.0000
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 35
+	payload-true-dependencies-number: 31
+	payload-anti-dependencies-number: 0
+	payload-output-dependencies-number: 1
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 30
+	payload-mem-dependencies-number: 5
+	critical-payload-total-dependencies-number: 14
+	critical-payload-true-dependencies-number: 10
+	critical-payload-anti-dependencies-number: 0
+	critical-payload-output-dependencies-number: 1
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 9
+	critical-payload-mem-dependencies-number: 5
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 1
+	payload-mem-write-fraction: 0.0303
+	payload-call-count: 0
+	payload-call-fraction: 0.0000
+	critical-payload-mem-write-count: 1
+	critical-payload-mem-write-fraction: 0.1000
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+===== Loop [transf.depth_5.loop_24] =====
+llvm::LoopInfo name: for.cond559
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:229-229
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 37
+	loop-payload-fraction: 0.8919
+	loop-proper-sccs-number: 1
+	loop-critical-payload-fraction: 0.3030
+	loop-depth: 5
+	loop-inner-loop-num: 0
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.4487
+	iterator-payload-non-cf-cohesion: 0.0256
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.1143
+	critical-payload-non-cf-cohesion: 0.1143
+	critical-payload-mem-cohesion: 0.0000
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 35
+	payload-true-dependencies-number: 31
+	payload-anti-dependencies-number: 0
+	payload-output-dependencies-number: 1
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 30
+	payload-mem-dependencies-number: 5
+	critical-payload-total-dependencies-number: 14
+	critical-payload-true-dependencies-number: 10
+	critical-payload-anti-dependencies-number: 0
+	critical-payload-output-dependencies-number: 1
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 9
+	critical-payload-mem-dependencies-number: 5
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 1
+	payload-mem-write-fraction: 0.0303
+	payload-call-count: 0
+	payload-call-fraction: 0.0000
+	critical-payload-mem-write-count: 1
+	critical-payload-mem-write-fraction: 0.1000
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+===== Loop [transf.depth_5.loop_25] =====
+llvm::LoopInfo name: for.cond648
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:250-250
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 37
+	loop-payload-fraction: 0.8919
+	loop-proper-sccs-number: 1
+	loop-critical-payload-fraction: 0.3030
+	loop-depth: 5
+	loop-inner-loop-num: 0
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.4487
+	iterator-payload-non-cf-cohesion: 0.0256
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.1143
+	critical-payload-non-cf-cohesion: 0.1143
+	critical-payload-mem-cohesion: 0.0000
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 35
+	payload-true-dependencies-number: 31
+	payload-anti-dependencies-number: 0
+	payload-output-dependencies-number: 1
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 30
+	payload-mem-dependencies-number: 5
+	critical-payload-total-dependencies-number: 14
+	critical-payload-true-dependencies-number: 10
+	critical-payload-anti-dependencies-number: 0
+	critical-payload-output-dependencies-number: 1
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 9
+	critical-payload-mem-dependencies-number: 5
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 1
+	payload-mem-write-fraction: 0.0303
+	payload-call-count: 0
+	payload-call-fraction: 0.0000
+	critical-payload-mem-write-count: 1
+	critical-payload-mem-write-fraction: 0.1000
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+===== Loop [transf.depth_5.loop_26] =====
+llvm::LoopInfo name: for.cond87
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:102-102
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 95
+	loop-payload-fraction: 0.9579
+	loop-proper-sccs-number: 2
+	loop-critical-payload-fraction: 0.0879
+	loop-depth: 5
+	loop-inner-loop-num: 2
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.1872
+	iterator-payload-non-cf-cohesion: 0.0296
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.3822
+	critical-payload-non-cf-cohesion: 0.0382
+	critical-payload-mem-cohesion: 0.0000
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 157
+	payload-true-dependencies-number: 87
+	payload-anti-dependencies-number: 2
+	payload-output-dependencies-number: 3
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 87
+	payload-mem-dependencies-number: 5
+	critical-payload-total-dependencies-number: 16
+	critical-payload-true-dependencies-number: 8
+	critical-payload-anti-dependencies-number: 0
+	critical-payload-output-dependencies-number: 0
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 8
+	critical-payload-mem-dependencies-number: 0
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 2
+	payload-mem-write-fraction: 0.0220
+	payload-call-count: 0
+	payload-call-fraction: 0.0000
+	critical-payload-mem-write-count: 0
+	critical-payload-mem-write-fraction: 0.0000
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+===== Loop [transf.depth_5.loop_27] =====
+llvm::LoopInfo name: for.cond184
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:134-134
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 30
+	loop-payload-fraction: 0.8667
+	loop-proper-sccs-number: 1
+	loop-critical-payload-fraction: 0.2308
+	loop-depth: 5
+	loop-inner-loop-num: 0
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.4516
+	iterator-payload-non-cf-cohesion: 0.0323
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.1538
+	critical-payload-non-cf-cohesion: 0.1538
+	critical-payload-mem-cohesion: 0.0000
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 26
+	payload-true-dependencies-number: 24
+	payload-anti-dependencies-number: 0
+	payload-output-dependencies-number: 1
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 23
+	payload-mem-dependencies-number: 3
+	critical-payload-total-dependencies-number: 8
+	critical-payload-true-dependencies-number: 6
+	critical-payload-anti-dependencies-number: 0
+	critical-payload-output-dependencies-number: 1
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 5
+	critical-payload-mem-dependencies-number: 3
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 1
+	payload-mem-write-fraction: 0.0385
+	payload-call-count: 0
+	payload-call-fraction: 0.0000
+	critical-payload-mem-write-count: 1
+	critical-payload-mem-write-fraction: 0.1667
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+===== Loop [transf.depth_5.loop_28] =====
+llvm::LoopInfo name: for.cond238
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:150-150
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 45
+	loop-payload-fraction: 0.9111
+	loop-proper-sccs-number: 2
+	loop-critical-payload-fraction: 0.3415
+	loop-depth: 5
+	loop-inner-loop-num: 1
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.1771
+	iterator-payload-non-cf-cohesion: 0.0208
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.2958
+	critical-payload-non-cf-cohesion: 0.0704
+	critical-payload-mem-cohesion: 0.0000
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 71
+	payload-true-dependencies-number: 39
+	payload-anti-dependencies-number: 0
+	payload-output-dependencies-number: 1
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 38
+	payload-mem-dependencies-number: 4
+	critical-payload-total-dependencies-number: 22
+	critical-payload-true-dependencies-number: 15
+	critical-payload-anti-dependencies-number: 0
+	critical-payload-output-dependencies-number: 1
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 14
+	critical-payload-mem-dependencies-number: 4
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 1
+	payload-mem-write-fraction: 0.0244
+	payload-call-count: 0
+	payload-call-fraction: 0.0000
+	critical-payload-mem-write-count: 1
+	critical-payload-mem-write-fraction: 0.0714
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+===== Loop [transf.depth_5.loop_29] =====
+llvm::LoopInfo name: for.cond291
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:162-162
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 30
+	loop-payload-fraction: 0.8667
+	loop-proper-sccs-number: 1
+	loop-critical-payload-fraction: 0.2308
+	loop-depth: 5
+	loop-inner-loop-num: 0
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.4516
+	iterator-payload-non-cf-cohesion: 0.0323
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.1538
+	critical-payload-non-cf-cohesion: 0.1538
+	critical-payload-mem-cohesion: 0.0000
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 26
+	payload-true-dependencies-number: 24
+	payload-anti-dependencies-number: 0
+	payload-output-dependencies-number: 1
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 23
+	payload-mem-dependencies-number: 3
+	critical-payload-total-dependencies-number: 8
+	critical-payload-true-dependencies-number: 6
+	critical-payload-anti-dependencies-number: 0
+	critical-payload-output-dependencies-number: 1
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 5
+	critical-payload-mem-dependencies-number: 3
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 1
+	payload-mem-write-fraction: 0.0385
+	payload-call-count: 0
+	payload-call-fraction: 0.0000
+	critical-payload-mem-write-count: 1
+	critical-payload-mem-write-fraction: 0.1667
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+===== Loop [transf.depth_6.loop_30] =====
+llvm::LoopInfo name: for.cond112
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:111-111
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 62
+	loop-payload-fraction: 0.9355
+	loop-proper-sccs-number: 2
+	loop-critical-payload-fraction: 0.1207
+	loop-depth: 6
+	loop-inner-loop-num: 1
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.1484
+	iterator-payload-non-cf-cohesion: 0.0312
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.4356
+	critical-payload-non-cf-cohesion: 0.0495
+	critical-payload-mem-cohesion: 0.0000
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 101
+	payload-true-dependencies-number: 54
+	payload-anti-dependencies-number: 0
+	payload-output-dependencies-number: 1
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 53
+	payload-mem-dependencies-number: 2
+	critical-payload-total-dependencies-number: 12
+	critical-payload-true-dependencies-number: 7
+	critical-payload-anti-dependencies-number: 0
+	critical-payload-output-dependencies-number: 1
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 6
+	critical-payload-mem-dependencies-number: 2
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 1
+	payload-mem-write-fraction: 0.0172
+	payload-call-count: 0
+	payload-call-fraction: 0.0000
+	critical-payload-mem-write-count: 1
+	critical-payload-mem-write-fraction: 0.1429
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+===== Loop [transf.depth_6.loop_31] =====
+llvm::LoopInfo name: for.cond249
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:152-152
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 29
+	loop-payload-fraction: 0.8621
+	loop-proper-sccs-number: 1
+	loop-critical-payload-fraction: 0.1600
+	loop-depth: 6
+	loop-inner-loop-num: 0
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.4500
+	iterator-payload-non-cf-cohesion: 0.0333
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.2000
+	critical-payload-non-cf-cohesion: 0.2000
+	critical-payload-mem-cohesion: 0.0400
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 25
+	payload-true-dependencies-number: 22
+	payload-anti-dependencies-number: 1
+	payload-output-dependencies-number: 1
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 22
+	payload-mem-dependencies-number: 3
+	critical-payload-total-dependencies-number: 5
+	critical-payload-true-dependencies-number: 3
+	critical-payload-anti-dependencies-number: 0
+	critical-payload-output-dependencies-number: 1
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 3
+	critical-payload-mem-dependencies-number: 2
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 1
+	payload-mem-write-fraction: 0.0400
+	payload-call-count: 0
+	payload-call-fraction: 0.0000
+	critical-payload-mem-write-count: 1
+	critical-payload-mem-write-fraction: 0.2500
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+===== Loop [transf.depth_7.loop_32] =====
+llvm::LoopInfo name: for.cond123
+Loop located at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/UA/src/transfer.c:113-113
+
+Loop Proportion Metric Set:
+	loop-absolute-size: 46
+	loop-payload-fraction: 0.9130
+	loop-proper-sccs-number: 1
+	loop-critical-payload-fraction: 0.0714
+	loop-depth: 7
+	loop-inner-loop-num: 0
+
+Loop Cohesion Metric Set:
+	iterator-payload-total-cohesion: 0.4731
+	iterator-payload-non-cf-cohesion: 0.0215
+	iterator-payload-mem-cohesion: 0.0000
+	critical-payload-total-cohesion: 0.0732
+	critical-payload-non-cf-cohesion: 0.0732
+	critical-payload-mem-cohesion: 0.0000
+
+Loop Dependence Metric Set:
+	payload-total-dependencies-number: 41
+	payload-true-dependencies-number: 40
+	payload-anti-dependencies-number: 0
+	payload-output-dependencies-number: 1
+	payload-cross-dependencies-number: 0
+	payload-reg-dependencies-number: 39
+	payload-mem-dependencies-number: 2
+	critical-payload-total-dependencies-number: 4
+	critical-payload-true-dependencies-number: 3
+	critical-payload-anti-dependencies-number: 0
+	critical-payload-output-dependencies-number: 1
+	critical-payload-cross-dependencies-number: 0
+	critical-payload-reg-dependencies-number: 2
+	critical-payload-mem-dependencies-number: 2
+
+Loop Nature Metric Set:
+	iterator-mem-write-count: 0
+	iterator-mem-write-fraction: 0.0000
+	iterator-call-count: 0
+	iterator-call-fraction: 0.0000
+	payload-mem-write-count: 1
+	payload-mem-write-fraction: 0.0238
+	payload-call-count: 0
+	payload-call-fraction: 0.0000
+	critical-payload-mem-write-count: 1
+	critical-payload-mem-write-fraction: 0.3333
+	critical-payload-call-count: 0
+	critical-payload-call-fraction: 0.0000
+
+}

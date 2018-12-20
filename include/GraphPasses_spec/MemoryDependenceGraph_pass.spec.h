@@ -41,11 +41,11 @@ bool GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphP
         getFunctionGraph().addNode(Inst);
     }
 
-    for (auto SrcI : MemRefs) {
-        for (auto DstI : MemRefs) {
-            if (llvm::Dependence* D = (DI.depends(SrcI, DstI, true)).release()) {
-                if (D->isFlow() || D->isAnti() || D->isOutput() && !D->isLoopIndependent()) {
-                    getFunctionGraph().addEdge(SrcI, DstI, D);
+    for (std::vector<Instruction*>::iterator src_it = MemRefs.begin(); src_it != MemRefs.end(); ++src_it) {
+        for (std::vector<Instruction*>::iterator dst_it = src_it; dst_it != MemRefs.end(); ++dst_it) {
+            if (llvm::Dependence* D = (DI.depends(*src_it, *dst_it, true)).release()) {
+                if (D->isFlow() || D->isAnti() || D->isOutput()) {
+                    getFunctionGraph().addEdge(*src_it, *dst_it, D);
                 }
             }
         }
@@ -85,13 +85,12 @@ bool GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphP
                  src_node_it != LG.nodes_cend(); src_node_it++) {
                 GraphNode<llvm::Instruction*,llvm::Dependence*> DepNode = *src_node_it;
                 const llvm::Instruction* SrcI = DepNode.getNode();
-                for (typename Graph<llvm::Instruction*,llvm::Dependence*>::const_node_iterator dst_node_it = LG.nodes_cbegin(); 
+                for (typename Graph<llvm::Instruction*,llvm::Dependence*>::const_node_iterator dst_node_it = src_node_it; 
                      dst_node_it != LG.nodes_cend(); dst_node_it++) {
                     GraphNode<llvm::Instruction*,llvm::Dependence*> DepNode = *dst_node_it;
                     const llvm::Instruction* DstI = DepNode.getNode();
                     if (llvm::Dependence* D = (DI.depends(const_cast<llvm::Instruction*>(SrcI), const_cast<llvm::Instruction*>(DstI), true)).release()) {
-                        if ( (D->isFlow() || D->isAnti() || D->isOutput()) &&
-                             !D->isLoopIndependent()) {
+                        if (D->isFlow() || D->isAnti() || D->isOutput()) {
                             LG.addEdge(SrcI, DstI, D);
                         }
                     }

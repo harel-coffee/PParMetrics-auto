@@ -35,12 +35,16 @@ if __name__ != "__main__":
                                                     'payload-true-dependencies-number', 
                                                     'payload-anti-dependencies-number', 
                                                     'payload-output-dependencies-number', 
-                                                    'payload-cross-dependencies-number'] 
+                                                    'payload-cross-dependencies-number', 
+                                                    'payload-reg-dependencies-number', 
+                                                    'payload-mem-dependencies-number'] 
     metric_groups['critical-payload-dependencies-number'] = ['critical-payload-total-dependencies-number', 
                                                              'critical-payload-true-dependencies-number', 
                                                              'critical-payload-anti-dependencies-number',
                                                              'critical-payload-output-dependencies-number',
-                                                             'critical-payload-cross-dependencies-number']
+                                                             'critical-payload-cross-dependencies-number',
+                                                             'critical-payload-reg-dependencies-number',
+                                                             'critical-payload-mem-dependencies-number']
     metric_groups['iterator-nature'] = ['iterator-mem-write-count',
                                         'iterator-mem-write-fraction',
                                         'iterator-call-count',

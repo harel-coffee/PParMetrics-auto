@@ -54,7 +54,7 @@ if __name__ == "__main__":
     # load raw data file
     data = pd.read_csv(raw_data_filename)
 
-    # loop locations in benchmark source code
+    # loop locations in the benchmark source code
     loop_locations = data['loop-location']
     # prepare statistical learning labels 
     loop_classifications = data['labels']

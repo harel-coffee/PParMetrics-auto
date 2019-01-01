@@ -54,7 +54,9 @@ bool MetricPass<ppar::LoopNatureMetrics>::runOnFunction(Function& F) {
  
         // compute iterator related loop instruction nature metrics
         uint64_t MemoryWriteNum = 0;
+        uint64_t MemoryReadNum = 0;
         uint64_t CallInstrsNum = 0;
+        uint64_t BranchInstrsNum = 0;
         uint64_t TotalSize = 0;
         for (auto iter = Iterator.cbegin(); iter != Iterator.cend(); ++iter) {
             const Graph<llvm::Instruction*,ppar::Dependence*>* IteratorSccPDG = (*iter);
@@ -68,8 +70,16 @@ bool MetricPass<ppar::LoopNatureMetrics>::runOnFunction(Function& F) {
                     MemoryWriteNum++;
                 }
 
+                if (Inst->mayReadFromMemory()) {
+                    MemoryReadNum++;
+                }
+
                 if (dyn_cast<llvm::CallInst>(Inst)) {
                     CallInstrsNum++;
+                }
+
+                if (dyn_cast<llvm::BranchInst>(Inst)) {
+                    BranchInstrsNum++;
                 }
             }
         }
@@ -81,16 +91,32 @@ bool MetricPass<ppar::LoopNatureMetrics>::runOnFunction(Function& F) {
         idx = ppar::LoopNatureMetrics::NatureMetric_t::ITERATOR_MEM_WRITE_FRACTION;
         Metrics_loop->Metrics[idx] = IteratorMemWriteFraction_value;
 
+        idx = ppar::LoopNatureMetrics::NatureMetric_t::ITERATOR_MEM_READ_COUNT;
+        Metrics_loop->Metrics[idx] = MemoryReadNum;
+
+        double IteratorMemReadFraction_value = static_cast<double>(MemoryReadNum)/static_cast<double>(TotalSize);
+        idx = ppar::LoopNatureMetrics::NatureMetric_t::ITERATOR_MEM_READ_FRACTION;
+        Metrics_loop->Metrics[idx] = IteratorMemReadFraction_value;
+
         idx = ppar::LoopNatureMetrics::NatureMetric_t::ITERATOR_CALL_COUNT;
         Metrics_loop->Metrics[idx] = CallInstrsNum;
 
         double IteratorCallFraction_value = static_cast<double>(CallInstrsNum)/static_cast<double>(TotalSize);
         idx = ppar::LoopNatureMetrics::NatureMetric_t::ITERATOR_CALL_FRACTION;
         Metrics_loop->Metrics[idx] = IteratorCallFraction_value;
-      
+
+        idx = ppar::LoopNatureMetrics::NatureMetric_t::ITERATOR_BRANCH_COUNT;
+        Metrics_loop->Metrics[idx] = BranchInstrsNum;
+
+        double IteratorBranchFraction_value = static_cast<double>(BranchInstrsNum)/static_cast<double>(TotalSize);
+        idx = ppar::LoopNatureMetrics::NatureMetric_t::ITERATOR_BRANCH_FRACTION;
+        Metrics_loop->Metrics[idx] = IteratorBranchFraction_value;
+
         // compute payload related loop instruction nature metrics
         MemoryWriteNum = 0;
+        MemoryReadNum = 0;
         CallInstrsNum = 0;
+        BranchInstrsNum = 0;
         TotalSize = 0;
         for (auto iter = Payload.cbegin(); iter != Payload.cend(); ++iter) {
             const Graph<llvm::Instruction*,ppar::Dependence*>* PayoadSccPDG = (*iter);
@@ -104,8 +130,16 @@ bool MetricPass<ppar::LoopNatureMetrics>::runOnFunction(Function& F) {
                     MemoryWriteNum++;
                 }
 
+                if (Inst->mayReadFromMemory()) {
+                    MemoryReadNum++;
+                }
+
                 if (dyn_cast<llvm::CallInst>(Inst)) {
                     CallInstrsNum++;
+                }
+
+                if (dyn_cast<llvm::BranchInst>(Inst)) {
+                    BranchInstrsNum++;
                 }
             }
         }
@@ -117,6 +151,13 @@ bool MetricPass<ppar::LoopNatureMetrics>::runOnFunction(Function& F) {
         idx = ppar::LoopNatureMetrics::NatureMetric_t::PAYLOAD_MEM_WRITE_FRACTION;
         Metrics_loop->Metrics[idx] = PayloadMemWriteFraction_value;
 
+        idx = ppar::LoopNatureMetrics::NatureMetric_t::PAYLOAD_MEM_READ_COUNT;
+        Metrics_loop->Metrics[idx] = MemoryReadNum;
+
+        double PayloadMemReadFraction_value = static_cast<double>(MemoryReadNum)/static_cast<double>(TotalSize);
+        idx = ppar::LoopNatureMetrics::NatureMetric_t::PAYLOAD_MEM_READ_FRACTION;
+        Metrics_loop->Metrics[idx] = PayloadMemReadFraction_value;
+
         idx = ppar::LoopNatureMetrics::NatureMetric_t::PAYLOAD_CALL_COUNT;
         Metrics_loop->Metrics[idx] = CallInstrsNum;
 
@@ -124,9 +165,18 @@ bool MetricPass<ppar::LoopNatureMetrics>::runOnFunction(Function& F) {
         idx = ppar::LoopNatureMetrics::NatureMetric_t::PAYLOAD_CALL_FRACTION;
         Metrics_loop->Metrics[idx] = PayloadCallFraction_value;
 
+        idx = ppar::LoopNatureMetrics::NatureMetric_t::PAYLOAD_BRANCH_COUNT;
+        Metrics_loop->Metrics[idx] = BranchInstrsNum;
+
+        double PayloadBranchFraction_value = static_cast<double>(BranchInstrsNum)/static_cast<double>(TotalSize);
+        idx = ppar::LoopNatureMetrics::NatureMetric_t::PAYLOAD_BRANCH_FRACTION;
+        Metrics_loop->Metrics[idx] = PayloadBranchFraction_value;
+
         // compute critical payload related loop instruction nature metrics
         MemoryWriteNum = 0;
+        MemoryReadNum = 0;
         CallInstrsNum = 0;
+        BranchInstrsNum = 0;
         TotalSize = 0;
         for (auto iter = Payload.cbegin(); iter != Payload.cend(); ++iter) {
             if ((*iter)->getNodesNumber() > 1) {
@@ -141,8 +191,16 @@ bool MetricPass<ppar::LoopNatureMetrics>::runOnFunction(Function& F) {
                         MemoryWriteNum++;
                     }
 
+                    if (Inst->mayReadFromMemory()) {
+                        MemoryReadNum++;
+                    }   
+
                     if (dyn_cast<llvm::CallInst>(Inst)) {
                         CallInstrsNum++;
+                    }
+
+                    if (dyn_cast<llvm::BranchInst>(Inst)) {
+                        BranchInstrsNum++;
                     }
                 }
             }
@@ -155,12 +213,26 @@ bool MetricPass<ppar::LoopNatureMetrics>::runOnFunction(Function& F) {
         idx = ppar::LoopNatureMetrics::NatureMetric_t::CRITICAL_PAYLOAD_MEM_WRITE_FRACTION;
         Metrics_loop->Metrics[idx] = CriticalPayloadMemWriteFraction_value;
 
+        idx = ppar::LoopNatureMetrics::NatureMetric_t::CRITICAL_PAYLOAD_MEM_READ_COUNT;
+        Metrics_loop->Metrics[idx] = MemoryReadNum;
+
+        double CriticalPayloadMemReadFraction_value = static_cast<double>(MemoryReadNum)/static_cast<double>(TotalSize);
+        idx = ppar::LoopNatureMetrics::NatureMetric_t::CRITICAL_PAYLOAD_MEM_READ_FRACTION;
+        Metrics_loop->Metrics[idx] = CriticalPayloadMemReadFraction_value;
+
         idx = ppar::LoopNatureMetrics::NatureMetric_t::CRITICAL_PAYLOAD_CALL_COUNT;
         Metrics_loop->Metrics[idx] = CallInstrsNum;
 
         double CriticalPayloadCallFraction_value = static_cast<double>(CallInstrsNum)/static_cast<double>(TotalSize);
         idx = ppar::LoopNatureMetrics::NatureMetric_t::CRITICAL_PAYLOAD_CALL_FRACTION;
         Metrics_loop->Metrics[idx] = CriticalPayloadCallFraction_value;
+
+        idx = ppar::LoopNatureMetrics::NatureMetric_t::CRITICAL_PAYLOAD_BRANCH_COUNT;
+        Metrics_loop->Metrics[idx] = BranchInstrsNum;
+
+        double CriticalPayloadBranchFraction_value = static_cast<double>(BranchInstrsNum)/static_cast<double>(TotalSize);
+        idx = ppar::LoopNatureMetrics::NatureMetric_t::CRITICAL_PAYLOAD_BRANCH_FRACTION;
+        Metrics_loop->Metrics[idx] = IteratorBranchFraction_value;
     }
 
     return false;

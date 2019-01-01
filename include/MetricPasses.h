@@ -105,16 +105,28 @@ struct LoopNatureMetrics {
         typedef enum ProportionMetricType {
             ITERATOR_MEM_WRITE_COUNT = 0, // the number of may-write-to-memory instructions in the loop iterator
             ITERATOR_MEM_WRITE_FRACTION, // the fraction of may-write-to-memory instructions in the loop iterator out of all iterator instructions
+            ITERATOR_MEM_READ_COUNT, // the number of may-read-from-memory instructions in the loop iterator
+            ITERATOR_MEM_READ_FRACTION, // the fraction of may-read-from-memory instructions in the loop iterator out of all iterator instructions
             ITERATOR_CALL_COUNT, // the number of call instructions in the loop iterator
             ITERATOR_CALL_FRACTION, // the fraction of call instructions in the loop iterator
+            ITERATOR_BRANCH_COUNT, // the number of branch instructions in the loop iterator
+            ITERATOR_BRANCH_FRACTION, // the fraction of branch instructions in the loop iterator
             PAYLOAD_MEM_WRITE_COUNT,
             PAYLOAD_MEM_WRITE_FRACTION,
+            PAYLOAD_MEM_READ_COUNT,
+            PAYLOAD_MEM_READ_FRACTION,
             PAYLOAD_CALL_COUNT,
             PAYLOAD_CALL_FRACTION,
+            PAYLOAD_BRANCH_COUNT,
+            PAYLOAD_BRANCH_FRACTION,
             CRITICAL_PAYLOAD_MEM_WRITE_COUNT,
             CRITICAL_PAYLOAD_MEM_WRITE_FRACTION,
+            CRITICAL_PAYLOAD_MEM_READ_COUNT,
+            CRITICAL_PAYLOAD_MEM_READ_FRACTION,
             CRITICAL_PAYLOAD_CALL_COUNT,
             CRITICAL_PAYLOAD_CALL_FRACTION,
+            CRITICAL_PAYLOAD_BRANCH_COUNT,
+            CRITICAL_PAYLOAD_BRANCH_FRACTION,
             METRIC_SUBTYPE_LAST
         } NatureMetric_t;
 

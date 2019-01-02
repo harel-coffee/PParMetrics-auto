@@ -42,20 +42,14 @@ if __name__ == "__main__":
     print("Report folder: " + report_folder)
     print("Screen outliers outside " + str(std_num) + "-sigma standard deviations")
 
-    normalized_folder = report_folder + "/normalized-values/"
-    absolute_folder = report_folder + "/absolute-values/"
-
-    create_folder(normalized_folder)
-    create_folder(absolute_folder)
-
     # load raw data file
     data = pd.read_csv(raw_data_filename)
     # loop locations in benchmark source code
     loop_locations = data['loop-location']
     # prepare statistical learning labels 
-    loop_icc_classifications = data['icc-parallel']
+    loop_classifications = data['labels']
     # prepare statistical learning features 
-    features = data.drop(['loop-location','icc-parallel'], axis=1)
+    features = data.drop(['loop-location','labels'], axis=1)
 
     # remove outliers from the data
     if std_num != 0:
@@ -68,11 +62,11 @@ if __name__ == "__main__":
         for metric in ppar.metric_list:  
             filtered_idx &= filtered_idxs[metric]
 
-        loop_icc_classifications = loop_icc_classifications[filtered_idx]
+        loop_classifications = loop_classifications[filtered_idx]
         idxs_to_drop = features.index.drop(filtered_idx)
         features = features.drop(idxs_to_drop)
 
-        loop_icc_classifications = loop_icc_classifications.reset_index(drop=True)
+        loop_classifications = loop_classifications.reset_index(drop=True)
         features = features.reset_index(drop=True)
 
     # normalize the data
@@ -101,7 +95,7 @@ if __name__ == "__main__":
     # print the header into the report file
     print('DT.report', file=report_file)
 
-    # SVM for single metrics
+    # DT for single metrics
     for metric in ppar.metric_list:
         dataset = metric_data[metric]
         print("DT for single " + metric + " metric")

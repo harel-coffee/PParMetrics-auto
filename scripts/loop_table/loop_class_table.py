@@ -18,10 +18,12 @@ class ConservativeClassifier:
         loop_class = loop.classification
             
         if ( loop_class.parallel_dependence.value == Classification.YES.value or 
+             loop_class.parallel_not_candidate.value == Classification.YES.value or 
              loop_class.vector_dependence.value == Classification.YES.value ):
             return Classification.NO
             
         if ( loop_class.parallel.value == Classification.YES.value or 
+             loop_class.memset.value == Classification.YES.value or
              loop_class.vector.value == Classification.YES.value ):
             return Classification.YES
 
@@ -58,10 +60,12 @@ class BiasedClassifier:
         loop_class = loop.classification
 
         if ( loop_class.parallel_dependence.value == Classification.YES.value or 
+             loop_class.parallel_not_candidate.value == Classification.YES.value or 
              loop_class.vector_dependence.value == Classification.YES.value ):
             return Classification.NO
 
         if ( loop_class.parallel.value == Classification.YES.value or 
+             loop_class.memset.value == Classification.YES.value or
              loop_class.vector.value == Classification.YES.value ):
             return Classification.YES
 
@@ -136,8 +140,10 @@ class LoopClassTable:
         report_header += ":par-potential"
         report_header += ":vec"
         report_header += ":vec-potential"
+        report_header += ":memset"
         report_header += ":dep-vec"
         report_header += ":dep-par"
+        report_header += ":par-no-cand"
         # loop optimizations
         report_header += ":tiled"
         report_header += ":fused"
@@ -189,17 +195,27 @@ class LoopClassTable:
             loop_row += "1:"
         else: 
             loop_row += "0:"
-
-        if loop_class.parallel_dependence.value == Classification.YES.value:
+ 
+        if loop_class.memset.value == Classification.YES.value: 
             loop_row += "1:"
         else: 
             loop_row += "0:"
-            
+           
         if loop_class.vector_dependence.value == Classification.YES.value: 
             loop_row += "1:"
         else: 
             loop_row += "0:"
-            
+ 
+        if loop_class.parallel_dependence.value == Classification.YES.value:
+            loop_row += "1:"
+        else: 
+            loop_row += "0:"
+ 
+        if loop_class.parallel_not_candidate.value == Classification.YES.value:
+            loop_row += "1:"
+        else: 
+            loop_row += "0:"
+          
         # loop optimizations
         if loop_class.tiled.value == Classification.YES.value: 
             loop_row += "1:"
@@ -222,7 +238,6 @@ class LoopClassTable:
 
     def print_table_content_bb(self):
 
-
         for loop_name in self.loops:
             loop = self.loops[loop_name]
             self.print_loop_row_bb(loop, False)
@@ -234,8 +249,6 @@ class LoopClassTable:
                 for distr_chunk_num in loop.distr_chunks:
                     distr_chunk = loop.distr_chunks[distr_chunk_num]
                     self.print_loop_row_bb(distr_chunk, True)
-
-
        
 if __name__ == "__main__":
     print("Done!")

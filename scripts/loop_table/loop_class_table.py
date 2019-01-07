@@ -16,15 +16,17 @@ class ConservativeClassifier:
     
     def classify_loop(self, loop):
         loop_class = loop.classification
-            
+           
         if ( loop_class.parallel_dependence.value == Classification.YES.value or 
              loop_class.parallel_not_candidate.value == Classification.YES.value or 
              loop_class.vector_dependence.value == Classification.YES.value ):
             return Classification.NO
-            
+ 
         if ( loop_class.parallel.value == Classification.YES.value or 
-             loop_class.memset.value == Classification.YES.value or
              loop_class.vector.value == Classification.YES.value ):
+            return Classification.YES
+           
+        if ( loop_class.memset.value == Classification.YES.value ):
             return Classification.YES
 
         return Classification.NO
@@ -65,8 +67,10 @@ class BiasedClassifier:
             return Classification.NO
 
         if ( loop_class.parallel.value == Classification.YES.value or 
-             loop_class.memset.value == Classification.YES.value or
              loop_class.vector.value == Classification.YES.value ):
+            return Classification.YES
+
+        if ( loop_class.memset.value == Classification.YES.value ):
             return Classification.YES
 
         if ( loop_class.parallel_potential.value == Classification.YES.value or 

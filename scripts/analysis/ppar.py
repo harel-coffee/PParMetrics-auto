@@ -42,20 +42,30 @@ if __name__ != "__main__":
                                                   'iterator-payload-non-cf-cohesion']
     metric_groups['critical-payload-cohesion'] = ['critical-payload-total-cohesion', 
                                                   'critical-payload-non-cf-cohesion']
+    metric_groups['iterator-dependencies-number'] = ['iterator-total-dependencies-number', 
+                                                    'iterator-true-dependencies-number', 
+                                                    'iterator-anti-dependencies-number', 
+                                                    'iterator-output-dependencies-number', 
+                                                    'iterator-cross-dependencies-number', 
+                                                    'iterator-reg-dependencies-number', 
+                                                    'iterator-mem-dependencies-number',
+                                                    'iterator-cntl-dependencies-number'] 
     metric_groups['payload-dependencies-number'] = ['payload-total-dependencies-number', 
                                                     'payload-true-dependencies-number', 
                                                     'payload-anti-dependencies-number', 
                                                     'payload-output-dependencies-number', 
                                                     'payload-cross-dependencies-number', 
                                                     'payload-reg-dependencies-number', 
-                                                    'payload-mem-dependencies-number'] 
+                                                    'payload-mem-dependencies-number', 
+                                                    'payload-cntl-dependencies-number'] 
     metric_groups['critical-payload-dependencies-number'] = ['critical-payload-total-dependencies-number', 
                                                              'critical-payload-true-dependencies-number', 
                                                              'critical-payload-anti-dependencies-number',
                                                              'critical-payload-output-dependencies-number',
                                                              'critical-payload-cross-dependencies-number',
                                                              'critical-payload-reg-dependencies-number',
-                                                             'critical-payload-mem-dependencies-number']
+                                                             'critical-payload-mem-dependencies-number',
+                                                             'critical-payload-cntl-dependencies-number']
     metric_groups['iterator-nature'] = ['iterator-mem-write-count',
                                         'iterator-mem-write-fraction',
                                         'iterator-mem-read-count',
@@ -63,15 +73,19 @@ if __name__ != "__main__":
                                         'iterator-call-count',
                                         'iterator-call-fraction',
                                         'iterator-branch-count',
-                                        'iterator-branch-fraction']
+                                        'iterator-branch-fraction',
+                                        'iterator-getelemptr-count',
+                                        'iterator-getelemptr-fraction']
     metric_groups['iterator-nature-no-count'] = ['iterator-mem-write-fraction',
                                                  'iterator-mem-read-fraction',
                                                  'iterator-call-fraction',
-                                                 'iterator-branch-fraction']
+                                                 'iterator-branch-fraction',
+                                                 'iterator-getelemptr-fraction']
     metric_groups['iterator-nature-no-frac'] = ['iterator-mem-write-count',
                                                 'iterator-mem-read-count',
                                                 'iterator-call-count',
-                                                'iterator-branch-count']
+                                                'iterator-branch-count',
+                                                'iterator-getelemptr-count']
     metric_groups['payload-nature'] = ['payload-mem-write-count',
                                        'payload-mem-write-fraction',
                                        'payload-mem-read-count',
@@ -79,7 +93,19 @@ if __name__ != "__main__":
                                        'payload-call-count',
                                        'payload-call-fraction',
                                        'payload-branch-count',
-                                       'payload-branch-fraction']
+                                       'payload-branch-fraction',
+                                       'payload-getelemptr-count',
+                                       'payload-getelemptr-fraction']
+    metric_groups['payload-nature-no-count'] = ['payload-mem-write-fraction',
+                                                'payload-mem-read-fraction',
+                                                'payload-call-fraction',
+                                                'payload-branch-fraction',
+                                                'payload-getelemptr-fraction']
+    metric_groups['payload-nature-no-frac'] = ['payload-mem-write-count',
+                                               'payload-mem-read-count',
+                                               'payload-call-count',
+                                               'payload-branch-count',
+                                               'payload-getelemptr-count']
     metric_groups['critical-payload-nature'] = ['critical-payload-mem-write-count',
                                                 'critical-payload-mem-write-fraction',
                                                 'critical-payload-mem-read-count',
@@ -87,7 +113,20 @@ if __name__ != "__main__":
                                                 'critical-payload-call-count',
                                                 'critical-payload-call-fraction',
                                                 'critical-payload-branch-count',
-                                                'critical-payload-branch-fraction']
+                                                'critical-payload-branch-fraction',
+                                                'critical-payload-getelemptr-count',
+                                                'critical-payload-getelemptr-fraction']
+    metric_groups['critical-payload-nature-no-count'] = ['critical-payload-mem-write-fraction',
+                                                         'critical-payload-mem-read-fraction',
+                                                         'critical-payload-call-fraction',
+                                                         'critical-payload-branch-fraction',
+                                                         'critical-payload-getelemptr-fraction']
+    metric_groups['critical-payload-nature-no-frac'] = ['critical-payload-mem-write-count',
+                                                        'critical-payload-mem-read-count',
+                                                        'critical-payload-call-count',
+                                                        'critical-payload-branch-count',
+                                                        'critical-payload-getelemptr-count']
+
     metric_groups['all'] = []
     for metric_group_name in metric_groups:
         if metric_group_name != 'all':
@@ -106,6 +145,7 @@ if __name__ != "__main__":
     metric_sets['set_1'].extend(metric_groups['loop-proportion-0'])
     metric_sets['set_1'].extend(metric_groups['iterator-payload-cohesion'])
     metric_sets['set_1'].extend(metric_groups['critical-payload-cohesion'])
+    metric_sets['set_1'].extend(metric_groups['iterator-dependencies-number'])
     metric_sets['set_1'].extend(metric_groups['payload-dependencies-number'])
     metric_sets['set_1'].extend(metric_groups['critical-payload-dependencies-number'])
     metric_sets['set_1'].extend(metric_groups['iterator-nature'])
@@ -124,6 +164,7 @@ if __name__ != "__main__":
     # set_3 - everything, but cohesion number metrics
     metric_sets['set_3'] = []
     metric_sets['set_3'].extend(metric_groups['loop-proportion'])
+    metric_sets['set_3'].extend(metric_groups['iterator-dependencies-number'])
     metric_sets['set_3'].extend(metric_groups['payload-dependencies-number'])
     metric_sets['set_3'].extend(metric_groups['critical-payload-dependencies-number'])
     metric_sets['set_3'].extend(metric_groups['iterator-nature'])
@@ -134,6 +175,7 @@ if __name__ != "__main__":
     metric_sets['set_4'] = []
     metric_sets['set_4'].extend(metric_groups['iterator-payload-cohesion'])
     metric_sets['set_4'].extend(metric_groups['critical-payload-cohesion'])
+    metric_sets['set_4'].extend(metric_groups['iterator-dependencies-number'])
     metric_sets['set_4'].extend(metric_groups['payload-dependencies-number'])
     metric_sets['set_4'].extend(metric_groups['critical-payload-dependencies-number'])
     metric_sets['set_4'].extend(metric_groups['iterator-nature-no-count'])
@@ -145,5 +187,7 @@ if __name__ != "__main__":
     metric_sets['set_5'].extend(metric_groups['loop-proportion'])
     metric_sets['set_5'].extend(metric_groups['iterator-payload-cohesion'])
     metric_sets['set_5'].extend(metric_groups['critical-payload-cohesion'])
+    metric_sets['set_5'].extend(metric_groups['iterator-dependencies-number'])
     metric_sets['set_5'].extend(metric_groups['payload-dependencies-number'])
     metric_sets['set_5'].extend(metric_groups['critical-payload-dependencies-number'])
+

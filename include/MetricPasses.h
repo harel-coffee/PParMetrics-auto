@@ -111,6 +111,8 @@ struct LoopNatureMetrics {
             ITERATOR_CALL_FRACTION, // the fraction of call instructions in the loop iterator
             ITERATOR_BRANCH_COUNT, // the number of branch instructions in the loop iterator
             ITERATOR_BRANCH_FRACTION, // the fraction of branch instructions in the loop iterator
+            ITERATOR_GETELEMPTR_COUNT, // the number of getelementptr instructions in the loop iterator
+            ITERATOR_GETELEMPTR_FRACTION, // the fraction of getelementptr instructions in the loop iterator
             PAYLOAD_MEM_WRITE_COUNT,
             PAYLOAD_MEM_WRITE_FRACTION,
             PAYLOAD_MEM_READ_COUNT,
@@ -119,6 +121,8 @@ struct LoopNatureMetrics {
             PAYLOAD_CALL_FRACTION,
             PAYLOAD_BRANCH_COUNT,
             PAYLOAD_BRANCH_FRACTION,
+            PAYLOAD_GETELEMPTR_COUNT,
+            PAYLOAD_GETELEMPTR_FRACTION,
             CRITICAL_PAYLOAD_MEM_WRITE_COUNT,
             CRITICAL_PAYLOAD_MEM_WRITE_FRACTION,
             CRITICAL_PAYLOAD_MEM_READ_COUNT,
@@ -127,6 +131,8 @@ struct LoopNatureMetrics {
             CRITICAL_PAYLOAD_CALL_FRACTION,
             CRITICAL_PAYLOAD_BRANCH_COUNT,
             CRITICAL_PAYLOAD_BRANCH_FRACTION,
+            CRITICAL_PAYLOAD_GETELEMPTR_COUNT,
+            CRITICAL_PAYLOAD_GETELEMPTR_FRACTION,
             METRIC_SUBTYPE_LAST
         } NatureMetric_t;
 

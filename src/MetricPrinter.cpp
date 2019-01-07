@@ -89,6 +89,8 @@ MetricPrinter::MetricPrinter()
     MetricFileStream_excel << "iterator-call-fraction:";
     MetricFileStream_excel << "iterator-branch-count:";
     MetricFileStream_excel << "iterator-branch-fraction:";
+    MetricFileStream_excel << "iterator-getelemptr-count:";
+    MetricFileStream_excel << "iterator-getelemptr-fraction:";
     MetricFileStream_excel << "payload-mem-write-count:";
     MetricFileStream_excel << "payload-mem-write-fraction:";
     MetricFileStream_excel << "payload-mem-read-count:";
@@ -97,6 +99,8 @@ MetricPrinter::MetricPrinter()
     MetricFileStream_excel << "payload-call-fraction:";
     MetricFileStream_excel << "payload-branch-count:";
     MetricFileStream_excel << "payload-branch-fraction:";
+    MetricFileStream_excel << "payload-getelemptr-count:";
+    MetricFileStream_excel << "payload-getelemptr-fraction:";
     MetricFileStream_excel << "critical-payload-mem-write-count:";
     MetricFileStream_excel << "critical-payload-mem-write-fraction:";
     MetricFileStream_excel << "critical-payload-mem-read-count:";
@@ -105,6 +109,8 @@ MetricPrinter::MetricPrinter()
     MetricFileStream_excel << "critical-payload-call-fraction:";
     MetricFileStream_excel << "critical-payload-branch-count:";
     MetricFileStream_excel << "critical-payload-branch-fraction:";
+    MetricFileStream_excel << "critical-payload-getelemptr-count:";
+    MetricFileStream_excel << "critical-payload-getelemptr-fraction:";
     MetricFileStream_excel << "\n";
 }
 
@@ -594,6 +600,22 @@ bool MetricPrinter::runOnFunction(llvm::Function& F) {
                     FuncMetricsFile << "\titerator-branch-fraction:\n";
                     MetricFileStream_excel << "-:";
                 }
+                Metric = LoopNatureMetrics_loop->getMetricValue(ppar::LoopNatureMetrics::NatureMetric_t::ITERATOR_GETELEMPTR_COUNT);
+                if (Metric >= 0) {
+                    FuncMetricsFile << "\titerator-getelemptr-count: " << llvm::format("%d", (uint64_t)Metric) << "\n";
+                    MetricFileStream_excel << (uint64_t)Metric << ":";
+                } else {
+                    FuncMetricsFile << "\titerator-getelemptr-count:\n";
+                    MetricFileStream_excel << "-:";
+                }
+                Metric = LoopNatureMetrics_loop->getMetricValue(ppar::LoopNatureMetrics::NatureMetric_t::ITERATOR_GETELEMPTR_FRACTION);
+                if (Metric >= 0) {
+                    FuncMetricsFile << "\titerator-getelemptr-fraction: " << llvm::format("%.4f", Metric) << "\n";
+                    MetricFileStream_excel << Metric << ":";
+                } else {
+                    FuncMetricsFile << "\titerator-getelemptr-fraction:\n";
+                    MetricFileStream_excel << "-:";
+                }
                 // print payload related loop instructions nature metrics
                 Metric = LoopNatureMetrics_loop->getMetricValue(ppar::LoopNatureMetrics::NatureMetric_t::PAYLOAD_MEM_WRITE_COUNT);
                 if (Metric >= 0) {
@@ -657,6 +679,22 @@ bool MetricPrinter::runOnFunction(llvm::Function& F) {
                     MetricFileStream_excel << Metric << ":";
                 } else {
                     FuncMetricsFile << "\tpayload-branch-fraction:\n";
+                    MetricFileStream_excel << "-:";
+                }
+                Metric = LoopNatureMetrics_loop->getMetricValue(ppar::LoopNatureMetrics::NatureMetric_t::PAYLOAD_GETELEMPTR_COUNT);
+                if (Metric >= 0) {
+                    FuncMetricsFile << "\tpayload-getelemptr-count: " << llvm::format("%d", (uint64_t)Metric) << "\n";
+                    MetricFileStream_excel << (uint64_t)Metric << ":";
+                } else {
+                    FuncMetricsFile << "\tpayload-getelemptr-count:\n";
+                    MetricFileStream_excel << "-:";
+                }
+                Metric = LoopNatureMetrics_loop->getMetricValue(ppar::LoopNatureMetrics::NatureMetric_t::PAYLOAD_GETELEMPTR_FRACTION);
+                if (Metric >= 0) {
+                    FuncMetricsFile << "\tpayload-getelemptr-fraction: " << llvm::format("%.4f", Metric) << "\n";
+                    MetricFileStream_excel << Metric << ":";
+                } else {
+                    FuncMetricsFile << "\tpayload-getelemptr-fraction:\n";
                     MetricFileStream_excel << "-:";
                 }
                 // print critical payload related loop instructions nature metrics
@@ -724,6 +762,22 @@ bool MetricPrinter::runOnFunction(llvm::Function& F) {
                     FuncMetricsFile << "\tcritical-payload-branch-fraction:\n";
                     MetricFileStream_excel << "-:";
                 }
+                Metric = LoopNatureMetrics_loop->getMetricValue(ppar::LoopNatureMetrics::NatureMetric_t::CRITICAL_PAYLOAD_GETELEMPTR_COUNT);
+                if (Metric >= 0) {
+                    FuncMetricsFile << "\tcritical-payload-getelemptr-count: " << llvm::format("%d", (uint64_t)Metric) << "\n";
+                    MetricFileStream_excel << (uint64_t)Metric << ":";
+                } else {
+                    FuncMetricsFile << "\tcritical-payload-getelemptr-count:\n";
+                    MetricFileStream_excel << "-:";
+                }
+                Metric = LoopNatureMetrics_loop->getMetricValue(ppar::LoopNatureMetrics::NatureMetric_t::CRITICAL_PAYLOAD_GETELEMPTR_FRACTION);
+                if (Metric >= 0) {
+                    FuncMetricsFile << "\tcritical-payload-getelemptr-fraction: " << llvm::format("%.4f", Metric) << "\n";
+                    MetricFileStream_excel << Metric << ":";
+                } else {
+                    FuncMetricsFile << "\tcritical-payload-getelemptr-fraction:\n";
+                    MetricFileStream_excel << "-:";
+                }
             } else {
                 // print iterator related loop instruction nature metrics
                 FuncMetricsFile << "\titerator-mem-write-count:\n";
@@ -734,6 +788,8 @@ bool MetricPrinter::runOnFunction(llvm::Function& F) {
                 FuncMetricsFile << "\titerator-call-fraction:\n";
                 FuncMetricsFile << "\titerator-branch-count:\n";
                 FuncMetricsFile << "\titerator-branch-fraction:\n";
+                FuncMetricsFile << "\titerator-getelemptr-count:\n";
+                FuncMetricsFile << "\titerator-getelemptr-fraction:\n";
                 // print payload related loop instruction nature metrics
                 FuncMetricsFile << "\tpayload-mem-write-count:\n";
                 FuncMetricsFile << "\tpayload-mem-write-fraction:\n";
@@ -743,6 +799,8 @@ bool MetricPrinter::runOnFunction(llvm::Function& F) {
                 FuncMetricsFile << "\tpayload-call-fraction:\n";
                 FuncMetricsFile << "\tpayload-branch-count:\n";
                 FuncMetricsFile << "\tpayload-branch-fraction:\n";
+                FuncMetricsFile << "\tpayload-getelemptr-count:\n";
+                FuncMetricsFile << "\tpayload-getelemptr-fraction:\n";
                 // print critical payload related loop instruction nature metrics
                 FuncMetricsFile << "\tcritical-payload-mem-write-count:\n";
                 FuncMetricsFile << "\tcritical-payload-mem-write-fraction:\n";
@@ -752,6 +810,8 @@ bool MetricPrinter::runOnFunction(llvm::Function& F) {
                 FuncMetricsFile << "\tcritical-payload-call-fraction:\n";
                 FuncMetricsFile << "\tcritical-payload-branch-count:\n";
                 FuncMetricsFile << "\tcritical-payload-branch-fraction:\n";
+                FuncMetricsFile << "\tcritical-payload-getelemptr-count:\n";
+                FuncMetricsFile << "\tcritical-payload-getelemptr-fraction:\n";
 
                 MetricFileStream_excel << "-:";
                 MetricFileStream_excel << "-:";
@@ -777,7 +837,12 @@ bool MetricPrinter::runOnFunction(llvm::Function& F) {
                 MetricFileStream_excel << "-:";
                 MetricFileStream_excel << "-:";
                 MetricFileStream_excel << "-:";
-
+                MetricFileStream_excel << "-:";
+                MetricFileStream_excel << "-:";
+                MetricFileStream_excel << "-:";
+                MetricFileStream_excel << "-:";
+                MetricFileStream_excel << "-:";
+                MetricFileStream_excel << "-:";
             }
         } else {
             FuncMetricsFile << "\tNo Loop Nature Metrics have been computed!\n";

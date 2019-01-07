@@ -57,6 +57,7 @@ bool MetricPass<ppar::LoopNatureMetrics>::runOnFunction(Function& F) {
         uint64_t MemoryReadNum = 0;
         uint64_t CallInstrsNum = 0;
         uint64_t BranchInstrsNum = 0;
+        uint64_t GetElemPtrInstrsNum = 0;
         uint64_t TotalSize = 0;
         for (auto iter = Iterator.cbegin(); iter != Iterator.cend(); ++iter) {
             const Graph<llvm::Instruction*,ppar::Dependence*>* IteratorSccPDG = (*iter);
@@ -80,6 +81,10 @@ bool MetricPass<ppar::LoopNatureMetrics>::runOnFunction(Function& F) {
 
                 if (dyn_cast<llvm::BranchInst>(Inst)) {
                     BranchInstrsNum++;
+                }
+
+                if (dyn_cast<llvm::GetElementPtrInst>(Inst)) {
+                    GetElemPtrInstrsNum++;
                 }
             }
         }
@@ -112,11 +117,19 @@ bool MetricPass<ppar::LoopNatureMetrics>::runOnFunction(Function& F) {
         idx = ppar::LoopNatureMetrics::NatureMetric_t::ITERATOR_BRANCH_FRACTION;
         Metrics_loop->Metrics[idx] = IteratorBranchFraction_value;
 
+        idx = ppar::LoopNatureMetrics::NatureMetric_t::ITERATOR_GETELEMPTR_COUNT;
+        Metrics_loop->Metrics[idx] = GetElemPtrInstrsNum;
+
+        double IteratorGetElemPtrFraction_value = static_cast<double>(GetElemPtrInstrsNum)/static_cast<double>(TotalSize);
+        idx = ppar::LoopNatureMetrics::NatureMetric_t::ITERATOR_GETELEMPTR_FRACTION;
+        Metrics_loop->Metrics[idx] = IteratorGetElemPtrFraction_value;
+
         // compute payload related loop instruction nature metrics
         MemoryWriteNum = 0;
         MemoryReadNum = 0;
         CallInstrsNum = 0;
         BranchInstrsNum = 0;
+        GetElemPtrInstrsNum = 0;
         TotalSize = 0;
         for (auto iter = Payload.cbegin(); iter != Payload.cend(); ++iter) {
             const Graph<llvm::Instruction*,ppar::Dependence*>* PayoadSccPDG = (*iter);
@@ -140,6 +153,10 @@ bool MetricPass<ppar::LoopNatureMetrics>::runOnFunction(Function& F) {
 
                 if (dyn_cast<llvm::BranchInst>(Inst)) {
                     BranchInstrsNum++;
+                }
+
+                if (dyn_cast<llvm::GetElementPtrInst>(Inst)) {
+                    GetElemPtrInstrsNum++;
                 }
             }
         }
@@ -172,11 +189,19 @@ bool MetricPass<ppar::LoopNatureMetrics>::runOnFunction(Function& F) {
         idx = ppar::LoopNatureMetrics::NatureMetric_t::PAYLOAD_BRANCH_FRACTION;
         Metrics_loop->Metrics[idx] = PayloadBranchFraction_value;
 
+        idx = ppar::LoopNatureMetrics::NatureMetric_t::PAYLOAD_GETELEMPTR_COUNT;
+        Metrics_loop->Metrics[idx] = GetElemPtrInstrsNum;
+
+        double PayloadGetElemPtrFraction_value = static_cast<double>(GetElemPtrInstrsNum)/static_cast<double>(TotalSize);
+        idx = ppar::LoopNatureMetrics::NatureMetric_t::PAYLOAD_GETELEMPTR_FRACTION;
+        Metrics_loop->Metrics[idx] = PayloadGetElemPtrFraction_value;
+
         // compute critical payload related loop instruction nature metrics
         MemoryWriteNum = 0;
         MemoryReadNum = 0;
         CallInstrsNum = 0;
         BranchInstrsNum = 0;
+        GetElemPtrInstrsNum = 0;
         TotalSize = 0;
         for (auto iter = Payload.cbegin(); iter != Payload.cend(); ++iter) {
             if ((*iter)->getNodesNumber() > 1) {
@@ -201,6 +226,10 @@ bool MetricPass<ppar::LoopNatureMetrics>::runOnFunction(Function& F) {
 
                     if (dyn_cast<llvm::BranchInst>(Inst)) {
                         BranchInstrsNum++;
+                    }
+
+                    if (dyn_cast<llvm::GetElementPtrInst>(Inst)) {
+                        GetElemPtrInstrsNum++;
                     }
                 }
             }
@@ -233,6 +262,13 @@ bool MetricPass<ppar::LoopNatureMetrics>::runOnFunction(Function& F) {
         double CriticalPayloadBranchFraction_value = static_cast<double>(BranchInstrsNum)/static_cast<double>(TotalSize);
         idx = ppar::LoopNatureMetrics::NatureMetric_t::CRITICAL_PAYLOAD_BRANCH_FRACTION;
         Metrics_loop->Metrics[idx] = IteratorBranchFraction_value;
+
+        idx = ppar::LoopNatureMetrics::NatureMetric_t::CRITICAL_PAYLOAD_GETELEMPTR_COUNT;
+        Metrics_loop->Metrics[idx] = GetElemPtrInstrsNum;
+
+        double CriticalPayloadGetElemPtrFraction_value = static_cast<double>(GetElemPtrInstrsNum)/static_cast<double>(TotalSize);
+        idx = ppar::LoopNatureMetrics::NatureMetric_t::CRITICAL_PAYLOAD_GETELEMPTR_FRACTION;
+        Metrics_loop->Metrics[idx] = CriticalPayloadGetElemPtrFraction_value;
     }
 
     return false;

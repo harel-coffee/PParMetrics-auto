@@ -51,7 +51,16 @@ bool MetricPass<ppar::LoopDependenceMetrics>::runOnFunction(Function& F) {
 
         Metrics_func->LoopMetrics[L] = std::make_unique<MetricSet_loop<LoopDependenceMetrics>>(L); 
         MetricSet_loop<LoopDependenceMetrics>* Metrics_loop = (Metrics_func->LoopMetrics[L]).get();
- 
+
+        uint64_t IteratorTotalDependenciesNum = 0;
+        uint64_t IteratorTrueDependenciesNum = 0;
+        uint64_t IteratorAntiDependenciesNum = 0;
+        uint64_t IteratorOutputDependenciesNum = 0;
+        uint64_t IteratorCrossDependenciesNum = 0;
+        uint64_t IteratorRegDependenciesNum = 0;
+        uint64_t IteratorMemDependenciesNum = 0;
+        uint64_t IteratorCntlDependenciesNum = 0;
+
         uint64_t PayloadTotalDependenciesNum = 0;
         uint64_t PayloadTrueDependenciesNum = 0;
         uint64_t PayloadAntiDependenciesNum = 0;
@@ -59,6 +68,8 @@ bool MetricPass<ppar::LoopDependenceMetrics>::runOnFunction(Function& F) {
         uint64_t PayloadCrossDependenciesNum = 0;
         uint64_t PayloadRegDependenciesNum = 0;
         uint64_t PayloadMemDependenciesNum = 0;
+        uint64_t PayloadCntlDependenciesNum = 0;
+
         uint64_t CriticalPayloadTotalDependenciesNum = 0;
         uint64_t CriticalPayloadTrueDependenciesNum = 0;
         uint64_t CriticalPayloadAntiDependenciesNum = 0;
@@ -66,6 +77,8 @@ bool MetricPass<ppar::LoopDependenceMetrics>::runOnFunction(Function& F) {
         uint64_t CriticalPayloadCrossDependenciesNum = 0;
         uint64_t CriticalPayloadRegDependenciesNum = 0;
         uint64_t CriticalPayloadMemDependenciesNum = 0;
+        uint64_t CriticalPayloadCntlDependenciesNum = 0;
+
         for (auto edge_it = LoopPDG.edges_begin(); edge_it != LoopPDG.edges_end(); edge_it++) {
             std::pair<const llvm::Instruction*, const llvm::Instruction*> FromToPair = edge_it->first;
             typename Graph<llvm::Instruction*,ppar::Dependence*>::edge_set& EdgeSet = edge_it->second;
@@ -76,67 +89,119 @@ bool MetricPass<ppar::LoopDependenceMetrics>::runOnFunction(Function& F) {
             if (LI->SCCBelongsToPayload(FromSCC) && LI->SCCBelongsToPayload(ToSCC)) {
                 if ((FromSCC == ToSCC) && (FromSCC->getNodesNumber() > 1)) {
                     for (const GraphEdge<llvm::Instruction*,ppar::Dependence*>& Edge : EdgeSet) {
-
-                        if ((Edge.getData())->isReg()) {
-                            CriticalPayloadRegDependenciesNum++;
-                            PayloadRegDependenciesNum++;
-                        } else if ((Edge.getData())->isMem()) {
-                            CriticalPayloadMemDependenciesNum++;
-                            PayloadMemDependenciesNum++;
+                        if ((Edge.getData())->isData()) {
+                            if ((Edge.getData())->isReg()) {
+                                CriticalPayloadRegDependenciesNum++;
+                                PayloadRegDependenciesNum++;
+                            } else if ((Edge.getData())->isMem()) {
+                                CriticalPayloadMemDependenciesNum++;
+                                PayloadMemDependenciesNum++;
+                            }
+                            if ((Edge.getData())->isFlow()) {
+                                CriticalPayloadTrueDependenciesNum++;
+                                PayloadTrueDependenciesNum++;
+                            } else if ((Edge.getData())->isAnti()) {
+                                CriticalPayloadAntiDependenciesNum++;
+                                PayloadAntiDependenciesNum++;
+                            } else if ((Edge.getData())->isOutput()) {
+                                CriticalPayloadOutputDependenciesNum++;
+                                PayloadOutputDependenciesNum++;
+                            }
+                            uint64_t dir = (Edge.getData())->getDirection();
+                            if ( (dir != llvm::Dependence::DVEntry::EQ) && 
+                                 (dir != llvm::Dependence::DVEntry::NONE) && 
+                                 (dir != llvm::Dependence::DVEntry::ALL) ) {
+                                CriticalPayloadCrossDependenciesNum++;
+                                PayloadCrossDependenciesNum++;
+                            }
+                        } else if ((Edge.getData())->isControl()) {
+                            CriticalPayloadCntlDependenciesNum++;
+                            PayloadCntlDependenciesNum++;
                         }
-                        
-                        if ((Edge.getData())->isFlow()) {
-                            CriticalPayloadTrueDependenciesNum++;
-                            PayloadTrueDependenciesNum++;
-                        } else if ((Edge.getData())->isAnti()) {
-                            CriticalPayloadAntiDependenciesNum++;
-                            PayloadAntiDependenciesNum++;
-                        } else if ((Edge.getData())->isOutput()) {
-                            CriticalPayloadOutputDependenciesNum++;
-                            PayloadOutputDependenciesNum++;
-                        }
-                        
-                        uint64_t dir = (Edge.getData())->getDirection();
-                        if ( (dir != llvm::Dependence::DVEntry::EQ) && 
-                             (dir != llvm::Dependence::DVEntry::NONE) && 
-                             (dir != llvm::Dependence::DVEntry::ALL) ) {
-                            CriticalPayloadCrossDependenciesNum++;
-                            PayloadCrossDependenciesNum++;
-                        }
-
                         CriticalPayloadTotalDependenciesNum++;
                         PayloadTotalDependenciesNum++;
                     }
                 } else {
                      for (const GraphEdge<llvm::Instruction*,ppar::Dependence*>& Edge : EdgeSet) {
-
+                        if ((Edge.getData())->isData()) {
+                            if ((Edge.getData())->isReg()) {
+                                PayloadRegDependenciesNum++;
+                            } else if ((Edge.getData())->isMem()) {
+                                PayloadMemDependenciesNum++;
+                            }
+                            if ((Edge.getData())->isFlow()) {
+                                PayloadTrueDependenciesNum++;
+                            } else if ((Edge.getData())->isAnti()) {
+                                PayloadAntiDependenciesNum++;
+                            } else if ((Edge.getData())->isOutput()) {
+                                PayloadOutputDependenciesNum++;
+                            }
+                            uint64_t dir = (Edge.getData())->getDirection();
+                            if ( (dir != llvm::Dependence::DVEntry::EQ) && 
+                                 (dir != llvm::Dependence::DVEntry::NONE) && 
+                                 (dir != llvm::Dependence::DVEntry::ALL) ) {
+                                PayloadCrossDependenciesNum++;
+                            }
+                        } else if ((Edge.getData())->isControl()) {
+                            PayloadCntlDependenciesNum++;
+                        }
+                        PayloadTotalDependenciesNum++;
+                    }
+                }
+            } else if (LI->SCCBelongsToIterator(FromSCC) && LI->SCCBelongsToIterator(ToSCC)) {
+                for (const GraphEdge<llvm::Instruction*,ppar::Dependence*>& Edge : EdgeSet) {
+                    if ((Edge.getData())->isData()) {
                         if ((Edge.getData())->isReg()) {
-                            PayloadRegDependenciesNum++;
+                            IteratorRegDependenciesNum++;
                         } else if ((Edge.getData())->isMem()) {
-                            PayloadMemDependenciesNum++;
-                        }
-                         
+                            IteratorMemDependenciesNum++;
+                        }                        
                         if ((Edge.getData())->isFlow()) {
-                            PayloadTrueDependenciesNum++;
+                            IteratorTrueDependenciesNum++;
                         } else if ((Edge.getData())->isAnti()) {
-                            PayloadAntiDependenciesNum++;
+                            IteratorAntiDependenciesNum++;
                         } else if ((Edge.getData())->isOutput()) {
-                            PayloadOutputDependenciesNum++;
+                            IteratorOutputDependenciesNum++;
                         }
-
+                        
                         uint64_t dir = (Edge.getData())->getDirection();
                         if ( (dir != llvm::Dependence::DVEntry::EQ) && 
                              (dir != llvm::Dependence::DVEntry::NONE) && 
                              (dir != llvm::Dependence::DVEntry::ALL) ) {
-                            PayloadCrossDependenciesNum++;
+                            IteratorCrossDependenciesNum++;
                         }
-
-                        PayloadTotalDependenciesNum++;
+                    } else if ((Edge.getData())->isControl()) {
+                        IteratorCntlDependenciesNum++;
                     }
+                    IteratorTotalDependenciesNum++;
                 }
             }
         }
-              
+
+        idx = ppar::LoopDependenceMetrics::DependenceMetric_t::ITERATOR_TOTAL_DEPENDENCIES_NUM;
+        Metrics_loop->Metrics[idx] = IteratorTotalDependenciesNum;
+
+        idx = ppar::LoopDependenceMetrics::DependenceMetric_t::ITERATOR_TRUE_DEPENDENCIES_NUM;
+        Metrics_loop->Metrics[idx] = IteratorTrueDependenciesNum;
+
+        idx = ppar::LoopDependenceMetrics::DependenceMetric_t::ITERATOR_ANTI_DEPENDENCIES_NUM;
+        Metrics_loop->Metrics[idx] = IteratorAntiDependenciesNum;
+
+        idx = ppar::LoopDependenceMetrics::DependenceMetric_t::ITERATOR_OUTPUT_DEPENDENCIES_NUM;
+        Metrics_loop->Metrics[idx] = IteratorOutputDependenciesNum;
+
+        idx = ppar::LoopDependenceMetrics::DependenceMetric_t::ITERATOR_CROSS_DEPENDENCIES_NUM;
+        Metrics_loop->Metrics[idx] = IteratorCrossDependenciesNum;
+
+        idx = ppar::LoopDependenceMetrics::DependenceMetric_t::ITERATOR_REG_DEPENDENCIES_NUM;
+        Metrics_loop->Metrics[idx] = IteratorRegDependenciesNum;
+
+        idx = ppar::LoopDependenceMetrics::DependenceMetric_t::ITERATOR_MEM_DEPENDENCIES_NUM;
+        Metrics_loop->Metrics[idx] = IteratorMemDependenciesNum;
+
+        idx = ppar::LoopDependenceMetrics::DependenceMetric_t::ITERATOR_CNTL_DEPENDENCIES_NUM;
+        Metrics_loop->Metrics[idx] = IteratorCntlDependenciesNum;
+
         idx = ppar::LoopDependenceMetrics::DependenceMetric_t::PAYLOAD_TOTAL_DEPENDENCIES_NUM;
         Metrics_loop->Metrics[idx] = PayloadTotalDependenciesNum;
 
@@ -158,6 +223,9 @@ bool MetricPass<ppar::LoopDependenceMetrics>::runOnFunction(Function& F) {
         idx = ppar::LoopDependenceMetrics::DependenceMetric_t::PAYLOAD_MEM_DEPENDENCIES_NUM;
         Metrics_loop->Metrics[idx] = PayloadMemDependenciesNum;
 
+        idx = ppar::LoopDependenceMetrics::DependenceMetric_t::PAYLOAD_CNTL_DEPENDENCIES_NUM;
+        Metrics_loop->Metrics[idx] = PayloadCntlDependenciesNum;
+
         idx = ppar::LoopDependenceMetrics::DependenceMetric_t::CRITICAL_PAYLOAD_TOTAL_DEPENDENCIES_NUM;
         Metrics_loop->Metrics[idx] = CriticalPayloadTotalDependenciesNum;
 
@@ -178,6 +246,9 @@ bool MetricPass<ppar::LoopDependenceMetrics>::runOnFunction(Function& F) {
 
         idx = ppar::LoopDependenceMetrics::DependenceMetric_t::CRITICAL_PAYLOAD_MEM_DEPENDENCIES_NUM;
         Metrics_loop->Metrics[idx] = CriticalPayloadMemDependenciesNum;
+
+        idx = ppar::LoopDependenceMetrics::DependenceMetric_t::CRITICAL_PAYLOAD_CNTL_DEPENDENCIES_NUM;
+        Metrics_loop->Metrics[idx] = CriticalPayloadCntlDependenciesNum;
     }
 
     return false;

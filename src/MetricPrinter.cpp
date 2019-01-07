@@ -66,6 +66,14 @@ MetricPrinter::MetricPrinter()
     MetricFileStream_excel << "critical-payload-non-cf-cohesion:";
     MetricFileStream_excel << "critical-payload-mem-cohesion:";
     // loop dependence number metrics
+    MetricFileStream_excel << "iterator-total-dependencies-number:";
+    MetricFileStream_excel << "iterator-true-dependencies-number:";
+    MetricFileStream_excel << "iterator-anti-dependencies-number:";
+    MetricFileStream_excel << "iterator-output-dependencies-number:";
+    MetricFileStream_excel << "iterator-cross-dependencies-number:";
+    MetricFileStream_excel << "iterator-reg-dependencies-number:";
+    MetricFileStream_excel << "iterator-mem-dependencies-number:";
+    MetricFileStream_excel << "iterator-cntl-dependencies-number:";
     MetricFileStream_excel << "payload-total-dependencies-number:";
     MetricFileStream_excel << "payload-true-dependencies-number:";
     MetricFileStream_excel << "payload-anti-dependencies-number:";
@@ -73,6 +81,7 @@ MetricPrinter::MetricPrinter()
     MetricFileStream_excel << "payload-cross-dependencies-number:";
     MetricFileStream_excel << "payload-reg-dependencies-number:";
     MetricFileStream_excel << "payload-mem-dependencies-number:";
+    MetricFileStream_excel << "payload-cntl-dependencies-number:";
     MetricFileStream_excel << "critical-payload-total-dependencies-number:";
     MetricFileStream_excel << "critical-payload-true-dependencies-number:";
     MetricFileStream_excel << "critical-payload-anti-dependencies-number:";
@@ -80,6 +89,7 @@ MetricPrinter::MetricPrinter()
     MetricFileStream_excel << "critical-payload-cross-dependencies-number:";
     MetricFileStream_excel << "critical-payload-reg-dependencies-number:";
     MetricFileStream_excel << "critical-payload-mem-dependencies-number:";
+    MetricFileStream_excel << "critical-payload-cntl-dependencies-number:";
     // loop instruction nature metrics
     MetricFileStream_excel << "iterator-mem-write-count:";
     MetricFileStream_excel << "iterator-mem-write-fraction:";
@@ -378,6 +388,71 @@ bool MetricPrinter::runOnFunction(llvm::Function& F) {
             MetricSet_loop<ppar::LoopDependenceMetrics>* LoopDependenceMetrics_loop = LoopDependenceMetric_func->getLoopMetrics(L);
             if (LoopDependenceMetrics_loop != nullptr) {
                 double Metric = -1;
+                // print iterator dependencies
+                Metric = LoopDependenceMetrics_loop->getMetricValue(ppar::LoopDependenceMetrics::DependenceMetric_t::ITERATOR_TOTAL_DEPENDENCIES_NUM);
+                if (Metric >= 0) {
+                    FuncMetricsFile << "\titerator-total-dependencies-number: " << llvm::format("%d", (uint64_t)Metric) << "\n";
+                    MetricFileStream_excel << (uint64_t)Metric << ":";
+                } else {
+                    FuncMetricsFile << "\titerator-total-dependencies-number:\n";
+                    MetricFileStream_excel << "-:";
+                }
+                Metric = LoopDependenceMetrics_loop->getMetricValue(ppar::LoopDependenceMetrics::DependenceMetric_t::ITERATOR_TRUE_DEPENDENCIES_NUM);
+                if (Metric >= 0) {
+                    FuncMetricsFile << "\titerator-true-dependencies-number: " << llvm::format("%d", (uint64_t)Metric) << "\n";
+                    MetricFileStream_excel << (uint64_t)Metric << ":";
+                } else {
+                    FuncMetricsFile << "\titerator-true-dependencies-number:\n";
+                    MetricFileStream_excel << "-:";
+                }
+                Metric = LoopDependenceMetrics_loop->getMetricValue(ppar::LoopDependenceMetrics::DependenceMetric_t::ITERATOR_ANTI_DEPENDENCIES_NUM);
+                if (Metric >= 0) {
+                    FuncMetricsFile << "\titerator-anti-dependencies-number: " << llvm::format("%d", (uint64_t)Metric) << "\n";
+                    MetricFileStream_excel << (uint64_t)Metric << ":";
+                } else {
+                    FuncMetricsFile << "\titerator-anti-dependencies-number:\n";
+                    MetricFileStream_excel << "-:";
+                }
+                Metric = LoopDependenceMetrics_loop->getMetricValue(ppar::LoopDependenceMetrics::DependenceMetric_t::ITERATOR_OUTPUT_DEPENDENCIES_NUM);
+                if (Metric >= 0) {
+                    FuncMetricsFile << "\titerator-output-dependencies-number: " << llvm::format("%d", (uint64_t)Metric) << "\n";
+                    MetricFileStream_excel << (uint64_t)Metric << ":";
+                } else {
+                    FuncMetricsFile << "\titerator-output-dependencies-number:\n";
+                    MetricFileStream_excel << "-:";
+                }
+                Metric = LoopDependenceMetrics_loop->getMetricValue(ppar::LoopDependenceMetrics::DependenceMetric_t::ITERATOR_CROSS_DEPENDENCIES_NUM);
+                if (Metric >= 0) {
+                    FuncMetricsFile << "\titerator-cross-dependencies-number: " << llvm::format("%d", (uint64_t)Metric) << "\n";
+                    MetricFileStream_excel << (uint64_t)Metric << ":";
+                } else {
+                    FuncMetricsFile << "\titerator-cross-dependencies-number:\n";
+                    MetricFileStream_excel << "-:";
+                }
+                Metric = LoopDependenceMetrics_loop->getMetricValue(ppar::LoopDependenceMetrics::DependenceMetric_t::ITERATOR_REG_DEPENDENCIES_NUM);
+                if (Metric >= 0) {
+                    FuncMetricsFile << "\titerator-reg-dependencies-number: " << llvm::format("%d", (uint64_t)Metric) << "\n";
+                    MetricFileStream_excel << (uint64_t)Metric << ":";
+                } else {
+                    FuncMetricsFile << "\titerator-reg-dependencies-number:\n";
+                    MetricFileStream_excel << "-:";
+                }
+                Metric = LoopDependenceMetrics_loop->getMetricValue(ppar::LoopDependenceMetrics::DependenceMetric_t::ITERATOR_MEM_DEPENDENCIES_NUM);
+                if (Metric >= 0) {
+                    FuncMetricsFile << "\titerator-mem-dependencies-number: " << llvm::format("%d", (uint64_t)Metric) << "\n";
+                    MetricFileStream_excel << (uint64_t)Metric << ":";
+                } else {
+                    FuncMetricsFile << "\titerator-mem-dependencies-number:\n";
+                    MetricFileStream_excel << "-:";
+                }
+                Metric = LoopDependenceMetrics_loop->getMetricValue(ppar::LoopDependenceMetrics::DependenceMetric_t::ITERATOR_CNTL_DEPENDENCIES_NUM);
+                if (Metric >= 0) {
+                    FuncMetricsFile << "\titerator-cntl-dependencies-number: " << llvm::format("%d", (uint64_t)Metric) << "\n";
+                    MetricFileStream_excel << (uint64_t)Metric << ":";
+                } else {
+                    FuncMetricsFile << "\titerator-cntl-dependencies-number:\n";
+                    MetricFileStream_excel << "-:";
+                }
                 // print payload dependencies
                 Metric = LoopDependenceMetrics_loop->getMetricValue(ppar::LoopDependenceMetrics::DependenceMetric_t::PAYLOAD_TOTAL_DEPENDENCIES_NUM);
                 if (Metric >= 0) {
@@ -433,6 +508,14 @@ bool MetricPrinter::runOnFunction(llvm::Function& F) {
                     MetricFileStream_excel << (uint64_t)Metric << ":";
                 } else {
                     FuncMetricsFile << "\tpayload-mem-dependencies-number:\n";
+                    MetricFileStream_excel << "-:";
+                }
+                Metric = LoopDependenceMetrics_loop->getMetricValue(ppar::LoopDependenceMetrics::DependenceMetric_t::PAYLOAD_CNTL_DEPENDENCIES_NUM);
+                if (Metric >= 0) {
+                    FuncMetricsFile << "\tpayload-cntl-dependencies-number: " << llvm::format("%d", (uint64_t)Metric) << "\n";
+                    MetricFileStream_excel << (uint64_t)Metric << ":";
+                } else {
+                    FuncMetricsFile << "\tpayload-cntl-dependencies-number:\n";
                     MetricFileStream_excel << "-:";
                 }
                 // print critical payload dependencies
@@ -492,7 +575,24 @@ bool MetricPrinter::runOnFunction(llvm::Function& F) {
                     FuncMetricsFile << "\tcritical-payload-mem-dependencies-number:\n";
                     MetricFileStream_excel << "-:";
                 }
+                Metric = LoopDependenceMetrics_loop->getMetricValue(ppar::LoopDependenceMetrics::DependenceMetric_t::CRITICAL_PAYLOAD_MEM_DEPENDENCIES_NUM);
+                if (Metric >= 0) {
+                    FuncMetricsFile << "\tcritical-payload-cntl-dependencies-number: " << llvm::format("%d", (uint64_t)Metric) << "\n";
+                    MetricFileStream_excel << (uint64_t)Metric << ":";
+                } else {
+                    FuncMetricsFile << "\tcritical-payload-cntl-dependencies-number:\n";
+                    MetricFileStream_excel << "-:";
+                }
             } else {
+                // print iterator dependencies
+                FuncMetricsFile << "\titerator-total-dependencies-number:\n";
+                FuncMetricsFile << "\titerator-true-dependencies-number:\n";
+                FuncMetricsFile << "\titerator-anti-dependencies-number:\n";
+                FuncMetricsFile << "\titerator-output-dependencies-number:\n";
+                FuncMetricsFile << "\titerator-cross-dependencies-number:\n";
+                FuncMetricsFile << "\titerator-reg-dependencies-number:\n";
+                FuncMetricsFile << "\titerator-mem-dependencies-number:\n";
+                FuncMetricsFile << "\titerator-cntl-dependencies-number:\n";
                 // print payload dependencies
                 FuncMetricsFile << "\tpayload-total-dependencies-number:\n";
                 FuncMetricsFile << "\tpayload-true-dependencies-number:\n";
@@ -501,6 +601,7 @@ bool MetricPrinter::runOnFunction(llvm::Function& F) {
                 FuncMetricsFile << "\tpayload-cross-dependencies-number:\n";
                 FuncMetricsFile << "\tpayload-reg-dependencies-number:\n";
                 FuncMetricsFile << "\tpayload-mem-dependencies-number:\n";
+                FuncMetricsFile << "\tpayload-cntl-dependencies-number:\n";
                 // print critical payload dependencies
                 FuncMetricsFile << "\tcritical-payload-total-dependencies-number:\n";
                 FuncMetricsFile << "\tcritical-payload-true-dependencies-number:\n";
@@ -509,6 +610,16 @@ bool MetricPrinter::runOnFunction(llvm::Function& F) {
                 FuncMetricsFile << "\tcritical-payload-cross-dependencies-number:\n";
                 FuncMetricsFile << "\tcritical-payload-reg-dependencies-number:\n";
                 FuncMetricsFile << "\tcritical-payload-mem-dependencies-number:\n";
+                FuncMetricsFile << "\tcritical-payload-cntl-dependencies-number:\n";
+
+                MetricFileStream_excel << "-:";
+                MetricFileStream_excel << "-:";
+                MetricFileStream_excel << "-:";
+                MetricFileStream_excel << "-:";
+                MetricFileStream_excel << "-:";
+                MetricFileStream_excel << "-:";
+                MetricFileStream_excel << "-:";
+                MetricFileStream_excel << "-:";
                 MetricFileStream_excel << "-:";
                 MetricFileStream_excel << "-:";
                 MetricFileStream_excel << "-:";

@@ -24,105 +24,176 @@ main:
 	.cfi_def_cfa 6, 16
 	.cfi_offset 6, -16
         andq      $-128, %rsp                                   #9.12
-        pushq     %r13                                          #9.12
-        pushq     %r14                                          #9.12
-        pushq     %r15                                          #9.12
-        pushq     %rbx                                          #9.12
-        subq      $20064, %rsp                                  #9.12
+        subq      $20096, %rsp                                  #9.12
         xorl      %esi, %esi                                    #9.12
         movl      $3, %edi                                      #9.12
         call      __intel_new_feature_proc_init                 #9.12
-	.cfi_escape 0x10, 0x03, 0x0e, 0x38, 0x1c, 0x0d, 0x80, 0xff, 0xff, 0xff, 0x1a, 0x0d, 0xe0, 0xff, 0xff, 0xff, 0x22
-	.cfi_escape 0x10, 0x0d, 0x0e, 0x38, 0x1c, 0x0d, 0x80, 0xff, 0xff, 0xff, 0x1a, 0x0d, 0xf8, 0xff, 0xff, 0xff, 0x22
-	.cfi_escape 0x10, 0x0e, 0x0e, 0x38, 0x1c, 0x0d, 0x80, 0xff, 0xff, 0xff, 0x1a, 0x0d, 0xf0, 0xff, 0xff, 0xff, 0x22
-	.cfi_escape 0x10, 0x0f, 0x0e, 0x38, 0x1c, 0x0d, 0x80, 0xff, 0xff, 0xff, 0x1a, 0x0d, 0xe8, 0xff, 0xff, 0xff, 0x22
                                 # LOE rbx r12 r13 r14 r15
-..B1.11:                        # Preds ..B1.1
+..B1.6:                         # Preds ..B1.1
                                 # Execution count [1.00e+00]
-        stmxcsr   20000(%rsp)                                   #9.12
-        xorb      %dl, %dl                                      #12.16
-        lea       (%rsp), %rax                                  #14.13
-        orl       $32832, 20000(%rax)                           #9.12
-        movq      %rax, %r14                                    #14.13
-        ldmxcsr   20000(%rax)                                   #9.12
-        movb      %dl, %bl                                      #14.13
-                                # LOE r12 r14 bl
-..B1.2:                         # Preds ..B1.5 ..B1.11
+        stmxcsr   (%rsp)                                        #9.12
+        xorl      %r8d, %r8d                                    #14.5
+        xorl      %ecx, %ecx                                    #14.5
+        orl       $32832, (%rsp)                                #9.12
+        ldmxcsr   (%rsp)                                        #9.12
+                                # LOE rcx rbx r12 r13 r14 r15 r8d
+..B1.2:                         # Preds ..B1.2 ..B1.6
                                 # Execution count [1.00e+02]
-        xorb      %r15b, %r15b                                  #13.20
-        xorl      %r13d, %r13d                                  #13.20
-                                # LOE r12 r13 r14 bl r15b
-..B1.3:                         # Preds ..B1.4 ..B1.2
-                                # Execution count [1.00e+03]
-#       rand()
-        call      rand                                          #14.26
-                                # LOE r12 r13 r14 eax bl r15b
-..B1.12:                        # Preds ..B1.3
-                                # Execution count [1.00e+03]
-        movl      %eax, %edi                                    #14.26
-                                # LOE r12 r13 r14 edi bl r15b
-..B1.4:                         # Preds ..B1.12
-                                # Execution count [1.00e+03]
-        movl      $1717986919, %eax                             #14.40
-        movl      %edi, %ecx                                    #14.40
-        imull     %edi                                          #14.40
-        sarl      $31, %ecx                                     #14.40
-        incb      %r15b                                         #13.37
-        sarl      $2, %edx                                      #14.40
-        subl      %ecx, %edx                                    #14.40
-        lea       (%rdx,%rdx,4), %esi                           #14.40
-        addl      %esi, %esi                                    #14.40
-        subl      %esi, %edi                                    #14.40
-        movl      %edi, (%r13,%r14)                             #14.13
-        addq      $20, %r13                                     #13.37
-        cmpb      $10, %r15b                                    #13.29
-        jl        ..B1.3        # Prob 90%                      #13.29
-                                # LOE r12 r13 r14 bl r15b
-..B1.5:                         # Preds ..B1.4
-                                # Execution count [1.00e+02]
-        incb      %bl                                           #12.33
-        addq      $200, %r14                                    #12.33
-        cmpb      $100, %bl                                     #12.25
-        jl        ..B1.2        # Prob 99%                      #12.25
-                                # LOE r12 r14 bl
-..B1.6:                         # Preds ..B1.5
+        movl      $1431655766, %eax                             #19.31
+        lea       1(%r8), %edi                                  #19.28
+        imull     %edi                                          #19.31
+        movl      %edx, %r10d                                   #19.31
+        lea       2(%r8), %edx                                  #19.28
+        movl      $1431655766, %eax                             #19.31
+        lea       3(%r8), %r9d                                  #19.28
+        imull     %edx                                          #19.31
+        movl      $1431655766, %eax                             #19.31
+        movl      %edx, %r11d                                   #19.31
+        imull     %r9d                                          #19.31
+        movl      $1431655766, %eax                             #19.31
+        lea       4(%r8), %esi                                  #19.28
+        movl      %edx, %r9d                                    #19.31
+        imull     %esi                                          #19.31
+        addl      (%rsp,%rcx), %r10d                            #20.45
+        movl      %edx, %esi                                    #19.31
+        movl      %r10d, 4(%rsp,%rcx)                           #20.17
+        addl      %r11d, %r10d                                  #20.45
+        movl      %r10d, 8(%rsp,%rcx)                           #20.17
+        addl      %r9d, %r10d                                   #20.45
+        movl      %r10d, 12(%rsp,%rcx)                          #20.17
+        addl      %esi, %r10d                                   #20.45
+        movl      %r10d, 16(%rsp,%rcx)                          #20.17
+        movl      $1431655766, %eax                             #19.31
+        movl      20(%rsp,%rcx), %r10d                          #20.30
+        addl      %r11d, %r10d                                  #20.45
+        lea       5(%r8), %r11d                                 #19.28
+        imull     %r11d                                         #19.31
+        movl      %edx, %r11d                                   #19.31
+        lea       6(%r8), %edx                                  #19.28
+        movl      $1431655766, %eax                             #19.31
+        imull     %edx                                          #19.31
+        movl      %r10d, 24(%rsp,%rcx)                          #20.17
+        addl      %r9d, %r10d                                   #20.45
+        movl      %r10d, 28(%rsp,%rcx)                          #20.17
+        addl      %esi, %r10d                                   #20.45
+        movl      %r10d, 32(%rsp,%rcx)                          #20.17
+        addl      %r11d, %r10d                                  #20.45
+        movl      %r10d, 36(%rsp,%rcx)                          #20.17
+        movl      $1431655766, %eax                             #19.31
+        movl      40(%rsp,%rcx), %r10d                          #20.30
+        addl      %r9d, %r10d                                   #20.45
+        movl      %edx, %r9d                                    #19.31
+        movl      %r10d, 44(%rsp,%rcx)                          #20.17
+        addl      %esi, %r10d                                   #20.45
+        movl      %r10d, 48(%rsp,%rcx)                          #20.17
+        addl      %r11d, %r10d                                  #20.45
+        movl      %r10d, 52(%rsp,%rcx)                          #20.17
+        addl      %r9d, %r10d                                   #20.45
+        movl      %r10d, 56(%rsp,%rcx)                          #20.17
+        movl      60(%rsp,%rcx), %r10d                          #20.30
+        addl      %esi, %r10d                                   #20.45
+        lea       7(%r8), %esi                                  #19.28
+        imull     %esi                                          #19.31
+        movl      %r10d, 64(%rsp,%rcx)                          #20.17
+        addl      %r11d, %r10d                                  #20.45
+        movl      %r10d, 68(%rsp,%rcx)                          #20.17
+        addl      %r9d, %r10d                                   #20.45
+        movl      %edx, %esi                                    #19.31
+        movl      $1431655766, %eax                             #19.31
+        movl      %r10d, 72(%rsp,%rcx)                          #20.17
+        addl      %esi, %r10d                                   #20.45
+        movl      %r10d, 76(%rsp,%rcx)                          #20.17
+        movl      80(%rsp,%rcx), %r10d                          #20.30
+        addl      %r11d, %r10d                                  #20.45
+        lea       8(%r8), %r11d                                 #19.28
+        imull     %r11d                                         #19.31
+        movl      %r10d, 84(%rsp,%rcx)                          #20.17
+        addl      %r9d, %r10d                                   #20.45
+        movl      %r10d, 88(%rsp,%rcx)                          #20.17
+        addl      %esi, %r10d                                   #20.45
+        movl      %edx, %r11d                                   #19.31
+        movl      $1431655766, %eax                             #19.31
+        movl      %r10d, 92(%rsp,%rcx)                          #20.17
+        addl      %r11d, %r10d                                  #20.45
+        movl      %r10d, 96(%rsp,%rcx)                          #20.17
+        movl      100(%rsp,%rcx), %r10d                         #20.30
+        addl      %r9d, %r10d                                   #20.45
+        lea       9(%r8), %r9d                                  #19.28
+        imull     %r9d                                          #19.31
+        movl      %edx, %r9d                                    #19.31
+        lea       10(%r8), %edx                                 #19.28
+        movl      $1431655766, %eax                             #19.31
+        imull     %edx                                          #19.31
+        movl      %r10d, 104(%rsp,%rcx)                         #20.17
+        addl      %esi, %r10d                                   #20.45
+        movl      %r10d, 108(%rsp,%rcx)                         #20.17
+        addl      %r11d, %r10d                                  #20.45
+        movl      %r10d, 112(%rsp,%rcx)                         #20.17
+        addl      %r9d, %r10d                                   #20.45
+        movl      %r10d, 116(%rsp,%rcx)                         #20.17
+        movl      $1431655766, %eax                             #19.31
+        movl      120(%rsp,%rcx), %r10d                         #20.30
+        addl      %esi, %r10d                                   #20.45
+        movl      %edx, %esi                                    #19.31
+        movl      %r10d, 124(%rsp,%rcx)                         #20.17
+        addl      %r11d, %r10d                                  #20.45
+        movl      %r10d, 128(%rsp,%rcx)                         #20.17
+        addl      %r9d, %r10d                                   #20.45
+        movl      %r10d, 132(%rsp,%rcx)                         #20.17
+        addl      %esi, %r10d                                   #20.45
+        movl      %r10d, 136(%rsp,%rcx)                         #20.17
+        movl      140(%rsp,%rcx), %r10d                         #20.30
+        addl      %r11d, %r10d                                  #20.45
+        lea       11(%r8), %r11d                                #19.28
+        imull     %r11d                                         #19.31
+        movl      %r10d, 144(%rsp,%rcx)                         #20.17
+        addl      %r9d, %r10d                                   #20.45
+        movl      %r10d, 148(%rsp,%rcx)                         #20.17
+        addl      %esi, %r10d                                   #20.45
+        movl      %edx, %r11d                                   #19.31
+        movl      $1431655766, %eax                             #19.31
+        movl      %r10d, 152(%rsp,%rcx)                         #20.17
+        addl      %r11d, %r10d                                  #20.45
+        movl      %r10d, 156(%rsp,%rcx)                         #20.17
+        movl      160(%rsp,%rcx), %r10d                         #20.30
+        addl      %r9d, %r10d                                   #20.45
+        lea       12(%r8), %r9d                                 #19.28
+        imull     %r9d                                          #19.31
+        movl      180(%rsp,%rcx), %r9d                          #20.30
+        addl      $13, %r8d                                     #19.28
+        movl      %r10d, 164(%rsp,%rcx)                         #20.17
+        addl      %esi, %r10d                                   #20.45
+        addl      %esi, %r9d                                    #20.45
+        movl      $1431655766, %eax                             #19.31
+        .byte     15                                            #20.17
+        .byte     31                                            #20.17
+        .byte     0                                             #20.17
+        movl      %r10d, 168(%rsp,%rcx)                         #20.17
+        addl      %r11d, %r10d                                  #20.45
+        movl      %r9d, 184(%rsp,%rcx)                          #20.17
+        addl      %r11d, %r9d                                   #20.45
+        movl      %r10d, 172(%rsp,%rcx)                         #20.17
+        addl      %edx, %r10d                                   #20.45
+        movl      %r9d, 188(%rsp,%rcx)                          #20.17
+        addl      %edx, %r9d                                    #20.45
+        imull     %r8d                                          #19.31
+        movl      %edi, %r8d                                    #14.5
+        movl      %r9d, 192(%rsp,%rcx)                          #20.17
+        addl      %edx, %r9d                                    #20.45
+        movl      %r10d, 176(%rsp,%rcx)                         #20.17
+        movl      %r9d, 196(%rsp,%rcx)                          #20.17
+        addq      $200, %rcx                                    #14.5
+        cmpl      $100, %r8d                                    #14.5
+        jb        ..B1.2        # Prob 99%                      #14.5
+                                # LOE rcx rbx r12 r13 r14 r15 r8d
+..B1.3:                         # Preds ..B1.2
                                 # Execution count [1.00e+00]
-        xorl      %edx, %edx                                    #19.5
-        xorl      %eax, %eax                                    #19.5
-                                # LOE rax rbx r12 r13 r14 r15 edx
-..B1.7:                         # Preds ..B1.7 ..B1.6
-                                # Execution count [1.00e+03]
-        movl      (%rsp,%rax), %r8d                             #22.30
-        incl      %edx                                          #19.5
-        lea       1(%r8), %ecx                                  #22.43
-        movl      %ecx, 4(%rsp,%rax)                            #22.17
-        lea       2(%r8), %esi                                  #22.43
-        movl      %esi, 8(%rsp,%rax)                            #22.17
-        lea       3(%r8), %edi                                  #22.43
-        addl      $4, %r8d                                      #22.43
-        movl      %edi, 12(%rsp,%rax)                           #22.17
-        movl      %r8d, 16(%rsp,%rax)                           #22.17
-        addq      $20, %rax                                     #19.5
-        cmpl      $1000, %edx                                   #19.5
-        jb        ..B1.7        # Prob 99%                      #19.5
-                                # LOE rax rbx r12 r13 r14 r15 edx
-..B1.8:                         # Preds ..B1.7
-                                # Execution count [1.00e+00]
-        xorl      %eax, %eax                                    #27.12
-        addq      $20064, %rsp                                  #27.12
-	.cfi_restore 3
-        popq      %rbx                                          #27.12
-	.cfi_restore 15
-        popq      %r15                                          #27.12
-	.cfi_restore 14
-        popq      %r14                                          #27.12
-	.cfi_restore 13
-        popq      %r13                                          #27.12
-        movq      %rbp, %rsp                                    #27.12
-        popq      %rbp                                          #27.12
+        xorl      %eax, %eax                                    #25.12
+        movq      %rbp, %rsp                                    #25.12
+        popq      %rbp                                          #25.12
 	.cfi_def_cfa 7, 8
 	.cfi_restore 6
-        ret                                                     #27.12
+        ret                                                     #25.12
         .align    16,0x90
                                 # LOE
 	.cfi_endproc
@@ -144,16 +215,16 @@ __sti__$E:
                                 # Execution count [1.00e+00]
 	.cfi_startproc
 	.cfi_personality 0x3,__gxx_personality_v0
-..___tag_value___sti__$E.17:
-..L18:
+..___tag_value___sti__$E.9:
+..L10:
                                                          #
         pushq     %rsi                                          #
 	.cfi_def_cfa_offset 16
         movl      $_ZN17_INTERNAL868af928St8__ioinitE, %edi     #74.25
-..___tag_value___sti__$E.20:
+..___tag_value___sti__$E.12:
 #       std::ios_base::Init::Init(std::ios_base::Init *)
         call      _ZNSt8ios_base4InitC1Ev                       #74.25
-..___tag_value___sti__$E.21:
+..___tag_value___sti__$E.13:
                                 # LOE rbx rbp r12 r13 r14 r15
 ..B2.2:                         # Preds ..B2.1
                                 # Execution count [1.00e+00]

@@ -3,17 +3,14 @@ digraph G {
 
 
 
-node13->node13 [ ]
-node13->node12 [ ]
-node13->node14 [ ]
-node12->node12 [ ]
-node14->node12 [ ]
+node9->node8 [ ]
+node8->node8 [ ]
 
 
-subgraph cluster2 {
+subgraph cluster1 {
 
 
-node14 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[3/4]  %0 = load i32, i32* %arrayidx34, align 4, !dbg !1030",shape=ellipse,style=filled ]
+node9 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[2/3]  %0 = load i32, i32* %arrayidx11, align 4, !dbg !990",shape=ellipse,style=filled ]
 
 
 
@@ -22,16 +19,7 @@ node14 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[3/4]  %0 = load i3
 subgraph cluster0 {
 
 
-node12 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/1]  store i32 %add, i32* %arrayidx40, align 4, !dbg !1034",shape=ellipse,style=filled ]
-
-
-
-}
-
-subgraph cluster1 {
-
-
-node13 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[2/5]  store i32 %rem, i32* %arrayidx10, align 4, !dbg !988",shape=ellipse,style=filled ]
+node8 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/1]  store i32 %add12, i32* %arrayidx18, align 4, !dbg !993",shape=ellipse,style=filled ]
 
 
 

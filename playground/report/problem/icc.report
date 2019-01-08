@@ -1,0 +1,30 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/src/problem.cpp(12,5)
+   remark #17109: LOOP WAS AUTO-PARALLELIZED
+   remark #15300: LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/src/problem.cpp(12,5)
+<Remainder loop for vectorization>
+   remark #15335: remainder loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/src/problem.cpp(16,5)
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #15520: loop was not vectorized: loop with multiple exits cannot be vectorized unless it meets search loop idiom criteria   [ /home/s1736883/Work/PParMetrics/playground/src/problem.cpp(18,9) ]
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/src/problem.cpp(12,5)
+   remark #15300: LOOP WAS VECTORIZED
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/src/problem.cpp(12,5)
+<Remainder loop for vectorization>
+LOOP END

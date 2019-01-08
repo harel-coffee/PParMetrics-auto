@@ -2,15 +2,11 @@
 digraph G {
 
 
-node5 [fillcolor=lightcoral,label="[3/4]  %0 = load i32, i32* %arrayidx26, align 4, !dbg !1016",shape=ellipse,style=filled ]
-node3 [fillcolor=lightcoral,label="[0/1]  store i32 %add, i32* %arrayidx32, align 4, !dbg !1021",shape=ellipse,style=filled ]
-node4 [fillcolor=lightcoral,label="[2/5]  store i32 %rem, i32* %arrayidx6, align 4, !dbg !979",shape=ellipse,style=filled ]
+node3 [fillcolor=lightcoral,label="[2/3]  %0 = load i32, i32* %arrayidx11, align 4, !dbg !990",shape=ellipse,style=filled ]
+node2 [fillcolor=lightcoral,label="[0/1]  store i32 %add12, i32* %arrayidx18, align 4, !dbg !994",shape=ellipse,style=filled ]
 
-node4->node5 [ ]
-node4->node4 [ ]
-node4->node3 [ ]
-node5->node3 [ ]
-node3->node3 [ ]
+node3->node2 [ ]
+node2->node2 [ ]
 
 
 }

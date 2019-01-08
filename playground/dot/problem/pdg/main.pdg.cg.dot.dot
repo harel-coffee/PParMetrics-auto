@@ -1,0 +1,48 @@
+
+digraph G {
+
+
+node90 [fillcolor=lemonchiffon,label="[25/26]  br label %for.inc10, !dbg !1312",shape=ellipse,style=filled ]
+node89 [fillcolor=lemonchiffon,label="[32/33]  br label %for.cond2, !dbg !1298",shape=ellipse,style=filled ]
+node78 [fillcolor=grey,label="[36/51]  %inc = add nsw i32 %i.0, 1, !dbg !1291",shape=rectangle,style=filled ]
+node83 [fillcolor=grey,label="[39/42]  %arrayidx = getelementptr inbounds [100 x i32], [100 x i32]* %array, i64 0, i64 %idxprom, !dbg !1287",shape=rectangle,style=filled ]
+node77 [fillcolor=lemonchiffon,label="[46/47]  br label %for.inc, !dbg !1290",shape=ellipse,style=filled ]
+node76 [fillcolor=lemonchiffon,label="[21/22]  br label %for.end12, !dbg !1308",shape=ellipse,style=filled ]
+node75 [fillcolor=grey,label="[56/57]  %array = alloca [100 x i32], align 16",shape=rectangle,style=filled ]
+node73 [fillcolor=grey,label="[9/10]  %idxprom8 = sext i32 %i1.0 to i64, !dbg !1310",shape=rectangle,style=filled ]
+node80 [fillcolor=grey,label="[38/43]  %idxprom = sext i32 %i.0 to i64, !dbg !1287",shape=rectangle,style=filled ]
+node79 [fillcolor=grey,label="[7/8]  %arrayidx9 = getelementptr inbounds [100 x i32], [100 x i32]* %array, i64 0, i64 %idxprom8, !dbg !1310",shape=rectangle,style=filled ]
+node87 [fillcolor=lightcoral,label="[5/6]  store i32 %sub, i32* %arrayidx9, align 4, !dbg !1311",shape=ellipse,style=filled ]
+node82 [fillcolor=lemonchiffon,label="[54/55]  br label %for.cond, !dbg !1282",shape=ellipse,style=filled ]
+node81 [fillcolor=lemonchiffon,label="[52/53]  ret i32 0, !dbg !1317",shape=ellipse,style=filled ]
+node84 [fillcolor=lemonchiffon,label="[34/35]  br label %for.cond, !dbg !1292, !llvm.loop !1293",shape=ellipse,style=filled ]
+node74 [fillcolor=grey,label="[11/12]  %sub = sub nsw i32 100, %i1.0, !dbg !1309",shape=rectangle,style=filled ]
+node86 [fillcolor=lemonchiffon,label="[23/24]  br label %for.cond2, !dbg !1314, !llvm.loop !1315",shape=ellipse,style=filled ]
+node85 [fillcolor=lightcoral,label="[40/41]  store i32 %i.0, i32* %arrayidx, align 4, !dbg !1289",shape=ellipse,style=filled ]
+node88 [fillcolor=lemonchiffon,label="[0/31]  br i1 %cmp3, label %for.body4, label %for.end12, !dbg !1302",shape=ellipse,style=filled ]
+
+node88->node74 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node85->node88 [style=solid,color=forestgreen,label="T|indep|0",penwidth=1.0,fontcolor=forestgreen ]
+node75->node83 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node88->node73 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node79->node87 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node88->node87 [style=solid,color=firebrick3,label="A|indep|0|Const",penwidth=1.0,fontcolor=firebrick3 ]
+node78->node77 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node88->node79 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node78->node85 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node78->node83 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node88->node90 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node78->node84 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node73->node79 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node88->node86 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node88->node76 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node80->node83 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node78->node80 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node74->node87 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node75->node88 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node75->node79 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node83->node85 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node85->node87 [style=solid,color=dodgerblue,label="O|indep|0",penwidth=1.0,fontcolor=dodgerblue ]
+
+
+}

@@ -32,77 +32,41 @@ main:
 	.cfi_offset 6, -16
 	movq	%rsp, %rbp
 	.cfi_def_cfa_register 6
-	subq	$20048, %rsp
+	subq	$20032, %rsp
 	movq	%fs:40, %rax
 	movq	%rax, -8(%rbp)
 	xorl	%eax, %eax
-	movl	$0, -20036(%rbp)
-.L5:
-	cmpl	$99, -20036(%rbp)
-	jg	.L2
 	movl	$0, -20032(%rbp)
-.L4:
-	cmpl	$9, -20032(%rbp)
-	jg	.L3
-	call	rand
-	movl	%eax, %esi
-	movl	$1717986919, %edx
-	movl	%esi, %eax
-	imull	%edx
-	sarl	$2, %edx
-	movl	%esi, %eax
-	sarl	$31, %eax
-	movl	%edx, %ecx
-	subl	%eax, %ecx
-	movl	%ecx, %eax
-	sall	$2, %eax
-	addl	%ecx, %eax
-	addl	%eax, %eax
-	subl	%eax, %esi
-	movl	%esi, %ecx
-	movl	-20032(%rbp), %eax
-	cltq
-	movl	-20036(%rbp), %edx
-	movslq	%edx, %rsi
-	movq	%rax, %rdx
-	salq	$2, %rdx
-	addq	%rax, %rdx
-	leaq	0(,%rdx,4), %rax
-	movq	%rax, %rdx
-	movq	%rsi, %rax
-	salq	$2, %rax
-	addq	%rsi, %rax
-	leaq	0(,%rax,4), %rsi
-	addq	%rsi, %rax
-	salq	$3, %rax
-	addq	%rdx, %rax
-	addq	%rbp, %rax
-	subq	$20016, %rax
-	movl	%ecx, (%rax)
-	addl	$1, -20032(%rbp)
-	jmp	.L4
-.L3:
-	addl	$1, -20036(%rbp)
-	jmp	.L5
-.L2:
+.L7:
+	cmpl	$99, -20032(%rbp)
+	jg	.L2
 	movl	$0, -20028(%rbp)
-.L11:
-	cmpl	$99, -20028(%rbp)
-	jg	.L6
-	movl	$0, -20024(%rbp)
-.L10:
-	cmpl	$9, -20024(%rbp)
-	jg	.L7
-	movl	$1, -20020(%rbp)
-.L9:
-	cmpl	$4, -20020(%rbp)
-	jg	.L8
-	movl	-20020(%rbp), %eax
+.L6:
+	cmpl	$9, -20028(%rbp)
+	jg	.L3
+	movl	$1, -20024(%rbp)
+.L5:
+	cmpl	$4, -20024(%rbp)
+	jg	.L4
+	movl	-20032(%rbp), %edx
+	movl	-20028(%rbp), %eax
+	addl	%eax, %edx
+	movl	-20024(%rbp), %eax
+	leal	(%rdx,%rax), %ecx
+	movl	$1431655766, %edx
+	movl	%ecx, %eax
+	imull	%edx
+	movl	%ecx, %eax
+	sarl	$31, %eax
+	subl	%eax, %edx
+	movl	%edx, %eax
+	movl	%eax, -20020(%rbp)
+	movl	-20024(%rbp), %eax
 	subl	$1, %eax
 	movslq	%eax, %rsi
-	movl	-20028(%rbp), %eax
+	movl	-20032(%rbp), %eax
 	movslq	%eax, %rdx
-	movl	-20024(%rbp), %eax
+	movl	-20028(%rbp), %eax
 	movslq	%eax, %rcx
 	movq	%rdx, %rax
 	salq	$2, %rax
@@ -115,13 +79,14 @@ main:
 	addq	%rcx, %rdx
 	addq	%rdx, %rax
 	addq	%rsi, %rax
-	movl	-20016(%rbp,%rax,4), %eax
-	leal	1(%rax), %esi
+	movl	-20016(%rbp,%rax,4), %edx
 	movl	-20020(%rbp), %eax
-	movslq	%eax, %rdi
-	movl	-20028(%rbp), %eax
-	movslq	%eax, %rdx
+	leal	(%rdx,%rax), %esi
 	movl	-20024(%rbp), %eax
+	movslq	%eax, %rdi
+	movl	-20032(%rbp), %eax
+	movslq	%eax, %rdx
+	movl	-20028(%rbp), %eax
 	movslq	%eax, %rcx
 	movq	%rdx, %rax
 	salq	$2, %rax
@@ -135,21 +100,21 @@ main:
 	addq	%rdx, %rax
 	addq	%rdi, %rax
 	movl	%esi, -20016(%rbp,%rax,4)
-	addl	$1, -20020(%rbp)
-	jmp	.L9
-.L8:
 	addl	$1, -20024(%rbp)
-	jmp	.L10
-.L7:
+	jmp	.L5
+.L4:
 	addl	$1, -20028(%rbp)
-	jmp	.L11
-.L6:
+	jmp	.L6
+.L3:
+	addl	$1, -20032(%rbp)
+	jmp	.L7
+.L2:
 	movl	$0, %eax
 	movq	-8(%rbp), %rdi
 	xorq	%fs:40, %rdi
-	je	.L13
+	je	.L9
 	call	__stack_chk_fail
-.L13:
+.L9:
 	leave
 	.cfi_def_cfa 7, 8
 	ret
@@ -169,16 +134,16 @@ _Z41__static_initialization_and_destruction_0ii:
 	movl	%edi, -4(%rbp)
 	movl	%esi, -8(%rbp)
 	cmpl	$1, -4(%rbp)
-	jne	.L16
+	jne	.L12
 	cmpl	$65535, -8(%rbp)
-	jne	.L16
+	jne	.L12
 	movl	$_ZStL8__ioinit, %edi
 	call	_ZNSt8ios_base4InitC1Ev
 	movl	$__dso_handle, %edx
 	movl	$_ZStL8__ioinit, %esi
 	movl	$_ZNSt8ios_base4InitD1Ev, %edi
 	call	__cxa_atexit
-.L16:
+.L12:
 	nop
 	leave
 	.cfi_def_cfa 7, 8

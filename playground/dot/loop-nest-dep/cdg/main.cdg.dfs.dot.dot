@@ -2,168 +2,112 @@
 digraph G {
 
 
-node46 [label="[40/41]
-for.end41:                                        ; preds = %for.cond11
-  ret i32 0, !dbg !1037
+node30 [label="[3/4]
+for.inc22:                                        ; preds = %for.end21
+  %inc23 = add nsw i32 %i.0, 1, !dbg !1006
+  call void @llvm.dbg.value(metadata i32 %inc23, metadata !958, metadata !DIExpression()), !dbg !960
+  br label %for.cond, !dbg !1007, !llvm.loop !1008
 ",shape=rectangle ]
-node45 [label="[19/20]
-for.inc39:                                        ; preds = %for.end38
-  %inc40 = add nsw i32 %i10.0, 1, !dbg !1033
-  call void @llvm.dbg.value(metadata i32 %inc40, metadata !990, metadata !DIExpression()), !dbg !992
-  br label %for.cond11, !dbg !1034, !llvm.loop !1035
+node28 [label="[8/9]
+for.inc19:                                        ; preds = %for.end
+  %inc20 = add nsw i32 %j.0, 1, !dbg !1001
+  call void @llvm.dbg.value(metadata i32 %inc20, metadata !966, metadata !DIExpression()), !dbg !969
+  br label %for.cond1, !dbg !1002, !llvm.loop !1003
 ",shape=rectangle ]
-node44 [label="[17/18]
-for.end38:                                        ; preds = %for.cond15
-  br label %for.inc39, !dbg !1032
+node27 [label="[16/17]
+for.end:                                          ; preds = %for.cond4
+  br label %for.inc19, !dbg !1000
 ",shape=rectangle ]
-node42 [label="[38/39]
+node26 [label="[10/15]
+for.cond4:                                        ; preds = %for.inc, %for.body3
+  %k.0 = phi i32 [ 1, %for.body3 ], [ %inc, %for.inc ], !dbg !980
+  call void @llvm.dbg.value(metadata i32 %k.0, metadata !975, metadata !DIExpression()), !dbg !978
+  %cmp5 = icmp slt i32 %k.0, 5, !dbg !982
+  br i1 %cmp5, label %for.body6, label %for.end, !dbg !983
+",shape=rectangle ]
+node25 [label="[13/14]
+for.body6:                                        ; preds = %for.cond4
+  %add = add nsw i32 %i.0, %j.0, !dbg !984
+  %add7 = add nsw i32 %add, %k.0, !dbg !986
+  %div = sdiv i32 %add7, 3, !dbg !987
+  call void @llvm.dbg.value(metadata i32 %div, metadata !988, metadata !DIExpression()), !dbg !989
+  %idxprom = sext i32 %i.0 to i64, !dbg !990
+  %arrayidx = getelementptr inbounds [100 x [10 x [5 x i32]]], [100 x [10 x [5 x i32]]]* %a, i64 0, i64 %idxprom, !dbg !990
+  %idxprom8 = sext i32 %j.0 to i64, !dbg !990
+  %arrayidx9 = getelementptr inbounds [10 x [5 x i32]], [10 x [5 x i32]]* %arrayidx, i64 0, i64 %idxprom8, !dbg !990
+  %sub = sub nsw i32 %k.0, 1, !dbg !991
+  %idxprom10 = sext i32 %sub to i64, !dbg !990
+  %arrayidx11 = getelementptr inbounds [5 x i32], [5 x i32]* %arrayidx9, i64 0, i64 %idxprom10, !dbg !990
+  %0 = load i32, i32* %arrayidx11, align 4, !dbg !990
+  %add12 = add nsw i32 %0, %div, !dbg !992
+  %idxprom13 = sext i32 %i.0 to i64, !dbg !993
+  %arrayidx14 = getelementptr inbounds [100 x [10 x [5 x i32]]], [100 x [10 x [5 x i32]]]* %a, i64 0, i64 %idxprom13, !dbg !993
+  %idxprom15 = sext i32 %j.0 to i64, !dbg !993
+  %arrayidx16 = getelementptr inbounds [10 x [5 x i32]], [10 x [5 x i32]]* %arrayidx14, i64 0, i64 %idxprom15, !dbg !993
+  %idxprom17 = sext i32 %k.0 to i64, !dbg !993
+  %arrayidx18 = getelementptr inbounds [5 x i32], [5 x i32]* %arrayidx16, i64 0, i64 %idxprom17, !dbg !993
+  store i32 %add12, i32* %arrayidx18, align 4, !dbg !994
+  br label %for.inc, !dbg !995
+",shape=rectangle ]
+node24 [label="[7/20]
+for.cond1:                                        ; preds = %for.inc19, %for.body
+  %j.0 = phi i32 [ 0, %for.body ], [ %inc20, %for.inc19 ], !dbg !971
+  call void @llvm.dbg.value(metadata i32 %j.0, metadata !966, metadata !DIExpression()), !dbg !969
+  %cmp2 = icmp slt i32 %j.0, 10, !dbg !973
+  br i1 %cmp2, label %for.body3, label %for.end21, !dbg !974
+",shape=rectangle ]
+node19 [label="[2/21]
+for.cond:                                         ; preds = %for.inc22, %entry
+  %i.0 = phi i32 [ 0, %entry ], [ %inc23, %for.inc22 ], !dbg !962
+  call void @llvm.dbg.value(metadata i32 %i.0, metadata !958, metadata !DIExpression()), !dbg !960
+  %cmp = icmp slt i32 %i.0, 100, !dbg !964
+  br i1 %cmp, label %for.body, label %for.end24, !dbg !965
+",shape=rectangle ]
+node21 [label="[24/25]
+for.end24:                                        ; preds = %for.cond
+  ret i32 0, !dbg !1010
+",shape=rectangle ]
+node29 [label="[5/6]
+for.end21:                                        ; preds = %for.cond1
+  br label %for.inc22, !dbg !1005
+",shape=rectangle ]
+node23 [label="[11/12]
+for.inc:                                          ; preds = %for.body6
+  %inc = add nsw i32 %k.0, 1, !dbg !996
+  call void @llvm.dbg.value(metadata i32 %inc, metadata !975, metadata !DIExpression()), !dbg !978
+  br label %for.cond4, !dbg !997, !llvm.loop !998
+",shape=rectangle ]
+node20 [label="[22/23]
 entry:
   %a = alloca [100 x [10 x [5 x i32]]], align 16
   call void @llvm.dbg.declare(metadata [100 x [10 x [5 x i32]]]* %a, metadata !951, metadata !DIExpression()), !dbg !957
   call void @llvm.dbg.value(metadata i32 0, metadata !958, metadata !DIExpression()), !dbg !960
   br label %for.cond, !dbg !961
 ",shape=rectangle ]
-node29 [label="[24/25]
-for.inc7:                                         ; preds = %for.end
-  %inc8 = add nsw i32 %i.0, 1, !dbg !986
-  call void @llvm.dbg.value(metadata i32 %inc8, metadata !958, metadata !DIExpression()), !dbg !960
-  br label %for.cond, !dbg !987, !llvm.loop !988
-",shape=rectangle ]
-node33 [label="[4/5]
-for.body17:                                       ; preds = %for.cond15
-  call void @llvm.dbg.value(metadata i32 1, metadata !1007, metadata !DIExpression()), !dbg !1010
-  br label %for.cond18, !dbg !1011
-",shape=rectangle ]
-node40 [label="[12/13]
-for.end35:                                        ; preds = %for.cond18
-  br label %for.inc36, !dbg !1027
-",shape=rectangle ]
-node28 [label="[22/23]
-for.end9:                                         ; preds = %for.cond
-  call void @llvm.dbg.value(metadata i32 0, metadata !990, metadata !DIExpression()), !dbg !992
-  br label %for.cond11, !dbg !993
-",shape=rectangle ]
-node30 [label="[26/27]
-for.inc:                                          ; preds = %for.body3
-  %inc = add nsw i32 %j.0, 1, !dbg !981
-  call void @llvm.dbg.value(metadata i32 %inc, metadata !966, metadata !DIExpression()), !dbg !969
-  br label %for.cond1, !dbg !982, !llvm.loop !983
-",shape=rectangle ]
-node32 [label="[3/16]
-for.cond15:                                       ; preds = %for.inc36, %for.body13
-  %j14.0 = phi i32 [ 0, %for.body13 ], [ %inc37, %for.inc36 ], !dbg !1003
-  call void @llvm.dbg.value(metadata i32 %j14.0, metadata !998, metadata !DIExpression()), !dbg !1001
-  %cmp16 = icmp slt i32 %j14.0, 10, !dbg !1005
-  br i1 %cmp16, label %for.body17, label %for.end38, !dbg !1006
-",shape=rectangle ]
-node38 [label="[9/10]
-for.inc33:                                        ; preds = %for.body20
-  %inc34 = add nsw i32 %k.0, 1, !dbg !1023
-  call void @llvm.dbg.value(metadata i32 %inc34, metadata !1007, metadata !DIExpression()), !dbg !1010
-  br label %for.cond18, !dbg !1024, !llvm.loop !1025
-",shape=rectangle ]
-node26 [label="[0/1]
-for.body13:                                       ; preds = %for.cond11
-  call void @llvm.dbg.value(metadata i32 0, metadata !998, metadata !DIExpression()), !dbg !1001
-  br label %for.cond15, !dbg !1002
-",shape=rectangle ]
-node36 [label="[7/8]
-for.body20:                                       ; preds = %for.cond18
-  %idxprom21 = sext i32 %i10.0 to i64, !dbg !1016
-  %arrayidx22 = getelementptr inbounds [100 x [10 x [5 x i32]]], [100 x [10 x [5 x i32]]]* %a, i64 0, i64 %idxprom21, !dbg !1016
-  %idxprom23 = sext i32 %j14.0 to i64, !dbg !1016
-  %arrayidx24 = getelementptr inbounds [10 x [5 x i32]], [10 x [5 x i32]]* %arrayidx22, i64 0, i64 %idxprom23, !dbg !1016
-  %sub = sub nsw i32 %k.0, 1, !dbg !1018
-  %idxprom25 = sext i32 %sub to i64, !dbg !1016
-  %arrayidx26 = getelementptr inbounds [5 x i32], [5 x i32]* %arrayidx24, i64 0, i64 %idxprom25, !dbg !1016
-  %0 = load i32, i32* %arrayidx26, align 4, !dbg !1016
-  %add = add nsw i32 %0, 1, !dbg !1019
-  %idxprom27 = sext i32 %i10.0 to i64, !dbg !1020
-  %arrayidx28 = getelementptr inbounds [100 x [10 x [5 x i32]]], [100 x [10 x [5 x i32]]]* %a, i64 0, i64 %idxprom27, !dbg !1020
-  %idxprom29 = sext i32 %j14.0 to i64, !dbg !1020
-  %arrayidx30 = getelementptr inbounds [10 x [5 x i32]], [10 x [5 x i32]]* %arrayidx28, i64 0, i64 %idxprom29, !dbg !1020
-  %idxprom31 = sext i32 %k.0 to i64, !dbg !1020
-  %arrayidx32 = getelementptr inbounds [5 x i32], [5 x i32]* %arrayidx30, i64 0, i64 %idxprom31, !dbg !1020
-  store i32 %add, i32* %arrayidx32, align 4, !dbg !1021
-  br label %for.inc33, !dbg !1022
-",shape=rectangle ]
-node27 [label="[2/21]
-for.cond11:                                       ; preds = %for.inc39, %for.end9
-  %i10.0 = phi i32 [ 0, %for.end9 ], [ %inc40, %for.inc39 ], !dbg !994
-  call void @llvm.dbg.value(metadata i32 %i10.0, metadata !990, metadata !DIExpression()), !dbg !992
-  %cmp12 = icmp slt i32 %i10.0, 100, !dbg !996
-  br i1 %cmp12, label %for.body13, label %for.end41, !dbg !997
-",shape=rectangle ]
-node34 [label="[30/31]
-for.body3:                                        ; preds = %for.cond1
-  %call = call i32 @rand() #3, !dbg !975
-  %rem = srem i32 %call, 10, !dbg !977
-  %idxprom = sext i32 %i.0 to i64, !dbg !978
-  %arrayidx = getelementptr inbounds [100 x [10 x [5 x i32]]], [100 x [10 x [5 x i32]]]* %a, i64 0, i64 %idxprom, !dbg !978
-  %idxprom4 = sext i32 %j.0 to i64, !dbg !978
-  %arrayidx5 = getelementptr inbounds [10 x [5 x i32]], [10 x [5 x i32]]* %arrayidx, i64 0, i64 %idxprom4, !dbg !978
-  %arrayidx6 = getelementptr inbounds [5 x i32], [5 x i32]* %arrayidx5, i64 0, i64 0, !dbg !978
-  store i32 %rem, i32* %arrayidx6, align 4, !dbg !979
-  br label %for.inc, !dbg !980
-",shape=rectangle ]
-node35 [label="[6/11]
-for.cond18:                                       ; preds = %for.inc33, %for.body17
-  %k.0 = phi i32 [ 1, %for.body17 ], [ %inc34, %for.inc33 ], !dbg !1012
-  call void @llvm.dbg.value(metadata i32 %k.0, metadata !1007, metadata !DIExpression()), !dbg !1010
-  %cmp19 = icmp slt i32 %k.0, 5, !dbg !1014
-  br i1 %cmp19, label %for.body20, label %for.end35, !dbg !1015
-",shape=rectangle ]
-node31 [label="[28/29]
-for.end:                                          ; preds = %for.cond1
-  br label %for.inc7, !dbg !985
-",shape=rectangle ]
-node39 [label="[33/34]
+node18 [label="[0/1]
 for.body:                                         ; preds = %for.cond
   call void @llvm.dbg.value(metadata i32 0, metadata !966, metadata !DIExpression()), !dbg !969
   br label %for.cond1, !dbg !970
 ",shape=rectangle ]
-node43 [label="[14/15]
-for.inc36:                                        ; preds = %for.end35
-  %inc37 = add nsw i32 %j14.0, 1, !dbg !1028
-  call void @llvm.dbg.value(metadata i32 %inc37, metadata !998, metadata !DIExpression()), !dbg !1001
-  br label %for.cond15, !dbg !1029, !llvm.loop !1030
-",shape=rectangle ]
-node37 [label="[32/37]
-for.cond:                                         ; preds = %for.inc7, %entry
-  %i.0 = phi i32 [ 0, %entry ], [ %inc8, %for.inc7 ], !dbg !962
-  call void @llvm.dbg.value(metadata i32 %i.0, metadata !958, metadata !DIExpression()), !dbg !960
-  %cmp = icmp slt i32 %i.0, 100, !dbg !964
-  br i1 %cmp, label %for.body, label %for.end9, !dbg !965
-",shape=rectangle ]
-node41 [label="[35/36]
-for.cond1:                                        ; preds = %for.inc, %for.body
-  %j.0 = phi i32 [ 0, %for.body ], [ %inc, %for.inc ], !dbg !971
-  call void @llvm.dbg.value(metadata i32 %j.0, metadata !966, metadata !DIExpression()), !dbg !969
-  %cmp2 = icmp slt i32 %j.0, 10, !dbg !973
-  br i1 %cmp2, label %for.body3, label %for.end, !dbg !974
+node22 [label="[18/19]
+for.body3:                                        ; preds = %for.cond1
+  call void @llvm.dbg.value(metadata i32 1, metadata !975, metadata !DIExpression()), !dbg !978
+  br label %for.cond4, !dbg !979
 ",shape=rectangle ]
 
-node32->node40 [ ]
-node35->node35 [ ]
-node32->node35 [ ]
-node27->node45 [ ]
-node27->node26 [ ]
-node37->node39 [ ]
-node41->node34 [ ]
-node27->node27 [ ]
-node37->node41 [ ]
-node27->node44 [ ]
-node35->node36 [ ]
-node37->node31 [ ]
-node37->node29 [ ]
-node32->node32 [ ]
-node41->node41 [ ]
-node32->node33 [ ]
-node41->node30 [ ]
-node27->node32 [ ]
-node32->node43 [ ]
-node37->node37 [ ]
-node35->node38 [ ]
+node26->node23 [ ]
+node19->node30 [ ]
+node26->node25 [ ]
+node19->node24 [ ]
+node24->node27 [ ]
+node24->node28 [ ]
+node24->node26 [ ]
+node26->node26 [ ]
+node19->node29 [ ]
+node19->node19 [ ]
+node24->node22 [ ]
+node24->node24 [ ]
+node19->node18 [ ]
 
 
 }

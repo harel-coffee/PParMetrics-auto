@@ -1,0 +1,25 @@
+
+digraph G {
+
+
+node166 [fillcolor=grey,label="  %arrayidx = getelementptr inbounds [100 x i32], [100 x i32]* %array, i64 0, i64 %idxprom, !dbg !1287",shape=rectangle,style=filled ]
+node165 [fillcolor=lightcoral,label="  store i32 %i.0, i32* %arrayidx, align 4, !dbg !1289",shape=ellipse,style=filled ]
+node164 [fillcolor=grey,label="  %idxprom = sext i32 %i.0 to i64, !dbg !1287",shape=rectangle,style=filled ]
+node159 [fillcolor=grey,label="  %inc = add nsw i32 %i.0, 1, !dbg !1291",shape=rectangle,style=filled ]
+node163 [fillcolor=lemonchiffon,label="  br i1 %cmp, label %for.body, label %for.end, !dbg !1286",shape=ellipse,style=filled ]
+node158 [fillcolor=lemonchiffon,label="  br label %for.cond, !dbg !1292, !llvm.loop !1293",shape=ellipse,style=filled ]
+node160 [fillcolor=lemonchiffon,label="  br label %for.inc, !dbg !1290",shape=ellipse,style=filled ]
+node161 [fillcolor=grey,label="  %cmp = icmp slt i32 %i.0, 100, !dbg !1285",shape=rectangle,style=filled ]
+node162 [fillcolor=grey,label="  %i.0 = phi i32 [ 0, %entry ], [ %inc, %for.inc ], !dbg !1283",shape=rectangle,style=filled ]
+
+node162->node165 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node162->node159 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node162->node161 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node166->node165 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node164->node166 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node162->node164 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node161->node163 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node159->node162 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+
+
+}

@@ -5,10 +5,10 @@ digraph G {
 
 
 
-subgraph cluster2 {
+subgraph cluster1 {
 
 
-node11 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[3/4]  %0 = load i32, i32* %arrayidx26, align 4, !dbg !1016",shape=ellipse,style=filled ]
+node7 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[2/3]  %0 = load i32, i32* %arrayidx11, align 4, !dbg !990",shape=ellipse,style=filled ]
 
 
 
@@ -17,19 +17,9 @@ node11 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[3/4]  %0 = load i3
 subgraph cluster0 {
 
 
-node9 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/1]  store i32 %add, i32* %arrayidx32, align 4, !dbg !1021",shape=ellipse,style=filled ]
+node6 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[0/1]  store i32 %add12, i32* %arrayidx18, align 4, !dbg !994",shape=ellipse,style=filled ]
 
-node9->node9 [ ]
-
-
-}
-
-subgraph cluster1 {
-
-
-node10 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[2/5]  store i32 %rem, i32* %arrayidx6, align 4, !dbg !979",shape=ellipse,style=filled ]
-
-node10->node10 [ ]
+node6->node6 [ ]
 
 
 }

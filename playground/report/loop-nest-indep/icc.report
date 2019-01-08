@@ -6,42 +6,27 @@ See "https://software.intel.com/en-us/intel-advisor-xe" for details.
     Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
 
 
-LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/src/loop-nest-indep.cpp(12,5)
-   remark #17104: loop was not parallelized: existence of parallel dependence
-   remark #15541: outer loop was not auto-vectorized: consider using SIMD directive
-
-   LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/src/loop-nest-indep.cpp(13,9)
-      remark #17104: loop was not parallelized: existence of parallel dependence
-      remark #15541: outer loop was not auto-vectorized: consider using SIMD directive
-
-      LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/src/loop-nest-indep.cpp(14,13)
-         remark #17104: loop was not parallelized: existence of parallel dependence
-         remark #15527: loop was not vectorized: function call to rand() cannot be vectorized   [ /home/s1736883/Work/PParMetrics/playground/src/loop-nest-indep.cpp(15,30) ]
-      LOOP END
-   LOOP END
-LOOP END
-
-LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/src/loop-nest-indep.cpp(21,5)
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/src/loop-nest-indep.cpp(14,5)
    remark #17109: LOOP WAS AUTO-PARALLELIZED
    remark #15542: loop was not vectorized: inner loop was already vectorized
 
-   LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/src/loop-nest-indep.cpp(22,9)
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/src/loop-nest-indep.cpp(16,9)
       remark #15542: loop was not vectorized: inner loop was already vectorized
 
-      LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/src/loop-nest-indep.cpp(23,13)
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/src/loop-nest-indep.cpp(18,13)
          remark #15300: LOOP WAS VECTORIZED
       LOOP END
    LOOP END
 LOOP END
 
-LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/src/loop-nest-indep.cpp(21,5)
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/src/loop-nest-indep.cpp(14,5)
    remark #15542: loop was not vectorized: inner loop was already vectorized
 
-   LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/src/loop-nest-indep.cpp(22,9)
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/src/loop-nest-indep.cpp(16,9)
       remark #17107: loop was not parallelized: inner loop
       remark #15542: loop was not vectorized: inner loop was already vectorized
 
-      LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/src/loop-nest-indep.cpp(23,13)
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/playground/src/loop-nest-indep.cpp(18,13)
          remark #17107: loop was not parallelized: inner loop
          remark #15300: LOOP WAS VECTORIZED
       LOOP END

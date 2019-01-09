@@ -47,6 +47,7 @@ if __name__ != "__main__":
                                                     'iterator-anti-dependencies-number', 
                                                     'iterator-output-dependencies-number', 
                                                     'iterator-cross-dependencies-number', 
+                                                    'iterator-conf-dependencies-number', 
                                                     'iterator-reg-dependencies-number', 
                                                     'iterator-mem-dependencies-number',
                                                     'iterator-cntl-dependencies-number'] 
@@ -55,6 +56,7 @@ if __name__ != "__main__":
                                                     'payload-anti-dependencies-number', 
                                                     'payload-output-dependencies-number', 
                                                     'payload-cross-dependencies-number', 
+                                                    'payload-conf-dependencies-number', 
                                                     'payload-reg-dependencies-number', 
                                                     'payload-mem-dependencies-number', 
                                                     'payload-cntl-dependencies-number'] 
@@ -63,6 +65,7 @@ if __name__ != "__main__":
                                                              'critical-payload-anti-dependencies-number',
                                                              'critical-payload-output-dependencies-number',
                                                              'critical-payload-cross-dependencies-number',
+                                                             'critical-payload-conf-dependencies-number',
                                                              'critical-payload-reg-dependencies-number',
                                                              'critical-payload-mem-dependencies-number',
                                                              'critical-payload-cntl-dependencies-number']

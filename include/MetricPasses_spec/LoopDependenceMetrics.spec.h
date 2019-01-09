@@ -57,6 +57,7 @@ bool MetricPass<ppar::LoopDependenceMetrics>::runOnFunction(Function& F) {
         uint64_t IteratorAntiDependenciesNum = 0;
         uint64_t IteratorOutputDependenciesNum = 0;
         uint64_t IteratorCrossDependenciesNum = 0;
+        uint64_t IteratorConfDependenciesNum = 0;
         uint64_t IteratorRegDependenciesNum = 0;
         uint64_t IteratorMemDependenciesNum = 0;
         uint64_t IteratorCntlDependenciesNum = 0;
@@ -66,6 +67,7 @@ bool MetricPass<ppar::LoopDependenceMetrics>::runOnFunction(Function& F) {
         uint64_t PayloadAntiDependenciesNum = 0;
         uint64_t PayloadOutputDependenciesNum = 0;
         uint64_t PayloadCrossDependenciesNum = 0;
+        uint64_t PayloadConfDependenciesNum = 0;
         uint64_t PayloadRegDependenciesNum = 0;
         uint64_t PayloadMemDependenciesNum = 0;
         uint64_t PayloadCntlDependenciesNum = 0;
@@ -75,6 +77,7 @@ bool MetricPass<ppar::LoopDependenceMetrics>::runOnFunction(Function& F) {
         uint64_t CriticalPayloadAntiDependenciesNum = 0;
         uint64_t CriticalPayloadOutputDependenciesNum = 0;
         uint64_t CriticalPayloadCrossDependenciesNum = 0;
+        uint64_t CriticalPayloadConfDependenciesNum = 0;
         uint64_t CriticalPayloadRegDependenciesNum = 0;
         uint64_t CriticalPayloadMemDependenciesNum = 0;
         uint64_t CriticalPayloadCntlDependenciesNum = 0;
@@ -96,6 +99,10 @@ bool MetricPass<ppar::LoopDependenceMetrics>::runOnFunction(Function& F) {
                             } else if ((Edge.getData())->isMem()) {
                                 CriticalPayloadMemDependenciesNum++;
                                 PayloadMemDependenciesNum++;
+                            }
+                            if ((Edge.getData())->isConfused()) {
+                                CriticalPayloadConfDependenciesNum++;
+                                PayloadConfDependenciesNum++; 
                             }
                             if ((Edge.getData())->isFlow()) {
                                 CriticalPayloadTrueDependenciesNum++;
@@ -136,6 +143,9 @@ bool MetricPass<ppar::LoopDependenceMetrics>::runOnFunction(Function& F) {
                             } else if ((Edge.getData())->isOutput()) {
                                 PayloadOutputDependenciesNum++;
                             }
+                            if ((Edge.getData())->isConfused()) {
+                                PayloadConfDependenciesNum++; 
+                            }
                             uint64_t dir = (Edge.getData())->getDirection();
                             if ( (dir != llvm::Dependence::DVEntry::EQ) && 
                                  (dir != llvm::Dependence::DVEntry::NONE) && 
@@ -163,7 +173,9 @@ bool MetricPass<ppar::LoopDependenceMetrics>::runOnFunction(Function& F) {
                         } else if ((Edge.getData())->isOutput()) {
                             IteratorOutputDependenciesNum++;
                         }
-                        
+                        if ((Edge.getData())->isConfused()) {
+                            IteratorConfDependenciesNum++; 
+                        }
                         uint64_t dir = (Edge.getData())->getDirection();
                         if ( (dir != llvm::Dependence::DVEntry::EQ) && 
                              (dir != llvm::Dependence::DVEntry::NONE) && 
@@ -193,6 +205,9 @@ bool MetricPass<ppar::LoopDependenceMetrics>::runOnFunction(Function& F) {
         idx = ppar::LoopDependenceMetrics::DependenceMetric_t::ITERATOR_CROSS_DEPENDENCIES_NUM;
         Metrics_loop->Metrics[idx] = IteratorCrossDependenciesNum;
 
+        idx = ppar::LoopDependenceMetrics::DependenceMetric_t::ITERATOR_CONF_DEPENDENCIES_NUM;
+        Metrics_loop->Metrics[idx] = IteratorConfDependenciesNum;
+
         idx = ppar::LoopDependenceMetrics::DependenceMetric_t::ITERATOR_REG_DEPENDENCIES_NUM;
         Metrics_loop->Metrics[idx] = IteratorRegDependenciesNum;
 
@@ -217,6 +232,9 @@ bool MetricPass<ppar::LoopDependenceMetrics>::runOnFunction(Function& F) {
         idx = ppar::LoopDependenceMetrics::DependenceMetric_t::PAYLOAD_CROSS_DEPENDENCIES_NUM;
         Metrics_loop->Metrics[idx] = PayloadCrossDependenciesNum;
 
+        idx = ppar::LoopDependenceMetrics::DependenceMetric_t::PAYLOAD_CONF_DEPENDENCIES_NUM;
+        Metrics_loop->Metrics[idx] = PayloadConfDependenciesNum;
+
         idx = ppar::LoopDependenceMetrics::DependenceMetric_t::PAYLOAD_REG_DEPENDENCIES_NUM;
         Metrics_loop->Metrics[idx] = PayloadRegDependenciesNum;
 
@@ -240,6 +258,9 @@ bool MetricPass<ppar::LoopDependenceMetrics>::runOnFunction(Function& F) {
 
         idx = ppar::LoopDependenceMetrics::DependenceMetric_t::CRITICAL_PAYLOAD_CROSS_DEPENDENCIES_NUM;
         Metrics_loop->Metrics[idx] = CriticalPayloadCrossDependenciesNum;
+
+        idx = ppar::LoopDependenceMetrics::DependenceMetric_t::CRITICAL_PAYLOAD_CONF_DEPENDENCIES_NUM;
+        Metrics_loop->Metrics[idx] = CriticalPayloadConfDependenciesNum;
 
         idx = ppar::LoopDependenceMetrics::DependenceMetric_t::CRITICAL_PAYLOAD_REG_DEPENDENCIES_NUM;
         Metrics_loop->Metrics[idx] = CriticalPayloadRegDependenciesNum;

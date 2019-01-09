@@ -43,7 +43,7 @@ class Dependence {
             : Data(false), Control(false),
               Flow(false), Anti(false), Output(false),
               Mem(false), Reg(false),
-              Confused(true), Consistent(false),
+              Confused(false), Consistent(false),
               Direction(llvm::Dependence::DVEntry::NONE),
               Distance(nullptr),
               LoopIndependent(true),
@@ -177,6 +177,9 @@ class Dependence {
 
             LoopIndependent = true;
             Scalar = true;
+
+            Consistent = false;
+            Confused = false;
 
             Unknown = true;
         }

@@ -90,8 +90,37 @@ bool GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphP
                     GraphNode<llvm::Instruction*,llvm::Dependence*> DepNode = *dst_node_it;
                     const llvm::Instruction* DstI = DepNode.getNode();
                     if (llvm::Dependence* D = (DI.depends(const_cast<llvm::Instruction*>(SrcI), const_cast<llvm::Instruction*>(DstI), true)).release()) {
-                        if (D->isFlow() || D->isAnti() || D->isOutput()) {
-                            LG.addEdge(SrcI, DstI, D);
+                        bool addE = false;
+
+                        if (D->isConfused()) {
+                            addE = true;
+                        } 
+                        
+//                        bool LoopIndep = D->isLoopIndependent();
+                        
+//                        if (!LoopIndep) {
+//                            addE = true;
+//                        }
+
+                        uint64_t dir = D->getDirection(L->getLoopDepth());
+                        if ( (dir != llvm::Dependence::DVEntry::EQ) && 
+                             (dir != llvm::Dependence::DVEntry::NONE) && 
+                             (dir != llvm::Dependence::DVEntry::ALL) ) {
+                            addE = true;
+                        }
+
+                        if (D->isOutput()) {
+                            addE = true;
+                        }
+
+                        if (D->isScalar(L->getLoopDepth())) {
+                            addE = true;
+                        }
+
+                        if (addE) {
+                            if (D->isFlow() || D->isAnti() || D->isOutput()) {
+                                LG.addEdge(SrcI, DstI, D);
+                            }
                         }
                     }
                 }

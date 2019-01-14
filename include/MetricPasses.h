@@ -13,6 +13,7 @@ struct LoopProportionMetrics {
 
         typedef enum ProportionMetricType {
             LOOP_ABSOLUTE_SIZE = 0, // the number of instructions in the loop
+            LOOP_ITERATOR_SIZE, // the number of instructions in the loop's iterator
             LOOP_PAYLOAD_FRACTION, // the fraction payload constitutes of the whole loop
             LOOP_PROPER_SCCS_NUMBER, // the number of SCCs in the payload of the loop, with the amount of instructions greater than 1
             LOOP_CRITICAL_PAYLOAD_FRACTION, // the fraction critical part of the payload constitutes of the whole payload

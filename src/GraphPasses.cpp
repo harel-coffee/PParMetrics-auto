@@ -14,6 +14,7 @@
 using namespace llvm;
 
 #include <string>
+#include <sstream>
 #include <vector>
 #include <stack>
 #include <queue>

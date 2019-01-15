@@ -7,17 +7,14 @@ const int size_j = 10;
 const int size_k = 5;
 
 int main() {
-    int a[size_i][size_j][size_k];
+    int a[size_i][size_j][size_k][size_j];
     int tmp;
+    int i, j, k;
 
-    // parallelisible
-    for (int i = 0; i < size_i; i++) {
-        // parallelisible
-        for (int j = 0; j < size_j; j++) {
-            // non-parallelisible
-            for (int k = 1; k < size_k; k++) {
-                tmp = (i+j+k)/3;
-                a[i][j][k] = a[i][j][k-1] + tmp; 
+    for (i = size_j-1; i >=0; i--) {
+        for (j = 0; j < size_k; j++) {
+            for (k = 0; k < size_i; k++) {
+                a[k][i][j][0] = i*j*k*a[k][i][j+1][0];
             }
         }
     }

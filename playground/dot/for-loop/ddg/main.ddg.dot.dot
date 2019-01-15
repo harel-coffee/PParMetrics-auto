@@ -1,0 +1,38 @@
+
+digraph G {
+
+
+node30 [fillcolor=grey,label="  %sub = sub nsw i32 %i.0, 1, !dbg !1310",shape=rectangle,style=filled ]
+node28 [fillcolor=lemonchiffon,label="  br label %for.cond, !dbg !1317, !llvm.loop !1318",shape=ellipse,style=filled ]
+node27 [fillcolor=lemonchiffon,label="  br i1 %cmp, label %for.body, label %for.end, !dbg !1309",shape=ellipse,style=filled ]
+node26 [fillcolor=grey,label="  %cmp = icmp slt i32 %i.0, 100, !dbg !1308",shape=rectangle,style=filled ]
+node25 [fillcolor=grey,label="  %i.0 = phi i32 [ 0, %entry ], [ %inc, %for.inc ], !dbg !1306",shape=rectangle,style=filled ]
+node21 [fillcolor=grey,label="  %arrayidx = getelementptr inbounds [100 x i32], [100 x i32]* %a, i64 0, i64 %idxprom, !dbg !1312",shape=rectangle,style=filled ]
+node29 [fillcolor=grey,label="  %idxprom = sext i32 %sub to i64, !dbg !1312",shape=rectangle,style=filled ]
+node23 [fillcolor=grey,label="  %a = alloca [100 x i32], align 16",shape=rectangle,style=filled ]
+node15 [fillcolor=lemonchiffon,label="  ret i32 0, !dbg !1320",shape=ellipse,style=filled ]
+node17 [fillcolor=lemonchiffon,label="  br label %for.inc, !dbg !1315",shape=ellipse,style=filled ]
+node22 [fillcolor=lightcoral,label="  %0 = load i32, i32* %arrayidx, align 4, !dbg !1312",shape=ellipse,style=filled ]
+node18 [fillcolor=lightcoral,label="  store i32 %0, i32* %arrayidx2, align 4, !dbg !1314",shape=ellipse,style=filled ]
+node24 [fillcolor=lemonchiffon,label="  br label %for.cond, !dbg !1305",shape=ellipse,style=filled ]
+node16 [fillcolor=grey,label="  %inc = add nsw i32 %i.0, 1, !dbg !1316",shape=rectangle,style=filled ]
+node19 [fillcolor=grey,label="  %arrayidx2 = getelementptr inbounds [100 x i32], [100 x i32]* %a, i64 0, i64 %idxprom1, !dbg !1313",shape=rectangle,style=filled ]
+node20 [fillcolor=grey,label="  %idxprom1 = sext i32 %i.0 to i64, !dbg !1313",shape=rectangle,style=filled ]
+
+node21->node22 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node22->node18 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node16->node25 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node23->node21 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node25->node30 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node23->node19 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node30->node29 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node20->node19 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node25->node26 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node26->node27 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node25->node16 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node25->node20 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node19->node18 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+node29->node21 [style=dotted,color=forestgreen,label="T",fontcolor=forestgreen ]
+
+
+}

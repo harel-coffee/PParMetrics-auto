@@ -1,0 +1,191 @@
+	.file	"debug.cpp"
+	.text
+	.section	.rodata
+	.type	_ZStL19piecewise_construct, @object
+	.size	_ZStL19piecewise_construct, 1
+_ZStL19piecewise_construct:
+	.zero	1
+	.local	_ZStL8__ioinit
+	.comm	_ZStL8__ioinit,1,1
+	.text
+	.globl	main
+	.type	main, @function
+main:
+.LFB1722:
+	.cfi_startproc
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	subq	$20032, %rsp
+	movq	%fs:40, %rax
+	movq	%rax, -8(%rbp)
+	xorl	%eax, %eax
+	movl	$0, -20028(%rbp)
+	movl	$1, -20024(%rbp)
+	movl	$0, -20032(%rbp)
+.L3:
+	cmpl	$4, -20032(%rbp)
+	jg	.L2
+	movl	$1, -20020(%rbp)
+	movl	-20032(%rbp), %eax
+	movslq	%eax, %rsi
+	movl	-20024(%rbp), %eax
+	movslq	%eax, %rcx
+	movl	-20020(%rbp), %eax
+	movslq	%eax, %rdx
+	movl	-20028(%rbp), %eax
+	movslq	%eax, %rdi
+	movq	%rcx, %rax
+	salq	$2, %rax
+	addq	%rcx, %rax
+	leaq	0(,%rax,4), %rcx
+	addq	%rcx, %rax
+	addq	%rax, %rax
+	imulq	$500, %rdi, %rcx
+	addq	%rax, %rcx
+	movq	%rdx, %rax
+	salq	$2, %rax
+	addq	%rdx, %rax
+	addq	%rcx, %rax
+	addq	%rsi, %rax
+	movl	-20016(%rbp,%rax,4), %eax
+	leal	-100(%rax), %esi
+	movl	-20032(%rbp), %eax
+	movslq	%eax, %rdi
+	movl	-20024(%rbp), %eax
+	movslq	%eax, %rcx
+	movl	-20020(%rbp), %eax
+	movslq	%eax, %rdx
+	movl	-20028(%rbp), %eax
+	movslq	%eax, %r8
+	movq	%rcx, %rax
+	salq	$2, %rax
+	addq	%rcx, %rax
+	leaq	0(,%rax,4), %rcx
+	addq	%rcx, %rax
+	addq	%rax, %rax
+	imulq	$500, %r8, %rcx
+	addq	%rax, %rcx
+	movq	%rdx, %rax
+	salq	$2, %rax
+	addq	%rdx, %rax
+	addq	%rcx, %rax
+	addq	%rdi, %rax
+	movl	%esi, -20016(%rbp,%rax,4)
+	movl	$2, -20020(%rbp)
+	movl	-20032(%rbp), %eax
+	movslq	%eax, %rsi
+	movl	-20024(%rbp), %eax
+	movslq	%eax, %rcx
+	movl	-20020(%rbp), %eax
+	movslq	%eax, %rdx
+	movl	-20028(%rbp), %eax
+	movslq	%eax, %rdi
+	movq	%rcx, %rax
+	salq	$2, %rax
+	addq	%rcx, %rax
+	leaq	0(,%rax,4), %rcx
+	addq	%rcx, %rax
+	addq	%rax, %rax
+	imulq	$500, %rdi, %rcx
+	addq	%rax, %rcx
+	movq	%rdx, %rax
+	salq	$2, %rax
+	addq	%rdx, %rax
+	addq	%rcx, %rax
+	addq	%rsi, %rax
+	movl	-20016(%rbp,%rax,4), %eax
+	leal	-200(%rax), %esi
+	movl	-20032(%rbp), %eax
+	movslq	%eax, %rdi
+	movl	-20024(%rbp), %eax
+	movslq	%eax, %rcx
+	movl	-20020(%rbp), %eax
+	movslq	%eax, %rdx
+	movl	-20028(%rbp), %eax
+	movslq	%eax, %r8
+	movq	%rcx, %rax
+	salq	$2, %rax
+	addq	%rcx, %rax
+	leaq	0(,%rax,4), %rcx
+	addq	%rcx, %rax
+	addq	%rax, %rax
+	imulq	$500, %r8, %rcx
+	addq	%rax, %rcx
+	movq	%rdx, %rax
+	salq	$2, %rax
+	addq	%rdx, %rax
+	addq	%rcx, %rax
+	addq	%rdi, %rax
+	movl	%esi, -20016(%rbp,%rax,4)
+	addl	$1, -20032(%rbp)
+	jmp	.L3
+.L2:
+	movl	$0, %eax
+	movq	-8(%rbp), %rsi
+	xorq	%fs:40, %rsi
+	je	.L5
+	call	__stack_chk_fail
+.L5:
+	leave
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE1722:
+	.size	main, .-main
+	.type	_Z41__static_initialization_and_destruction_0ii, @function
+_Z41__static_initialization_and_destruction_0ii:
+.LFB2203:
+	.cfi_startproc
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	subq	$16, %rsp
+	movl	%edi, -4(%rbp)
+	movl	%esi, -8(%rbp)
+	cmpl	$1, -4(%rbp)
+	jne	.L8
+	cmpl	$65535, -8(%rbp)
+	jne	.L8
+	movl	$_ZStL8__ioinit, %edi
+	call	_ZNSt8ios_base4InitC1Ev
+	movl	$__dso_handle, %edx
+	movl	$_ZStL8__ioinit, %esi
+	movl	$_ZNSt8ios_base4InitD1Ev, %edi
+	call	__cxa_atexit
+.L8:
+	nop
+	leave
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE2203:
+	.size	_Z41__static_initialization_and_destruction_0ii, .-_Z41__static_initialization_and_destruction_0ii
+	.type	_GLOBAL__sub_I_main, @function
+_GLOBAL__sub_I_main:
+.LFB2204:
+	.cfi_startproc
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	movl	$65535, %esi
+	movl	$1, %edi
+	call	_Z41__static_initialization_and_destruction_0ii
+	popq	%rbp
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE2204:
+	.size	_GLOBAL__sub_I_main, .-_GLOBAL__sub_I_main
+	.section	.init_array,"aw"
+	.align 8
+	.quad	_GLOBAL__sub_I_main
+	.hidden	__dso_handle
+	.ident	"GCC: (Ubuntu 7.4.0-1ubuntu1~16.04~ppa1) 7.4.0"
+	.section	.note.GNU-stack,"",@progbits

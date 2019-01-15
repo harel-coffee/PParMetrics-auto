@@ -1,4 +1,5 @@
 	.file	"loop-nest-dep.cpp"
+	.text
 	.section	.rodata
 	.type	_ZStL19piecewise_construct, @object
 	.size	_ZStL19piecewise_construct, 1
@@ -25,93 +26,93 @@ _ZL6size_k:
 	.globl	main
 	.type	main, @function
 main:
-.LFB1490:
+.LFB1493:
 	.cfi_startproc
 	pushq	%rbp
 	.cfi_def_cfa_offset 16
 	.cfi_offset 6, -16
 	movq	%rsp, %rbp
 	.cfi_def_cfa_register 6
-	subq	$20032, %rsp
+	subq	$200032, %rsp
 	movq	%fs:40, %rax
 	movq	%rax, -8(%rbp)
 	xorl	%eax, %eax
-	movl	$0, -20032(%rbp)
+	movl	$9, -200028(%rbp)
 .L7:
-	cmpl	$99, -20032(%rbp)
-	jg	.L2
-	movl	$0, -20028(%rbp)
+	cmpl	$0, -200028(%rbp)
+	js	.L2
+	movl	$0, -200024(%rbp)
 .L6:
-	cmpl	$9, -20028(%rbp)
+	cmpl	$4, -200024(%rbp)
 	jg	.L3
-	movl	$1, -20024(%rbp)
+	movl	$0, -200020(%rbp)
 .L5:
-	cmpl	$4, -20024(%rbp)
+	cmpl	$99, -200020(%rbp)
 	jg	.L4
-	movl	-20032(%rbp), %edx
-	movl	-20028(%rbp), %eax
-	addl	%eax, %edx
-	movl	-20024(%rbp), %eax
-	leal	(%rdx,%rax), %ecx
-	movl	$1431655766, %edx
-	movl	%ecx, %eax
-	imull	%edx
-	movl	%ecx, %eax
-	sarl	$31, %eax
-	subl	%eax, %edx
-	movl	%edx, %eax
-	movl	%eax, -20020(%rbp)
-	movl	-20024(%rbp), %eax
-	subl	$1, %eax
-	movslq	%eax, %rsi
-	movl	-20032(%rbp), %eax
-	movslq	%eax, %rdx
-	movl	-20028(%rbp), %eax
-	movslq	%eax, %rcx
-	movq	%rdx, %rax
-	salq	$2, %rax
-	addq	%rdx, %rax
-	leaq	0(,%rax,4), %rdx
-	addq	%rdx, %rax
-	addq	%rax, %rax
-	movq	%rcx, %rdx
+	movl	-200028(%rbp), %eax
+	imull	-200024(%rbp), %eax
+	imull	-200020(%rbp), %eax
+	movl	%eax, %esi
+	movl	-200024(%rbp), %eax
+	addl	$1, %eax
+	cltq
+	movl	-200028(%rbp), %edx
+	movslq	%edx, %rcx
+	movl	-200020(%rbp), %edx
+	movslq	%edx, %rdi
+	movq	%rax, %rdx
 	salq	$2, %rdx
-	addq	%rcx, %rdx
-	addq	%rdx, %rax
-	addq	%rsi, %rax
-	movl	-20016(%rbp,%rax,4), %edx
-	movl	-20020(%rbp), %eax
-	leal	(%rdx,%rax), %esi
-	movl	-20024(%rbp), %eax
-	movslq	%eax, %rdi
-	movl	-20032(%rbp), %eax
-	movslq	%eax, %rdx
-	movl	-20028(%rbp), %eax
-	movslq	%eax, %rcx
-	movq	%rdx, %rax
+	addq	%rax, %rdx
+	leaq	0(,%rdx,8), %rax
+	movq	%rax, %rdx
+	movq	%rcx, %rax
 	salq	$2, %rax
+	addq	%rcx, %rax
+	leaq	0(,%rax,4), %rcx
+	addq	%rcx, %rax
+	salq	$3, %rax
+	addq	%rax, %rdx
+	imulq	$2000, %rdi, %rax
 	addq	%rdx, %rax
-	leaq	0(,%rax,4), %rdx
-	addq	%rdx, %rax
-	addq	%rax, %rax
-	movq	%rcx, %rdx
+	addq	%rbp, %rax
+	subq	$200016, %rax
+	movl	(%rax), %eax
+	imull	%eax, %esi
+	movl	-200024(%rbp), %eax
+	cltq
+	movl	-200028(%rbp), %edx
+	movslq	%edx, %rcx
+	movl	-200020(%rbp), %edx
+	movslq	%edx, %rdi
+	movq	%rax, %rdx
 	salq	$2, %rdx
-	addq	%rcx, %rdx
+	addq	%rax, %rdx
+	leaq	0(,%rdx,8), %rax
+	movq	%rax, %rdx
+	movq	%rcx, %rax
+	salq	$2, %rax
+	addq	%rcx, %rax
+	leaq	0(,%rax,4), %rcx
+	addq	%rcx, %rax
+	salq	$3, %rax
+	addq	%rax, %rdx
+	imulq	$2000, %rdi, %rax
 	addq	%rdx, %rax
-	addq	%rdi, %rax
-	movl	%esi, -20016(%rbp,%rax,4)
-	addl	$1, -20024(%rbp)
+	addq	%rbp, %rax
+	subq	$200016, %rax
+	movl	%esi, (%rax)
+	addl	$1, -200020(%rbp)
 	jmp	.L5
 .L4:
-	addl	$1, -20028(%rbp)
+	addl	$1, -200024(%rbp)
 	jmp	.L6
 .L3:
-	addl	$1, -20032(%rbp)
+	subl	$1, -200028(%rbp)
 	jmp	.L7
 .L2:
 	movl	$0, %eax
-	movq	-8(%rbp), %rdi
-	xorq	%fs:40, %rdi
+	movq	-8(%rbp), %rsi
+	xorq	%fs:40, %rsi
 	je	.L9
 	call	__stack_chk_fail
 .L9:
@@ -119,11 +120,11 @@ main:
 	.cfi_def_cfa 7, 8
 	ret
 	.cfi_endproc
-.LFE1490:
+.LFE1493:
 	.size	main, .-main
 	.type	_Z41__static_initialization_and_destruction_0ii, @function
 _Z41__static_initialization_and_destruction_0ii:
-.LFB1971:
+.LFB1974:
 	.cfi_startproc
 	pushq	%rbp
 	.cfi_def_cfa_offset 16
@@ -149,11 +150,11 @@ _Z41__static_initialization_and_destruction_0ii:
 	.cfi_def_cfa 7, 8
 	ret
 	.cfi_endproc
-.LFE1971:
+.LFE1974:
 	.size	_Z41__static_initialization_and_destruction_0ii, .-_Z41__static_initialization_and_destruction_0ii
 	.type	_GLOBAL__sub_I_main, @function
 _GLOBAL__sub_I_main:
-.LFB1972:
+.LFB1975:
 	.cfi_startproc
 	pushq	%rbp
 	.cfi_def_cfa_offset 16
@@ -167,11 +168,11 @@ _GLOBAL__sub_I_main:
 	.cfi_def_cfa 7, 8
 	ret
 	.cfi_endproc
-.LFE1972:
+.LFE1975:
 	.size	_GLOBAL__sub_I_main, .-_GLOBAL__sub_I_main
 	.section	.init_array,"aw"
 	.align 8
 	.quad	_GLOBAL__sub_I_main
 	.hidden	__dso_handle
-	.ident	"GCC: (Ubuntu 7.2.0-1ubuntu1~16.04) 7.2.0"
+	.ident	"GCC: (Ubuntu 7.4.0-1ubuntu1~16.04~ppa1) 7.4.0"
 	.section	.note.GNU-stack,"",@progbits

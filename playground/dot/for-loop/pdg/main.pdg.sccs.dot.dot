@@ -1,0 +1,136 @@
+
+digraph G {
+
+
+
+
+
+subgraph cluster11 {
+
+
+node73 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[12/25]  br i1 %cmp, label %for.body, label %for.end, !dbg !1309",shape=ellipse,style=filled ]
+node71 [fillcolor=grey,label="[13/22]  %inc = add nsw i32 %i.0, 1, !dbg !1316",shape=rectangle,style=filled ]
+node74 [fillcolor=grey,label="[19/20]  %cmp = icmp slt i32 %i.0, 100, !dbg !1308",shape=rectangle,style=filled ]
+node72 [fillcolor=grey,label="[14/21]  %i.0 = phi i32 [ 0, %entry ], [ %inc, %for.inc ], !dbg !1306",shape=rectangle,style=filled ]
+
+node73->node73 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node73->node74 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node74->node73 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node73->node71 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node72->node71 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node73->node72 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node71->node72 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node72->node74 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+
+
+}
+
+subgraph cluster10 {
+
+
+node70 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[30/31]  ret i32 0, !dbg !1320",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster9 {
+
+
+node69 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[23/24]  br label %for.inc, !dbg !1315",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster8 {
+
+
+node68 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[26/27]  br label %for.cond, !dbg !1305",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster7 {
+
+
+node67 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[28/29]  %a = alloca [100 x i32], align 16",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster6 {
+
+
+node66 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[3/6]  %0 = load i32, i32* %arrayidx, align 4, !dbg !1312",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster0 {
+
+
+node60 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[2/7]  %arrayidx = getelementptr inbounds [100 x i32], [100 x i32]* %a, i64 0, i64 %idxprom, !dbg !1312",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster12 {
+
+
+node75 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[15/18]  %idxprom1 = sext i32 %i.0 to i64, !dbg !1313",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster5 {
+
+
+node65 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[16/17]  %arrayidx2 = getelementptr inbounds [100 x i32], [100 x i32]* %a, i64 0, i64 %idxprom1, !dbg !1313",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster1 {
+
+
+node61 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[1/8]  %idxprom = sext i32 %sub to i64, !dbg !1312",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster2 {
+
+
+node62 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[0/9]  %sub = sub nsw i32 %i.0, 1, !dbg !1310",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster3 {
+
+
+node63 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[10/11]  br label %for.cond, !dbg !1317, !llvm.loop !1318",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster4 {
+
+
+node64 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[4/5]  store i32 %0, i32* %arrayidx2, align 4, !dbg !1314",shape=ellipse,style=filled ]
+
+
+
+}
+
+}

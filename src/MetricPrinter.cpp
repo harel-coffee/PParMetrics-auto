@@ -56,6 +56,7 @@ MetricPrinter::MetricPrinter()
     MetricFileStream_excel << "loop-iterator-size:";
     MetricFileStream_excel << "loop-payload-fraction:";
     MetricFileStream_excel << "loop-proper-sccs-number:";
+    MetricFileStream_excel << "loop-proper-sccs-ddg-number:";
     MetricFileStream_excel << "loop-critical-payload-fraction:";
     MetricFileStream_excel << "loop-depth:";
     MetricFileStream_excel << "loop-inner-loop-num:";
@@ -278,6 +279,14 @@ bool MetricPrinter::runOnFunction(llvm::Function& F) {
                     FuncMetricsFile << "\tloop-proper-sccs-number:\n";
                     MetricFileStream_excel << "-:";
                 }
+                Metric = LoopProportionMetrics_loop->getMetricValue(ppar::LoopProportionMetrics::ProportionMetric_t::LOOP_PROPER_SCCS_DDG_NUMBER);
+                if (Metric >= 0) {
+                    FuncMetricsFile << "\tloop-proper-sccs-ddg-number: " << llvm::format("%d", (uint64_t)Metric) << "\n";
+                    MetricFileStream_excel << (uint64_t)Metric << ":";
+                } else {
+                    FuncMetricsFile << "\tloop-proper-sccs-ddg-number:\n";
+                    MetricFileStream_excel << "-:";
+                }
                 Metric = LoopProportionMetrics_loop->getMetricValue(ppar::LoopProportionMetrics::ProportionMetric_t::LOOP_CRITICAL_PAYLOAD_FRACTION);
                 if (Metric >= 0) {
                     FuncMetricsFile << "\tloop-critical-payload-fraction: " << llvm::format("%.4f", Metric) << "\n";
@@ -307,9 +316,11 @@ bool MetricPrinter::runOnFunction(llvm::Function& F) {
                FuncMetricsFile << "\tloop-iterator-size:\n";
                FuncMetricsFile << "\tloop-payload-fraction:\n";
                FuncMetricsFile << "\tloop-proper-sccs-number:\n";
+               FuncMetricsFile << "\tloop-proper-sccs-ddg-number:\n";
                FuncMetricsFile << "\tloop-critical-payload-fraction:\n";
                FuncMetricsFile << "\tloop-depth:\n";
                FuncMetricsFile << "\tloop-inner-loop-num:\n";
+               MetricFileStream_excel << "-:";
                MetricFileStream_excel << "-:";
                MetricFileStream_excel << "-:";
                MetricFileStream_excel << "-:";

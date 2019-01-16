@@ -16,6 +16,7 @@ struct LoopProportionMetrics {
             LOOP_ITERATOR_SIZE, // the number of instructions in the loop's iterator
             LOOP_PAYLOAD_FRACTION, // the fraction payload constitutes of the whole loop
             LOOP_PROPER_SCCS_NUMBER, // the number of SCCs in the payload of the loop, with the amount of instructions greater than 1
+            LOOP_PROPER_SCCS_DDG_NUMBER, // the number of SCCs in the DDG of the loop, with the amount of instructions greater than 1
             LOOP_CRITICAL_PAYLOAD_FRACTION, // the fraction critical part of the payload constitutes of the whole payload
             // in case if this loop relates to the loop nest
             LOOP_DEPTH, // the depth of the loop in a loop nest

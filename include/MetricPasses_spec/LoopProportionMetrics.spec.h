@@ -12,6 +12,9 @@ void MetricPass<ppar::LoopProportionMetrics>::getAnalysisUsage(llvm::AnalysisUsa
     AU.addRequired<LoopInfoWrapperPass>();
     AU.addRequired<FunctionLoopInfoPass>();
     AU.addRequired<DecoupleLoopsPass>();
+    AU.addRequired<GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphPass>>();
+    AU.addRequired<GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::DataDependenceGraphPass>>();
+    AU.addRequired<GraphPass<llvm::BasicBlock*,ppar::Dependence*,ppar::ControlDependenceGraphPass>>();
     AU.addRequired<GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::ProgramDependenceGraphPass>>();
 }
 
@@ -125,6 +128,33 @@ bool MetricPass<ppar::LoopProportionMetrics>::runOnFunction(Function& F) {
 
         idx = ppar::LoopProportionMetrics::ProportionMetric_t::LOOP_INNER_LOOP_NUM;
         Metrics_loop->Metrics[idx] = LoopInnerLoopNum_value;
+
+        // compute loop proportions on DDG and MDG graphs 
+
+        const Graph<Instruction*,ppar::Dependence*>& ddgL =
+            Pass::getAnalysis<GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::DataDependenceGraphPass>>().getLoopGraph(L);
+        if (ddgL == GraphPass<llvm::Instruction*,ppar::Dependence*,ppar::DataDependenceGraphPass>::InvalidGraph) {
+            llvm_unreachable("llvm::Loop cannot have InvalidGraph allocated to it!");
+        }
+
+        if (!ddgL.isSCCsDataValid()) {
+            ddgL.findSCCs();
+        }
+        
+        if (!ddgL.isComponentGraphDataValid()) {
+            ddgL.buildComponentGraph();
+        }
+
+        // compute LOOP_PROPER_SCCS_DDG_NUMBER metric
+        double LoopProperSCCsDDGNumber_value = 0;
+        for (Graph<Instruction*,ppar::Dependence*>::const_sccs_iterator scc_it = ddgL.sccs_cbegin(); scc_it != ddgL.sccs_cend(); scc_it++) {
+            if ((scc_it->second)->getNodesNumber() > 1) {
+                LoopProperSCCsDDGNumber_value++;
+            }
+        }
+ 
+        idx = ppar::LoopProportionMetrics::ProportionMetric_t::LOOP_PROPER_SCCS_DDG_NUMBER;
+        Metrics_loop->Metrics[idx] = LoopProperSCCsDDGNumber_value;
     }
 
     return false;

@@ -105,8 +105,11 @@ bool GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphP
                         std::string distance_str;
                         llvm::raw_string_ostream rso(distance_str);
                         uint64_t dist;
-                        rso << *(D->getDistance(L->getLoopDepth()));
-                        std::stringstream dis(distance_str);
+                        auto d = D->getDistance(L->getLoopDepth());
+                        if (d != nullptr) { 
+                            rso << *d;
+                        }
+                        std::stringstream dis(rso.str());
                         dis >> dist;
                         if (dist > 3) {
                             continue;

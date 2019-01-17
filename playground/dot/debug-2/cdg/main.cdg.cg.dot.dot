@@ -1,0 +1,68 @@
+
+digraph G {
+
+
+node35 [label="[6/7]
+while.end:                                        ; preds = %while.cond
+  br label %for.inc, !dbg !1328
+",shape=rectangle ]
+node34 [label="[20/21]
+entry:
+  %a = alloca [100 x i32], align 16
+  call void @llvm.dbg.declare(metadata [100 x i32]* %a, metadata !1296, metadata !DIExpression()), !dbg !1300
+  call void @llvm.dbg.value(metadata i64 1, metadata !1301, metadata !DIExpression()), !dbg !1302
+  call void @llvm.dbg.value(metadata i32 0, metadata !1303, metadata !DIExpression()), !dbg !1305
+  br label %for.cond, !dbg !1306
+",shape=rectangle ]
+node28 [label="[13/14]
+if.then:                                          ; preds = %while.body
+  %conv3 = trunc i64 %mul to i32, !dbg !1322
+  br label %return, !dbg !1323
+",shape=rectangle ]
+node27 [label="[8/9]
+if.end:                                           ; preds = %while.body
+  %idxprom4 = sext i32 %i.0 to i64, !dbg !1324
+  %arrayidx5 = getelementptr inbounds [100 x i32], [100 x i32]* %a, i64 0, i64 %idxprom4, !dbg !1324
+  %1 = load i32, i32* %arrayidx5, align 4, !dbg !1325
+  %dec = add nsw i32 %1, -1, !dbg !1325
+  store i32 %dec, i32* %arrayidx5, align 4, !dbg !1325
+  br label %while.cond, !dbg !1311, !llvm.loop !1326
+",shape=rectangle ]
+node33 [label="[10/19]
+for.cond:                                         ; preds = %for.inc, %entry
+  %i.0 = phi i32 [ 0, %entry ], [ %inc, %for.inc ], !dbg !1307
+  %product.0 = phi i64 [ 1, %entry ], [ %product.1, %for.inc ], !dbg !1302
+  call void @llvm.dbg.value(metadata i64 %product.0, metadata !1301, metadata !DIExpression()), !dbg !1302
+  call void @llvm.dbg.value(metadata i32 %i.0, metadata !1303, metadata !DIExpression()), !dbg !1305
+  %cmp = icmp ule i32 %i.0, 100, !dbg !1309
+  br i1 %cmp, label %for.body, label %for.end, !dbg !1310
+",shape=rectangle ]
+node29 [label="[17/18]
+for.body:                                         ; preds = %for.cond
+  br label %while.cond, !dbg !1311
+",shape=rectangle ]
+node30 [label="[2/3]
+for.end:                                          ; preds = %for.cond
+  br label %return, !dbg !1333
+",shape=rectangle ]
+node32 [label="[4/5]
+for.inc:                                          ; preds = %while.end
+  %inc = add nsw i32 %i.0, 1, !dbg !1329
+  call void @llvm.dbg.value(metadata i32 %inc, metadata !1303, metadata !DIExpression()), !dbg !1305
+  br label %for.cond, !dbg !1330, !llvm.loop !1331
+",shape=rectangle ]
+node31 [label="[0/1]
+return:                                           ; preds = %for.end, %if.then
+  %retval.0 = phi i32 [ %conv3, %if.then ], [ 0, %for.end ], !dbg !1334
+  ret i32 %retval.0, !dbg !1335
+",shape=rectangle ]
+
+node33->node28 [ ]
+node33->node27 [ ]
+node33->node30 [ ]
+node33->node29 [ ]
+node33->node32 [ ]
+node33->node35 [ ]
+
+
+}

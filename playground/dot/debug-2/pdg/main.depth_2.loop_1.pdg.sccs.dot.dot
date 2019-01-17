@@ -1,0 +1,99 @@
+
+digraph G {
+
+
+
+
+
+subgraph cluster6 {
+
+
+node210 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[9/10]  store i32 %dec, i32* %arrayidx5, align 4, !dbg !1325",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster0 {
+
+
+node195 [penwidth=3.0,fontsize=20,fillcolor=lemonchiffon,label="[5/6]  br label %while.cond, !dbg !1311, !llvm.loop !1326",shape=ellipse,style=filled ]
+
+
+
+}
+
+subgraph cluster5 {
+
+
+node209 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[12/13]  %dec = add nsw i32 %1, -1, !dbg !1325",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster1 {
+
+
+node196 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[7/16]  %idxprom4 = sext i32 %i.0 to i64, !dbg !1324",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster2 {
+
+
+node205 [fillcolor=lightcoral,label="[18/19]  %0 = load i32, i32* %arrayidx, align 4, !dbg !1315",shape=ellipse,style=filled ]
+node203 [fillcolor=grey,label="[3/26]  %cmp2 = icmp ugt i64 %mul, 500000, !dbg !1319",shape=rectangle,style=filled ]
+node198 [fillcolor=lemonchiffon,label="[1/30]  br i1 %cmp1, label %while.body, label %while.end, !dbg !1311",shape=ellipse,style=filled ]
+node197 [fillcolor=grey,label="[21/22]  %product.1 = phi i64 [ %product.0, %for.body ], [ %mul, %if.end ], !dbg !1313",shape=rectangle,style=filled ]
+node206 [fillcolor=lemonchiffon,label="[4/25]  br i1 %cmp2, label %if.then, label %if.end, !dbg !1321",shape=ellipse,style=filled ]
+node204 [fillcolor=grey,label="[23/24]  %idxprom = sext i32 %i.0 to i64, !dbg !1315",shape=rectangle,style=filled ]
+node199 [fillcolor=grey,label="[28/29]  %conv = sext i32 %i.0 to i64, !dbg !1317",shape=rectangle,style=filled ]
+node200 [fillcolor=grey,label="[2/27]  %mul = mul i64 %product.1, %conv, !dbg !1318",shape=rectangle,style=filled ]
+node201 [fillcolor=grey,label="[17/20]  %arrayidx = getelementptr inbounds [100 x i32], [100 x i32]* %a, i64 0, i64 %idxprom, !dbg !1315",shape=rectangle,style=filled ]
+node202 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[0/31]  %cmp1 = icmp sgt i32 %0, 0, !dbg !1316",shape=rectangle,style=filled ]
+
+node206->node198 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node204->node201 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node199->node200 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node198->node203 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node201->node205 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node206->node205 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node206->node201 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node197->node200 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node203->node206 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node206->node202 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node200->node197 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node198->node200 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node206->node204 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node205->node202 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node206->node197 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node198->node199 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node198->node206 [style=solid,color=gold,label="C",penwidth=1.0,fontcolor=gold ]
+node200->node203 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+node202->node198 [style=solid,color=black,label="",penwidth=0.5,fontcolor=black ]
+
+
+}
+
+subgraph cluster3 {
+
+
+node207 [penwidth=3.0,fontsize=20,fillcolor=grey,label="[8/15]  %arrayidx5 = getelementptr inbounds [100 x i32], [100 x i32]* %a, i64 0, i64 %idxprom4, !dbg !1324",shape=rectangle,style=filled ]
+
+
+
+}
+
+subgraph cluster4 {
+
+
+node208 [penwidth=3.0,fontsize=20,fillcolor=lightcoral,label="[11/14]  %1 = load i32, i32* %arrayidx5, align 4, !dbg !1325",shape=ellipse,style=filled ]
+
+
+
+}
+
+}

@@ -1,0 +1,14 @@
+
+digraph G {
+
+
+node5 [fillcolor=lightcoral,label="[4/5]  %1 = load i32, i32* %arrayidx5, align 4, !dbg !1325",shape=ellipse,style=filled ]
+node3 [fillcolor=lightcoral,label="[0/3]  %0 = load i32, i32* %arrayidx, align 4, !dbg !1315",shape=ellipse,style=filled ]
+node4 [fillcolor=lightcoral,label="[1/2]  store i32 %dec, i32* %arrayidx5, align 4, !dbg !1325",shape=ellipse,style=filled ]
+
+node3->node4 [ ]
+node5->node4 [ ]
+node4->node4 [ ]
+
+
+}

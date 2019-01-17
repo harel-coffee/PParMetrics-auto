@@ -5,19 +5,19 @@
 
 using namespace std;
 
-int func(int *a, int *b, int n) {
-    for (int i = 0; i < n; i++) {
-        a[i] = 0;
-        b[i] = 1;
-    }
-}
+typedef struct Node {
+    int array[100];
+    unsigned int checksum[100];
+} node_t;
 
 int main() {
     
-    int a[100];
-    int b[100];
+    node_t a[100];
 
-    func(a,b,100);
+    for (unsigned int i = 0; i < 100; i++) {
+        a[0].array[i] = i;
+        a[0].checksum[i] = i % 10;
+    }
 
     return 0;
 }

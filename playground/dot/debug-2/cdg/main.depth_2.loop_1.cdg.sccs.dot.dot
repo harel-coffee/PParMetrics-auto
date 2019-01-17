@@ -1,0 +1,53 @@
+
+digraph G {
+
+
+
+
+
+subgraph cluster1 {
+
+
+node68 [penwidth=3.0,fontsize=20,shape=rectangle,label="[2/5]
+while.cond:                                       ; preds = %if.end, %for.body
+  %product.1 = phi i64 [ %product.0, %for.body ], [ %mul, %if.end ], !dbg !1313
+  call void @llvm.dbg.value(metadata i64 %product.1, metadata !1301, metadata !DIExpression()), !dbg !1302
+  %idxprom = sext i32 %i.0 to i64, !dbg !1315
+  %arrayidx = getelementptr inbounds [100 x i32], [100 x i32]* %a, i64 0, i64 %idxprom, !dbg !1315
+  %0 = load i32, i32* %arrayidx, align 4, !dbg !1315
+  %cmp1 = icmp sgt i32 %0, 0, !dbg !1316
+  br i1 %cmp1, label %while.body, label %while.end, !dbg !1311
+" ]
+node67 [label="[3/4]
+while.body:                                       ; preds = %while.cond
+  %conv = sext i32 %i.0 to i64, !dbg !1317
+  %mul = mul i64 %product.1, %conv, !dbg !1318
+  call void @llvm.dbg.value(metadata i64 %mul, metadata !1301, metadata !DIExpression()), !dbg !1302
+  %cmp2 = icmp ugt i64 %mul, 500000, !dbg !1319
+  br i1 %cmp2, label %if.then, label %if.end, !dbg !1321
+",shape=rectangle ]
+
+node67->node68 [ ]
+node68->node67 [ ]
+
+
+}
+
+subgraph cluster0 {
+
+
+node66 [penwidth=3.0,fontsize=20,shape=rectangle,label="[0/1]
+if.end:                                           ; preds = %while.body
+  %idxprom4 = sext i32 %i.0 to i64, !dbg !1324
+  %arrayidx5 = getelementptr inbounds [100 x i32], [100 x i32]* %a, i64 0, i64 %idxprom4, !dbg !1324
+  %1 = load i32, i32* %arrayidx5, align 4, !dbg !1325
+  %dec = add nsw i32 %1, -1, !dbg !1325
+  store i32 %dec, i32* %arrayidx5, align 4, !dbg !1325
+  br label %while.cond, !dbg !1311, !llvm.loop !1326
+" ]
+
+
+
+}
+
+}

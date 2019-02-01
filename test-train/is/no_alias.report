@@ -1,0 +1,135 @@
+ML-vs-ICC.report
+no_alias [ critical-payload-cross-dependencies-number iterator-cntl-dependencies-number loop-proper-sccs-number iterator-output-dependencies-number critical-payload-mem-dependencies-number loop-payload-fraction iterator-mem-write-count iterator-getelemptr-fraction payload-getelemptr-count iterator-getelemptr-count iterator-reg-dependencies-number payload-reg-dependencies-number critical-payload-non-cf-cohesion loop-proper-sccs-number-diff critical-payload-getelemptr-fraction iterator-call-fraction payload-mem-dependencies-number iterator-payload-total-cohesion payload-mem-write-count payload-mem-read-count payload-branch-count critical-payload-mem-write-fraction payload-branch-fraction critical-payload-total-cohesion critical-payload-mem-read-fraction iterator-anti-dependencies-number payload-anti-dependencies-number critical-payload-anti-dependencies-number critical-payload-branch-count loop-depth iterator-true-dependencies-number critical-payload-call-count iterator-mem-read-fraction iterator-branch-count critical-payload-output-dependencies-number iterator-payload-non-cf-cohesion iterator-mem-dependencies-number payload-mem-write-fraction critical-payload-true-dependencies-number payload-output-dependencies-number iterator-total-dependencies-number loop-absolute-size critical-payload-mem-write-count iterator-mem-read-count payload-call-count payload-call-fraction critical-payload-reg-dependencies-number critical-payload-mem-read-count critical-payload-cntl-dependencies-number iterator-mem-write-fraction loop-critical-payload-fraction iterator-cross-dependencies-number iterator-call-count critical-payload-total-dependencies-number payload-total-dependencies-number critical-payload-call-fraction loop-proper-sccs-ddg-number payload-getelemptr-fraction critical-payload-branch-fraction loop-iterator-size iterator-branch-fraction payload-mem-read-fraction loop-inner-loop-num critical-payload-getelemptr-count payload-true-dependencies-number loop-proper-sccs-ddg-number-diff payload-mem-dependencies-number-diff payload-cntl-dependencies-number payload-cross-dependencies-number ]
+Table
+========
+=== case [0 / 0] ===
+num: 8
+par: 1
+non-par: 7
+=== case [0 / 1] ===
+num: 6
+par: 1
+non-par: 5
+=== case [1 / 0] ===
+num: 1
+par: 1
+non-par: 0
+=== case [1 / 1] ===
+num: 5
+par: 5
+non-par: 0
+========
+
+=== case [0 / 0] ===
+= parallelisible =
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(649)
+= non-parallelisible =
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(535)
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(392)
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(446)
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(317)
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(658)
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(707)
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(322)
+===================
+
+=== case [0 / 1] ===
+= parallelisible =
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(669)
+= non-parallelisible =
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(987)
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(538)
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(715)
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(764)
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(693)
+===================
+
+=== case [1 / 0] ===
+= parallelisible =
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(922)
+= non-parallelisible =
+===================
+
+=== case [1 / 1] ===
+= parallelisible =
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(575)
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(698)
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(495)
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(612)
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(644)
+= non-parallelisible =
+===================
+
+Mispredictions: 7
+
+Accuracy
+========
+tests: 20
+mispredicts: 7
+accuracy: 0.65
+accuracy-rate: 0.65
+error-rate: 0.35
+safe-mispredicts: 2
+unsafe-mispredicts: 5
+safe-error-rate: 0.29
+unsafe-error-rate: 0.71
+========
+
+ICC competition
+========
+icc-discrepancies: 7
+icc-wins: 1
+icc-losses: 6
+win-rate: 0.14
+loss-rate: 0.86
+========
+
+loop:pred:label:safe
+Mispredicted loops:
+===================
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(693):1:0:unsafe
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(715):1:0:unsafe
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(987):1:0:unsafe
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(649):0:1:safe
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(538):1:0:unsafe
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(922):0:1:safe
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(764):1:0:unsafe
+===================
+
+Predicted loops:
+===================
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(658):0:0
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(612):1:1
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(535):0:0
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(317):0:0
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(698):1:1
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(392):0:0
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(669):1:1
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(446):0:0
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(644):1:1
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(495):1:1
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(707):0:0
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(322):0:0
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(575):1:1
+===================
+
+loop:pred:icc:result
+Win over ICC loops:
+===================
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(669):1:0:win
+===================
+
+Loss to ICC loops:
+===================
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(715):1:0:loss
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(764):1:0:loss
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(922):0:1:loss
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(538):1:0:loss
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(987):1:0:loss
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(693):1:0:loss
+===================
+
+==============================================================
+
+
+

@@ -1,0 +1,475 @@
+diff --git a/NPB3.3-OMP-C/SP/src/add.c b/NPB3.3-OMP-C/SP/src/add.c
+index 8b8c482..045d6f5 100644
+--- a/NPB3.3-OMP-C/SP/src/add.c
++++ b/NPB3.3-OMP-C/SP/src/add.c
+@@ -42,7 +42,7 @@ void add()
+   int i, j, k, m;
+ 
+   if (timeron) timer_start(t_add);
+-  #pragma omp parallel for default(shared) private(i,j,k,m)
++  //#pragma omp parallel for default(shared) private(i,j,k,m)
+   for (k = 1; k <= nz2; k++) {
+     for (j = 1; j <= ny2; j++) {
+       for (i = 1; i <= nx2; i++) {
+diff --git a/NPB3.3-OMP-C/SP/src/error.c b/NPB3.3-OMP-C/SP/src/error.c
+index 5ad8108..becf4ab 100644
+--- a/NPB3.3-OMP-C/SP/src/error.c
++++ b/NPB3.3-OMP-C/SP/src/error.c
+@@ -49,13 +49,13 @@ void error_norm(double rms[5])
+     rms[m] = 0.0;
+   }
+ 
+-  #pragma omp parallel default(shared) \
++  //#pragma omp parallel default(shared) \
+           private(i,j,k,m,zeta,eta,xi,add,u_exact,rms_local) shared(rms)
+   {
+     for (m = 0; m < 5; m++) {
+       rms_local[m] = 0.0;
+     }
+-    #pragma omp for nowait
++    //#pragma omp for nowait
+     for (k = 0; k <= grid_points[2]-1; k++) {
+       zeta = (double)k * dnzm1;
+       for (j = 0; j <= grid_points[1]-1; j++) {
+@@ -72,7 +72,7 @@ void error_norm(double rms[5])
+       }
+     }
+     for (m = 0; m < 5; m++) {
+-      #pragma omp atomic
++      //#pragma omp atomic
+       rms[m] += rms_local[m];
+     }
+   } //end parallel
+@@ -96,13 +96,13 @@ void rhs_norm(double rms[5])
+     rms[m] = 0.0;
+   }
+ 
+-  #pragma omp parallel default(shared) private(i,j,k,m,add,rms_local) \
++  //#pragma omp parallel default(shared) private(i,j,k,m,add,rms_local) \
+                                        shared(rms)
+   {
+     for (m = 0; m < 5; m++) {
+       rms_local[m] = 0.0;
+     }
+-    #pragma omp for nowait
++    //#pragma omp for nowait
+     for (k = 1; k <= nz2; k++) {
+       for (j = 1; j <= ny2; j++) {
+         for (i = 1; i <= nx2; i++) {
+@@ -114,7 +114,7 @@ void rhs_norm(double rms[5])
+       } 
+     } 
+     for (m = 0; m < 5; m++) {
+-      #pragma omp atomic
++      //#pragma omp atomic
+       rms[m] += rms_local[m];
+     }
+   } //end parallel
+diff --git a/NPB3.3-OMP-C/SP/src/exact_rhs.c b/NPB3.3-OMP-C/SP/src/exact_rhs.c
+index 2b35860..b458ab0 100644
+--- a/NPB3.3-OMP-C/SP/src/exact_rhs.c
++++ b/NPB3.3-OMP-C/SP/src/exact_rhs.c
+@@ -42,13 +42,13 @@ void exact_rhs()
+   double dtemp[5], xi, eta, zeta, dtpp;
+   int m, i, j, k, ip1, im1, jp1, jm1, km1, kp1;
+ 
+-  #pragma omp parallel default(shared) \
++  //#pragma omp parallel default(shared) \
+           private(i,j,k,m,zeta,eta,xi,dtpp,im1,ip1,jm1,jp1,km1,kp1,dtemp)
+   {
+   //---------------------------------------------------------------------
+   // initialize                                  
+   //---------------------------------------------------------------------
+-  #pragma omp for schedule(static)
++  //#pragma omp for schedule(static)
+   for (k = 0; k <= grid_points[2]-1; k++) {
+     for (j = 0; j <= grid_points[1]-1; j++) {
+       for (i = 0; i <= grid_points[0]-1; i++) {
+@@ -62,7 +62,7 @@ void exact_rhs()
+   //---------------------------------------------------------------------
+   // xi-direction flux differences                      
+   //---------------------------------------------------------------------
+-  #pragma omp for schedule(static) nowait
++  //#pragma omp for schedule(static) nowait
+   for (k = 1; k <= grid_points[2]-2; k++) {
+     zeta = (double)k * dnzm1;
+     for (j = 1; j <= grid_points[1]-2; j++) {
+@@ -157,7 +157,7 @@ void exact_rhs()
+   //---------------------------------------------------------------------
+   // eta-direction flux differences             
+   //---------------------------------------------------------------------
+-  #pragma omp for schedule(static)
++  //#pragma omp for schedule(static)
+   for (k = 1; k <= grid_points[2]-2; k++) {
+     zeta = (double)k * dnzm1;
+     for (i = 1; i <= grid_points[0]-2; i++) {
+@@ -252,7 +252,7 @@ void exact_rhs()
+   //---------------------------------------------------------------------
+   // zeta-direction flux differences                      
+   //---------------------------------------------------------------------
+-  #pragma omp for schedule(static)
++  //#pragma omp for schedule(static)
+   for (j = 1; j <= grid_points[1]-2; j++) {
+     eta = (double)j * dnym1;
+     for (i = 1; i <= grid_points[0]-2; i++) {
+@@ -348,7 +348,7 @@ void exact_rhs()
+   //---------------------------------------------------------------------
+   // now change the sign of the forcing function, 
+   //---------------------------------------------------------------------
+-  #pragma omp for schedule(static) nowait
++  //#pragma omp for schedule(static) nowait
+   for (k = 1; k <= grid_points[2]-2; k++) {
+     for (j = 1; j <= grid_points[1]-2; j++) {
+       for (i = 1; i <= grid_points[0]-2; i++) {
+diff --git a/NPB3.3-OMP-C/SP/src/header.h b/NPB3.3-OMP-C/SP/src/header.h
+index 27fa2b9..77f246e 100644
+--- a/NPB3.3-OMP-C/SP/src/header.h
++++ b/NPB3.3-OMP-C/SP/src/header.h
+@@ -97,13 +97,13 @@ extern double cuf [PROBLEM_SIZE];
+ extern double q   [PROBLEM_SIZE];
+ extern double ue [PROBLEM_SIZE][5];
+ extern double buf[PROBLEM_SIZE][5];
+-#pragma omp threadprivate(cv,rhon,rhos,rhoq,cuf,q,ue,buf)
++//#pragma omp threadprivate(cv,rhon,rhos,rhoq,cuf,q,ue,buf)
+ 
+ /* common /work_lhs/ */
+ extern double lhs [IMAXP+1][IMAXP+1][5];
+ extern double lhsp[IMAXP+1][IMAXP+1][5];
+ extern double lhsm[IMAXP+1][IMAXP+1][5];
+-#pragma omp threadprivate(lhs,lhsp,lhsm)
++//#pragma omp threadprivate(lhs,lhsp,lhsm)
+ 
+ //-----------------------------------------------------------------------
+ // Timer constants
+diff --git a/NPB3.3-OMP-C/SP/src/initialize.c b/NPB3.3-OMP-C/SP/src/initialize.c
+index bcc3472..f14f422 100644
+--- a/NPB3.3-OMP-C/SP/src/initialize.c
++++ b/NPB3.3-OMP-C/SP/src/initialize.c
+@@ -43,7 +43,7 @@ void initialize()
+   int i, j, k, m, ix, iy, iz;
+   double xi, eta, zeta, Pface[2][3][5], Pxi, Peta, Pzeta, temp[5];
+ 
+-  #pragma omp parallel default(shared) \
++  //#pragma omp parallel default(shared) \
+           private(i,j,k,m,zeta,eta,xi,ix,iy,iz,Pxi,Peta,Pzeta,Pface,temp)
+   {
+   //---------------------------------------------------------------------
+@@ -52,7 +52,7 @@ void initialize()
+   //  to compute the whole thing with a simple loop. Make sure those 
+   //  values are nonzero by initializing the whole thing here. 
+   //---------------------------------------------------------------------
+-  #pragma omp for schedule(static)
++  //#pragma omp for schedule(static)
+   for (k = 0; k <= grid_points[2]-1; k++) {
+     for (j = 0; j <= grid_points[1]-1; j++) {
+       for (i = 0; i <= grid_points[0]-1; i++) {
+@@ -68,7 +68,7 @@ void initialize()
+   //---------------------------------------------------------------------
+   // first store the "interpolated" values everywhere on the grid    
+   //---------------------------------------------------------------------
+-  #pragma omp for schedule(static) nowait
++  //#pragma omp for schedule(static) nowait
+   for (k = 0; k <= grid_points[2]-1; k++) {
+     zeta = (double)k * dnzm1;
+     for (j = 0; j <= grid_points[1]-1; j++) {
+@@ -114,7 +114,7 @@ void initialize()
+   //---------------------------------------------------------------------
+   xi = 0.0;
+   i  = 0;
+-  #pragma omp for schedule(static) nowait
++  //#pragma omp for schedule(static) nowait
+   for (k = 0; k <= grid_points[2]-1; k++) {
+     zeta = (double)k * dnzm1;
+     for (j = 0; j <= grid_points[1]-1; j++) {
+@@ -131,7 +131,7 @@ void initialize()
+   //---------------------------------------------------------------------
+   xi = 1.0;
+   i  = grid_points[0]-1;
+-  #pragma omp for schedule(static) nowait
++  //#pragma omp for schedule(static) nowait
+   for (k = 0; k <= grid_points[2]-1; k++) {
+     zeta = (double)k * dnzm1;
+     for (j = 0; j <= grid_points[1]-1; j++) {
+@@ -148,7 +148,7 @@ void initialize()
+   //---------------------------------------------------------------------
+   eta = 0.0;
+   j   = 0;
+-  #pragma omp for schedule(static) nowait
++  //#pragma omp for schedule(static) nowait
+   for (k = 0; k <= grid_points[2]-1; k++) {
+     zeta = (double)k * dnzm1;
+     for (i = 0; i <= grid_points[0]-1; i++) {
+@@ -165,7 +165,7 @@ void initialize()
+   //---------------------------------------------------------------------
+   eta = 1.0;
+   j   = grid_points[1]-1;
+-  #pragma omp for schedule(static)
++  //#pragma omp for schedule(static)
+   for (k = 0; k <= grid_points[2]-1; k++) {
+     zeta = (double)k * dnzm1;
+     for (i = 0; i <= grid_points[0]-1; i++) {
+@@ -182,7 +182,7 @@ void initialize()
+   //---------------------------------------------------------------------
+   zeta = 0.0;
+   k    = 0;
+-  #pragma omp for schedule(static) nowait
++  //#pragma omp for schedule(static) nowait
+   for (j = 0; j <= grid_points[1]-1; j++) {
+     eta = (double)j * dnym1;
+     for (i =0; i <= grid_points[0]-1; i++) {
+@@ -199,7 +199,7 @@ void initialize()
+   //---------------------------------------------------------------------
+   zeta = 1.0;
+   k    = grid_points[2]-1;
+-  #pragma omp for schedule(static) nowait
++  //#pragma omp for schedule(static) nowait
+   for (j = 0; j <= grid_points[1]-1; j++) {
+     eta = (double)j * dnym1;
+     for (i =0; i <= grid_points[0]-1; i++) {
+diff --git a/NPB3.3-OMP-C/SP/src/ninvr.c b/NPB3.3-OMP-C/SP/src/ninvr.c
+index ba89e65..1b355ac 100644
+--- a/NPB3.3-OMP-C/SP/src/ninvr.c
++++ b/NPB3.3-OMP-C/SP/src/ninvr.c
+@@ -43,7 +43,7 @@ void ninvr()
+   double r1, r2, r3, r4, r5, t1, t2;
+ 
+   if (timeron) timer_start(t_ninvr);
+-  #pragma omp parallel for default(shared) private(i,j,k,r1,r2,r3,r4,r5,t1,t2)
++  //#pragma omp parallel for default(shared) private(i,j,k,r1,r2,r3,r4,r5,t1,t2)
+   for (k = 1; k <= nz2; k++) {
+     for (j = 1; j <= ny2; j++) {
+       for (i = 1; i <= nx2; i++) {
+diff --git a/NPB3.3-OMP-C/SP/src/pinvr.c b/NPB3.3-OMP-C/SP/src/pinvr.c
+index ccb66ae..56cf4ef 100644
+--- a/NPB3.3-OMP-C/SP/src/pinvr.c
++++ b/NPB3.3-OMP-C/SP/src/pinvr.c
+@@ -43,7 +43,7 @@ void pinvr()
+   double r1, r2, r3, r4, r5, t1, t2;
+ 
+   if (timeron) timer_start(t_pinvr);
+-  #pragma omp parallel for default(shared) private(i,j,k,r1,r2,r3,r4,r5,t1,t2)
++  //#pragma omp parallel for default(shared) private(i,j,k,r1,r2,r3,r4,r5,t1,t2)
+   for (k = 1; k <= nz2; k++) {
+     for (j = 1; j <= ny2; j++) {
+       for (i = 1; i <= nx2; i++) {
+diff --git a/NPB3.3-OMP-C/SP/src/rhs.c b/NPB3.3-OMP-C/SP/src/rhs.c
+index 2ce194e..9b3c1cb 100644
+--- a/NPB3.3-OMP-C/SP/src/rhs.c
++++ b/NPB3.3-OMP-C/SP/src/rhs.c
+@@ -41,14 +41,14 @@ void compute_rhs()
+   double aux, rho_inv, uijk, up1, um1, vijk, vp1, vm1, wijk, wp1, wm1;
+ 
+   if (timeron) timer_start(t_rhs);
+-  #pragma omp parallel default(shared) private(i,j,k,m,rho_inv,aux,uijk, \
++  //#pragma omp parallel default(shared) private(i,j,k,m,rho_inv,aux,uijk, \
+                                        up1,um1,vijk,vp1,vm1,wijk,wp1,wm1)
+   {
+   //---------------------------------------------------------------------
+   // compute the reciprocal of density, and the kinetic energy, 
+   // and the speed of sound. 
+   //---------------------------------------------------------------------
+-  #pragma omp for schedule(static) nowait
++  //#pragma omp for schedule(static) nowait
+   for (k = 0; k <= grid_points[2]-1; k++) {
+     for (j = 0; j <= grid_points[1]-1; j++) {
+       for (i = 0; i <= grid_points[0]-1; i++) {
+@@ -76,7 +76,7 @@ void compute_rhs()
+   // this forcing term is known, we can store it on the whole grid
+   // including the boundary                   
+   //---------------------------------------------------------------------
+-  #pragma omp for schedule(static)
++  //#pragma omp for schedule(static)
+   for (k = 0; k <= nz2+1; k++) {
+     for (j = 0; j <= ny2+1; j++) {
+       for (i = 0; i <= nx2+1; i++) {
+@@ -90,9 +90,9 @@ void compute_rhs()
+   //---------------------------------------------------------------------
+   // compute xi-direction fluxes 
+   //---------------------------------------------------------------------
+-  #pragma omp master
++  //#pragma omp master
+   if (timeron) timer_start(t_rhsx);
+-  #pragma omp for schedule(static) nowait
++  //#pragma omp for schedule(static) nowait
+   for (k = 1; k <= nz2; k++) {
+     for (j = 1; j <= ny2; j++) {
+       for (i = 1; i <= nx2; i++) {
+@@ -177,7 +177,7 @@ void compute_rhs()
+       }
+     }
+   }
+-  #pragma omp master
++  //#pragma omp master
+   {
+   if (timeron) timer_stop(t_rhsx);
+ 
+@@ -186,7 +186,7 @@ void compute_rhs()
+   //---------------------------------------------------------------------
+   if (timeron) timer_start(t_rhsy);
+   }
+-  #pragma omp for schedule(static)
++  //#pragma omp for schedule(static)
+   for (k = 1; k <= nz2; k++) {
+     for (j = 1; j <= ny2; j++) {
+       for (i = 1; i <= nx2; i++) {
+@@ -275,7 +275,7 @@ void compute_rhs()
+       }
+     }
+   }
+-  #pragma omp master
++  //#pragma omp master
+   {
+   if (timeron) timer_stop(t_rhsy);
+ 
+@@ -284,7 +284,7 @@ void compute_rhs()
+   //---------------------------------------------------------------------
+   if (timeron) timer_start(t_rhsz);
+   }
+-  #pragma omp for schedule(static)
++  //#pragma omp for schedule(static)
+   for (k = 1; k <= grid_points[2]-2; k++) {
+     for (j = 1; j <= grid_points[1]-2; j++) {
+       for (i = 1; i <= grid_points[0]-2; i++) {
+@@ -330,7 +330,7 @@ void compute_rhs()
+   // add fourth order zeta-direction dissipation                
+   //---------------------------------------------------------------------
+   k = 1;
+-  #pragma omp for schedule(static) nowait
++  //#pragma omp for schedule(static) nowait
+   for (j = 1; j <= grid_points[1]-2; j++) {
+     for (i = 1; i <= grid_points[0]-2; i++) {
+       for (m = 0; m < 5; m++) {
+@@ -341,7 +341,7 @@ void compute_rhs()
+   }
+ 
+   k = 2;
+-  #pragma omp for schedule(static) nowait
++  //#pragma omp for schedule(static) nowait
+   for (j = 1; j <= grid_points[1]-2; j++) {
+     for (i = 1; i <= grid_points[0]-2; i++) {
+       for (m = 0; m < 5; m++) {
+@@ -352,7 +352,7 @@ void compute_rhs()
+     }
+   }
+ 
+-  #pragma omp for schedule(static) nowait
++  //#pragma omp for schedule(static) nowait
+   for (k = 3; k <= grid_points[2]-4; k++) {
+     for (j = 1; j <= grid_points[1]-2; j++) {
+       for (i = 1; i <= grid_points[0]-2; i++) {
+@@ -367,7 +367,7 @@ void compute_rhs()
+   }
+ 
+   k = grid_points[2]-3;
+-  #pragma omp for schedule(static) nowait
++  //#pragma omp for schedule(static) nowait
+   for (j = 1; j <= grid_points[1]-2; j++) {
+     for (i = 1; i <= grid_points[0]-2; i++) {
+       for (m = 0; m < 5; m++) {
+@@ -379,7 +379,7 @@ void compute_rhs()
+   }
+ 
+   k = grid_points[2]-2;
+-  #pragma omp for schedule(static)
++  //#pragma omp for schedule(static)
+   for (j = 1; j <= grid_points[1]-2; j++) {
+     for (i = 1; i <= grid_points[0]-2; i++) {
+       for (m = 0; m < 5; m++) {
+@@ -388,10 +388,10 @@ void compute_rhs()
+       }
+     }
+   }
+-  #pragma omp master
++  //#pragma omp master
+   if (timeron) timer_stop(t_rhsz);
+ 
+-  #pragma omp for schedule(static) nowait
++  //#pragma omp for schedule(static) nowait
+   for (k = 1; k <= nz2; k++) {
+     for (j = 1; j <= ny2; j++) {
+       for (i = 1; i <= nx2; i++) {
+diff --git a/NPB3.3-OMP-C/SP/src/sp.c b/NPB3.3-OMP-C/SP/src/sp.c
+index 8561fa4..80edeb1 100644
+--- a/NPB3.3-OMP-C/SP/src/sp.c
++++ b/NPB3.3-OMP-C/SP/src/sp.c
+@@ -86,13 +86,13 @@ double cuf [PROBLEM_SIZE];
+ double q   [PROBLEM_SIZE];
+ double ue [PROBLEM_SIZE][5];
+ double buf[PROBLEM_SIZE][5];
+-#pragma omp threadprivate(cv,rhon,rhos,rhoq,cuf,q,ue,buf)
++//#pragma omp threadprivate(cv,rhon,rhos,rhoq,cuf,q,ue,buf)
+ 
+ /* common /work_lhs/ */
+ double lhs [IMAXP+1][IMAXP+1][5];
+ double lhsp[IMAXP+1][IMAXP+1][5];
+ double lhsm[IMAXP+1][IMAXP+1][5];
+-#pragma omp threadprivate(lhs,lhsp,lhsm)
++//#pragma omp threadprivate(lhs,lhsp,lhsm)
+ 
+ 
+ int main(int argc, char *argv[])
+diff --git a/NPB3.3-OMP-C/SP/src/txinvr.c b/NPB3.3-OMP-C/SP/src/txinvr.c
+index b78edfb..475fbd3 100644
+--- a/NPB3.3-OMP-C/SP/src/txinvr.c
++++ b/NPB3.3-OMP-C/SP/src/txinvr.c
+@@ -43,7 +43,7 @@ void txinvr()
+   double t1, t2, t3, ac, ru1, uu, vv, ww, r1, r2, r3, r4, r5, ac2inv;
+ 
+   if (timeron) timer_start(t_txinvr);
+-  #pragma omp parallel for default(shared) \
++  //#pragma omp parallel for default(shared) \
+               private(i,j,k,t1,t2,t3,ac,ru1,uu,vv,ww,r1,r2,r3,r4,r5,ac2inv)
+   for (k = 1; k <= nz2; k++) {
+     for (j = 1; j <= ny2; j++) {
+diff --git a/NPB3.3-OMP-C/SP/src/tzetar.c b/NPB3.3-OMP-C/SP/src/tzetar.c
+index 51285a6..647fcdc 100644
+--- a/NPB3.3-OMP-C/SP/src/tzetar.c
++++ b/NPB3.3-OMP-C/SP/src/tzetar.c
+@@ -44,7 +44,7 @@ void tzetar()
+   double btuz, ac2u, uzik1;
+ 
+   if (timeron) timer_start(t_tzetar);
+-  #pragma omp parallel for default(shared) \
++  //#pragma omp parallel for default(shared) \
+      private(i,j,k,t1,t2,t3,ac,xvel,yvel,zvel,r1,r2,r3,r4,r5,btuz,ac2u,uzik1)
+   for (k = 1; k <= nz2; k++) {
+     for (j = 1; j <= ny2; j++) {
+diff --git a/NPB3.3-OMP-C/SP/src/x_solve.c b/NPB3.3-OMP-C/SP/src/x_solve.c
+index 049ae2c..65c16bc 100644
+--- a/NPB3.3-OMP-C/SP/src/x_solve.c
++++ b/NPB3.3-OMP-C/SP/src/x_solve.c
+@@ -46,7 +46,7 @@ void x_solve()
+   double ru1, fac1, fac2;
+ 
+   if (timeron) timer_start(t_xsolve);
+-  #pragma omp parallel for default(shared) private(i,j,k,i1,i2,m, \
++  //#pragma omp parallel for default(shared) private(i,j,k,i1,i2,m, \
+                                                    ru1,fac1,fac2)
+   for (k = 1; k <= nz2; k++) {
+     lhsinit(nx2+1, ny2);
+diff --git a/NPB3.3-OMP-C/SP/src/y_solve.c b/NPB3.3-OMP-C/SP/src/y_solve.c
+index 489a9ed..62e859e 100644
+--- a/NPB3.3-OMP-C/SP/src/y_solve.c
++++ b/NPB3.3-OMP-C/SP/src/y_solve.c
+@@ -46,7 +46,7 @@ void y_solve()
+   double ru1, fac1, fac2;
+ 
+   if (timeron) timer_start(t_ysolve);
+-  #pragma omp parallel for default(shared) private(i,j,k,j1,j2,m, \
++  //#pragma omp parallel for default(shared) private(i,j,k,j1,j2,m, \
+                                                    ru1,fac1,fac2)
+   for (k = 1; k <= nz2; k++) {
+     lhsinitj(ny2+1, nx2);
+diff --git a/NPB3.3-OMP-C/SP/src/z_solve.c b/NPB3.3-OMP-C/SP/src/z_solve.c
+index eb5673d..faa95bd 100644
+--- a/NPB3.3-OMP-C/SP/src/z_solve.c
++++ b/NPB3.3-OMP-C/SP/src/z_solve.c
+@@ -50,7 +50,7 @@ void z_solve()
+   //---------------------------------------------------------------------
+ 
+   if (timeron) timer_start(t_zsolve);
+-  #pragma omp parallel for default(shared) private(i,j,k,k1,k2,m, \
++  //#pragma omp parallel for default(shared) private(i,j,k,k1,k2,m, \
+                                                    ru1,fac1,fac2)
+   for (j = 1; j <= ny2; j++) {
+     lhsinitj(nz2+1, nx2);

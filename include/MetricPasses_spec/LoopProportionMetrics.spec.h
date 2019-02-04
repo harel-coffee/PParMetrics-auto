@@ -155,6 +155,32 @@ bool MetricPass<ppar::LoopProportionMetrics>::runOnFunction(Function& F) {
  
         idx = ppar::LoopProportionMetrics::ProportionMetric_t::LOOP_PROPER_SCCS_DDG_NUMBER;
         Metrics_loop->Metrics[idx] = LoopProperSCCsDDGNumber_value;
+
+        // compute LOOP_PROPER_SCCS_MDG_NUMBER metric
+        const Graph<Instruction*,llvm::Dependence*>& mdgL =
+            Pass::getAnalysis<GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphPass>>().getLoopGraph(L);
+        if (mdgL == GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphPass>::InvalidGraph) {
+            llvm_unreachable("llvm::Loop cannot have InvalidGraph allocated to it!");
+        }
+
+        if (!mdgL.isSCCsDataValid()) {
+            mdgL.findSCCs();
+        }
+        
+        if (!mdgL.isComponentGraphDataValid()) {
+            mdgL.buildComponentGraph();
+        }
+
+        // compute LOOP_PROPER_SCCS_DDG_NUMBER metric
+        double LoopProperSCCsMDGNumber_value = 0;
+        for (Graph<Instruction*,llvm::Dependence*>::const_sccs_iterator scc_it = mdgL.sccs_cbegin(); scc_it != mdgL.sccs_cend(); scc_it++) {
+            if ((scc_it->second)->getNodesNumber() > 1) {
+                LoopProperSCCsMDGNumber_value++;
+            }
+        }
+ 
+        idx = ppar::LoopProportionMetrics::ProportionMetric_t::LOOP_PROPER_SCCS_MDG_NUMBER;
+        Metrics_loop->Metrics[idx] = LoopProperSCCsMDGNumber_value;
     }
 
     return false;

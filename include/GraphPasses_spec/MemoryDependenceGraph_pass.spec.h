@@ -102,7 +102,7 @@ bool GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphP
 //                            addE = true;
 //                        }
                        
-                        std::string distance_str;
+/*                        std::string distance_str;
                         llvm::raw_string_ostream rso(distance_str);
                         uint64_t dist;
                         auto d = D->getDistance(L->getLoopDepth());
@@ -113,7 +113,7 @@ bool GraphPass<llvm::Instruction*,llvm::Dependence*,ppar::MemoryDependenceGraphP
                         dis >> dist;
                         if (dist > 3) {
                             continue;
-                        }
+                        }*/
 
                         uint64_t dir = D->getDirection(L->getLoopDepth());
                         if ( (dir != llvm::Dependence::DVEntry::EQ) && 

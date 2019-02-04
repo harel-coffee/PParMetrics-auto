@@ -2,7 +2,7 @@ digraph Tree {
 node [shape=box, style="filled, rounded", color="black", fontname=helvetica] ;
 edge [fontname=helvetica] ;
 0 [label="payload-getelemptr-fraction <= 0.104\ngini = 0.431\nsamples = 937\nvalue = [294, 643]\nclass = parallelizable", fillcolor="#399de58a"] ;
-1 [label="critical-payload-branch-fraction <= 0.17\ngini = 0.206\nsamples = 120\nvalue = [106, 14]\nclass = non-parallelizable", fillcolor="#e58139dd"] ;
+1 [label="iterator-branch-fraction <= 0.17\ngini = 0.206\nsamples = 120\nvalue = [106, 14]\nclass = non-parallelizable", fillcolor="#e58139dd"] ;
 0 -> 1 [labeldistance=2.5, labelangle=45, headlabel="True"] ;
 2 [label="iterator-branch-count <= 1.5\ngini = 0.467\nsamples = 35\nvalue = [22, 13]\nclass = non-parallelizable", fillcolor="#e5813968"] ;
 1 -> 2 ;
@@ -12,7 +12,7 @@ edge [fontname=helvetica] ;
 3 -> 4 ;
 5 [label="(...)", fillcolor="#C0C0C0"] ;
 3 -> 5 ;
-14 [label="iterator-call-count <= 0.5\ngini = 0.266\nsamples = 19\nvalue = [16, 3]\nclass = non-parallelizable", fillcolor="#e58139cf"] ;
+14 [label="iterator-call-fraction <= 0.012\ngini = 0.266\nsamples = 19\nvalue = [16, 3]\nclass = non-parallelizable", fillcolor="#e58139cf"] ;
 2 -> 14 ;
 15 [label="(...)", fillcolor="#C0C0C0"] ;
 14 -> 15 ;

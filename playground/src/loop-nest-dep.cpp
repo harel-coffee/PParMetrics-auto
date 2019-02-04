@@ -14,7 +14,7 @@ int main() {
     for (i = size_j-1; i >=0; i--) {
         for (j = 0; j < size_k; j++) {
             for (k = 0; k < size_i; k++) {
-                a[k][i][j][0] = i*j*k*a[k][i][j+1][0];
+                a[k][i][j][0] = i*j*k*a[k][i][j-1][0];
             }
         }
     }

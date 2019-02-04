@@ -51,8 +51,6 @@ if __name__ == "__main__":
     loop_locations = data['loop-location']
     # prepare statistical learning labels 
     loop_classifications = data['labels']
-    # prepare loop openmp #pragmas presence
-    loop_omp_pragmas = data['omp']
     # prepare loop icc answers
     loop_icc_answers = data['icc']
 
@@ -71,24 +69,14 @@ if __name__ == "__main__":
 
         loop_locations = loop_locations[filtered_idx]
         loop_classifications = loop_classifications[filtered_idx]
-        loop_omp_pragmas = loop_omp_pragmas[filtered_idx]
         loop_icc_answers = loop_icc_answers[filtered_idx]
         idxs_to_drop = features.index.drop(filtered_idx)
         features = features.drop(idxs_to_drop)
 
         loop_locations = loop_locations.reset_index(drop=True)
         loop_classifications = loop_classifications.reset_index(drop=True)
-        loop_omp_pragmas = loop_omp_pragmas.reset_index(drop=True)
         loop_icc_answers = loop_icc_answers.reset_index(drop=True)
         features = features.reset_index(drop=True)
-
-#        for i in range(0,len(loop_classifications)):
-#            label = loop_classifications[i]
-#            omp = loop_omp_pragmas[i]
-#            icc = loop_icc_answers[i]
-#            par = omp | icc
-#            if label != par:
-#                sys.exit("error: label" + "[" + str(filtered_idx[i]) + "]" + " does not equal icc + omp !")
 
     # prepare data for different metric groups
     metrics_data = {}
@@ -142,6 +130,22 @@ if __name__ == "__main__":
             icc_win_rates = []
             icc_loss_rates = []
             num = 0
+
+            mean_case_00_num = []
+            mean_case_01_num = []
+            mean_case_10_num = []
+            mean_case_11_num = []
+                
+            mean_case_00_par = []
+            mean_case_01_par = []
+            mean_case_10_par = []
+            mean_case_11_par = []
+                
+            mean_case_00_npar = []
+            mean_case_01_npar = []
+            mean_case_10_npar = []
+            mean_case_11_npar = []
+
             for train, test in rkf.split(dataset):
                 report_file.write("=== Split: " + str(num)+ " ===\n")
                 report_file.write("==============================================================" + "\n")
@@ -153,23 +157,12 @@ if __name__ == "__main__":
                 testing_labels = loop_classifications.iloc[test]
                 training_loops = loop_locations.iloc[train]
                 testing_loops = loop_locations.iloc[test]
-                training_omp = loop_omp_pragmas.iloc[train]
-                testing_omp = loop_omp_pragmas.iloc[test]
                 training_icc = loop_icc_answers.iloc[train]
                 testing_icc = loop_icc_answers.iloc[test]
 
                 testing_labels = testing_labels.reset_index(drop=True)
                 testing_loops = testing_loops.reset_index(drop=True)
-                testing_omp = testing_omp.reset_index(drop=True)
                 testing_icc = testing_icc.reset_index(drop=True)
-
-#                for i in range(0,len(testing_labels)):
-#                    test = testing_labels[i]
-#                    omp = testing_omp[i]
-#                    icc = testing_icc[i]
-#                    par = omp | icc
-#                    if test != par:
-#                        sys.exit("error: testing label par != icc | omp !")
 
                 report_file.write("Training data size: " + str(len(training_data)) + "\n")
                 report_file.write("Testing data size: " + str(len(testing_data)) + "\n")
@@ -190,16 +183,83 @@ if __name__ == "__main__":
                 icc_win_loops = set()
                 icc_loss_loops = set()
 
+                tests = len(predictions)
                 mispredicts = 0
                 safe_mispredicts = 0
                 unsafe_mispredicts = 0
                 icc_wins = 0
                 icc_losses = 0
-                for i in range(0,len(predictions)):
+
+                case_00_num = 0
+                case_01_num = 0
+                case_10_num = 0
+                case_11_num = 0
+                
+                case_00_par = 0
+                case_01_par = 0
+                case_10_par = 0
+                case_11_par = 0
+                
+                case_00_npar = 0
+                case_01_npar = 0
+                case_10_npar = 0
+                case_11_npar = 0
+
+                cases_00_par = set()
+                cases_01_par = set()
+                cases_10_par = set()
+                cases_11_par = set()
+                
+                cases_00_npar = set()
+                cases_01_npar = set()
+                cases_10_npar = set()
+                cases_11_npar = set()
+
+                icc_par = 0
+                icc_npar = 0
+                real_par = 0
+                real_npar = 0
+
+                for i in range(0,tests):
                     pred = predictions[i]
                     test = testing_labels[i]
-                    omp = testing_omp[i]
                     icc = testing_icc[i]
+
+                    if icc == 0:
+                        if pred == 0:
+                            case_00_num += 1
+                            if test == 0:
+                                case_00_npar += 1
+                                cases_00_npar.add(str(testing_loops[i]))
+                            elif test == 1:
+                                case_00_par += 1
+                                cases_00_par.add(str(testing_loops[i]))
+                        elif pred == 1:
+                            case_01_num += 1
+                            if test == 0:
+                                case_01_npar += 1
+                                cases_01_npar.add(str(testing_loops[i]))
+                            elif test == 1:
+                                case_01_par += 1
+                                cases_01_par.add(str(testing_loops[i]))
+                    elif icc == 1:
+                        if pred == 0:
+                            case_10_num += 1
+                            if test == 0:
+                                case_10_npar += 1
+                                cases_10_npar.add(str(testing_loops[i]))
+                            elif test == 1:
+                                case_10_par += 1
+                                cases_10_par.add(str(testing_loops[i]))
+                        elif pred == 1:
+                            case_11_num += 1
+                            if test == 0:
+                                case_11_npar += 1
+                                cases_11_npar.add(str(testing_loops[i]))
+                            elif test == 1:
+                                case_11_par += 1
+                                cases_11_par.add(str(testing_loops[i]))
+ 
 
                     if pred != test:
                         # misprediction
@@ -220,6 +280,87 @@ if __name__ == "__main__":
                         else:
                             icc_losses += 1
                             icc_loss_loops.add(str(testing_loops[i]) + ":" + str(predictions[i]) + ":" + str(testing_icc[i]) + ":loss")
+
+                mean_case_00_num.append(case_00_num)
+                mean_case_01_num.append(case_01_num)
+                mean_case_10_num.append(case_10_num)
+                mean_case_11_num.append(case_11_num)
+
+                mean_case_00_par.append(case_00_par)
+                mean_case_01_par.append(case_01_par)
+                mean_case_10_par.append(case_10_par)
+                mean_case_11_par.append(case_11_par)
+
+                mean_case_00_npar.append(case_00_npar)
+                mean_case_01_npar.append(case_01_npar)
+                mean_case_10_npar.append(case_10_npar)
+                mean_case_11_npar.append(case_11_npar)
+
+                # Table
+                # 0 0
+                # 0 1
+                # 1 0
+                # 1 1
+                report_file.write("Table" + "\n")
+                report_file.write("========" + "\n")
+                report_file.write("=== case [0 / 0] ===" + "\n")
+                report_file.write("num: " + "{}".format(case_00_num) + "\n")
+                report_file.write("par: " + "{}".format(case_00_par) + "\n")
+                report_file.write("non-par: " + "{}".format(case_00_npar) + "\n")
+                report_file.write("=== case [0 / 1] ===" + "\n")
+                report_file.write("num: " + "{}".format(case_01_num) + "\n")
+                report_file.write("par: " + "{}".format(case_01_par) + "\n")
+                report_file.write("non-par: " + "{}".format(case_01_npar) + "\n")
+                report_file.write("=== case [1 / 0] ===" + "\n")
+                report_file.write("num: " + "{}".format(case_10_num) + "\n")
+                report_file.write("par: " + "{}".format(case_10_par) + "\n")
+                report_file.write("non-par: " + "{}".format(case_10_npar) + "\n")
+                report_file.write("=== case [1 / 1] ===" + "\n")
+                report_file.write("num: " + "{}".format(case_11_num) + "\n")
+                report_file.write("par: " + "{}".format(case_11_par) + "\n")
+                report_file.write("non-par: " + "{}".format(case_11_npar) + "\n")
+                report_file.write("========" + "\n")
+                report_file.write("\n")
+
+                report_file.write("=== case [0 / 0] ===" + "\n")
+                report_file.write("= parallelisible =" + "\n")
+                for loop in cases_00_par:
+                    report_file.write(loop + "\n")
+                report_file.write("= non-parallelisible =" + "\n")
+                for loop in cases_00_npar:
+                    report_file.write(loop + "\n")
+                report_file.write("===================" + "\n")
+                report_file.write("\n")
+
+                report_file.write("=== case [0 / 1] ===" + "\n")
+                report_file.write("= parallelisible =" + "\n")
+                for loop in cases_01_par:
+                    report_file.write(loop + "\n")
+                report_file.write("= non-parallelisible =" + "\n")
+                for loop in cases_01_npar:
+                    report_file.write(loop + "\n")
+                report_file.write("===================" + "\n")
+                report_file.write("\n")
+
+                report_file.write("=== case [1 / 0] ===" + "\n")
+                report_file.write("= parallelisible =" + "\n")
+                for loop in cases_10_par:
+                    report_file.write(loop + "\n")
+                report_file.write("= non-parallelisible =" + "\n")
+                for loop in cases_10_npar:
+                    report_file.write(loop + "\n")
+                report_file.write("===================" + "\n")
+                report_file.write("\n")
+
+                report_file.write("=== case [1 / 1] ===" + "\n")
+                report_file.write("= parallelisible =" + "\n")
+                for loop in cases_11_par:
+                    report_file.write(loop + "\n")
+                report_file.write("= non-parallelisible =" + "\n")
+                for loop in cases_11_npar:
+                    report_file.write(loop + "\n")
+                report_file.write("===================" + "\n")
+                report_file.write("\n")
 
                 rate = 1 - mispredicts/len(predictions)
                 accuracy_rates.append(rate)
@@ -260,19 +401,25 @@ if __name__ == "__main__":
 
                 report_file.write("Accuracy" + "\n")
                 report_file.write("========" + "\n")
-                report_file.write("dt-accuracy: " + "{0:.2f}".format(accuracy) + "\n")
-                report_file.write("accuracy: " + "{0:.2f}".format(accuracy_rates[num]) + "\n")
-                report_file.write("mispredicts: " + "{0:.2f}".format(error_rates[num]) + "\n")
-                report_file.write("safe-mispredicts: " + "{0:.2f}".format(safe_mispredict_rates[num]) + "\n")
-                report_file.write("unsafe-mispredicts: " + "{0:.2f}".format(unsafe_mispredict_rates[num]) + "\n")
+                report_file.write("tests: " + "{}".format(tests) + "\n")
+                report_file.write("mispredicts: " + "{}".format(mispredicts) + "\n")
+                report_file.write("accuracy: " + "{0:.2f}".format(accuracy) + "\n")
+                report_file.write("accuracy-rate: " + "{0:.2f}".format(accuracy_rates[num]) + "\n")
+                report_file.write("error-rate: " + "{0:.2f}".format(error_rates[num]) + "\n")
+                report_file.write("safe-mispredicts: " + "{}".format(safe_mispredicts) + "\n")
+                report_file.write("unsafe-mispredicts: " + "{}".format(unsafe_mispredicts) + "\n")
+                report_file.write("safe-error-rate: " + "{0:.2f}".format(safe_mispredict_rates[num]) + "\n")
+                report_file.write("unsafe-error-rate: " + "{0:.2f}".format(unsafe_mispredict_rates[num]) + "\n")
                 report_file.write("========" + "\n")
                 report_file.write("\n")
                 
                 report_file.write("ICC competition" + "\n")
                 report_file.write("========" + "\n")
-                report_file.write("icc discrepancies: " + "{0:.2f}".format(icc_disagreements) + "\n")
-                report_file.write("wins: " + "{0:.2f}".format(icc_win_rates[num]) + "\n")
-                report_file.write("losses: " + "{0:.2f}".format(icc_loss_rates[num]) + "\n")
+                report_file.write("icc-discrepancies: " + "{}".format(icc_disagreements) + "\n")
+                report_file.write("icc-wins: " + "{}".format(icc_wins) + "\n")
+                report_file.write("icc-losses: " + "{}".format(icc_losses) + "\n")
+                report_file.write("win-rate: " + "{0:.2f}".format(icc_win_rates[num]) + "\n")
+                report_file.write("loss-rate: " + "{0:.2f}".format(icc_loss_rates[num]) + "\n")
                 report_file.write("========" + "\n")
                 report_file.write("\n")
 
@@ -327,6 +474,19 @@ if __name__ == "__main__":
             report_file.write("mean-unsafe-mispredicts-rate:" + "{0:.2f}".format(pd.Series(unsafe_mispredict_rates).mean()*100) + "\n")
             report_file.write("mean-icc-win-rate:" + "{0:.2f}".format(pd.Series(icc_win_rates).mean()*100) + "\n")
             report_file.write("mean-icc-loss-rate:" + "{0:.2f}".format(pd.Series(icc_loss_rates).mean()*100) + "\n")
+            report_file.write("===================" + "\n")
+            report_file.write("mean-case-00-num:" + "{}".format(pd.Series(mean_case_00_num).mean()) + "\n")
+            report_file.write("mean-case-00-par:" + "{}".format(pd.Series(mean_case_00_par).mean()) + "\n")
+            report_file.write("mean-case-00-npar:" + "{}".format(pd.Series(mean_case_00_npar).mean()) + "\n")
+            report_file.write("mean-case-01-num:" + "{}".format(pd.Series(mean_case_01_num).mean()) + "\n")
+            report_file.write("mean-case-01-par:" + "{}".format(pd.Series(mean_case_01_par).mean()) + "\n")
+            report_file.write("mean-case-01-npar:" + "{}".format(pd.Series(mean_case_01_npar).mean()) + "\n")
+            report_file.write("mean-case-10-num:" + "{}".format(pd.Series(mean_case_10_num).mean()) + "\n")
+            report_file.write("mean-case-10-par:" + "{}".format(pd.Series(mean_case_10_par).mean()) + "\n")
+            report_file.write("mean-case-10-npar:" + "{}".format(pd.Series(mean_case_10_npar).mean()) + "\n")
+            report_file.write("mean-case-11-num:" + "{}".format(pd.Series(mean_case_11_num).mean()) + "\n")
+            report_file.write("mean-case-11-par:" + "{}".format(pd.Series(mean_case_11_par).mean()) + "\n")
+            report_file.write("mean-case-11-npar:" + "{}".format(pd.Series(mean_case_11_npar).mean()) + "\n")
             report_file.write("===================" + "\n")
 
             report_file.write("\n")

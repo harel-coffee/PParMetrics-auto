@@ -31,7 +31,7 @@ if __name__ == "__main__":
     print("=================================================================")
 
     raw_data_filename = sys.argv[1]
-    report_folder = sys.argv[2]
+    report_folder = sys.argv[2] + "/"
     std_num = int(sys.argv[3]) # outliers screening parameter
 
     if not os.path.exists(raw_data_filename):
@@ -62,7 +62,7 @@ if __name__ == "__main__":
         filtered_idxs = {}
         for metric in ppar.metric_list:  
             d = features[metric]
-            filtered_idxs[metric] = features[abs(d-d.mean()) < std_num*d.std()].index
+            filtered_idxs[metric] = features[abs(d-d.mean()) <= std_num*d.std()].index
             filtered_idx &= filtered_idxs[metric]
 
         loop_locations = loop_locations[filtered_idx]

@@ -56,10 +56,10 @@ cp serial_perf.report ${NAS_ICC_PERF_REPORTS_DIR}
 
 # running OpenMP versions of NAS benchmarks
 (
-echo "=> Running serial versions of NAS benchmarks"
+echo "=> Running OpenMP versions of NAS benchmarks"
 cd ${NAS_ICC_PERF_OMP_DIR}
 
-echo "=> Cleaning serial ICC run directory of previous performance reports"
+echo "=> Cleaning OpenMP ICC run directory of previous performance reports"
 make clean
 for BenchmarkFolderName in ${NAS_BENCHMARK_UPPER_CASE_NAMES[@]}; do
     echo "Removing ${BenchmarkFolderName}/${BenchmarkFolderName}.out"
@@ -80,7 +80,7 @@ for ((i=0;i<${#NAS_BENCHMARK_UPPER_CASE_NAMES[@]};++i)); do
     amplxe-cl -collect hotspots ./${NAS_BENCHMARK_UPPER_CASE_NAMES[i]}/${NAS_BENCHMARK_LOWER_CASE_NAMES[i]} > "./${NAS_BENCHMARK_UPPER_CASE_NAMES[i]}/${NAS_BENCHMARK_LOWER_CASE_NAMES[i]}.out" 2>&1
     echo -n "${NAS_BENCHMARK_UPPER_CASE_NAMES[i]}: " >> omp_perf.report
     grep "Time in seconds" ./${NAS_BENCHMARK_UPPER_CASE_NAMES[i]}/${NAS_BENCHMARK_LOWER_CASE_NAMES[i]}.out | sed -e 's/[^0-9|.]//g' >> omp_perf.report
-    grep "Elapsed Time" ./${NAS_BENCHMARK_UPPER_CASE_NAMES[i]}/${NAS_BENCHMARK_LOWER_CASE_NAMES[i]}.out | sed -e 's/[^0-9|.]//g' >> serial_perf.report
+    grep "Elapsed Time" ./${NAS_BENCHMARK_UPPER_CASE_NAMES[i]}/${NAS_BENCHMARK_LOWER_CASE_NAMES[i]}.out | sed -e 's/[^0-9|.]//g' >> omp_perf.report
 done
 
 cp omp_perf.report ${NAS_ICC_PERF_REPORTS_DIR} 

@@ -91,7 +91,8 @@ if __name__ == "__main__":
     # normalize the data
     if norm == "norm":
         for feature in ppar.metric_list:
-            train_features[feature] = (train_features[feature] - train_features[feature].min())/(train_features[feature].max() - train_features[feature].min())
+            if (train_features[feature].max() - train_features[feature].min()) != 0:
+                train_features[feature] = (train_features[feature] - train_features[feature].min())/(train_features[feature].max() - train_features[feature].min())
 
     # prepare data for different metric groups
     train_metrics_data = {}
@@ -144,7 +145,8 @@ if __name__ == "__main__":
     # normalize the data
     if norm == "norm":
         for feature in ppar.metric_list:
-            test_features[feature] = (test_features[feature] - test_features[feature].min())/(test_features[feature].max() - test_features[feature].min())
+            if (test_features[feature].max() - test_features[feature].min()) != 0:
+                test_features[feature] = (test_features[feature] - test_features[feature].min())/(test_features[feature].max() - test_features[feature].min())
 
     # prepare data for different metric groups
     test_metrics_data = {}
@@ -230,19 +232,6 @@ if __name__ == "__main__":
             icc = test_icc_labels[i]
             par = test_par_labels[i]
 
-            if pred != par:
-                mispredicts += 1
-                if pred == 1:
-                    unsafe_mispredicts += 1
-                else:
-                    safe_mispredicts += 1
-
-            if pred != icc:
-                if pred == par:
-                    icc_wins += 1
-                else:
-                    icc_losses
-                    
             if icc == 0:
                 if pred == 0:
                     case_00_num += 1
@@ -290,13 +279,13 @@ if __name__ == "__main__":
             else:
                 predicted_loops.add(str(test_loop_locations[i]) + ":" + str(predictions[i]) + ":" + str(test_par_labels[i]))
 
-                if pred != icc:
-                    if pred == par:
-                        icc_wins += 1
-                        icc_win_loops.add(str(test_loop_locations[i]) + ":" + str(predictions[i]) + ":" + str(test_icc_labels[i]) + ":win")
-                    else:
-                        icc_losses += 1
-                        icc_loss_loops.add(str(test_loop_locations[i]) + ":" + str(predictions[i]) + ":" + str(test_icc_labels[i]) + ":loss")
+            if pred != icc:
+                if pred == par:
+                    icc_wins += 1
+                    icc_win_loops.add(str(test_loop_locations[i]) + ":" + str(predictions[i]) + ":" + str(test_icc_labels[i]) + ":win")
+                else:
+                    icc_losses += 1
+                    icc_loss_loops.add(str(test_loop_locations[i]) + ":" + str(predictions[i]) + ":" + str(test_icc_labels[i]) + ":loss")
   
         # Table
         # 0 0

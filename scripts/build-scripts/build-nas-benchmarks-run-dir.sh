@@ -66,6 +66,26 @@ echo "=> Generating CMake-based system for compiling SNU NPB benchmarks with ICC
 echo "DIR: ${NAS_ICC_RUN_DIR}"
 cd ${NAS_ICC_RUN_DIR} 
 build-icc-ppar-report.sh
+
+if [[ -e ${NAS_ICC_PERF_SER_DIR} ]]; then
+    rm -rf ${NAS_ICC_PERF_SER_DIR}
+fi
+mkdir ${NAS_ICC_PERF_SER_DIR}
+
+if [[ -e ${NAS_ICC_PERF_OMP_DIR} ]]; then
+    rm -rf ${NAS_ICC_PERF_OMP_DIR}
+fi
+mkdir ${NAS_ICC_PERF_OMP_DIR}
+
+echo "=> Generating CMake-based system for compiling SNU NPB benchmarks into serial with ICC compiler for performance run"
+echo "DIR: ${NAS_ICC_PERF_SER_DIR}"
+cd ${NAS_ICC_PERF_SER_DIR} 
+build-icc-perf-ser.sh
+
+echo "=> Generating CMake-based system for compiling SNU NPB benchmarks into OpenMP with ICC compiler for performance run"
+echo "DIR: ${NAS_ICC_PERF_OMP_DIR}"
+cd ${NAS_ICC_PERF_OMP_DIR} 
+build-icc-perf-omp.sh
 )
 
 echo "=> NAS benchmarks prebuilding script finished!"

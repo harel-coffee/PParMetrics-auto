@@ -52,17 +52,21 @@ if __name__ == "__main__":
     # loop locations in benchmark source code
     loop_locations = data['loop-location']
     # prepare statistical learning labels 
-    loop_icc_classifications = data['icc-parallel']
+    loop_icc_classifications = data['icc']
     # prepare statistical learning features 
-    features = data.drop(['loop-location','icc-parallel'], axis=1)
+    features = data.drop(['loop-location','icc'], axis=1)
     features_abs = features.copy()
-    
+
+    print("To be plotted\n")
+    for metric in ppar.metric_list:
+        print(metric + "\n")
+
     # remove outliers from the data
     if std_num != 0:
         filtered_idxs = {}
         for metric in ppar.metric_list:  
             d = features[metric]
-            filtered_idxs[metric] = features[abs(d-d.mean()) < std_num*d.std()].index
+            filtered_idxs[metric] = features[abs(d-d.mean()) <= std_num*d.std()].index
     
         filtered_idx = features.index
         for metric in ppar.metric_list:  
@@ -94,20 +98,24 @@ if __name__ == "__main__":
 
     # visualise parallelisability vs single metrics
     for metric in ppar.metric_list:
+        print("Plotting " + metric + "\n")
         
         fig, ax = plt.subplots()
         
         ax.set_ylabel(metric)
-        ax.set_xlabel("benchmarks")
+        ax.set_xlabel("loops")
         
         # remove outliers out of the set
         d = metric_data[metric]
         if std_num != 0:
-            x = d[abs(d-d.mean()) < std_num*d.std()]
-            y = loop_icc_classifications[abs(d-d.mean()) < std_num*d.std()]
+            x = d[abs(d-d.mean()) <= std_num*d.std()]
+            y = loop_icc_classifications[abs(d-d.mean()) <= std_num*d.std()]
         else:
             x = d
             y = loop_icc_classifications
+
+        if len(x) == 0 or len(y) == 0:
+            continue
 
         # scatter non-parallelisible points over the figure 
         ax.scatter((x[y==0]).index, x[y==0], s=1, c='red', marker=".", alpha=1.0)
@@ -123,44 +131,4 @@ if __name__ == "__main__":
         ax.text((y.index.min()+y.index.max())/2+100, m+disp, "p ~= "+"{0:.2f}".format((x[y==1]).mean()), fontsize=6, color='green')
 
         fig.savefig(normalized_folder + metric, transparent=False, dpi=320, bbox_inches="tight")
-
-    # prepare data for different metric groups
-    metric_group_data = {}
-    for metric_group in ppar.metric_groups:
-        metric_group_data[metric_group] = features_abs[ppar.metric_groups[metric_group]]
-
-    metric_data = {}
-    for metric in ppar.metric_list:
-        metric_data[metric] = features_abs[metric]
-
-    # visualise parallelisability vs single metrics
-    for metric in ppar.metric_list:
-        
-        fig, ax = plt.subplots()
-        
-        ax.set_ylabel(metric)
-        ax.set_xlabel("benchmarks")
-        
-        # remove outliers out of the set
-        d = metric_data[metric]
-        if std_num != 0:
-            x = d[abs(d-d.mean()) < std_num*d.std()]
-            y = loop_icc_classifications[abs(d-d.mean()) < std_num*d.std()]
-        else:
-            x = d
-            y = loop_icc_classifications
-
-        # scatter non-parallelisible points over the figure 
-        ax.scatter((x[y==0]).index, x[y==0], s=1, c='red', marker=".", alpha=1.0)
-        m = (x[y==0]).mean()
-        disp = (x.max()-x.min())/100 # 1% of x range
-        ax.axhline(m, c='red', linestyle='--', linewidth=0.5)
-        ax.text((y.index.min()+y.index.max())/2-100, m+disp, "np ~= "+"{0:.2f}".format((x[y==0]).mean()), fontsize=6, color='red')
-
-        # scatter parallelisible points over the figure 
-        ax.scatter((x[y==1]).index, x[y==1], s=1, c='green', marker="+", alpha=1.0)
-        ax.axhline((x[y==1]).mean(), c='green', linestyle='--', linewidth=0.5, label=x[y==1].mean())
-        m = (x[y==1]).mean()
-        ax.text((y.index.min()+y.index.max())/2+100, m+disp, "p ~= "+"{0:.2f}".format((x[y==1]).mean()), fontsize=6, color='green')
-
-        fig.savefig(absolute_folder + metric, transparent=False, dpi=320, bbox_inches="tight")
+        plt.close(fig)

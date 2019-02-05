@@ -2,8 +2,8 @@
 
 # < project-environment.sh >
 #
-# * This script is to be included into all project supporting scripts
-# * This script sets all the necessary environment, shell and function 
+# This script is to be included into all project supporting scripts;
+# This script sets all the necessary project environment, shell and function 
 # variables for the rest of scripts in the set
 #
 
@@ -38,6 +38,7 @@ NAUSEOUS_SER_HARNESS_DIR="${NAS_BENCHMARKS_DIR}/nauseous"
 NAUSEOUS_OMP_HARNESS_DIR="${NAS_BENCHMARKS_DIR}/nauseous-omp"
 PPAR_TOOL_SOURCES_SRC_DIR="${PROJECT_ROOT_DIR}/src"
 PPAR_TOOL_SOURCES_INCLUDE_DIR="${PROJECT_ROOT_DIR}/include"
+SCRIPTS_DIR="${PROJECT_ROOT_DIR}/scripts"
 DOCUMENTS_DIR="${PROJECT_ROOT_DIR}/doc"
 
 # [2] perform a quick repository integrity check;
@@ -52,6 +53,7 @@ declare -a PROJECT_SOURCE_DIRS=("${BENCHMARKS_DIR}"
                                 "${NAUSEOUS_OMP_HARNESS_DIR}"
                                 "${PPAR_TOOL_SOURCES_SRC_DIR}"
                                 "${PPAR_TOOL_SOURCES_INCLUDE_DIR}"
+                                "${SCRIPTS_DIR}"
                                 "${DOCUMENTS_DIR}")
 ERROR_MSG_BASE="Error: the script cannot be launched from an incomplete repository!"
 for dir in ${PROJECT_SOURCE_DIRS[@]}; do
@@ -67,17 +69,19 @@ done
 BENCHMARKS_RUN_DIR="${PROJECT_ROOT_DIR}/benchmarks-run"
 NAS_BENCHMARKS_RUN_DIR="${BENCHMARKS_RUN_DIR}/snu-npb-run"
 NAS_PPAR_METRICS_RUN_DIR="${NAS_BENCHMARKS_RUN_DIR}/ppar-metrics-run"
-NAS_ICC_RUN_DIR="${NAS_BENCHMARKS_RUN_DIR}/icc-run"
-NAS_ICC_PERF_SER_DIR="${NAS_BENCHMARKS_RUN_DIR}/icc-perf-ser"
-NAS_ICC_PERF_OMP_DIR="${NAS_BENCHMARKS_RUN_DIR}/icc-perf-omp"
+NAS_ICC_REPORT_RUN_DIR="${NAS_BENCHMARKS_RUN_DIR}/icc-report-run"
+NAS_ICC_PERF_RUN_DIR="${NAS_BENCHMARKS_RUN_DIR}/icc-perf-run"
+NAS_ICC_PERF_SER_DIR="${NAS_ICC_PERF_RUN_DIR}/icc-perf-ser"
+NAS_ICC_PERF_PAR_DIR="${NAS_ICC_PERF_RUN_DIR}/icc-perf-par"
+NAS_ICC_PERF_OMP_DIR="${NAS_ICC_PERF_RUN_DIR}/icc-perf-omp"
+NAS_ICC_PERF_PAR_OMP_DIR="${NAS_ICC_PERF_RUN_DIR}/icc-perf-par-omp"
 # order matters: from root directory down to innermost ones
-declare -a BENCHMARKS_RUN_DIRS=("${BENCHMARKS_RUN_DIR}" "${NAS_BENCHMARKS_RUN_DIR}" "${NAS_PPAR_METRICS_RUN_DIR}" "${NAS_ICC_RUN_DIR}" "${NAS_ICC_PERF_SER_DIR}" "${NAS_ICC_PERF_OMP_DIR}")
+declare -a BENCHMARKS_RUN_DIRS=("${BENCHMARKS_RUN_DIR}" "${NAS_BENCHMARKS_RUN_DIR}" "${NAS_PPAR_METRICS_RUN_DIR}" "${NAS_ICC_REPORT_RUN_DIR}" "${NAS_ICC_PERF_RUN_DIR}" "${NAS_ICC_PERF_SER_DIR}" "${NAS_ICC_PERF_PAR_DIR}" "${NAS_ICC_PERF_OMP_DIR}" "${NAS_ICC_PERF_PAR_OMP_DIR}")
 
 PPAR_TOOL_BUILD_DIR="${PROJECT_ROOT_DIR}/build"
 
 REPORTS_DIR="${PROJECT_ROOT_DIR}/reports"
-PPAR_REPORTS_DIR="${REPORTS_DIR}/ppar-metrics"
-NAS_REPORTS_DIR="${PPAR_REPORTS_DIR}/snu-npb"
+NAS_REPORTS_DIR="${REPORTS_DIR}/snu-npb"
 
 NAS_ICC_REPORTS_DIR="${NAS_REPORTS_DIR}/icc-report"
 NAS_ICC_PERF_REPORTS_DIR="${NAS_REPORTS_DIR}/icc-perf-report"
@@ -85,6 +89,8 @@ NAS_OMP_GREP_REPORTS_DIR="${NAS_REPORTS_DIR}/omp-grep-report"
 NAS_METRICS_REPORTS_DIR="${NAS_REPORTS_DIR}/metrics-report"
 NAS_ANALYSIS_REPORTS_DIR="${NAS_REPORTS_DIR}/analysis"
 declare -a NAS_REPORTS_DIRS=("${NAS_ICC_REPORTS_DIR}"
+                             "${NAS_ICC_PERF_REPORTS_DIR}"
+                             "${NAS_OMP_GREP_REPORTS_DIR}"
                              "${NAS_METRICS_REPORTS_DIR}"
                              "${NAS_ANALYSIS_REPORTS_DIR}")
 

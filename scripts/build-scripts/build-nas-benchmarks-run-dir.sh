@@ -77,40 +77,80 @@ if [[ -e ${NAS_ICC_PERF_SER_DIR} ]]; then
 fi
 mkdir ${NAS_ICC_PERF_SER_DIR}
 
+if [[ -e ${NAS_ICC_PERF_VEC_DIR} ]]; then
+    rm -rf ${NAS_ICC_PERF_VEC_DIR}
+fi
+mkdir ${NAS_ICC_PERF_VEC_DIR}
+
 if [[ -e ${NAS_ICC_PERF_PAR_DIR} ]]; then
     rm -rf ${NAS_ICC_PERF_PAR_DIR}
 fi
 mkdir ${NAS_ICC_PERF_PAR_DIR}
 
-if [[ -e ${NAS_ICC_PERF_OMP_DIR} ]]; then
-    rm -rf ${NAS_ICC_PERF_OMP_DIR}
+if [[ -e ${NAS_ICC_PERF_VEC_PAR_DIR} ]]; then
+    rm -rf ${NAS_ICC_PERF_VEC_PAR_DIR}
 fi
-mkdir ${NAS_ICC_PERF_OMP_DIR}
+mkdir ${NAS_ICC_PERF_VEC_PAR_DIR}
+
+if [[ -e ${NAS_ICC_PERF_VEC_OMP_DIR} ]]; then
+    rm -rf ${NAS_ICC_PERF_VEC_OMP_DIR}
+fi
+mkdir ${NAS_ICC_PERF_VEC_OMP_DIR}
 
 if [[ -e ${NAS_ICC_PERF_PAR_OMP_DIR} ]]; then
     rm -rf ${NAS_ICC_PERF_PAR_OMP_DIR}
 fi
 mkdir ${NAS_ICC_PERF_PAR_OMP_DIR}
 
+if [[ -e ${NAS_ICC_PERF_OMP_DIR} ]]; then
+    rm -rf ${NAS_ICC_PERF_OMP_DIR}
+fi
+mkdir ${NAS_ICC_PERF_OMP_DIR}
+
+if [[ -e ${NAS_ICC_PERF_VEC_PAR_OMP_DIR} ]]; then
+    rm -rf ${NAS_ICC_PERF_VEC_PAR_OMP_DIR}
+fi
+mkdir ${NAS_ICC_PERF_VEC_PAR_OMP_DIR}
+
 echo "=> Generating CMake-based system for compiling SNU NPB benchmarks into serial version with ICC compiler for performance run"
 echo "DIR: ${NAS_ICC_PERF_SER_DIR}"
 cd ${NAS_ICC_PERF_SER_DIR} 
 build-icc-perf-ser.sh
+
+echo "=> Generating CMake-based system for compiling SNU NPB benchmarks into vector version with ICC compiler for performance run"
+echo "DIR: ${NAS_ICC_PERF_VEC_DIR}"
+cd ${NAS_ICC_PERF_VEC_DIR} 
+build-icc-perf-vec.sh
 
 echo "=> Generating CMake-based system for compiling SNU NPB benchmarks into parallel version with ICC compiler for performance run"
 echo "DIR: ${NAS_ICC_PERF_PAR_DIR}"
 cd ${NAS_ICC_PERF_PAR_DIR} 
 build-icc-perf-par.sh
 
+echo "=> Generating CMake-based system for compiling SNU NPB benchmarks into vector+parallel version with ICC compiler for performance run"
+echo "DIR: ${NAS_ICC_PERF_VEC_PAR_DIR}"
+cd ${NAS_ICC_PERF_VEC_PAR_DIR} 
+build-icc-perf-vec-par.sh
+
+echo "=> Generating CMake-based system for compiling SNU NPB benchmarks into vector+omp version with ICC compiler for performance run"
+echo "DIR: ${NAS_ICC_PERF_VEC_OMP_DIR}"
+cd ${NAS_ICC_PERF_VEC_OMP_DIR} 
+build-icc-perf-vec-omp.sh
+
+echo "=> Generating CMake-based system for compiling SNU NPB benchmarks into parallel+omp version with ICC compiler for performance run"
+echo "DIR: ${NAS_ICC_PERF_PAR_OMP_DIR}"
+cd ${NAS_ICC_PERF_PAR_OMP_DIR} 
+build-icc-perf-par-omp.sh
+
 echo "=> Generating CMake-based system for compiling SNU NPB benchmarks into OpenMP version with ICC compiler for performance run"
 echo "DIR: ${NAS_ICC_PERF_OMP_DIR}"
 cd ${NAS_ICC_PERF_OMP_DIR} 
 build-icc-perf-omp.sh
 
-echo "=> Generating CMake-based system for compiling SNU NPB benchmarks into parallel with OpenMP version with ICC compiler for performance run"
-echo "DIR: ${NAS_ICC_PERF_PAR_OMP_DIR}"
-cd ${NAS_ICC_PERF_PAR_OMP_DIR} 
-build-icc-perf-par-omp.sh
+echo "=> Generating CMake-based system for compiling SNU NPB benchmarks into vector+parallel+openmp with OpenMP version with ICC compiler for performance run"
+echo "DIR: ${NAS_ICC_PERF_VEC_PAR_OMP_DIR}"
+cd ${NAS_ICC_PERF_VEC_PAR_OMP_DIR} 
+build-icc-perf-vec-par-omp.sh
 )
 
 echo "=> NAS benchmarks prebuilding script finished!"

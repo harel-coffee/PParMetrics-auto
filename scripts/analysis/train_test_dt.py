@@ -176,11 +176,12 @@ if __name__ == "__main__":
         test_dataset = test_metric_set_data[metric_set]
 
         # fit SVM model to the training dataset
-        clf = tree.DecisionTreeClassifier()
+        clf = tree.DecisionTreeClassifier(criterion='entropy',max_depth=None,min_samples_leaf=1)
+        #clf = tree.DecisionTreeClassifier(criterion='gini',max_depth=5,min_samples_leaf=3)
         clf.fit(train_dataset, train_par_labels)
 
         tree.export_graphviz(clf, out_file=report_folder + metric_set + '.tree3.dot', max_depth=3, class_names=['non-parallelizable','parallelizable'], feature_names=ppar.metric_sets[metric_set], filled=True, rounded=True)
-        tree.export_graphviz(clf, out_file=report_folder + metric_set + '.tree5.dot', max_depth=5, class_names=['non-parallelizable','parallelizable'], feature_names=ppar.metric_sets[metric_set], filled=True, rounded=True)
+#        tree.export_graphviz(clf, out_file=report_folder + metric_set + '.tree5.dot', max_depth=5, class_names=['non-parallelizable','parallelizable'], feature_names=ppar.metric_sets[metric_set], filled=True, rounded=True)
 
         predictions = clf.predict(test_dataset)
 

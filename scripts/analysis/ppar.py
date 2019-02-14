@@ -73,7 +73,7 @@ if __name__ != "__main__":
                                                     'payload-conf-dependencies-number', 
                                                     'payload-reg-dependencies-number', 
                                                     'payload-mem-dependencies-number', 
-                                                    'payload-mem-dependencies-number-diff', 
+#                                                    'payload-mem-dependencies-number-diff', 
                                                     'payload-cntl-dependencies-number']
     metric_groups['payload-dependencies-number-0'] = ['payload-cross-dependencies-number', 
                                                       'payload-conf-dependencies-number', 
@@ -332,7 +332,7 @@ if __name__ != "__main__":
                                        'payload-conf-dependencies-number', 
                                        'payload-reg-dependencies-number', 
                                        'payload-mem-dependencies-number', 
-                                       'payload-mem-dependencies-number-diff', 
+#                                       'payload-mem-dependencies-number-diff', 
                                        'payload-cntl-dependencies-number'])
     metric_sets['precise_all'].extend(['critical-payload-total-dependencies-number', 
                                        'critical-payload-true-dependencies-number', 
@@ -389,7 +389,7 @@ if __name__ != "__main__":
                                      'payload-conf-dependencies-number', 
                                      'payload-reg-dependencies-number', 
                                      'payload-mem-dependencies-number', 
-                                     'payload-mem-dependencies-number-diff', 
+#                                     'payload-mem-dependencies-number-diff', 
                                      'payload-cntl-dependencies-number'])
     metric_sets['precise_0'].extend(['critical-payload-total-dependencies-number', 
                                      'critical-payload-true-dependencies-number', 

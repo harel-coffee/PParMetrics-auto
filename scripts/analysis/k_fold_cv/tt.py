@@ -10,7 +10,9 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import Normalizer
 
-from sklearn import tree
+from sklearn import svm
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
+
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import balanced_accuracy_score
 from sklearn.metrics import precision_score
@@ -19,10 +21,9 @@ from sklearn.metrics import f1_score
 
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
-from sklearn.pipeline import Pipeline
-from sklearn.feature_selection import SelectFromModel
-from sklearn.svm import LinearSVC
-from sklearn.ensemble import RandomForestClassifier
+
+from sklearn.dummy import DummyClassifier
+from sklearn.feature_selection import VarianceThreshold
 
 import ppar
 
@@ -129,38 +130,60 @@ if __name__ == "__main__":
         train_dataset = train_features[ppar.metric_sets[metric_set]]
         test_dataset = test_features[ppar.metric_sets[metric_set]]
 
-        clf = Pipeline([
-            ('feature_selection', SelectFromModel(tree.DecisionTreeClassifier())),
-            ('classification', tree.DecisionTreeClassifier())
-            ])
-        clf.fit(train_dataset, train_par_labels)
-
         gs = None
         # model hyper-parameter search
         if hp_opt == "opt":
             #X_train, X_valid, y_train, y_valid = train_test_split(train_features, train_par_labels, test_size=0.2, random_state=0)
             # hyper-parameter space to search
-            param_grid = [ {'activation': ['logistic','tanh'], 
-                            'hidden_layer_sizes': [(5,5), (10,), (10,10), (10,5)], 
-                            'solver': ['lbfgs'], 
-                            #'solver': ['lbfgs', 'sgd', 'adam'], 
-                            'alpha': [1e-2, 1e-1, 1, 10, 100], 
-                            'random_state': [12883823]} ]
+            param_grid = [ {'kernel': ['rbf'], 'gamma': [1, 1e-1, 1e-2, 1e-3, 1e-4], 'C': [1e-2, 1e-1, 1, 10, 100, 1000]} ]
+            #               {'kernel': ['sigmoid'], 'gamma': [1, 1e-1, 1e-2, 1e-3, 1e-4], 'C': [1, 10, 100, 1000]},
+            #               {'kernel': ['poly'], 'gamma': [1, 1e-1, 1e-2, 1e-3, 1e-4], 'C': [1, 10, 100, 1000]},
+            #               {'kernel': ['linear'], 'C': [1, 10, 100, 1000]} ]
         
-            gs = GridSearchCV(MLPClassifier(), param_grid, cv=4, n_jobs=4, scoring='balanced_accuracy')
+            gs = GridSearchCV(svm.SVC(), param_grid, cv=4, n_jobs=4, scoring='balanced_accuracy')
             gs.fit(train_dataset, train_par_labels)
             print(gs.best_params_, file=report_file)
             print(gs.best_params_)
 
-        report_file.write("\n") 
+        report_file.write("\n")
+
+        # first, deploy random predictors and measure their accuracy
+        clf = DummyClassifier(strategy='most_frequent')
+        clf.fit(train_dataset, train_par_labels)
+
+        predictions = clf.predict(test_dataset)
+        
+        report_file.write("= SciKitLearn Dummy (Most Frequent) Predictor =" + "\n")
+        report_file.write("= ======================== =" + "\n")
+        accuracy = accuracy_score(test_par_labels, predictions)
+        print("accuracy score: " + "{0:.3f}".format(accuracy))
+        report_file.write("accuracy score: " + "{0:.3f}".format(accuracy) + "\n")
+
+        accuracy = balanced_accuracy_score(test_par_labels, predictions)
+        print("balanced accuracy score: " + "{0:.3f}".format(accuracy))
+        report_file.write("balanced accuracy score: " + "{0:.3f}".format(accuracy) + "\n")
+
+        accuracy = precision_score(test_par_labels, predictions)
+        print("precision score: " + "{0:.3f}".format(accuracy))
+        report_file.write("precision score: " + "{0:.3f}".format(accuracy) + "\n")
+
+        accuracy = f1_score(test_par_labels, predictions)
+        print("f1 score: " + "{0:.3f}".format(accuracy))
+        report_file.write("f1 score: " + "{0:.3f}".format(accuracy) + "\n")
+
+        accuracy = recall_score(test_par_labels, predictions)
+        print("recall score: " + "{0:.3f}".format(accuracy))
+        report_file.write("recall score: " + "{0:.3f}".format(accuracy) + "\n")
+        report_file.write("= ======================== =" + "\n")
+        report_file.write("\n")
+
         # fit SVM model to the training dataset
-#        clf = None
-#        if hp_opt == "opt":
-#            clf = tree.DecisionTreeClassifier(**gs.best_params_)
-#        else:
-#            random_state = 12883823
-#            clf = tree.DecisionTreeClassifier()
-#        clf.fit(train_dataset, train_par_labels)
+        clf = None
+        if hp_opt == "opt":
+            clf = svm.SVC(**gs.best_params_)
+        else:
+            clf = RandomForestClassifier(max_depth=5, n_estimators=10, max_features=1)
+        clf.fit(train_dataset, train_par_labels)
 
         predictions = clf.predict(test_dataset)
         

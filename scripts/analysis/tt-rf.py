@@ -1,54 +1,75 @@
-#! /usr/bin/python3
+#!/usr/bin/python3
 
 import sys
 import os
 
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
+from sklearn import preprocessing
 
-from mpl_toolkits.mplot3d import Axes3D
-from sklearn.decomposition import PCA as sklearnPCA
-from sklearn import tree
-from sklearn.model_selection import train_test_split
-from sklearn.model_selection import KFold
-from sklearn.model_selection import RepeatedKFold
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import Normalizer
+
+from sklearn import svm
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
+
 from sklearn.metrics import accuracy_score
+from sklearn.metrics import balanced_accuracy_score
+from sklearn.metrics import precision_score
+from sklearn.metrics import recall_score
+from sklearn.metrics import f1_score
+
+from sklearn.model_selection import train_test_split
+from sklearn.model_selection import GridSearchCV
+
+from sklearn.dummy import DummyClassifier
+from sklearn.feature_selection import VarianceThreshold
 
 import ppar
 
-def create_folder(directory):
-    try:
-        if not os.path.exists(directory):
-            os.makedirs(directory)
-    except OSError:
-        print ("error: could not create directory: " + directory)
+def preprocess_features(scale, train_features, test_features):
+    
+    scaler = None
+    if scale == "std":
+        scaler = StandardScaler()
+    elif scale == "norm":
+        scaler = Normalizer()
+    elif scale == "minmax":
+        scaler = MinMaxScaler()
+
+    if scale != "raw":
+        scaler.fit(train_features[:])
+        train_features[:] = scaler.transform(train_features[:])
+        test_features[:] = scaler.transform(test_features[:])
 
 if __name__ == "__main__":
 
     print("==============================================================================")
     print("=== Machine Learning vs. Intel C/C++ Compiler (ICC) competition experiment ===")
+    print("===               Multi-layer Perceptron Neural Network Model              ===")
     print("==============================================================================")
 
+    if len(sys.argv) != 6:
+        sys.exit("error: use tt.py [TRAIN dataset filename] [TEST dataset filename] [REPORT folder] [SCALE parameter] [HP search] as arguments!")
+
+    # get command line arguments
     train_data_filename = sys.argv[1]
     test_data_filename = sys.argv[2]
     report_folder = sys.argv[3] + "/"
-    std_num = int(sys.argv[4]) # outliers screening parameter
-    norm = sys.argv[5]
+    scale = sys.argv[4]
+    hp_opt = sys.argv[5]
 
+    # check if command line passed files exist
     if not os.path.exists(train_data_filename):
-        sys.exit("error: " + train_data_filename + " data file does not exist!")
-
+        sys.exit("error: " + train_data_filename + " TRAIN data file does not exist!")
     if not os.path.exists(test_data_filename):
-        sys.exit("error: " + test_data_filename + " data file does not exist!")
-
+        sys.exit("error: " + test_data_filename + " TEST data file does not exist!")
     if not os.path.exists(report_folder):
-        sys.exit("error: " + report_folder + " report folder does not exist!")
+        sys.exit("error: " + report_folder + " REPORT folder does not exist!")
 
-    print("Train data input: " + train_data_filename)
-    print("Test data input: " + test_data_filename)
-    print("Report folder: " + report_folder)
-    print("Screen outliers outside " + str(std_num) + "-sigma standard deviations")
+    print("TRAIN data: " + train_data_filename)
+    print("TEST data: " + test_data_filename)
+    print("REPORT folder: " + report_folder)
 
     ###
     # Prepare Training Data
@@ -64,45 +85,8 @@ if __name__ == "__main__":
     train_icc_labels = train_data['icc']
     # prepare statistical learning features 
     train_features = train_data.drop(['loop-location','parallel','icc'], axis=1)
-
-    # remove outliers from the data
-    if std_num != 0:
-        filtered_idxs = {}
-        for metric in ppar.metric_list:
-            d = train_features[metric]
-            filtered_idxs[metric] = train_features[abs(d-d.mean()) <= std_num*d.std()].index
-    
-        filtered_idx = train_features.index
-        for metric in ppar.metric_list:  
-            filtered_idx &= filtered_idxs[metric]
-
-        train_loop_locations = train_loop_locations[filtered_idx]
-        train_par_labels = train_par_labels[filtered_idx]
-        train_icc_labels = train_icc_labels[filtered_idx]
-        
-        idxs_to_drop = train_features.index.drop(filtered_idx)
-        train_features = train_features.drop(idxs_to_drop)
-
-        train_loop_locations = train_loop_locations.reset_index(drop=True)
-        train_par_labels = train_par_labels.reset_index(drop=True)
-        train_icc_labels = train_icc_labels.reset_index(drop=True)
-        train_features = train_features.reset_index(drop=True)
-
-    # normalize the data
-    if norm == "norm":
-        for feature in ppar.metric_list:
-            if (train_features[feature].max() - train_features[feature].min()) != 0:
-                train_features[feature] = (train_features[feature] - train_features[feature].min())/(train_features[feature].max() - train_features[feature].min())
-
-    # prepare data for different metric groups
-    train_metrics_data = {}
-    for metric_group in ppar.metric_groups:
-        train_metrics_data[metric_group] = train_features[ppar.metric_groups[metric_group]]
-
-    # prepare data for different metric groups
-    train_metric_set_data = {}
-    for metric_set in ppar.metric_sets:
-        train_metric_set_data[metric_set] = train_features[ppar.metric_sets[metric_set]]
+    # cast all integer features to float
+    train_features = train_features.astype('float64')
 
     ###
     # Prepare Testing Data
@@ -118,73 +102,117 @@ if __name__ == "__main__":
     test_icc_labels = test_data['icc']
     # prepare statistical learning features 
     test_features = test_data.drop(['loop-location','parallel','icc'], axis=1)
-
-    # remove outliers from the data
-    if std_num != 0:
-        filtered_idxs = {}
-        for metric in ppar.metric_list:
-            d = test_features[metric]
-            filtered_idxs[metric] = test_features[abs(d-d.mean()) <= std_num*d.std()].index
-    
-        filtered_idx = test_features.index
-        for metric in ppar.metric_list:  
-            filtered_idx &= filtered_idxs[metric]
-
-        test_loop_locations = test_loop_locations[filtered_idx]
-        test_par_labels = test_par_labels[filtered_idx]
-        test_icc_labels = test_icc_labels[filtered_idx]
-        
-        idxs_to_drop = test_features.index.drop(filtered_idx)
-        test_features = test_features.drop(idxs_to_drop)
-
-        test_loop_locations = test_loop_locations.reset_index(drop=True)
-        test_par_labels = test_par_labels.reset_index(drop=True)
-        test_icc_labels = test_icc_labels.reset_index(drop=True)
-        test_features = test_features.reset_index(drop=True)
-
-    # normalize the data
-    if norm == "norm":
-        for feature in ppar.metric_list:
-            if (test_features[feature].max() - test_features[feature].min()) != 0:
-                test_features[feature] = (test_features[feature] - test_features[feature].min())/(test_features[feature].max() - test_features[feature].min())
-
-    # prepare data for different metric groups
-    test_metrics_data = {}
-    for metric_group in ppar.metric_groups:
-        test_metrics_data[metric_group] = test_features[ppar.metric_groups[metric_group]]
-
-    # prepare data for different metric groups
-    test_metric_set_data = {}
-    for metric_set in ppar.metric_sets:
-        test_metric_set_data[metric_set] = test_features[ppar.metric_sets[metric_set]]
+    # cast all integer features to float
+    test_features = test_features.astype('float64')
+   
+    # feature preprocessing (scaling, normalizaion, etc.) 
+    preprocess_features(scale, train_features, test_features)
 
     # do the ICC competition experiment for all metric sets
     for metric_set in ppar.metric_sets:
+        
+        # create and open report file
         report_filename = report_folder + metric_set + ".report"
         report_file = open(report_filename,'w')
-
-        # print the header into the report file
-        print('ML-vs-ICC.report', file=report_file)
-        print("DT with features from " + metric_set + " metric set")
-        report_file.write(metric_set + " ") 
-        report_file.write("[") 
-        for metric in ppar.metric_sets[metric_set]: 
-            report_file.write(" " + str(metric))
-        report_file.write(" ]\n") 
         
-        train_dataset = train_metric_set_data[metric_set]
-        test_dataset = test_metric_set_data[metric_set]
+        # print the header into the report file
+        #print(metric_set + '.report', file=report_file)
+        print("SVC [ " + metric_set + " ]")
+        report_file.write("\n") 
+        report_file.write(metric_set + " ") 
+        report_file.write("[\n") 
+        for metric in ppar.metric_sets[metric_set]: 
+            report_file.write("\t" + str(metric) + "\n")
+        report_file.write("]\n") 
+        report_file.write("\n") 
+        
+        # select train and test datasets
+        train_dataset = train_features[ppar.metric_sets[metric_set]]
+        test_dataset = test_features[ppar.metric_sets[metric_set]]
 
-        # fit SVM model to the training dataset
-        clf = tree.DecisionTreeClassifier()
+        gs = None
+        # model hyper-parameter search
+        if hp_opt == "opt":
+            #X_train, X_valid, y_train, y_valid = train_test_split(train_features, train_par_labels, test_size=0.2, random_state=0)
+            # hyper-parameter space to search
+            param_grid = [ {'kernel': ['rbf'], 'gamma': [1, 1e-1, 1e-2, 1e-3, 1e-4], 'C': [1e-2, 1e-1, 1, 10, 100, 1000]} ]
+            #               {'kernel': ['sigmoid'], 'gamma': [1, 1e-1, 1e-2, 1e-3, 1e-4], 'C': [1, 10, 100, 1000]},
+            #               {'kernel': ['poly'], 'gamma': [1, 1e-1, 1e-2, 1e-3, 1e-4], 'C': [1, 10, 100, 1000]},
+            #               {'kernel': ['linear'], 'C': [1, 10, 100, 1000]} ]
+        
+            gs = GridSearchCV(svm.SVC(), param_grid, cv=4, n_jobs=4, scoring='balanced_accuracy')
+            gs.fit(train_dataset, train_par_labels)
+            print(gs.best_params_, file=report_file)
+            print(gs.best_params_)
+
+        report_file.write("\n")
+
+        # first, deploy random predictors and measure their accuracy
+        clf = DummyClassifier(strategy='most_frequent')
         clf.fit(train_dataset, train_par_labels)
 
-        tree.export_graphviz(clf, out_file=report_folder + metric_set + '.tree3.dot', max_depth=3, class_names=['non-parallelizable','parallelizable'], feature_names=ppar.metric_sets[metric_set], filled=True, rounded=True)
-        tree.export_graphviz(clf, out_file=report_folder + metric_set + '.tree5.dot', max_depth=5, class_names=['non-parallelizable','parallelizable'], feature_names=ppar.metric_sets[metric_set], filled=True, rounded=True)
+        predictions = clf.predict(test_dataset)
+        
+        report_file.write("= SciKitLearn Dummy (Most Frequent) Predictor =" + "\n")
+        report_file.write("= ======================== =" + "\n")
+        accuracy = accuracy_score(test_par_labels, predictions)
+        print("accuracy score: " + "{0:.3f}".format(accuracy))
+        report_file.write("accuracy score: " + "{0:.3f}".format(accuracy) + "\n")
+
+        accuracy = balanced_accuracy_score(test_par_labels, predictions)
+        print("balanced accuracy score: " + "{0:.3f}".format(accuracy))
+        report_file.write("balanced accuracy score: " + "{0:.3f}".format(accuracy) + "\n")
+
+        accuracy = precision_score(test_par_labels, predictions)
+        print("precision score: " + "{0:.3f}".format(accuracy))
+        report_file.write("precision score: " + "{0:.3f}".format(accuracy) + "\n")
+
+        accuracy = f1_score(test_par_labels, predictions)
+        print("f1 score: " + "{0:.3f}".format(accuracy))
+        report_file.write("f1 score: " + "{0:.3f}".format(accuracy) + "\n")
+
+        accuracy = recall_score(test_par_labels, predictions)
+        print("recall score: " + "{0:.3f}".format(accuracy))
+        report_file.write("recall score: " + "{0:.3f}".format(accuracy) + "\n")
+        report_file.write("= ======================== =" + "\n")
+        report_file.write("\n")
+
+        # fit SVM model to the training dataset
+        clf = None
+        if hp_opt == "opt":
+            clf = svm.SVC(**gs.best_params_)
+        else:
+            #clf = RandomForestClassifier(max_depth=5, n_estimators=10, max_features=1)
+            clf = AdaBoostClassifier()
+        clf.fit(train_dataset, train_par_labels)
 
         predictions = clf.predict(test_dataset)
+        
+        report_file.write("= SciKitLearn Score Report =" + "\n")
+        report_file.write("= ======================== =" + "\n")
+        accuracy = accuracy_score(test_par_labels, predictions)
+        print("accuracy score: " + "{0:.3f}".format(accuracy))
+        report_file.write("accuracy score: " + "{0:.3f}".format(accuracy) + "\n")
 
-        # calculate learning performance
+        accuracy = balanced_accuracy_score(test_par_labels, predictions)
+        print("balanced accuracy score: " + "{0:.3f}".format(accuracy))
+        report_file.write("balanced accuracy score: " + "{0:.3f}".format(accuracy) + "\n")
+
+        accuracy = precision_score(test_par_labels, predictions)
+        print("precision score: " + "{0:.3f}".format(accuracy))
+        report_file.write("precision score: " + "{0:.3f}".format(accuracy) + "\n")
+
+        accuracy = f1_score(test_par_labels, predictions)
+        print("f1 score: " + "{0:.3f}".format(accuracy))
+        report_file.write("f1 score: " + "{0:.3f}".format(accuracy) + "\n")
+
+        accuracy = recall_score(test_par_labels, predictions)
+        print("recall score: " + "{0:.3f}".format(accuracy))
+        report_file.write("recall score: " + "{0:.3f}".format(accuracy) + "\n")
+        report_file.write("= ======================== =" + "\n")
+        report_file.write("\n")
+
+        # calculate feedback scheme performance
         mispredicted_loops = set()
         predicted_loops = set()
         icc_win_loops = set()
@@ -286,7 +314,7 @@ if __name__ == "__main__":
                 else:
                     icc_losses += 1
                     icc_loss_loops.add(str(test_loop_locations[i]) + ":" + str(predictions[i]) + ":" + str(test_icc_labels[i]) + ":loss")
-  
+         
         # Table
         # 0 0
         # 0 1
@@ -439,5 +467,5 @@ if __name__ == "__main__":
 
         report_file.write("==============================================================" + "\n")
         report_file.write("\n\n\n")
-        
+
         report_file.close()

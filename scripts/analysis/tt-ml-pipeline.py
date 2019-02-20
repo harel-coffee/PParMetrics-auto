@@ -18,6 +18,7 @@ from sklearn.preprocessing import Normalizer
 from sklearn.feature_selection import VarianceThreshold
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import SelectFromModel
+from sklearn.feature_selection import chi2
 
 # model selection
 from sklearn.model_selection import train_test_split
@@ -51,8 +52,19 @@ def preprocess_features(cfg, report_fd, train_features, test_features):
 
     scaler = None
     if preprocess_cfg['scaler'] == "std":
-        report_fd.write("scaler: StandardScaler()" + "\n")
-        scaler = StandardScaler()
+        report_fd.write("scaler: StandardScaler( ")
+        
+        with_mean=False
+        with_std=False
+        if preprocess_cfg['scale'] == "true":
+            report_fd.write("scale=True ")
+            with_std = True
+        if preprocess_cfg['center'] == "true":
+            report_fd.write("mean=True ")
+            with_mean = True
+        report_fd.write(")\n")
+        scaler = StandardScaler(with_mean, with_std)
+
     elif preprocess_cfg['scaler'] == "norm":
         scaler = Normalizer()
     elif preprocess_cfg['scaler'] == "min_max":
@@ -68,70 +80,182 @@ def preprocess_features(cfg, report_fd, train_features, test_features):
     
     report_fd.write("= =============================== =" + "\n")
 
-def select_features(cfg, report_fd, train_features, test_features):
+def select_features(cfg, report_fd, train_features, test_features, train_labels):
 
     select_cfg = cfg['feature_selection']
     report_cfg = cfg['report']
+   
+    verbose = int(report_cfg['feature_select_verbose'])
 
-    report_fd.write("= [2] Feature Selection Stage =" + "\n")
-    report_fd.write("= =========================== =" + "\n")
+    if verbose > 0:
+        report_fd.write("= [2] Feature Selection Stage =" + "\n")
+        report_fd.write("= =========================== =" + "\n")
 
     # perform automatic feature selection
     if select_cfg['auto'] != 'true':
-        report_fd.write("No auto selection is done!" + "\n")
-        report_fd.write("= =========================== =" + "\n")
+        if verbose > 0:
+            report_fd.write("No automatic feature selection is done!" + "\n")
+            report_fd.write("= =========================== =" + "\n")
         return True
  
     # determine feature selection method
-    selector = None
-    if select_cfg['method'] == 'SelectFromModel':
-        report_fd.write("selector: SelectFromModel()" + "\n")
+    methods = select_cfg['methods'].split(",")
+    models = select_cfg['models'].split(",")
+    medians = select_cfg['medians'].split(",")
+    thresholds = select_cfg['thresholds'].split(",")
+
+    if verbose > 0:
+        report_fd.write(str(len(methods)) + " selectors specified" + "\n")
+
+    # apply all feature selection methods one after the other
+    for i in range(0,len(methods)):
+        # get feature selection parameters
+        method = methods[i]
+        model = models[i]
+        thd = thresholds[i]
+        median = medians[i]
+        # pick the right selector
+        selector = None
+        if method == 'VarianceThreshold':
+            if verbose > 0:
+                report_fd.write("[ VarianceThreshold ]" + "\n")
+            if thd == '':
+                thd=0.16
+            else:
+                thd=float(thd)
+            if verbose > 1:
+                report_fd.write("threshold: " + str(thd) + "\n")
         
-        median = 1 # default value
-        if 'median' in select_cfg:
-            median = select_cfg['median']
-        report_fd.write("median: " + str(median) + "\n")
-        
-        clf = None
-        if select_cfg['model'] == 'RFC':
-            clf = RandomForestClassifier(n_estimators=100)
+            selector = VarianceThreshold(threshold=thd)
+       
+        elif method == 'SelectFromModel':
+            if verbose > 0:
+                report_fd.write("[ SelectFromModel ]" + "\n")
+            if median == '':
+                median=1.0
+            else:
+                median=float(median)
+            if verbose > 1:
+                report_fd.write("median: " + str(median) + "\n")
+       
+            clf = None
+            if model == 'RFC':
+                clf = RandomForestClassifier(n_estimators=100)
+            elif model == 'SVC':
+                clf = SVC()
+            else:
+                sys.exit("error: feature selection: " + "method " + str(i) + "has unrecognised model: " + str(model))
 
-        selector = SelectFromModel(clf, threshold=str(median)+'*median')
-   
-    selector.fit(train_features, train_par_labels)
-    
-    selected_features = train_features.columns[selector.get_support()]
-    report_fd.write("selected features num: " + str(len(selected_features)) + "\n")
-    report_fd.write("selected features [" + "\n")
-    report_fd.write(''.join(selected_features.tolist()))
-    report_fd.write("]" + "\n")
+            if verbose > 1:
+                report_fd.write("model: " + str(model) + "\n")
+            
+            selector = SelectFromModel(clf, threshold=str(median)+'*median')
 
-    train_features.drop(train_features.columns.difference(selected_features.tolist()), 1, inplace=True)
-    test_features.drop(test_features.columns.difference(selected_features.tolist()), 1, inplace=True)
-    
-    report_fd.write("= =========================== =" + "\n")
+        elif method == 'SelectKBest':
+            if verbose > 0:
+                report_fd.write("[ SelectKBest ]" + "\n")
+            if median == '':
+                median=1.0
+            else:
+                median=float(median)
+            if verbose > 1:
+                report_fd.write("median: " + str(median) + "\n")
+      
+            feature_num = len(train_features.columns)
+            k_best = float(feature_num)*median/2
+            k_best = int(k_best)
 
-    #train_features = train_features[selected_features]
-    #test_features = test_features[selected_features]
+            if model == '':
+                selector = SelectKBest(k=k_best)
+            else:
+                sys.exit("error: feature selection: " + "method " + str(i) + "has unrecognised model: " + str(model))
+
+            if verbose > 1:
+                report_fd.write("model: " + str(model) + "\n")
+
+        else:
+            sys.exit("error: feature selection: " + "unrecognised selection method: " + method)
+
+        selector.fit(train_features, train_labels)
+        selected_cols = selector.get_support(indices=True)
+        dropped_cols = np.invert(selector.get_support())
+        dropped_cols = np.where(dropped_cols)[0]
+            
+        selected_feature_names = (train_features.columns[selected_cols]).tolist()
+        dropped_feature_names = (train_features.columns[dropped_cols]).tolist()
+        if verbose > 2:
+            report_fd.write("selected features num: " + str(len(selected_cols)) + "\n")
+            report_fd.write("dropped features num: " + str(len(dropped_cols)) + "\n")
+            report_fd.write("dropped features [" + "\n")
+            for feature in dropped_feature_names:
+                report_fd.write("\t" + feature + "\n")
+            report_fd.write("]" + "\n")
+          
+        train_features.drop(train_features.columns[dropped_cols],axis=1,inplace=True)
+        test_features.drop(test_features.columns[dropped_cols],axis=1,inplace=True)
+
+    if verbose > 0:
+        report_fd.write("= Final feature selection =" + "\n")
+    selected_feature_names = (train_features.columns).tolist()
+    if verbose > 0:
+        report_fd.write("selected features num: " + str(len(selected_feature_names)) + "\n")
+    if verbose > 1:
+        report_fd.write("selected features [" + "\n")
+        for feature in selected_feature_names:
+            report_fd.write("\t" + feature + "\n")
+        report_fd.write("]" + "\n")
+
+    if verbose > 0:
+        report_fd.write("= =========================== =" + "\n")
 
 def hyper_param_selection(cfg, report_fd, train_features, test_features, train_labels):
 
     hp_cfg = cfg['hyper_param_selection']
     report_cfg = cfg['report']
 
-    report_fd.write("= [3] Model Hyper-Parameter Selection Stage =" + "\n")
-    report_fd.write("= ========================================= =" + "\n")
+    verbose = int(report_cfg['hyper_param_select_verbose'])
+
+    if verbose > 0:
+        report_fd.write("= [3] Model Hyper-Parameter Selection Stage =" + "\n")
+        report_fd.write("= ========================================= =" + "\n")
 
     # perform automatic hyper-parameter selection
     if hp_cfg['auto'] != 'true':
+        if verbose > 0:
+            report_fd.write("= No automatic model hyper-parameter selection is done! =" + "\n")
+            report_fd.write("= ========================================= =" + "\n")
         return None
     
     if hp_cfg['model'] == 'SVC':
         gs = None
       
+        if verbose > 1:
+            report_fd.write("model: " + hp_cfg['model'] + "\n")
+        
         kernels = hp_cfg['kernel'].split(",")
         gammas = [ float(x) for x in hp_cfg['gamma'].split(",") ] 
         Cs = [ int(x) for x in hp_cfg['C'].split(",") ]
+       
+        if verbose > 1:
+            report_fd.write("= hyper-parameter grid search space =\n")
+            report_fd.write("kernels: ")
+            for kernel in kernels:
+                report_fd.write(kernel)
+                report_fd.write(" ")
+            report_fd.write("\n")
+
+            report_fd.write("gammas: ")
+            for gamma in gammas:
+                report_fd.write(str(gamma))
+                report_fd.write(" ")
+            report_fd.write("\n")
+
+            report_fd.write("Cs: ")
+            for C in Cs:
+                report_fd.write(str(C))
+                report_fd.write(" ")
+            report_fd.write("\n")
+            report_fd.write("= =\n")
 
         # recover hyper-parameter search space from config file
         hyper_param_grid = []
@@ -143,30 +267,35 @@ def hyper_param_selection(cfg, report_fd, train_features, test_features, train_l
     
         gs = GridSearchCV(svm.SVC(), hyper_param_grid, cv=4, n_jobs=4, scoring='balanced_accuracy')
         gs.fit(train_features, train_labels)
-        report_fd.write(str(gs.best_params_) + "\n")
+        if verbose > 0:
+            report_fd.write(str(gs.best_params_) + "\n")
         return gs.best_params_
     
-    report_fd.write("= ========================================= =" + "\n")
+    if verbose > 0:
+        report_fd.write("= ========================================= =" + "\n")
 
 def model_training(cfg, report_fd, hparams, train_features, train_labels):
 
     train_cfg = cfg['model_training']
     report_cfg = cfg['report']
- 
-    report_fd.write("= [4] Model Training Stage =" + "\n")
-    report_fd.write("= ======================== =" + "\n")
+
+    verbose = int(report_cfg['model_train_verbose'])
+
+    if verbose > 0:
+        report_fd.write("= [4] Model Training Stage =" + "\n")
+        report_fd.write("= ======================== =" + "\n")
    
     # select train and test datasets
     train_dataset = train_features
 
     trained_models = {}
-    trained_models['dummy'] = None
+    trained_models['baseline'] = None
     trained_models[train_cfg['model']] = None
 
     # first, deploy random predictors and measure their accuracy
     dummy_clf = DummyClassifier(strategy='most_frequent')
     dummy_clf.fit(train_dataset, train_labels)
-    trained_models['dummy'] = dummy_clf
+    trained_models['baseline'] = dummy_clf
 
     clf = None
     if train_cfg['model'] == 'SVC':
@@ -175,37 +304,52 @@ def model_training(cfg, report_fd, hparams, train_features, train_labels):
     clf.fit(train_dataset, train_labels)
     trained_models[train_cfg['model']] = clf
     
-    report_fd.write("= ======================== =" + "\n")
+    if verbose > 0:
+        report_fd.write("= ======================== =" + "\n")
 
     return trained_models
 
-def model_validation(cfg, report_fd, clfs, test_features):
+def model_testing(cfg, report_fd, clfs, test_features):
 
-    test_cfg = cfg['model_validation']
+    test_cfg = cfg['model_testing']
     report_cfg = cfg['report']
 
-    report_fd.write("= [5] Model Validation Stage =" + "\n")
-    report_fd.write("= ========================== =" + "\n")
+    verbose = int(report_cfg['model_test_verbose'])
+
+    if verbose > 0:
+        report_fd.write("= [5] Model Testing Stage =" + "\n")
+        report_fd.write("= ========================== =" + "\n")
 
     predictions = {}
-    predictions['dummy'] = clfs['dummy'].predict(test_features)
+
+    predictions['baseline'] = clfs['baseline'].predict(test_features)
+    if verbose > 0:
+        report_fd.write("baseline tested" + "\n")
+
     predictions[test_cfg['model']] = clfs[test_cfg['model']].predict(test_features)
+    if verbose > 0:
+        report_fd.write(test_cfg['model'] + " tested" + "\n")
     
-    report_fd.write("= ========================== =" + "\n")
+    if verbose > 0:
+        report_fd.write("= ========================== =" + "\n")
     
     return predictions
 
 def report_results(cfg, report_fd, predictions, test_loop_locations, test_par_labels, test_icc_labels):
 
     report_cfg = cfg['report']
+    test_cfg = cfg['model_testing']
 
-    report_fd.write("= [6] Model Report Stage =" + "\n")
-    report_fd.write("= ====================== =" + "\n")
+    verbose = int(report_cfg['report_verbose'])
 
-    if report_cfg['dummy'] == 'true':
-        preds = predictions['dummy']
+    if verbose > 0:
+        report_fd.write("= [6] Model Report Stage =" + "\n")
+        report_fd.write("= ====================== =" + "\n")
 
-        report_fd.write("= SciKitLearn Dummy Predictor =" + "\n")
+    if report_cfg['baseline'] == 'true':
+        preds = predictions['baseline']
+
+        report_fd.write("= SciKitLearn Dummy (Baseline) Predictor =" + "\n")
         report_fd.write("= =========================== =" + "\n")
         
         report_fd.write("type: " + "most frequent" + "\n")
@@ -228,7 +372,7 @@ def report_results(cfg, report_fd, predictions, test_loop_locations, test_par_la
         report_fd.write("\n")
 
     if report_cfg['main'] == 'true':
-        preds = predictions[cfg['model_validation']['model']]
+        preds = predictions[cfg['model_testing']['model']]
     
         report_fd.write("= SciKitLearn Main Score Report =" + "\n")
         report_fd.write("= ============================= =" + "\n")
@@ -255,7 +399,7 @@ def report_results(cfg, report_fd, predictions, test_loop_locations, test_par_la
         report_fd.write("\n")
     
     if report_cfg['icc_competition'] == 'true':
-        preds = predictions[cfg['model_validation']['model']]
+        preds = predictions[cfg['model_testing']['model']]
 
         # calculate feedback scheme performance
         mispredicted_loops = set()
@@ -508,8 +652,9 @@ def report_results(cfg, report_fd, predictions, test_loop_locations, test_par_la
 
             report_fd.write("\n")
 
-    report_fd.write("==============================================================" + "\n")
-    report_fd.write("\n\n\n")
+    if verbose > 0:
+        report_fd.write("==============================================================" + "\n")
+        report_fd.write("\n\n\n")
 
 
 if __name__ == "__main__":
@@ -606,13 +751,13 @@ if __name__ == "__main__":
     # basic feature preprocessing (scaling, normalizaion, etc.) stage 
     preprocess_features(pl_cfg, report_fd, train_features, test_features)
     # feature selection stage
-    select_features(pl_cfg, report_fd, train_features, test_features)
+    select_features(pl_cfg, report_fd, train_features, test_features, train_par_labels)
     # model hyper-parameter selection stage
     best_hparams = hyper_param_selection(pl_cfg, report_fd, train_features, test_features, train_par_labels)
     # train ML model
     trained_clfs = model_training(pl_cfg, report_fd, best_hparams, train_features, train_par_labels)
     # test ML model
-    predictions = model_validation(pl_cfg, report_fd, trained_clfs, test_features)
+    predictions = model_testing(pl_cfg, report_fd, trained_clfs, test_features)
     # report results
     report_results(pl_cfg, report_fd, predictions, test_loop_locations, test_par_labels, test_icc_labels)
     

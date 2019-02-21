@@ -26,6 +26,7 @@ from sklearn.model_selection import GridSearchCV
 
 # models
 from sklearn import svm
+from sklearn import tree
 from sklearn.dummy import DummyClassifier
 from sklearn.ensemble import RandomForestClassifier
 
@@ -225,54 +226,174 @@ def hyper_param_selection(cfg, report_fd, train_features, test_features, train_l
             report_fd.write("= No automatic model hyper-parameter selection is done! =" + "\n")
             report_fd.write("= ========================================= =" + "\n")
         return None
-    
-    if hp_cfg['model'] == 'SVC':
-        gs = None
-      
-        if verbose > 1:
-            report_fd.write("model: " + hp_cfg['model'] + "\n")
+    else:
+        if verbose > 0:
+            report_fd.write("= Automatic model hyper-parameter selection =" + "\n")
+   
+    if hp_cfg['method'] == 'GridSearchCV':
         
-        kernels = hp_cfg['kernel'].split(",")
-        gammas = [ float(x) for x in hp_cfg['gamma'].split(",") ] 
-        Cs = [ int(x) for x in hp_cfg['C'].split(",") ]
-       
-        if verbose > 1:
-            report_fd.write("= hyper-parameter grid search space =\n")
-            report_fd.write("kernels: ")
-            for kernel in kernels:
-                report_fd.write(kernel)
-                report_fd.write(" ")
-            report_fd.write("\n")
-
-            report_fd.write("gammas: ")
-            for gamma in gammas:
-                report_fd.write(str(gamma))
-                report_fd.write(" ")
-            report_fd.write("\n")
-
-            report_fd.write("Cs: ")
-            for C in Cs:
-                report_fd.write(str(C))
-                report_fd.write(" ")
-            report_fd.write("\n")
-            report_fd.write("= =\n")
-
-        # recover hyper-parameter search space from config file
+        if verbose > 0:
+            report_fd.write("method: GridSearchCV" + "\n")
+        
+        gs = None
         hyper_param_grid = []
-        for kernel in kernels:
-            if kernel != 'linear':
-                hyper_param_grid.append({'kernel': [kernel], 'gamma': gammas, 'C': Cs})
-            else:
-                hyper_param_grid.append({'kernel': [kernel], 'C': Cs})
     
-        gs = GridSearchCV(svm.SVC(), hyper_param_grid, cv=4, n_jobs=4, scoring='balanced_accuracy')
+        if hp_cfg['model'] == 'SVC':
+      
+            if verbose > 0:
+                report_fd.write("model: SVC" + "\n")
+        
+            kernels = hp_cfg['kernel'].split(",")
+            gammas = [ float(x) for x in hp_cfg['gamma'].split(",") ] 
+            Cs = [ int(x) for x in hp_cfg['C'].split(",") ]
+       
+            if verbose > 1:
+                report_fd.write("= hyper-parameter grid search space =\n")
+                report_fd.write("kernels: ")
+                for kernel in kernels:
+                    report_fd.write(kernel)
+                    report_fd.write(" ")
+                report_fd.write("\n")
+
+                report_fd.write("gammas: ")
+                for gamma in gammas:
+                    report_fd.write(str(gamma))
+                    report_fd.write(" ")
+                report_fd.write("\n")
+
+                report_fd.write("Cs: ")
+                for C in Cs:
+                    report_fd.write(str(C))
+                    report_fd.write(" ")
+                report_fd.write("\n")
+                report_fd.write("= =\n")
+
+            # recover hyper-parameter search space from config file
+            for kernel in kernels:
+                if kernel != 'linear':
+                    hyper_param_grid.append({'kernel': [kernel], 'gamma': gammas, 'C': Cs})
+                else:
+                    hyper_param_grid.append({'kernel': [kernel], 'C': Cs})
+    
+            gs = GridSearchCV(svm.SVC(), hyper_param_grid, cv=int(hp_cfg['cv_k_folds']), n_jobs=-1, scoring=hp_cfg['scoring'])
+
+        elif hp_cfg['model'] == 'DT':
+            
+            if verbose > 0:
+                report_fd.write("model: DT" + "\n")
+        
+            max_depths = [None]
+            for x in hp_cfg['max_depth'].split(","):
+                max_depths.append(int(x))
+
+            min_samples_splits = [ float(x) for x in hp_cfg['min_samples_split'].split(",") ]
+            min_samples_leafs = [ int(x) for x in hp_cfg['min_samples_leaf'].split(",") ]
+            
+            features_num = len(train_features.columns)
+            max_features = []
+            for x in hp_cfg['max_features'].split(","):
+                if int(x) <= features_num:
+                    max_features.append(int(x))
+
+            if verbose > 1:
+                report_fd.write("= hyper-parameter grid search space =\n")
+                report_fd.write("max_depths: ")
+                for x in max_depths:
+                    report_fd.write(str(x))
+                    report_fd.write(" ")
+                report_fd.write("\n")
+
+                report_fd.write("min_samples_split: ")
+                for x in min_samples_splits:
+                    report_fd.write(str(x))
+                    report_fd.write(" ")
+                report_fd.write("\n")
+
+                report_fd.write("min_samples_leaf: ")
+                for x in min_samples_leafs:
+                    report_fd.write(str(x))
+                    report_fd.write(" ")
+                report_fd.write("\n")
+                report_fd.write("= =\n")
+
+                report_fd.write("max_features: ")
+                for x in max_features:
+                    report_fd.write(str(x))
+                    report_fd.write(" ")
+                report_fd.write("\n")
+
+            # recover hyper-parameter search space from config file
+            hyper_param_grid = {
+                'max_depth' : max_depths,
+                'min_samples_split': min_samples_splits,
+                'min_samples_leaf': min_samples_leafs,
+                'max_features' : max_features,
+            }
+            
+            gs = GridSearchCV(tree.DecisionTreeClassifier(), hyper_param_grid, cv=int(hp_cfg['cv_k_folds']), n_jobs=-1, scoring=hp_cfg['scoring'])
+        
+        elif hp_cfg['model'] == 'RFC':
+            
+            if verbose > 0:
+                report_fd.write("model: RFC" + "\n")
+        
+            max_depths = [None]
+            for x in hp_cfg['max_depth'].split(","):
+                max_depths.append(int(x))
+
+            min_samples_splits = [ float(x) for x in hp_cfg['min_samples_split'].split(",") ]
+            min_samples_leafs = [ int(x) for x in hp_cfg['min_samples_leaf'].split(",") ]
+            
+            features_num = len(train_features.columns)
+            max_features = []
+            for x in hp_cfg['max_features'].split(","):
+                if int(x) <= features_num:
+                    max_features.append(int(x))
+
+            if verbose > 1:
+                report_fd.write("= hyper-parameter grid search space =\n")
+                report_fd.write("max_depths: ")
+                for x in max_depths:
+                    report_fd.write(str(x))
+                    report_fd.write(" ")
+                report_fd.write("\n")
+
+                report_fd.write("min_samples_split: ")
+                for x in min_samples_splits:
+                    report_fd.write(str(x))
+                    report_fd.write(" ")
+                report_fd.write("\n")
+
+                report_fd.write("min_samples_leaf: ")
+                for x in min_samples_leafs:
+                    report_fd.write(str(x))
+                    report_fd.write(" ")
+                report_fd.write("\n")
+                report_fd.write("= =\n")
+
+                report_fd.write("max_features: ")
+                for x in max_features:
+                    report_fd.write(str(x))
+                    report_fd.write(" ")
+                report_fd.write("\n")
+
+            # recover hyper-parameter search space from config file
+            hyper_param_grid = {
+                'max_depth' : max_depths,
+                'min_samples_split': min_samples_splits,
+                'min_samples_leaf': min_samples_leafs,
+                'max_features' : max_features,
+            }
+            
+            gs = GridSearchCV(tree.DecisionTreeClassifier(), hyper_param_grid, cv=int(hp_cfg['cv_k_folds']), n_jobs=-1, scoring=hp_cfg['scoring'])
+       
         gs.fit(train_features, train_labels)
+        
         if verbose > 0:
             report_fd.write(str(gs.best_params_) + "\n")
+            report_fd.write("= ========================================= =" + "\n")
+        
         return gs.best_params_
-    
-    if verbose > 0:
-        report_fd.write("= ========================================= =" + "\n")
 
 def model_training(cfg, report_fd, hparams, train_features, train_labels):
 
@@ -300,6 +421,8 @@ def model_training(cfg, report_fd, hparams, train_features, train_labels):
     clf = None
     if train_cfg['model'] == 'SVC':
         clf = svm.SVC(**hparams)
+    elif train_cfg['model'] == 'DT':
+        clf = tree.DecisionTreeClassifier(**hparams)
     
     clf.fit(train_dataset, train_labels)
     trained_models[train_cfg['model']] = clf

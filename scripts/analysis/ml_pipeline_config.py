@@ -13,6 +13,7 @@ mandatory_sections = [
 ]
     
 available_scalers = [
+    'raw',
     'std',
     'min_max',
     'max_abs'

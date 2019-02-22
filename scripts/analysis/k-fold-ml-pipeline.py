@@ -25,6 +25,7 @@ from sklearn.feature_selection import f_classif
 # model selection
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import KFold
 
 # models
 from sklearn import svm
@@ -596,6 +597,8 @@ def report_results(cfg, report_fd, predictions, test_loop_locations, test_par_la
     report_cfg = cfg['report']
     test_cfg = cfg['model_testing']
 
+    accuracy_report = {}
+
     verbose = int(report_cfg['report_verbose'])
 
     if verbose > 0:
@@ -635,22 +638,27 @@ def report_results(cfg, report_fd, predictions, test_loop_locations, test_par_la
         accuracy = accuracy_score(test_par_labels, preds)
         print("accuracy score: " + "{0:.3f}".format(accuracy))
         report_fd.write("accuracy score: " + "{0:.3f}".format(accuracy) + "\n")
+        accuracy_report['accuracy'] = accuracy
 
         accuracy = balanced_accuracy_score(test_par_labels, preds)
         print("balanced accuracy score: " + "{0:.3f}".format(accuracy))
         report_fd.write("balanced accuracy score: " + "{0:.3f}".format(accuracy) + "\n")
+        accuracy_report['balanced_accuracy'] = accuracy
 
         accuracy = precision_score(test_par_labels, preds)
         print("precision score: " + "{0:.3f}".format(accuracy))
         report_fd.write("precision score: " + "{0:.3f}".format(accuracy) + "\n")
+        accuracy_report['precision'] = accuracy
 
         accuracy = f1_score(test_par_labels, preds)
         print("f1 score: " + "{0:.3f}".format(accuracy))
         report_fd.write("f1 score: " + "{0:.3f}".format(accuracy) + "\n")
+        accuracy_report['f1_score'] = accuracy
 
         accuracy = recall_score(test_par_labels, preds)
         print("recall score: " + "{0:.3f}".format(accuracy))
         report_fd.write("recall score: " + "{0:.3f}".format(accuracy) + "\n")
+        accuracy_report['recall'] = accuracy
         report_fd.write("= ======================== =" + "\n")
         report_fd.write("\n")
     
@@ -860,6 +868,9 @@ def report_results(cfg, report_fd, predictions, test_loop_locations, test_par_la
         report_fd.write("unsafe-error-rate: " + "{0:.2f}".format(unsafe_mispredict_rate) + "\n")
         report_fd.write("========" + "\n")
         report_fd.write("\n")
+        
+        accuracy_report['safe'] = safe_mispredict_rate
+        accuracy_report['unsafe'] = unsafe_mispredict_rate
             
         report_fd.write("ICC competition" + "\n")
         report_fd.write("========" + "\n")
@@ -870,6 +881,9 @@ def report_results(cfg, report_fd, predictions, test_loop_locations, test_par_la
         report_fd.write("loss-rate: " + "{0:.2f}".format(icc_loss_rate) + "\n")
         report_fd.write("========" + "\n")
         report_fd.write("\n")
+
+        accuracy_report['icc-win'] = icc_win_rate
+        accuracy_report['icc-loss'] = icc_loss_rate
 
         if report_cfg['loop_locations'] == 'true':
             report_fd.write("loop:pred:label:safe\n")
@@ -911,32 +925,28 @@ def report_results(cfg, report_fd, predictions, test_loop_locations, test_par_la
     if verbose > 0:
         report_fd.write("==============================================================" + "\n")
         report_fd.write("\n\n\n")
-
+    
+    return accuracy_report
 
 if __name__ == "__main__":
 
     print("================================================")
-    print("=== Machine Learning Train Test Pipeline Run ===")
+    print("=== Machine Learning K-Fold Pipeline Run ===")
     print("================================================")
 
-    if len(sys.argv) != 5:
+    if len(sys.argv) != 4:
         sys.exit("error: use ./train_test_pipeline.py " +
-                 "[TRAIN data file]" + 
-                 "[TEST data file]" + 
+                 "[TRAIN/TEST data file]" + 
                  "[Pipeline Configuration INI file]" + 
                  "[REPORT folder]")
 
     # get command line arguments and check that provided files exist
-    train_data_filename = sys.argv[1]
-    test_data_filename = sys.argv[2]
-    pipeline_cfg_filename = sys.argv[3]
-    report_folder = sys.argv[4] + "/"
+    raw_data_filename = sys.argv[1]
+    pipeline_cfg_filename = sys.argv[2]
+    report_folder = sys.argv[3] + "/"
 
-    if not os.path.exists(train_data_filename):
-        sys.exit("error: " + train_data_filename + " TRAIN data file does not exist!")
-
-    if not os.path.exists(test_data_filename):
-        sys.exit("error: " + test_data_filename + " TEST data file does not exist!")
+    if not os.path.exists(raw_data_filename):
+        sys.exit("error: " + raw_data_filename + " TRAIN/TEST data file does not exist!")
 
     if not os.path.exists(pipeline_cfg_filename):
         sys.exit("error: " + pipeline_cfg_filename + " Pipeline Configuration file does not exist!")
@@ -944,44 +954,27 @@ if __name__ == "__main__":
     if not os.path.exists(report_folder):
         sys.exit("error: " + report_folder + " REPORT folder does not exist!")
 
-    print("TRAIN data: " + train_data_filename)
-    print("TEST data: " + test_data_filename)
+    print("Raw data file: " + raw_data_filename)
     print("ML Pipeline Config: " + pipeline_cfg_filename)
     print("REPORT folder: " + report_folder)
     print("================================================")
 
     ###
-    # Prepare Training Data
+    # Prepare Training/Testing Data
     ###
-    # load training data file
-    train_data = pd.read_csv(train_data_filename)
+    # load raw data file
+    raw_data = pd.read_csv(raw_data_filename)
     # loop locations in the benchmark source code
-    train_loop_locations = train_data['loop-location']
+    loop_locations = raw_data['loop-location']
     # prepare real parallel labels 
-    train_par_labels = train_data['parallel']
+    par_labels = raw_data['parallel']
     # prepare loop icc labels
-    train_icc_labels = train_data['icc']
+    icc_labels = raw_data['icc']
     # prepare statistical learning features 
-    train_features = train_data.drop(['loop-location','parallel','icc'], axis=1)
+    features = raw_data.drop(['loop-location','parallel','icc'], axis=1)
     # cast all integer features to float
-    train_features = train_features.astype('float64')
+    features = features.astype('float64')
 
-    ###
-    # Prepare Testing Data
-    ###
-    # load training data file
-    test_data = pd.read_csv(test_data_filename)
-    # loop locations in the benchmark source code
-    test_loop_locations = test_data['loop-location']
-    # prepare real parallel labels 
-    test_par_labels = test_data['parallel']
-    # prepare loop icc labels
-    test_icc_labels = test_data['icc']
-    # prepare statistical learning features 
-    test_features = test_data.drop(['loop-location','parallel','icc'], axis=1)
-    # cast all integer features to float
-    test_features = test_features.astype('float64')
-  
     ###
     # Parse ML Pipeline Configuration INI file
     ###
@@ -1001,22 +994,62 @@ if __name__ == "__main__":
     report_fd.write("= ================== =\n") 
     report_fd.write("\n") 
 
-    ###
-    # Run ML Pipeline
-    ###
-    # basic feature preprocessing (scaling, normalizaion, etc.) stage 
-    preprocess_features(pl_cfg, report_fd, train_features, test_features)
-    # feature selection stage
-    select_features(pl_cfg, report_fd, train_features, test_features, train_par_labels)
-    # model hyper-parameter selection stage
-    best_hparams = hyper_param_selection(pl_cfg, report_fd, train_features, test_features, train_par_labels)
-    # train ML model
-    trained_clfs = model_training(pl_cfg, report_fd, best_hparams, train_features, train_par_labels)
-    # test ML model
-    predictions = model_testing(pl_cfg, report_fd, trained_clfs, test_features)
-    # report results
-    report_results(pl_cfg, report_fd, predictions, test_loop_locations, test_par_labels, test_icc_labels)
-    
+    K = 5
+    kf = KFold(n_splits=K)
+
+    accuracies = []
+    for train, test in kf.split(raw_data):
+        
+        # prepare vectors
+        train_features = features.iloc[train]
+        test_features = features.iloc[test]
+        train_icc_labels = icc_labels.iloc[train]
+        test_icc_labels = icc_labels.iloc[test]
+        train_par_labels = par_labels.iloc[train]
+        test_par_labels = par_labels.iloc[test]
+        train_loop_locations = loop_locations.iloc[train]
+        test_loop_locations = loop_locations.iloc[test]
+
+        train_features = train_features.reset_index(drop=True)
+        test_features = test_features.reset_index(drop=True)
+        
+        train_loop_locations = train_loop_locations.reset_index(drop=True)
+        test_loop_locations = test_loop_locations.reset_index(drop=True)
+
+        train_icc_labels = train_icc_labels.reset_index(drop=True)
+        test_icc_labels = test_icc_labels.reset_index(drop=True)
+
+        train_par_labels = train_par_labels.reset_index(drop=True)
+        test_par_labels = test_par_labels.reset_index(drop=True)
+
+        report_fd.write("Training data size: " + str(len(train_features)) + "\n")
+        report_fd.write("Testing data size: " + str(len(test_features)) + "\n")
+
+        ###
+        # Run ML Pipeline
+        ###
+        # basic feature preprocessing (scaling, normalizaion, etc.) stage 
+        preprocess_features(pl_cfg, report_fd, train_features, test_features)
+        # feature selection stage
+        select_features(pl_cfg, report_fd, train_features, test_features, train_par_labels)
+        # model hyper-parameter selection stage
+        best_hparams = hyper_param_selection(pl_cfg, report_fd, train_features, test_features, train_par_labels)
+        # train ML model
+        trained_clfs = model_training(pl_cfg, report_fd, best_hparams, train_features, train_par_labels)
+        # test ML model
+        predictions = model_testing(pl_cfg, report_fd, trained_clfs, test_features)
+        # report results
+        acc = report_results(pl_cfg, report_fd, predictions, test_loop_locations, test_par_labels, test_icc_labels)
+        
+        accuracies.append(acc['accuracy'])
+
+    report_fd.write("Final K-Fold (K=" + str(K) +") Cross Validation Mean Accuracy\n")
+    report_fd.write("===================" + "\n")
+    report_fd.write("mean-accuracy:" + "{0:.2f}".format(pd.Series(accuracies).mean()*100) + "\n")
+    report_fd.write("===================" + "\n")
+
+    report_fd.write("\n")
+
     # close report file
     report_fd.close()
 

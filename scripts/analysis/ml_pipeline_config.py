@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-# sections of configuration file correspond to 
+# sections of INI configuration file correspond to 
 # different ML pipeline stages
 mandatory_sections = [
     'preprocess',
@@ -31,6 +31,12 @@ available_feature_selectors = [
     'VarianceThreshold',
     'SelectFromModel',
     'SelectKBest'
+]
+
+univariate_feature_tests = [
+    'mutual_info_classif',
+    'f_classif',
+    'chi2'
 ]
 
 def check_ml_pipeline_config(pl_cfg):

@@ -200,6 +200,12 @@ def select_features(cfg, report_fd, train_features, test_features, train_labels)
 
             if model == '':
                 selector = SelectKBest(k=k_best)
+            elif model == 'chi2':
+                selector = SelectKBest(score_func=chi2, k=k_best)
+            elif model == 'f_classif':
+                selector = SelectKBest(score_func=f_classif, k=k_best)
+            elif model == 'mutual_info_classif':
+                selector = SelectKBest(score_func=f_classif, k=k_best)
             else:
                 sys.exit("error: feature selection: " + "method " + str(i) + "has unrecognised model: " + str(model))
 

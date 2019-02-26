@@ -18,6 +18,7 @@ from sklearn.preprocessing import Normalizer
 from sklearn.feature_selection import VarianceThreshold
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import SelectFromModel
+from sklearn.feature_selection import RFECV
 from sklearn.feature_selection import chi2
 from sklearn.feature_selection import mutual_info_classif
 from sklearn.feature_selection import f_classif
@@ -26,6 +27,7 @@ from sklearn.feature_selection import f_classif
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import KFold
+from sklearn.model_selection import RepeatedKFold
 
 # models
 from sklearn import svm
@@ -49,7 +51,7 @@ import ml_pipeline_config
 
 _rand_state_ = 12883823
 
-def preprocess_features(cfg, report_fd, train_features, test_features):
+def preprocess_features(cfg, report_fd, features):
 
     preprocess_cfg = cfg['preprocess']
     report_cfg = cfg['report']
@@ -79,9 +81,8 @@ def preprocess_features(cfg, report_fd, train_features, test_features):
         scaler = MinMaxScaler()
 
     if preprocess_cfg['scaler'] != "raw":
-        scaler.fit(train_features[:])
-        train_features[:] = scaler.transform(train_features[:])
-        test_features[:] = scaler.transform(test_features[:])
+        scaler.fit(features[:])
+        features[:] = scaler.transform(features[:])
     else:
         report_fd.write("scaler: raw" + "\n")
     
@@ -112,6 +113,7 @@ def select_features(cfg, report_fd, train_features, test_features, train_labels)
     models = select_cfg['models'].split(",")
     medians = select_cfg['medians'].split(",")
     thresholds = select_cfg['thresholds'].split(",")
+    scorings = select_cfg['scorings'].split(",")
     tests = select_cfg['tests'].split(",")
 
     if verbose > 0:
@@ -126,6 +128,7 @@ def select_features(cfg, report_fd, train_features, test_features, train_labels)
         model = models[i]
         thd = thresholds[i]
         median = medians[i]
+        score = scorings[i]
         # pick the right selector
         selector = None
         if method == 'VarianceThreshold':
@@ -173,6 +176,10 @@ def select_features(cfg, report_fd, train_features, test_features, train_labels)
 
             elif model == 'SVC':
                 clf = SVC(random_state=_rand_state_)
+            
+            elif model == 'DT':
+                clf = tree.DecisionTreeClassifier(random_state=_rand_state_)
+            
             else:
                 sys.exit("error: feature selection: " + "method " + str(i) + "has unrecognised model: " + str(model))
 
@@ -208,6 +215,33 @@ def select_features(cfg, report_fd, train_features, test_features, train_labels)
                 selector = SelectKBest(score_func=f_classif, k=k_best)
             else:
                 sys.exit("error: feature selection: " + "method " + str(i) + "has unrecognised model: " + str(model))
+
+            if verbose > 1:
+                report_fd.write("model: " + str(model) + "\n")
+        
+        elif method == 'RFECV':
+            
+            if verbose > 0:
+                report_fd.write("[ RFECV ]" + "\n")
+            
+            if model == 'DT':
+                estimator = tree.DecisionTreeClassifier()
+            else:
+                sys.exit("error: feature selection: " + "method " + str(i) + "has unrecognised model: " + str(model))
+
+            if median == '':
+                median=0.9
+            else:
+                median=float(median)
+            
+            if verbose > 1:
+                report_fd.write("median: " + str(median) + "\n")
+      
+            feature_num = len(train_features.columns)
+            k_best = float(feature_num)*median
+            k_best = int(k_best)
+
+            selector = RFECV(estimator, min_features_to_select=k_best, step=1, cv=10, scoring=score)
 
             if verbose > 1:
                 report_fd.write("model: " + str(model) + "\n")
@@ -549,16 +583,29 @@ def model_training(cfg, report_fd, hparams, train_features, train_labels):
     trained_models['baseline'] = dummy_clf
 
     clf = None
-    if train_cfg['model'] == 'SVC':
-        clf = svm.SVC(**hparams)
-    elif train_cfg['model'] == 'DT':
-        clf = tree.DecisionTreeClassifier(**hparams)
-    elif train_cfg['model'] == 'RFC':
-        clf = RandomForestClassifier(**hparams)
-    elif train_cfg['model'] == 'MLP':
-        clf = MLPClassifier(**hparams)
-    elif train_cfg['model'] == 'AdaBoost':
-        clf = AdaBoostClassifier(**hparams)
+    if hparams != None:
+        if train_cfg['model'] == 'SVC':
+            clf = svm.SVC(**hparams)
+        elif train_cfg['model'] == 'DT':
+            clf = tree.DecisionTreeClassifier(**hparams)
+        elif train_cfg['model'] == 'RFC':
+            clf = RandomForestClassifier(**hparams)
+        elif train_cfg['model'] == 'MLP':
+            clf = MLPClassifier(**hparams)
+        elif train_cfg['model'] == 'AdaBoost':
+            clf = AdaBoostClassifier(**hparams)
+    else:
+        if train_cfg['model'] == 'SVC':
+            clf = svm.SVC()
+        elif train_cfg['model'] == 'DT':
+            clf = tree.DecisionTreeClassifier()
+        elif train_cfg['model'] == 'RFC':
+            clf = RandomForestClassifier()
+        elif train_cfg['model'] == 'MLP':
+            clf = MLPClassifier()
+        elif train_cfg['model'] == 'AdaBoost':
+            clf = AdaBoostClassifier()
+
     clf.set_params(random_state=_rand_state_)
 
     clf.fit(train_dataset, train_labels)
@@ -604,12 +651,17 @@ def report_results(cfg, report_fd, predictions, test_loop_locations, test_par_la
     test_cfg = cfg['model_testing']
 
     accuracy_report = {}
+    accuracy_report['baseline'] = {}
+    accuracy_report['main'] = {}
+    baseline_report = accuracy_report['baseline'] 
+    main_report = accuracy_report['main'] 
 
     verbose = int(report_cfg['report_verbose'])
 
     if verbose > 0:
         report_fd.write("= [6] Model Report Stage =" + "\n")
         report_fd.write("= ====================== =" + "\n")
+        report_fd.write("\n")
 
     if report_cfg['baseline'] == 'true':
         preds = predictions['baseline']
@@ -621,18 +673,23 @@ def report_results(cfg, report_fd, predictions, test_loop_locations, test_par_la
         
         accuracy = accuracy_score(test_par_labels, preds)
         report_fd.write("accuracy score: " + "{0:.3f}".format(accuracy) + "\n")
+        baseline_report['accuracy'] = accuracy
 
         accuracy = balanced_accuracy_score(test_par_labels, preds)
         report_fd.write("balanced accuracy score: " + "{0:.3f}".format(accuracy) + "\n")
+        baseline_report['balanced_accuracy'] = accuracy
 
         accuracy = precision_score(test_par_labels, preds)
         report_fd.write("precision score: " + "{0:.3f}".format(accuracy) + "\n")
+        baseline_report['precision'] = accuracy
 
         accuracy = f1_score(test_par_labels, preds)
         report_fd.write("f1 score: " + "{0:.3f}".format(accuracy) + "\n")
+        baseline_report['f1_score'] = accuracy
 
         accuracy = recall_score(test_par_labels, preds)
         report_fd.write("recall score: " + "{0:.3f}".format(accuracy) + "\n")
+        baseline_report['recall_score'] = accuracy
         report_fd.write("= =========================== =" + "\n")
         report_fd.write("\n")
 
@@ -644,27 +701,27 @@ def report_results(cfg, report_fd, predictions, test_loop_locations, test_par_la
         accuracy = accuracy_score(test_par_labels, preds)
         print("accuracy score: " + "{0:.3f}".format(accuracy))
         report_fd.write("accuracy score: " + "{0:.3f}".format(accuracy) + "\n")
-        accuracy_report['accuracy'] = accuracy
+        main_report['accuracy'] = accuracy
 
         accuracy = balanced_accuracy_score(test_par_labels, preds)
         print("balanced accuracy score: " + "{0:.3f}".format(accuracy))
         report_fd.write("balanced accuracy score: " + "{0:.3f}".format(accuracy) + "\n")
-        accuracy_report['balanced_accuracy'] = accuracy
+        main_report['balanced_accuracy'] = accuracy
 
         accuracy = precision_score(test_par_labels, preds)
         print("precision score: " + "{0:.3f}".format(accuracy))
         report_fd.write("precision score: " + "{0:.3f}".format(accuracy) + "\n")
-        accuracy_report['precision'] = accuracy
+        main_report['precision'] = accuracy
 
         accuracy = f1_score(test_par_labels, preds)
         print("f1 score: " + "{0:.3f}".format(accuracy))
         report_fd.write("f1 score: " + "{0:.3f}".format(accuracy) + "\n")
-        accuracy_report['f1_score'] = accuracy
+        main_report['f1_score'] = accuracy
 
         accuracy = recall_score(test_par_labels, preds)
         print("recall score: " + "{0:.3f}".format(accuracy))
         report_fd.write("recall score: " + "{0:.3f}".format(accuracy) + "\n")
-        accuracy_report['recall'] = accuracy
+        main_report['recall_score'] = accuracy
         report_fd.write("= ======================== =" + "\n")
         report_fd.write("\n")
     
@@ -937,7 +994,7 @@ def report_results(cfg, report_fd, predictions, test_loop_locations, test_par_la
 if __name__ == "__main__":
 
     print("================================================")
-    print("=== Machine Learning K-Fold Pipeline Run ===")
+    print("==== Machine Learning K-Fold Pipeline Run ====")
     print("================================================")
 
     if len(sys.argv) != 4:
@@ -1000,12 +1057,33 @@ if __name__ == "__main__":
     report_fd.write("= ================== =\n") 
     report_fd.write("\n") 
 
-    K = 5
-    kf = KFold(n_splits=K)
+    # basic feature preprocessing (scaling, normalizaion, etc.) stage 
+    preprocess_features(pl_cfg, report_fd, features)
 
-    accuracies = []
-    for train, test in kf.split(raw_data):
+    K = 20
+    N = 3
+    kf = KFold(n_splits=K)
+    rkf = RepeatedKFold(n_splits=K, n_repeats=N, random_state=_rand_state_)
+
+    baseline_accuracies = []
+    main_accuracies = []
+    baseline_balanced_accuracies = []
+    main_balanced_accuracies = []
+    baseline_precisions = []
+    main_precisions = []
+    baseline_recalls = []
+    main_recalls = []
+    baseline_f1_scores = []
+    main_f1_scores = []
+
+    split_num = 0
+    for train, test in rkf.split(raw_data):
         
+        report_fd.write("= Split " + str(split_num) + " =\n") 
+        report_fd.write("= =========" + " =\n") 
+
+        split_num = split_num + 1
+
         # prepare vectors
         train_features = features.iloc[train]
         test_features = features.iloc[test]
@@ -1030,30 +1108,65 @@ if __name__ == "__main__":
 
         report_fd.write("Training data size: " + str(len(train_features)) + "\n")
         report_fd.write("Testing data size: " + str(len(test_features)) + "\n")
+        report_fd.write("\n")
 
         ###
         # Run ML Pipeline
         ###
-        # basic feature preprocessing (scaling, normalizaion, etc.) stage 
-        preprocess_features(pl_cfg, report_fd, train_features, test_features)
         # feature selection stage
-        select_features(pl_cfg, report_fd, train_features, test_features, train_par_labels)
+        #select_features(pl_cfg, report_fd, train_features, test_features, train_par_labels)
+        select_features(pl_cfg, report_fd, train_features, test_features, train_icc_labels)
         # model hyper-parameter selection stage
-        best_hparams = hyper_param_selection(pl_cfg, report_fd, train_features, test_features, train_par_labels)
+        #best_hparams = hyper_param_selection(pl_cfg, report_fd, train_features, test_features, train_par_labels)
+        best_hparams = hyper_param_selection(pl_cfg, report_fd, train_features, test_features, train_icc_labels)
         # train ML model
-        trained_clfs = model_training(pl_cfg, report_fd, best_hparams, train_features, train_par_labels)
+        #trained_clfs = model_training(pl_cfg, report_fd, best_hparams, train_features, train_par_labels)
+        trained_clfs = model_training(pl_cfg, report_fd, best_hparams, train_features, train_icc_labels)
         # test ML model
         predictions = model_testing(pl_cfg, report_fd, trained_clfs, test_features)
         # report results
-        acc = report_results(pl_cfg, report_fd, predictions, test_loop_locations, test_par_labels, test_icc_labels)
+#        acc = report_results(pl_cfg, report_fd, predictions, test_loop_locations, test_par_labels, test_icc_labels)
+        acc = report_results(pl_cfg, report_fd, predictions, test_loop_locations, test_icc_labels, test_icc_labels)
         
-        accuracies.append(acc['accuracy'])
+        baseline_acc = acc['baseline']
+        main_acc = acc['main']
+
+        baseline_accuracies.append(baseline_acc['accuracy'])
+        main_accuracies.append(main_acc['accuracy'])
+        baseline_balanced_accuracies.append(baseline_acc['balanced_accuracy'])
+        main_balanced_accuracies.append(main_acc['balanced_accuracy'])
+        baseline_precisions.append(baseline_acc['precision'])
+        main_precisions.append(main_acc['precision'])
+        baseline_recalls.append(baseline_acc['recall_score'])
+        main_recalls.append(main_acc['recall_score'])
+        baseline_f1_scores.append(baseline_acc['f1_score'])
+        main_f1_scores.append(main_acc['f1_score'])
 
     report_fd.write("Final K-Fold (K=" + str(K) +") Cross Validation Mean Accuracy\n")
     report_fd.write("===================" + "\n")
-    report_fd.write("mean-accuracy:" + "{0:.2f}".format(pd.Series(accuracies).mean()*100) + "\n")
-    report_fd.write("===================" + "\n")
+    report_fd.write("\n")
+    report_fd.write("= SciKitLearn Dummy (Baseline) Predictor =" + "\n")
+    report_fd.write("= =========================== =" + "\n")
+    report_fd.write("type: " + "most frequent" + "\n")
+    report_fd.write("mean-accuracy:" + "{0:.3f}".format(pd.Series(baseline_accuracies).mean()*100) + "\n")
+    report_fd.write("mean-balanced-accuracy:" + "{0:.3f}".format(pd.Series(baseline_balanced_accuracies).mean()*100) + "\n")
+    report_fd.write("mean-precision:" + "{0:.3f}".format(pd.Series(baseline_precisions).mean()*100) + "\n")
+    report_fd.write("mean-recall:" + "{0:.3f}".format(pd.Series(baseline_recalls).mean()*100) + "\n")
+    report_fd.write("mean-f1-score:" + "{0:.3f}".format(pd.Series(baseline_f1_scores).mean()*100) + "\n")
+    report_fd.write("= =========================== =" + "\n")
+    report_fd.write("\n")
 
+    report_fd.write("= SciKitLearn Main Score Report =" + "\n")
+    report_fd.write("= ============================= =" + "\n")
+    report_fd.write("mean-accuracy:" + "{0:.3f}".format(pd.Series(main_accuracies).mean()*100) + "\n")
+    report_fd.write("mean-balanced-accuracy:" + "{0:.3f}".format(pd.Series(main_balanced_accuracies).mean()*100) + "\n")
+    report_fd.write("mean-precision:" + "{0:.3f}".format(pd.Series(main_precisions).mean()*100) + "\n")
+    report_fd.write("mean-recall:" + "{0:.3f}".format(pd.Series(main_recalls).mean()*100) + "\n")
+    report_fd.write("mean-f1-score:" + "{0:.3f}".format(pd.Series(main_f1_scores).mean()*100) + "\n")
+    report_fd.write("= =========================== =" + "\n")
+    report_fd.write("\n")
+
+    report_fd.write("===================" + "\n")
     report_fd.write("\n")
 
     # close report file

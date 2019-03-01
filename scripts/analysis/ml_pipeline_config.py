@@ -3,6 +3,7 @@
 # sections of INI configuration file correspond to 
 # different ML pipeline stages
 mandatory_sections = [
+    'header',
     'preprocess',
     'feature_selection',
     'model_selection',
@@ -25,6 +26,14 @@ available_models = [
     'MLP',
     'RFC',
     'AdaBoost'
+]
+
+available_baselines = [
+    'stratified',
+    'most_frequent',
+    'prior',
+    'uniform',
+    'constant'
 ]
 
 available_feature_selectors = [
@@ -50,10 +59,14 @@ def check_ml_pipeline_config(pl_cfg):
     hp_cfg = pl_cfg['hyper_param_selection']
     train_cfg = pl_cfg['model_training']
     test_cfg = pl_cfg['model_testing']
+    header_cfg = pl_cfg['header']
 
     if hp_cfg['model'] != train_cfg['model'] or\
        train_cfg['model'] != test_cfg['model']:
         return False
+
+    if header_cfg['type'] not in ['tt','kfold']:
+        sys.exit("error: configuration file check: header has an unrecognised type: " + header_cfg['type'])
 
     return True
 
@@ -62,6 +75,7 @@ if __name__ != "__main__":
     # machine learning pipeline consists of several conceptual stages;
     # each one taking over after the other
     config = {}
+    config['header'] = {}
     config['preprocess'] = {}
     config['feature_selection'] = {}
     config['model_selection'] = {}

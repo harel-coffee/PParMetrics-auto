@@ -30,8 +30,8 @@ from sklearn.model_selection import KFold
 from sklearn.model_selection import RepeatedKFold
 
 # models
-from sklearn import svm
-from sklearn import tree
+from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeClassifier
 from sklearn.dummy import DummyClassifier
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from sklearn.neural_network import MLPClassifier
@@ -50,6 +50,9 @@ import ppar
 import ml_pipeline_config 
 
 _rand_state_ = 12883823
+
+CLASS_IDX = 0
+PROBABILITY_IDX = 1
 
 def preprocess_features(cfg, report_fd, features):
 
@@ -75,7 +78,9 @@ def preprocess_features(cfg, report_fd, features):
         scaler = StandardScaler(with_mean, with_std)
 
     elif preprocess_cfg['scaler'] == "norm":
+        report_fd.write("scaler: Normalizer()" + "\n")
         scaler = Normalizer()
+    
     elif preprocess_cfg['scaler'] == "min_max":
         report_fd.write("scaler: MinMaxScaler()" + "\n")
         scaler = MinMaxScaler()
@@ -178,7 +183,7 @@ def select_features(cfg, report_fd, train_features, test_features, train_labels)
                 clf = SVC(random_state=_rand_state_)
             
             elif model == 'DT':
-                clf = tree.DecisionTreeClassifier(random_state=_rand_state_)
+                clf = DecisionTreeClassifier(random_state=_rand_state_)
             
             else:
                 sys.exit("error: feature selection: " + "method " + str(i) + "has unrecognised model: " + str(model))
@@ -225,7 +230,7 @@ def select_features(cfg, report_fd, train_features, test_features, train_labels)
                 report_fd.write("[ RFECV ]" + "\n")
             
             if model == 'DT':
-                estimator = tree.DecisionTreeClassifier()
+                estimator = DecisionTreeClassifier()
             else:
                 sys.exit("error: feature selection: " + "method " + str(i) + "has unrecognised model: " + str(model))
 
@@ -408,7 +413,7 @@ def hyper_param_selection(cfg, report_fd, train_features, test_features, train_l
                 'max_features' : max_features,
             }
             
-            gs = GridSearchCV(tree.DecisionTreeClassifier(random_state=_rand_state_), hyper_param_grid, cv=int(hp_cfg['cv_k_folds']), n_jobs=-1, scoring=hp_cfg['scoring'])
+            gs = GridSearchCV(DecisionTreeClassifier(random_state=_rand_state_), hyper_param_grid, cv=int(hp_cfg['cv_k_folds']), n_jobs=-1, scoring=hp_cfg['scoring'])
         
         elif hp_cfg['model'] == 'RFC':
             
@@ -574,20 +579,38 @@ def model_training(cfg, report_fd, hparams, train_features, train_labels):
     train_dataset = train_features
 
     trained_models = {}
-    trained_models['baseline'] = None
     trained_models[train_cfg['model']] = None
+    
+    trained_models['baseline'] = {}
+    baseline_models = trained_models['baseline']
+    baseline_models['most_frequent'] = None
+    baseline_models['stratified'] = None
+    baseline_models['uniform'] = None
+    baseline_models['constant'] = None
 
     # first, deploy random predictors and measure their accuracy
-    dummy_clf = DummyClassifier(strategy='most_frequent')
+    dummy_clf = DummyClassifier(strategy='most_frequent', random_state=_rand_state_)
     dummy_clf.fit(train_dataset, train_labels)
-    trained_models['baseline'] = dummy_clf
+    baseline_models['most_frequent'] = dummy_clf
+
+    dummy_clf = DummyClassifier(strategy='stratified', random_state=_rand_state_)
+    dummy_clf.fit(train_dataset, train_labels)
+    baseline_models['stratified'] = dummy_clf
+
+    dummy_clf = DummyClassifier(strategy='uniform', random_state=_rand_state_)
+    dummy_clf.fit(train_dataset, train_labels)
+    baseline_models['uniform'] = dummy_clf
+
+    dummy_clf = DummyClassifier(strategy='constant', constant=1, random_state=_rand_state_)
+    dummy_clf.fit(train_dataset, train_labels)
+    baseline_models['constant'] = dummy_clf
 
     clf = None
     if hparams != None:
         if train_cfg['model'] == 'SVC':
-            clf = svm.SVC(**hparams)
+            clf = SVC(**hparams)
         elif train_cfg['model'] == 'DT':
-            clf = tree.DecisionTreeClassifier(**hparams)
+            clf = DecisionTreeClassifier(**hparams)
         elif train_cfg['model'] == 'RFC':
             clf = RandomForestClassifier(**hparams)
         elif train_cfg['model'] == 'MLP':
@@ -596,9 +619,9 @@ def model_training(cfg, report_fd, hparams, train_features, train_labels):
             clf = AdaBoostClassifier(**hparams)
     else:
         if train_cfg['model'] == 'SVC':
-            clf = svm.SVC()
+            clf = SVC()
         elif train_cfg['model'] == 'DT':
-            clf = tree.DecisionTreeClassifier()
+            clf = DecisionTreeClassifier()
         elif train_cfg['model'] == 'RFC':
             clf = RandomForestClassifier()
         elif train_cfg['model'] == 'MLP':
@@ -617,6 +640,12 @@ def model_training(cfg, report_fd, hparams, train_features, train_labels):
 
     return trained_models
 
+
+#
+# model_testing() -> returns predictions
+# 
+#
+
 def model_testing(cfg, report_fd, clfs, test_features):
 
     test_cfg = cfg['model_testing']
@@ -630,12 +659,45 @@ def model_testing(cfg, report_fd, clfs, test_features):
         report_fd.write("\n")
 
     predictions = {}
+    predictions[test_cfg['model']] = []
+    predictions['baseline'] = {}
+    baseline_predictions = predictions['baseline']
+    baseline_predictions['most_frequent'] = []
+    baseline_predictions['stratified'] = []
+    baseline_predictions['uniform'] = []
+    baseline_predictions['constant'] = []
 
-    predictions['baseline'] = clfs['baseline'].predict(test_features)
+    # testing all baseline predictors
+    baseline_clfs = clfs['baseline']
+
+    baseline_predictions['most_frequent'].append( baseline_clfs['most_frequent'].predict(test_features) )
+    if test_cfg['model'] in ['DT','RFC']:
+        baseline_predictions['most_frequent'].append( baseline_clfs['most_frequent'].predict_proba(test_features) )
     if verbose > 0:
-        report_fd.write("baseline tested" + "\n")
+        report_fd.write("most frequent baseline tested" + "\n")
 
-    predictions[test_cfg['model']] = clfs[test_cfg['model']].predict(test_features)
+    baseline_predictions['stratified'].append( baseline_clfs['stratified'].predict(test_features) )
+    if test_cfg['model'] in ['DT','RFC']:
+        baseline_predictions['stratified'].append( baseline_clfs['stratified'].predict_proba(test_features) )
+    if verbose > 0:
+        report_fd.write("stratified baseline tested" + "\n")
+
+    baseline_predictions['uniform'].append( baseline_clfs['uniform'].predict(test_features) )
+    if test_cfg['model'] in ['DT','RFC']:
+        baseline_predictions['uniform'].append( baseline_clfs['uniform'].predict_proba(test_features) )
+    if verbose > 0:
+        report_fd.write("uniform baseline tested" + "\n")
+
+    baseline_predictions['constant'].append( baseline_clfs['constant'].predict(test_features) )
+    if test_cfg['model'] in ['DT','RFC']:
+        baseline_predictions['constant'].append( baseline_clfs['constant'].predict_proba(test_features) )
+    if verbose > 0:
+        report_fd.write("constant baseline tested" + "\n")
+
+
+    predictions[test_cfg['model']].append( clfs[test_cfg['model']].predict(test_features) )
+    if test_cfg['model'] in ['DT','RFC']:
+        predictions[test_cfg['model']].append( clfs[test_cfg['model']].predict_proba(test_features) )
     if verbose > 0:
         report_fd.write(test_cfg['model'] + " tested" + "\n")
     
@@ -651,10 +713,19 @@ def report_results(cfg, report_fd, predictions, test_loop_locations, test_par_la
     test_cfg = cfg['model_testing']
 
     accuracy_report = {}
+    accuracy_report[test_cfg['model']] = {}
     accuracy_report['baseline'] = {}
-    accuracy_report['main'] = {}
-    baseline_report = accuracy_report['baseline'] 
-    main_report = accuracy_report['main'] 
+    baseline_acc_report = accuracy_report['baseline']
+    baseline_acc_report['most_frequent'] = {}
+    baseline_acc_report['stratified'] = {}
+    baseline_acc_report['uniform'] = {}
+    baseline_acc_report['constant'] = {}
+
+    most_frequent_baseline_report = baseline_acc_report['most_frequent']
+    stratified_baseline_report = baseline_acc_report['stratified']
+    uniform_baseline_report = baseline_acc_report['uniform']
+    constant_baseline_report = baseline_acc_report['constant']
+    main_report = accuracy_report[test_cfg['model']] 
 
     verbose = int(report_cfg['report_verbose'])
 
@@ -664,61 +735,63 @@ def report_results(cfg, report_fd, predictions, test_loop_locations, test_par_la
         report_fd.write("\n")
 
     if report_cfg['baseline'] == 'true':
-        preds = predictions['baseline']
-
-        report_fd.write("= SciKitLearn Dummy (Baseline) Predictor =" + "\n")
-        report_fd.write("= =========================== =" + "\n")
         
-        report_fd.write("type: " + "most frequent" + "\n")
+        for predictor_name, preds in predictions['baseline'].items():
+            
+            baseline_report = baseline_acc_report[predictor_name]
+            
+            report_fd.write("= SciKitLearn Dummy (Baseline) Predictor =" + "\n")
+            report_fd.write("= =========================== =" + "\n")
+            report_fd.write("type: " + predictor_name + "\n")
         
-        accuracy = accuracy_score(test_par_labels, preds)
-        report_fd.write("accuracy score: " + "{0:.3f}".format(accuracy) + "\n")
-        baseline_report['accuracy'] = accuracy
+            accuracy = accuracy_score(test_par_labels, preds[CLASS_IDX])
+            report_fd.write("accuracy score: " + "{0:.3f}".format(accuracy) + "\n")
+            baseline_report['accuracy'] = accuracy
 
-        accuracy = balanced_accuracy_score(test_par_labels, preds)
-        report_fd.write("balanced accuracy score: " + "{0:.3f}".format(accuracy) + "\n")
-        baseline_report['balanced_accuracy'] = accuracy
+            accuracy = balanced_accuracy_score(test_par_labels, preds[CLASS_IDX])
+            report_fd.write("balanced accuracy score: " + "{0:.3f}".format(accuracy) + "\n")
+            baseline_report['balanced_accuracy'] = accuracy
 
-        accuracy = precision_score(test_par_labels, preds)
-        report_fd.write("precision score: " + "{0:.3f}".format(accuracy) + "\n")
-        baseline_report['precision'] = accuracy
+            accuracy = precision_score(test_par_labels, preds[CLASS_IDX])
+            report_fd.write("precision score: " + "{0:.3f}".format(accuracy) + "\n")
+            baseline_report['precision'] = accuracy
 
-        accuracy = f1_score(test_par_labels, preds)
-        report_fd.write("f1 score: " + "{0:.3f}".format(accuracy) + "\n")
-        baseline_report['f1_score'] = accuracy
+            accuracy = f1_score(test_par_labels, preds[CLASS_IDX])
+            report_fd.write("f1 score: " + "{0:.3f}".format(accuracy) + "\n")
+            baseline_report['f1_score'] = accuracy
 
-        accuracy = recall_score(test_par_labels, preds)
-        report_fd.write("recall score: " + "{0:.3f}".format(accuracy) + "\n")
-        baseline_report['recall_score'] = accuracy
-        report_fd.write("= =========================== =" + "\n")
-        report_fd.write("\n")
+            accuracy = recall_score(test_par_labels, preds[CLASS_IDX])
+            report_fd.write("recall score: " + "{0:.3f}".format(accuracy) + "\n")
+            baseline_report['recall_score'] = accuracy
+            report_fd.write("= =========================== =" + "\n")
+            report_fd.write("\n")
 
     if report_cfg['main'] == 'true':
         preds = predictions[cfg['model_testing']['model']]
     
         report_fd.write("= SciKitLearn Main Score Report =" + "\n")
         report_fd.write("= ============================= =" + "\n")
-        accuracy = accuracy_score(test_par_labels, preds)
+        accuracy = accuracy_score(test_par_labels, preds[CLASS_IDX])
         print("accuracy score: " + "{0:.3f}".format(accuracy))
         report_fd.write("accuracy score: " + "{0:.3f}".format(accuracy) + "\n")
         main_report['accuracy'] = accuracy
 
-        accuracy = balanced_accuracy_score(test_par_labels, preds)
+        accuracy = balanced_accuracy_score(test_par_labels, preds[CLASS_IDX])
         print("balanced accuracy score: " + "{0:.3f}".format(accuracy))
         report_fd.write("balanced accuracy score: " + "{0:.3f}".format(accuracy) + "\n")
         main_report['balanced_accuracy'] = accuracy
 
-        accuracy = precision_score(test_par_labels, preds)
+        accuracy = precision_score(test_par_labels, preds[CLASS_IDX])
         print("precision score: " + "{0:.3f}".format(accuracy))
         report_fd.write("precision score: " + "{0:.3f}".format(accuracy) + "\n")
         main_report['precision'] = accuracy
 
-        accuracy = f1_score(test_par_labels, preds)
+        accuracy = f1_score(test_par_labels, preds[CLASS_IDX])
         print("f1 score: " + "{0:.3f}".format(accuracy))
         report_fd.write("f1 score: " + "{0:.3f}".format(accuracy) + "\n")
         main_report['f1_score'] = accuracy
 
-        accuracy = recall_score(test_par_labels, preds)
+        accuracy = recall_score(test_par_labels, preds[CLASS_IDX])
         print("recall score: " + "{0:.3f}".format(accuracy))
         report_fd.write("recall score: " + "{0:.3f}".format(accuracy) + "\n")
         main_report['recall_score'] = accuracy
@@ -727,6 +800,12 @@ def report_results(cfg, report_fd, predictions, test_loop_locations, test_par_la
     
     if report_cfg['icc_competition'] == 'true':
         preds = predictions[cfg['model_testing']['model']]
+
+        probs = None
+        if test_cfg['model'] in ['DT','RFC']:
+            probs = preds[PROBABILITY_IDX]
+        
+        preds = preds[CLASS_IDX]
 
         # calculate feedback scheme performance
         mispredicted_loops = set()
@@ -773,6 +852,8 @@ def report_results(cfg, report_fd, predictions, test_loop_locations, test_par_la
 
         for i in range(0,tests):
             pred = preds[i]
+            prob_0 = probs[i][0]
+            prob_1 = probs[i][1]
             icc = test_icc_labels[i]
             par = test_par_labels[i]
 
@@ -781,56 +862,56 @@ def report_results(cfg, report_fd, predictions, test_loop_locations, test_par_la
                     case_00_num += 1
                     if par == 0:
                         case_00_npar += 1
-                        cases_00_npar.add(str(test_loop_locations[i]))
+                        cases_00_npar.add(str(test_loop_locations[i]) + ": 0 [" + str(prob_0) + "]" + ": 1 [" + str(prob_1) + "]")
                     elif par == 1:
                         case_00_par += 1
-                        cases_00_par.add(str(test_loop_locations[i]))
+                        cases_00_par.add(str(test_loop_locations[i]) + ": 0 [" + str(prob_0) + "]" + ": 1 [" + str(prob_1) + "]")
                 elif pred == 1:
                     case_01_num += 1
                     if par == 0:
                         case_01_npar += 1
-                        cases_01_npar.add(str(test_loop_locations[i]))
+                        cases_01_npar.add(str(test_loop_locations[i]) + ": 0 [" + str(prob_0) + "]" + ": 1 [" + str(prob_1) + "]")
                     elif par == 1:
                         case_01_par += 1
-                        cases_01_par.add(str(test_loop_locations[i]))
+                        cases_01_par.add(str(test_loop_locations[i]) + ": 0 [" + str(prob_0) + "]" + ": 1 [" + str(prob_1) + "]")
             elif icc == 1:
                 if pred == 0:
                     case_10_num += 1
                     if par == 0:
                         case_10_npar += 1
-                        cases_10_npar.add(str(test_loop_locations[i]))
+                        cases_10_npar.add(str(test_loop_locations[i]) + ": 0 [" + str(prob_0) + "]" + ": 1 [" + str(prob_1) + "]")
                     elif par == 1:
                         case_10_par += 1
-                        cases_10_par.add(str(test_loop_locations[i]))
+                        cases_10_par.add(str(test_loop_locations[i]) + ": 0 [" + str(prob_0) + "]" + ": 1 [" + str(prob_1) + "]")
                 elif pred == 1:
                     case_11_num += 1
                     if par == 0:
                         case_11_npar += 1
-                        cases_11_npar.add(str(test_loop_locations[i]))
+                        cases_11_npar.add(str(test_loop_locations[i]) + ": 0 [" + str(prob_0) + "]" + ": 1 [" + str(prob_1) + "]")
                     elif par == 1:
                         case_11_par += 1
-                        cases_11_par.add(str(test_loop_locations[i]))
+                        cases_11_par.add(str(test_loop_locations[i]) + ": 0 [" + str(prob_0) + "]" + ": 1 [" + str(prob_1) + "]")
          
             if pred != par:
                 # misprediction
                 mispredicts += 1
                 if pred == 1:
                     unsafe_mispredicts += 1
-                    mispredicted_loops.add(str(test_loop_locations[i]) + ":" + str(preds[i]) + ":" + str(test_par_labels[i]) + ":unsafe")
+                    mispredicted_loops.add(str(test_loop_locations[i]) + ":" + str(preds[i]) + ":" + str(test_par_labels[i]) + ":unsafe" + ": 0 [" + str(prob_0) + "]" + ": 1 [" + str(prob_1) + "]")
                 else:
                     safe_mispredicts += 1
-                    mispredicted_loops.add(str(test_loop_locations[i]) + ":" + str(preds[i]) + ":" + str(test_par_labels[i]) + ":safe")
+                    mispredicted_loops.add(str(test_loop_locations[i]) + ":" + str(preds[i]) + ":" + str(test_par_labels[i]) + ":safe" + ": 0 [" + str(prob_0) + "]" + ": 1 [" + str(prob_1) + "]")
             else:
-                predicted_loops.add(str(test_loop_locations[i]) + ":" + str(preds[i]) + ":" + str(test_par_labels[i]))
+                predicted_loops.add(str(test_loop_locations[i]) + ":" + str(preds[i]) + ":" + str(test_par_labels[i]) + ": 0 [" + str(prob_0) + "]" + ": 1 [" + str(prob_1) + "]")
 
             if pred != icc:
                 if pred == par:
                     icc_wins += 1
-                    icc_win_loops.add(str(test_loop_locations[i]) + ":" + str(preds[i]) + ":" + str(test_icc_labels[i]) + ":win")
+                    icc_win_loops.add(str(test_loop_locations[i]) + ":" + str(preds[i]) + ":" + str(test_icc_labels[i]) + ":win" + ": 0 [" + str(prob_0) + "]" + ": 1 [" + str(prob_1) + "]")
                 else:
                     icc_losses += 1
-                    icc_loss_loops.add(str(test_loop_locations[i]) + ":" + str(preds[i]) + ":" + str(test_icc_labels[i]) + ":loss")
-     
+                    icc_loss_loops.add(str(test_loop_locations[i]) + ":" + str(preds[i]) + ":" + str(test_icc_labels[i]) + ":loss" + ": 0 [" + str(prob_0) + "]" + ": 1 [" + str(prob_1) + "]")
+    
         # Table
         # 0 0
         # 0 1
@@ -993,9 +1074,9 @@ def report_results(cfg, report_fd, predictions, test_loop_locations, test_par_la
 
 if __name__ == "__main__":
 
-    print("================================================")
+    print("==============================================")
     print("==== Machine Learning K-Fold Pipeline Run ====")
-    print("================================================")
+    print("==============================================")
 
     if len(sys.argv) != 4:
         sys.exit("error: use ./train_test_pipeline.py " +
@@ -1060,20 +1141,20 @@ if __name__ == "__main__":
     # basic feature preprocessing (scaling, normalizaion, etc.) stage 
     preprocess_features(pl_cfg, report_fd, features)
 
-    K = 20
-    N = 3
+    K = 10
+    N = 1
     kf = KFold(n_splits=K)
     rkf = RepeatedKFold(n_splits=K, n_repeats=N, random_state=_rand_state_)
 
-    baseline_accuracies = []
+    baseline_accuracies = {}
     main_accuracies = []
-    baseline_balanced_accuracies = []
+    baseline_balanced_accuracies = {}
     main_balanced_accuracies = []
-    baseline_precisions = []
+    baseline_precisions = {}
     main_precisions = []
-    baseline_recalls = []
+    baseline_recalls = {}
     main_recalls = []
-    baseline_f1_scores = []
+    baseline_f1_scores = {}
     main_f1_scores = []
 
     split_num = 0
@@ -1127,19 +1208,25 @@ if __name__ == "__main__":
         # report results
 #        acc = report_results(pl_cfg, report_fd, predictions, test_loop_locations, test_par_labels, test_icc_labels)
         acc = report_results(pl_cfg, report_fd, predictions, test_loop_locations, test_icc_labels, test_icc_labels)
-        
-        baseline_acc = acc['baseline']
-        main_acc = acc['main']
 
-        baseline_accuracies.append(baseline_acc['accuracy'])
+        for baseline_name, baseline_acc in acc['baseline'].items():
+            baseline_accuracies[baseline_name] = []
+            baseline_balanced_accuracies[baseline_name] = []
+            baseline_precisions[baseline_name] = []
+            baseline_recalls[baseline_name] = []
+            baseline_f1_scores[baseline_name] = []
+
+            baseline_accuracies[baseline_name].append(baseline_acc['accuracy'])
+            baseline_balanced_accuracies[baseline_name].append(baseline_acc['balanced_accuracy'])
+            baseline_precisions[baseline_name].append(baseline_acc['precision'])
+            baseline_recalls[baseline_name].append(baseline_acc['recall_score'])
+            baseline_f1_scores[baseline_name].append(baseline_acc['f1_score'])
+        
+        main_acc = acc[pl_cfg['model_testing']['model']]
         main_accuracies.append(main_acc['accuracy'])
-        baseline_balanced_accuracies.append(baseline_acc['balanced_accuracy'])
         main_balanced_accuracies.append(main_acc['balanced_accuracy'])
-        baseline_precisions.append(baseline_acc['precision'])
         main_precisions.append(main_acc['precision'])
-        baseline_recalls.append(baseline_acc['recall_score'])
         main_recalls.append(main_acc['recall_score'])
-        baseline_f1_scores.append(baseline_acc['f1_score'])
         main_f1_scores.append(main_acc['f1_score'])
 
     report_fd.write("Final K-Fold (K=" + str(K) +") Cross Validation Mean Accuracy\n")
@@ -1147,14 +1234,16 @@ if __name__ == "__main__":
     report_fd.write("\n")
     report_fd.write("= SciKitLearn Dummy (Baseline) Predictor =" + "\n")
     report_fd.write("= =========================== =" + "\n")
-    report_fd.write("type: " + "most frequent" + "\n")
-    report_fd.write("mean-accuracy:" + "{0:.3f}".format(pd.Series(baseline_accuracies).mean()*100) + "\n")
-    report_fd.write("mean-balanced-accuracy:" + "{0:.3f}".format(pd.Series(baseline_balanced_accuracies).mean()*100) + "\n")
-    report_fd.write("mean-precision:" + "{0:.3f}".format(pd.Series(baseline_precisions).mean()*100) + "\n")
-    report_fd.write("mean-recall:" + "{0:.3f}".format(pd.Series(baseline_recalls).mean()*100) + "\n")
-    report_fd.write("mean-f1-score:" + "{0:.3f}".format(pd.Series(baseline_f1_scores).mean()*100) + "\n")
-    report_fd.write("= =========================== =" + "\n")
-    report_fd.write("\n")
+
+    for baseline_name, baseline_acc in acc['baseline'].items():
+        report_fd.write("type: " + baseline_name + "\n")
+        report_fd.write("mean-accuracy:" + "{0:.3f}".format(pd.Series(baseline_accuracies[baseline_name]).mean()*100) + "\n")
+        report_fd.write("mean-balanced-accuracy:" + "{0:.3f}".format(pd.Series(baseline_balanced_accuracies[baseline_name]).mean()*100) + "\n")
+        report_fd.write("mean-precision:" + "{0:.3f}".format(pd.Series(baseline_precisions[baseline_name]).mean()*100) + "\n")
+        report_fd.write("mean-recall:" + "{0:.3f}".format(pd.Series(baseline_recalls[baseline_name]).mean()*100) + "\n")
+        report_fd.write("mean-f1-score:" + "{0:.3f}".format(pd.Series(baseline_f1_scores[baseline_name]).mean()*100) + "\n")
+        report_fd.write("= =========================== =" + "\n")
+        report_fd.write("\n")
 
     report_fd.write("= SciKitLearn Main Score Report =" + "\n")
     report_fd.write("= ============================= =" + "\n")

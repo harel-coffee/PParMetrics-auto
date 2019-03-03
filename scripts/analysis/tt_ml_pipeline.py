@@ -89,19 +89,31 @@ if __name__ == "__main__":
         sys.exit("error: " + pipeline_cfg_filename + " has a wrong format!")
 
     ###
-    # Prepare and open Report file to write
+    # Prepare and open all report files to write
     ###
-    # create and open report file
+    report_fds = {}
+    # create and open report files
     report_filename = report_folder + "tt_ml_pipeline" + ".report"
     report_fd = open(report_filename,'w')
+    report_fds['ml_pipeline'] = report_fd
+
+    # create and open report file
+    report_filename = report_folder + "accuracy" + ".report"
+    report_fd = open(report_filename,'w')
+    report_fds['accuracy'] = report_fd
+
+    # create and open report file
+    report_filename = report_folder + "oracle" + ".report"
+    report_fd = open(report_filename,'w')
+    report_fds['oracle'] = report_fd
 
     # run ML Pipeline and train the model specified in the configuration file 
     # with parallel labels
-    ml_pl = ml_pipeline.MLPipeline(pl_cfg, report_fd, train_features, train_par_labels)
+    ml_pl = ml_pipeline.MLPipeline(pl_cfg, report_fds['ml_pipeline'], train_features, test_features, train_par_labels)
     ml_pl.run()
-    preds = ml_pl.predict(test_features)
+    preds = ml_pl.predict()
 
-    acc = report_results(preds, train_par_labels, train_icc_labels)
+    acc = ml_pipeline.report_results(pl_cfg, report_fds, preds, test_loop_locations, test_par_labels, test_icc_labels)
 
     baseline_accuracies = {}
     main_accuracies = []
@@ -134,7 +146,9 @@ if __name__ == "__main__":
     main_recalls.append(main_acc['recall_score'])
     main_f1_scores.append(main_acc['f1_score'])
 
-    report_fd.write("Final K-Fold (K=" + str(K) +") Cross Validation Mean Accuracy\n")
+    report_fd = report_fds['accuracy']
+
+    report_fd.write("Final Test/Train Mean Accuracy\n")
     report_fd.write("===================" + "\n")
     report_fd.write("\n")
     report_fd.write("= SciKitLearn Dummy (Baseline) Predictor =" + "\n")
@@ -163,7 +177,8 @@ if __name__ == "__main__":
     report_fd.write("===================" + "\n")
     report_fd.write("\n")
 
-    # close report file
-    report_fd.close()
+    # close all report file descriptors
+    for fd_name, report_fd in report_fds.items():
+        report_fd.close()
 
     sys.exit(0)

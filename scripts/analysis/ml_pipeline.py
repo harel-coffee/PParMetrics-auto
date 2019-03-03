@@ -748,10 +748,14 @@ class MLPipeline:
             self.report_fd.write("= ======================== =" + "\n")
             self.report_fd.write("\n")
 
-def report_results(cfg, report_fd, predictions, test_loop_locations, test_par_labels, test_icc_labels):
+def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_labels, test_icc_labels):
 
     report_cfg = cfg['report']
     test_cfg = cfg['model_testing']
+
+    pl_report_fd = report_fds['ml_pipeline']
+    acc_report_fd = report_fds['accuracy']
+    oracle_report_fd = report_fds['oracle']
 
     # accuracy report to be returned 
     accuracy_report = {}
@@ -759,15 +763,17 @@ def report_results(cfg, report_fd, predictions, test_loop_locations, test_par_la
     for baseline_name in ml_pipeline_config.available_baselines:
         accuracy_report['baseline'][baseline_name] = {}
     accuracy_report[test_cfg['model']] = {}
+    accuracy_report['icc_competition'] = {}
+    accuracy_report['oracle'] = {}
 
     main_report = accuracy_report[test_cfg['model']] 
 
     verbose = int(report_cfg['report_verbose'])
 
     if verbose > 0:
-        report_fd.write("= [6] Model Report Stage =" + "\n")
-        report_fd.write("= ====================== =" + "\n")
-        report_fd.write("\n")
+        pl_report_fd.write("= [6] Model Report Stage =" + "\n")
+        pl_report_fd.write("= ====================== =" + "\n")
+        pl_report_fd.write("\n")
 
     if report_cfg['baseline'] == 'true':
         
@@ -775,63 +781,63 @@ def report_results(cfg, report_fd, predictions, test_loop_locations, test_par_la
             
             baseline_report = accuracy_report['baseline'][baseline_name]
             
-            report_fd.write("= SciKitLearn Dummy (Baseline) Predictor =" + "\n")
-            report_fd.write("= =========================== =" + "\n")
-            report_fd.write("type: " + baseline_name + "\n")
+            acc_report_fd.write("= SciKitLearn Dummy (Baseline) Predictor =" + "\n")
+            acc_report_fd.write("= =========================== =" + "\n")
+            acc_report_fd.write("type: " + baseline_name + "\n")
         
             accuracy = accuracy_score(test_par_labels, preds[CLASS_IDX])
-            report_fd.write("accuracy score: " + "{0:.3f}".format(accuracy) + "\n")
+            acc_report_fd.write("accuracy score: " + "{0:.3f}".format(accuracy) + "\n")
             baseline_report['accuracy'] = accuracy
 
             accuracy = balanced_accuracy_score(test_par_labels, preds[CLASS_IDX])
-            report_fd.write("balanced accuracy score: " + "{0:.3f}".format(accuracy) + "\n")
+            acc_report_fd.write("balanced accuracy score: " + "{0:.3f}".format(accuracy) + "\n")
             baseline_report['balanced_accuracy'] = accuracy
 
             accuracy = precision_score(test_par_labels, preds[CLASS_IDX])
-            report_fd.write("precision score: " + "{0:.3f}".format(accuracy) + "\n")
+            acc_report_fd.write("precision score: " + "{0:.3f}".format(accuracy) + "\n")
             baseline_report['precision'] = accuracy
 
             accuracy = f1_score(test_par_labels, preds[CLASS_IDX])
-            report_fd.write("f1 score: " + "{0:.3f}".format(accuracy) + "\n")
+            acc_report_fd.write("f1 score: " + "{0:.3f}".format(accuracy) + "\n")
             baseline_report['f1_score'] = accuracy
 
             accuracy = recall_score(test_par_labels, preds[CLASS_IDX])
-            report_fd.write("recall score: " + "{0:.3f}".format(accuracy) + "\n")
+            acc_report_fd.write("recall score: " + "{0:.3f}".format(accuracy) + "\n")
             baseline_report['recall_score'] = accuracy
-            report_fd.write("= =========================== =" + "\n")
-            report_fd.write("\n")
+            acc_report_fd.write("= =========================== =" + "\n")
+            acc_report_fd.write("\n")
 
     if report_cfg['main'] == 'true':
         preds = predictions[cfg['model_testing']['model']]
     
-        report_fd.write("= SciKitLearn Main Score Report =" + "\n")
-        report_fd.write("= ============================= =" + "\n")
+        acc_report_fd.write("= SciKitLearn Main Score Report =" + "\n")
+        acc_report_fd.write("= ============================= =" + "\n")
         accuracy = accuracy_score(test_par_labels, preds[CLASS_IDX])
         print("accuracy score: " + "{0:.3f}".format(accuracy))
-        report_fd.write("accuracy score: " + "{0:.3f}".format(accuracy) + "\n")
+        acc_report_fd.write("accuracy score: " + "{0:.3f}".format(accuracy) + "\n")
         main_report['accuracy'] = accuracy
 
         accuracy = balanced_accuracy_score(test_par_labels, preds[CLASS_IDX])
         print("balanced accuracy score: " + "{0:.3f}".format(accuracy))
-        report_fd.write("balanced accuracy score: " + "{0:.3f}".format(accuracy) + "\n")
+        acc_report_fd.write("balanced accuracy score: " + "{0:.3f}".format(accuracy) + "\n")
         main_report['balanced_accuracy'] = accuracy
 
         accuracy = precision_score(test_par_labels, preds[CLASS_IDX])
         print("precision score: " + "{0:.3f}".format(accuracy))
-        report_fd.write("precision score: " + "{0:.3f}".format(accuracy) + "\n")
+        acc_report_fd.write("precision score: " + "{0:.3f}".format(accuracy) + "\n")
         main_report['precision'] = accuracy
 
         accuracy = f1_score(test_par_labels, preds[CLASS_IDX])
         print("f1 score: " + "{0:.3f}".format(accuracy))
-        report_fd.write("f1 score: " + "{0:.3f}".format(accuracy) + "\n")
+        acc_report_fd.write("f1 score: " + "{0:.3f}".format(accuracy) + "\n")
         main_report['f1_score'] = accuracy
 
         accuracy = recall_score(test_par_labels, preds[CLASS_IDX])
         print("recall score: " + "{0:.3f}".format(accuracy))
-        report_fd.write("recall score: " + "{0:.3f}".format(accuracy) + "\n")
+        acc_report_fd.write("recall score: " + "{0:.3f}".format(accuracy) + "\n")
         main_report['recall_score'] = accuracy
-        report_fd.write("= ======================== =" + "\n")
-        report_fd.write("\n")
+        acc_report_fd.write("= ======================== =" + "\n")
+        acc_report_fd.write("\n")
     
     if report_cfg['icc_competition'] == 'true':
         preds = predictions[cfg['model_testing']['model']]
@@ -952,67 +958,67 @@ def report_results(cfg, report_fd, predictions, test_loop_locations, test_par_la
         # 0 1
         # 1 0
         # 1 1
-        report_fd.write("Table" + "\n")
-        report_fd.write("========" + "\n")
-        report_fd.write("=== case [0 / 0] ===" + "\n")
-        report_fd.write("num: " + "{}".format(case_00_num) + "\n")
-        report_fd.write("par: " + "{}".format(case_00_par) + "\n")
-        report_fd.write("non-par: " + "{}".format(case_00_npar) + "\n")
-        report_fd.write("=== case [0 / 1] ===" + "\n")
-        report_fd.write("num: " + "{}".format(case_01_num) + "\n")
-        report_fd.write("par: " + "{}".format(case_01_par) + "\n")
-        report_fd.write("non-par: " + "{}".format(case_01_npar) + "\n")
-        report_fd.write("=== case [1 / 0] ===" + "\n")
-        report_fd.write("num: " + "{}".format(case_10_num) + "\n")
-        report_fd.write("par: " + "{}".format(case_10_par) + "\n")
-        report_fd.write("non-par: " + "{}".format(case_10_npar) + "\n")
-        report_fd.write("=== case [1 / 1] ===" + "\n")
-        report_fd.write("num: " + "{}".format(case_11_num) + "\n")
-        report_fd.write("par: " + "{}".format(case_11_par) + "\n")
-        report_fd.write("non-par: " + "{}".format(case_11_npar) + "\n")
-        report_fd.write("========" + "\n")
-        report_fd.write("\n")
+        oracle_report_fd.write("Table" + "\n")
+        oracle_report_fd.write("========" + "\n")
+        oracle_report_fd.write("=== case [0 / 0] ===" + "\n")
+        oracle_report_fd.write("num: " + "{}".format(case_00_num) + "\n")
+        oracle_report_fd.write("par: " + "{}".format(case_00_par) + "\n")
+        oracle_report_fd.write("non-par: " + "{}".format(case_00_npar) + "\n")
+        oracle_report_fd.write("=== case [0 / 1] ===" + "\n")
+        oracle_report_fd.write("num: " + "{}".format(case_01_num) + "\n")
+        oracle_report_fd.write("par: " + "{}".format(case_01_par) + "\n")
+        oracle_report_fd.write("non-par: " + "{}".format(case_01_npar) + "\n")
+        oracle_report_fd.write("=== case [1 / 0] ===" + "\n")
+        oracle_report_fd.write("num: " + "{}".format(case_10_num) + "\n")
+        oracle_report_fd.write("par: " + "{}".format(case_10_par) + "\n")
+        oracle_report_fd.write("non-par: " + "{}".format(case_10_npar) + "\n")
+        oracle_report_fd.write("=== case [1 / 1] ===" + "\n")
+        oracle_report_fd.write("num: " + "{}".format(case_11_num) + "\n")
+        oracle_report_fd.write("par: " + "{}".format(case_11_par) + "\n")
+        oracle_report_fd.write("non-par: " + "{}".format(case_11_npar) + "\n")
+        oracle_report_fd.write("========" + "\n")
+        oracle_report_fd.write("\n")
 
         if report_cfg['loop_locations'] == 'true':
-            report_fd.write("=== case [0 / 0] ===" + "\n")
-            report_fd.write("= parallelisible =" + "\n")
+            oracle_report_fd.write("=== case [0 / 0] ===" + "\n")
+            oracle_report_fd.write("= parallelisible =" + "\n")
             for loop in cases_00_par:
-                report_fd.write(loop + "\n")
-            report_fd.write("= non-parallelisible =" + "\n")
+                oracle_report_fd.write(loop + "\n")
+            oracle_report_fd.write("= non-parallelisible =" + "\n")
             for loop in cases_00_npar:
-                report_fd.write(loop + "\n")
-            report_fd.write("===================" + "\n")
-            report_fd.write("\n")
+                oracle_report_fd.write(loop + "\n")
+            oracle_report_fd.write("===================" + "\n")
+            oracle_report_fd.write("\n")
 
-            report_fd.write("=== case [0 / 1] ===" + "\n")
-            report_fd.write("= parallelisible =" + "\n")
+            oracle_report_fd.write("=== case [0 / 1] ===" + "\n")
+            oracle_report_fd.write("= parallelisible =" + "\n")
             for loop in cases_01_par:
-                report_fd.write(loop + "\n")
-            report_fd.write("= non-parallelisible =" + "\n")
+                oracle_report_fd.write(loop + "\n")
+            oracle_report_fd.write("= non-parallelisible =" + "\n")
             for loop in cases_01_npar:
-                report_fd.write(loop + "\n")
-            report_fd.write("===================" + "\n")
-            report_fd.write("\n")
+                oracle_report_fd.write(loop + "\n")
+            oracle_report_fd.write("===================" + "\n")
+            oracle_report_fd.write("\n")
 
-            report_fd.write("=== case [1 / 0] ===" + "\n")
-            report_fd.write("= parallelisible =" + "\n")
+            oracle_report_fd.write("=== case [1 / 0] ===" + "\n")
+            oracle_report_fd.write("= parallelisible =" + "\n")
             for loop in cases_10_par:
-                report_fd.write(loop + "\n")
-            report_fd.write("= non-parallelisible =" + "\n")
+                oracle_report_fd.write(loop + "\n")
+            oracle_report_fd.write("= non-parallelisible =" + "\n")
             for loop in cases_10_npar:
-                report_fd.write(loop + "\n")
-            report_fd.write("===================" + "\n")
-            report_fd.write("\n")
+                oracle_report_fd.write(loop + "\n")
+            oracle_report_fd.write("===================" + "\n")
+            oracle_report_fd.write("\n")
 
-            report_fd.write("=== case [1 / 1] ===" + "\n")
-            report_fd.write("= parallelisible =" + "\n")
+            oracle_report_fd.write("=== case [1 / 1] ===" + "\n")
+            oracle_report_fd.write("= parallelisible =" + "\n")
             for loop in cases_11_par:
-                report_fd.write(loop + "\n")
-            report_fd.write("= non-parallelisible =" + "\n")
+                oracle_report_fd.write(loop + "\n")
+            oracle_report_fd.write("= non-parallelisible =" + "\n")
             for loop in cases_11_npar:
-                report_fd.write(loop + "\n")
-            report_fd.write("===================" + "\n")
-            report_fd.write("\n")
+                oracle_report_fd.write(loop + "\n")
+            oracle_report_fd.write("===================" + "\n")
+            oracle_report_fd.write("\n")
 
         accuracy_rate = 1 - mispredicts/len(predictions)
         error_rate = mispredicts/len(predictions)
@@ -1032,74 +1038,74 @@ def report_results(cfg, report_fd, predictions, test_loop_locations, test_par_la
             # losses
             icc_loss_rate = icc_losses/icc_disagreements
 
-        report_fd.write("Mispredictions: " + str(mispredicts) + "\n")
-        report_fd.write("\n")
+        oracle_report_fd.write("Mispredictions: " + str(mispredicts) + "\n")
+        oracle_report_fd.write("\n")
 
-        report_fd.write("Accuracy" + "\n")
-        report_fd.write("========" + "\n")
-        report_fd.write("tests: " + "{}".format(tests) + "\n")
-        report_fd.write("mispredicts: " + "{}".format(mispredicts) + "\n")
-        report_fd.write("accuracy-rate: " + "{0:.2f}".format(accuracy_rate) + "\n")
-        report_fd.write("error-rate: " + "{0:.2f}".format(error_rate) + "\n")
-        report_fd.write("safe-mispredicts: " + "{}".format(safe_mispredicts) + "\n")
-        report_fd.write("unsafe-mispredicts: " + "{}".format(unsafe_mispredicts) + "\n")
-        report_fd.write("safe-error-rate: " + "{0:.2f}".format(safe_mispredict_rate) + "\n")
-        report_fd.write("unsafe-error-rate: " + "{0:.2f}".format(unsafe_mispredict_rate) + "\n")
-        report_fd.write("========" + "\n")
-        report_fd.write("\n")
+        oracle_report_fd.write("Accuracy" + "\n")
+        oracle_report_fd.write("========" + "\n")
+        oracle_report_fd.write("tests: " + "{}".format(tests) + "\n")
+        oracle_report_fd.write("mispredicts: " + "{}".format(mispredicts) + "\n")
+        oracle_report_fd.write("accuracy-rate: " + "{0:.2f}".format(accuracy_rate) + "\n")
+        oracle_report_fd.write("error-rate: " + "{0:.2f}".format(error_rate) + "\n")
+        oracle_report_fd.write("safe-mispredicts: " + "{}".format(safe_mispredicts) + "\n")
+        oracle_report_fd.write("unsafe-mispredicts: " + "{}".format(unsafe_mispredicts) + "\n")
+        oracle_report_fd.write("safe-error-rate: " + "{0:.2f}".format(safe_mispredict_rate) + "\n")
+        oracle_report_fd.write("unsafe-error-rate: " + "{0:.2f}".format(unsafe_mispredict_rate) + "\n")
+        oracle_report_fd.write("========" + "\n")
+        oracle_report_fd.write("\n")
         
         accuracy_report['safe'] = safe_mispredict_rate
         accuracy_report['unsafe'] = unsafe_mispredict_rate
             
-        report_fd.write("ICC competition" + "\n")
-        report_fd.write("========" + "\n")
-        report_fd.write("icc-discrepancies: " + "{}".format(icc_disagreements) + "\n")
-        report_fd.write("icc-wins: " + "{}".format(icc_wins) + "\n")
-        report_fd.write("icc-losses: " + "{}".format(icc_losses) + "\n")
-        report_fd.write("win-rate: " + "{0:.2f}".format(icc_win_rate) + "\n")
-        report_fd.write("loss-rate: " + "{0:.2f}".format(icc_loss_rate) + "\n")
-        report_fd.write("========" + "\n")
-        report_fd.write("\n")
+        oracle_report_fd.write("ICC competition" + "\n")
+        oracle_report_fd.write("========" + "\n")
+        oracle_report_fd.write("icc-discrepancies: " + "{}".format(icc_disagreements) + "\n")
+        oracle_report_fd.write("icc-wins: " + "{}".format(icc_wins) + "\n")
+        oracle_report_fd.write("icc-losses: " + "{}".format(icc_losses) + "\n")
+        oracle_report_fd.write("win-rate: " + "{0:.2f}".format(icc_win_rate) + "\n")
+        oracle_report_fd.write("loss-rate: " + "{0:.2f}".format(icc_loss_rate) + "\n")
+        oracle_report_fd.write("========" + "\n")
+        oracle_report_fd.write("\n")
 
         accuracy_report['icc-win'] = icc_win_rate
         accuracy_report['icc-loss'] = icc_loss_rate
 
         if report_cfg['loop_locations'] == 'true':
-            report_fd.write("loop:pred:label:safe\n")
+            oracle_report_fd.write("loop:pred:label:safe\n")
             
-            report_fd.write("Mispredicted loops:" + "\n")
-            report_fd.write("===================" + "\n")
+            oracle_report_fd.write("Mispredicted loops:" + "\n")
+            oracle_report_fd.write("===================" + "\n")
             for loop_report in mispredicted_loops:
-                report_fd.write(loop_report + "\n")
-            report_fd.write("===================" + "\n")
+                oracle_report_fd.write(loop_report + "\n")
+            oracle_report_fd.write("===================" + "\n")
           
-            report_fd.write("\n")
+            oracle_report_fd.write("\n")
             
-            report_fd.write("Predicted loops:" + "\n")
-            report_fd.write("===================" + "\n")
+            oracle_report_fd.write("Predicted loops:" + "\n")
+            oracle_report_fd.write("===================" + "\n")
             for loop_report in predicted_loops:
-                report_fd.write(loop_report + "\n")
-            report_fd.write("===================" + "\n")
+                oracle_report_fd.write(loop_report + "\n")
+            oracle_report_fd.write("===================" + "\n")
 
-            report_fd.write("\n")
+            oracle_report_fd.write("\n")
 
-            report_fd.write("loop:pred:icc:result\n")
+            oracle_report_fd.write("loop:pred:icc:result\n")
             
-            report_fd.write("Win over ICC loops:" + "\n")
-            report_fd.write("===================" + "\n")
+            oracle_report_fd.write("Win over ICC loops:" + "\n")
+            oracle_report_fd.write("===================" + "\n")
             for loop_report in icc_win_loops:
-                report_fd.write(loop_report + "\n")
-            report_fd.write("===================" + "\n")
+                oracle_report_fd.write(loop_report + "\n")
+            oracle_report_fd.write("===================" + "\n")
           
-            report_fd.write("\n")
+            oracle_report_fd.write("\n")
             
-            report_fd.write("Loss to ICC loops:" + "\n")
-            report_fd.write("===================" + "\n")
+            oracle_report_fd.write("Loss to ICC loops:" + "\n")
+            oracle_report_fd.write("===================" + "\n")
             for loop_report in icc_loss_loops:
-                report_fd.write(loop_report + "\n")
-            report_fd.write("===================" + "\n")
+                oracle_report_fd.write(loop_report + "\n")
+            oracle_report_fd.write("===================" + "\n")
 
-            report_fd.write("\n")
+            oracle_report_fd.write("\n")
 
     if report_cfg['oracle_guide'] == 'true':
         preds = predictions[cfg['model_testing']['model']]
@@ -1134,155 +1140,52 @@ def report_results(cfg, report_fd, predictions, test_loop_locations, test_par_la
                 else:
                     parallel_par.add(str(test_loop_locations[i]) + ":" + str(prob_0) + ":" + str(prob_1))
     
-        # Oracle guidance
-        report_fd.write("Table" + "\n")
-        report_fd.write("========" + "\n")
-        report_fd.write("=== case [nparallel / npar] ===" + "\n")
-        report_fd.write("num: " + "{}".format(len(nparallel_npar)) + "\n")
-        report_fd.write("=== case [nparallel / par] ===" + "\n")
-        report_fd.write("num: " + "{}".format(len(nparallel_par)) + "\n")
-        report_fd.write("=== case [parallel / npar] ===" + "\n")
-        report_fd.write("num: " + "{}".format(len(parallel_npar)) + "\n")
-        report_fd.write("=== case [parallel / par] ===" + "\n")
-        report_fd.write("num: " + "{}".format(len(parallel_par)) + "\n")
-        report_fd.write("========" + "\n")
-        report_fd.write("\n")
+        # oracle guidance
+        oracle_report_fd.write("Table" + "\n")
+        oracle_report_fd.write("========" + "\n")
+        oracle_report_fd.write("=== case [nparallel / npar] ===" + "\n")
+        oracle_report_fd.write("num: " + "{}".format(len(nparallel_npar)) + "\n")
+        oracle_report_fd.write("=== case [nparallel / par] ===" + "\n")
+        oracle_report_fd.write("num: " + "{}".format(len(nparallel_par)) + "\n")
+        oracle_report_fd.write("=== case [parallel / npar] ===" + "\n")
+        oracle_report_fd.write("num: " + "{}".format(len(parallel_npar)) + "\n")
+        oracle_report_fd.write("=== case [parallel / par] ===" + "\n")
+        oracle_report_fd.write("num: " + "{}".format(len(parallel_par)) + "\n")
+        oracle_report_fd.write("========" + "\n")
+        oracle_report_fd.write("\n")
 
         if report_cfg['loop_locations'] == 'true':
-            report_fd.write("=== case [0 / 0] ===" + "\n")
-            report_fd.write("= parallelisible =" + "\n")
-            for loop in cases_00_par:
-                report_fd.write(loop + "\n")
-            report_fd.write("= non-parallelisible =" + "\n")
-            for loop in cases_00_npar:
-                report_fd.write(loop + "\n")
-            report_fd.write("===================" + "\n")
-            report_fd.write("\n")
+            oracle_report_fd.write("=== case [nparallel / npar] ===" + "\n")
+            oracle_report_fd.write("loop-location:prob_0:prob_1" + "\n")
+            for loop in nparallel_npar:
+                oracle_report_fd.write(loop + "\n")
+            oracle_report_fd.write("===================" + "\n")
+            oracle_report_fd.write("\n")
 
-            report_fd.write("=== case [0 / 1] ===" + "\n")
-            report_fd.write("= parallelisible =" + "\n")
-            for loop in cases_01_par:
-                report_fd.write(loop + "\n")
-            report_fd.write("= non-parallelisible =" + "\n")
-            for loop in cases_01_npar:
-                report_fd.write(loop + "\n")
-            report_fd.write("===================" + "\n")
-            report_fd.write("\n")
+            oracle_report_fd.write("=== case [nparallel / par] ===" + "\n")
+            oracle_report_fd.write("loop-location:prob_0:prob_1" + "\n")
+            for loop in nparallel_par:
+                oracle_report_fd.write(loop + "\n")
+            oracle_report_fd.write("===================" + "\n")
+            oracle_report_fd.write("\n")
 
-            report_fd.write("=== case [1 / 0] ===" + "\n")
-            report_fd.write("= parallelisible =" + "\n")
-            for loop in cases_10_par:
-                report_fd.write(loop + "\n")
-            report_fd.write("= non-parallelisible =" + "\n")
-            for loop in cases_10_npar:
-                report_fd.write(loop + "\n")
-            report_fd.write("===================" + "\n")
-            report_fd.write("\n")
+            oracle_report_fd.write("=== case [parallel / npar] ===" + "\n")
+            oracle_report_fd.write("loop-location:prob_0:prob_1" + "\n")
+            for loop in parallel_npar:
+                oracle_report_fd.write(loop + "\n")
+            oracle_report_fd.write("===================" + "\n")
+            oracle_report_fd.write("\n")
 
-            report_fd.write("=== case [1 / 1] ===" + "\n")
-            report_fd.write("= parallelisible =" + "\n")
-            for loop in cases_11_par:
-                report_fd.write(loop + "\n")
-            report_fd.write("= non-parallelisible =" + "\n")
-            for loop in cases_11_npar:
-                report_fd.write(loop + "\n")
-            report_fd.write("===================" + "\n")
-            report_fd.write("\n")
-
-        accuracy_rate = 1 - mispredicts/len(predictions)
-        error_rate = mispredicts/len(predictions)
-
-        safe_mispredict_rate = 0
-        unsafe_mispredict_rate = 0
-        if mispredicts != 0:
-            safe_mispredict_rate = safe_mispredicts/mispredicts
-            unsafe_mispredict_rate = unsafe_mispredicts/mispredicts
-
-        icc_win_rate = 0
-        icc_loss_rate = 0
-        icc_disagreements = icc_wins + icc_losses
-        if icc_disagreements != 0:
-            # wins
-            icc_win_rate = icc_wins/icc_disagreements
-            # losses
-            icc_loss_rate = icc_losses/icc_disagreements
-
-        report_fd.write("Mispredictions: " + str(mispredicts) + "\n")
-        report_fd.write("\n")
-
-        report_fd.write("Accuracy" + "\n")
-        report_fd.write("========" + "\n")
-        report_fd.write("tests: " + "{}".format(tests) + "\n")
-        report_fd.write("mispredicts: " + "{}".format(mispredicts) + "\n")
-        report_fd.write("accuracy-rate: " + "{0:.2f}".format(accuracy_rate) + "\n")
-        report_fd.write("error-rate: " + "{0:.2f}".format(error_rate) + "\n")
-        report_fd.write("safe-mispredicts: " + "{}".format(safe_mispredicts) + "\n")
-        report_fd.write("unsafe-mispredicts: " + "{}".format(unsafe_mispredicts) + "\n")
-        report_fd.write("safe-error-rate: " + "{0:.2f}".format(safe_mispredict_rate) + "\n")
-        report_fd.write("unsafe-error-rate: " + "{0:.2f}".format(unsafe_mispredict_rate) + "\n")
-        report_fd.write("========" + "\n")
-        report_fd.write("\n")
-        
-        accuracy_report['safe'] = safe_mispredict_rate
-        accuracy_report['unsafe'] = unsafe_mispredict_rate
-            
-        report_fd.write("ICC competition" + "\n")
-        report_fd.write("========" + "\n")
-        report_fd.write("icc-discrepancies: " + "{}".format(icc_disagreements) + "\n")
-        report_fd.write("icc-wins: " + "{}".format(icc_wins) + "\n")
-        report_fd.write("icc-losses: " + "{}".format(icc_losses) + "\n")
-        report_fd.write("win-rate: " + "{0:.2f}".format(icc_win_rate) + "\n")
-        report_fd.write("loss-rate: " + "{0:.2f}".format(icc_loss_rate) + "\n")
-        report_fd.write("========" + "\n")
-        report_fd.write("\n")
-
-        accuracy_report['icc-win'] = icc_win_rate
-        accuracy_report['icc-loss'] = icc_loss_rate
-
-        if report_cfg['loop_locations'] == 'true':
-            report_fd.write("loop:pred:label:safe\n")
-            
-            report_fd.write("Mispredicted loops:" + "\n")
-            report_fd.write("===================" + "\n")
-            for loop_report in mispredicted_loops:
-                report_fd.write(loop_report + "\n")
-            report_fd.write("===================" + "\n")
-          
-            report_fd.write("\n")
-            
-            report_fd.write("Predicted loops:" + "\n")
-            report_fd.write("===================" + "\n")
-            for loop_report in predicted_loops:
-                report_fd.write(loop_report + "\n")
-            report_fd.write("===================" + "\n")
-
-            report_fd.write("\n")
-
-            report_fd.write("loop:pred:icc:result\n")
-            
-            report_fd.write("Win over ICC loops:" + "\n")
-            report_fd.write("===================" + "\n")
-            for loop_report in icc_win_loops:
-                report_fd.write(loop_report + "\n")
-            report_fd.write("===================" + "\n")
-          
-            report_fd.write("\n")
-            
-            report_fd.write("Loss to ICC loops:" + "\n")
-            report_fd.write("===================" + "\n")
-            for loop_report in icc_loss_loops:
-                report_fd.write(loop_report + "\n")
-            report_fd.write("===================" + "\n")
-
-            report_fd.write("\n")
-
-
-
-
+            oracle_report_fd.write("=== case [parallel / par] ===" + "\n")
+            oracle_report_fd.write("loop-location:prob_0:prob_1" + "\n")
+            for loop in parallel_par:
+                oracle_report_fd.write(loop + "\n")
+            oracle_report_fd.write("===================" + "\n")
+            oracle_report_fd.write("\n")
 
     if verbose > 0:
-        report_fd.write("==============================================================" + "\n")
-        report_fd.write("\n\n\n")
+        pl_report_fd.write("==============================================================" + "\n")
+        pl_report_fd.write("\n\n\n")
     
     return accuracy_report
 

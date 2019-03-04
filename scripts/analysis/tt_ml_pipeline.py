@@ -115,37 +115,6 @@ if __name__ == "__main__":
 
     acc = ml_pipeline.report_results(pl_cfg, report_fds, preds, test_loop_locations, test_par_labels, test_icc_labels)
 
-    baseline_accuracies = {}
-    main_accuracies = []
-    baseline_balanced_accuracies = {}
-    main_balanced_accuracies = []
-    baseline_precisions = {}
-    main_precisions = []
-    baseline_recalls = {}
-    main_recalls = []
-    baseline_f1_scores = {}
-    main_f1_scores = []
-
-    for baseline_name, baseline_acc in acc['baseline'].items():
-        baseline_accuracies[baseline_name] = []
-        baseline_balanced_accuracies[baseline_name] = []
-        baseline_precisions[baseline_name] = []
-        baseline_recalls[baseline_name] = []
-        baseline_f1_scores[baseline_name] = []
-
-        baseline_accuracies[baseline_name].append(baseline_acc['accuracy'])
-        baseline_balanced_accuracies[baseline_name].append(baseline_acc['balanced_accuracy'])
-        baseline_precisions[baseline_name].append(baseline_acc['precision'])
-        baseline_recalls[baseline_name].append(baseline_acc['recall_score'])
-        baseline_f1_scores[baseline_name].append(baseline_acc['f1_score'])
-        
-    main_acc = acc[pl_cfg['model_testing']['model']]
-    main_accuracies.append(main_acc['accuracy'])
-    main_balanced_accuracies.append(main_acc['balanced_accuracy'])
-    main_precisions.append(main_acc['precision'])
-    main_recalls.append(main_acc['recall_score'])
-    main_f1_scores.append(main_acc['f1_score'])
-
     report_fd = report_fds['accuracy']
 
     report_fd.write("Final Test/Train Mean Accuracy\n")
@@ -156,21 +125,24 @@ if __name__ == "__main__":
 
     for baseline_name, baseline_acc in acc['baseline'].items():
         report_fd.write("type: " + baseline_name + "\n")
-        report_fd.write("mean-accuracy:" + "{0:.3f}".format(pd.Series(baseline_accuracies[baseline_name]).mean()*100) + "\n")
-        report_fd.write("mean-balanced-accuracy:" + "{0:.3f}".format(pd.Series(baseline_balanced_accuracies[baseline_name]).mean()*100) + "\n")
-        report_fd.write("mean-precision:" + "{0:.3f}".format(pd.Series(baseline_precisions[baseline_name]).mean()*100) + "\n")
-        report_fd.write("mean-recall:" + "{0:.3f}".format(pd.Series(baseline_recalls[baseline_name]).mean()*100) + "\n")
-        report_fd.write("mean-f1-score:" + "{0:.3f}".format(pd.Series(baseline_f1_scores[baseline_name]).mean()*100) + "\n")
-        report_fd.write("= =========================== =" + "\n")
+        report_fd.write("mean-accuracy:" + "{0:.3f}".format(baseline_acc['accuracy']) + "\n")
+        report_fd.write("mean-balanced-accuracy:" + "{0:.3f}".format(baseline_acc['balanced_accuracy']) + "\n")
+        report_fd.write("mean-precision:" + "{0:.3f}".format(baseline_acc['precision']) + "\n")
+        report_fd.write("mean-recall:" + "{0:.3f}".format(baseline_acc['recall_score']) + "\n")
+        report_fd.write("mean-f1-score:" + "{0:.3f}".format(baseline_acc['f1_score']) + "\n")
         report_fd.write("\n")
+        report_fd.write("\n")
+    report_fd.write("= ============================= =" + "\n")
 
+    main_acc = acc[pl_cfg['model_testing']['model']]
+   
     report_fd.write("= SciKitLearn Main Score Report =" + "\n")
     report_fd.write("= ============================= =" + "\n")
-    report_fd.write("mean-accuracy:" + "{0:.3f}".format(pd.Series(main_accuracies).mean()*100) + "\n")
-    report_fd.write("mean-balanced-accuracy:" + "{0:.3f}".format(pd.Series(main_balanced_accuracies).mean()*100) + "\n")
-    report_fd.write("mean-precision:" + "{0:.3f}".format(pd.Series(main_precisions).mean()*100) + "\n")
-    report_fd.write("mean-recall:" + "{0:.3f}".format(pd.Series(main_recalls).mean()*100) + "\n")
-    report_fd.write("mean-f1-score:" + "{0:.3f}".format(pd.Series(main_f1_scores).mean()*100) + "\n")
+    report_fd.write("mean-accuracy:" + "{0:.3f}".format(main_acc['accuracy']) + "\n")
+    report_fd.write("mean-balanced-accuracy:" + "{0:.3f}".format(main_acc['balanced_accuracy']) + "\n")
+    report_fd.write("mean-precision:" + "{0:.3f}".format(main_acc['precision']) + "\n")
+    report_fd.write("mean-recall:" + "{0:.3f}".format(main_acc['recall_score']) + "\n")
+    report_fd.write("mean-f1-score:" + "{0:.3f}".format(main_acc['f1_score']) + "\n")
     report_fd.write("= =========================== =" + "\n")
     report_fd.write("\n")
 

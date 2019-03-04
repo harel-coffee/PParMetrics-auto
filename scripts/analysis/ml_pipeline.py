@@ -140,7 +140,7 @@ class MLPipeline:
         self.preprocess_features()
         self.select_features()
         self.hyper_param_selection()
-        self.model_training()        
+        self.model_training()
 
     #
     # predict() - takes in testing set features and returns 
@@ -167,7 +167,7 @@ class MLPipeline:
         
         predictions[self.model_name][CLASS_IDX] = \
                 self.trained_classifiers[self.model_name].predict(self.test_features)
-        if self.model_name in ['DT','RFC']:
+        if self.model_name in ['DT','RFC','SVC','AdaBoost','MLP']:
             predictions[self.model_name][PROBABILITY_IDX] = \
                     self.trained_classifiers[self.model_name].predict_proba(self.test_features)
         
@@ -360,6 +360,8 @@ class MLPipeline:
                 
                 if model == 'DT':
                     estimator = DecisionTreeClassifier()
+                elif model == 'RFC':
+                    estimator = RandomForestClassifier()
                 else:
                     sys.exit("error: feature selection: " + "method " + str(i) + "has unrecognised model: " + str(model))
 
@@ -484,7 +486,7 @@ class MLPipeline:
                     else:
                         hyper_param_grid.append({'kernel': [kernel], 'C': Cs})
         
-                gs = GridSearchCV(svm.SVC(random_state=_rand_state_), hyper_param_grid, cv=int(self.hp_cfg['cv_k_folds']), n_jobs=-1, scoring=self.hp_cfg['scoring'])
+                gs = GridSearchCV(SVC(random_state=_rand_state_), hyper_param_grid, cv=int(self.hp_cfg['cv_k_folds']), n_jobs=-1, scoring=self.hp_cfg['scoring'])
 
             elif self.hp_cfg['model'] == 'DT':
                 
@@ -549,13 +551,13 @@ class MLPipeline:
                 num_estimators = [ int(x) for x in self.hp_cfg['n_estimators'].split(",") ]
                 
                 max_depths = [None]
-                for x in hp_cfg['max_depth'].split(","):
+                for x in self.hp_cfg['max_depth'].split(","):
                     max_depths.append(int(x))
 
                 min_samples_splits = [ float(x) for x in self.hp_cfg['min_samples_split'].split(",") ]
                 min_samples_leafs = [ int(x) for x in self.hp_cfg['min_samples_leaf'].split(",") ]
                 
-                features_num = len(train_features.columns)
+                features_num = len(self.train_features.columns)
                 max_features = []
                 for x in self.hp_cfg['max_features'].split(","):
                     max_features.append(str(x))
@@ -570,28 +572,28 @@ class MLPipeline:
 
                     self.report_fd.write("max_depths: ")
                     for x in max_depths:
-                        report_fd.write(str(x))
-                        report_fd.write(" ")
-                    report_fd.write("\n")
+                        self.report_fd.write(str(x))
+                        self.report_fd.write(" ")
+                    self.report_fd.write("\n")
 
-                    report_fd.write("min_samples_split: ")
+                    self.report_fd.write("min_samples_split: ")
                     for x in min_samples_splits:
-                        report_fd.write(str(x))
-                        report_fd.write(" ")
-                    report_fd.write("\n")
+                        self.report_fd.write(str(x))
+                        self.report_fd.write(" ")
+                    self.report_fd.write("\n")
 
-                    report_fd.write("min_samples_leaf: ")
+                    self.report_fd.write("min_samples_leaf: ")
                     for x in min_samples_leafs:
-                        report_fd.write(str(x))
-                        report_fd.write(" ")
-                    report_fd.write("\n")
-                    report_fd.write("= =\n")
+                        self.report_fd.write(str(x))
+                        self.report_fd.write(" ")
+                    self.report_fd.write("\n")
+                    self.report_fd.write("= =\n")
 
-                    report_fd.write("max_features: ")
+                    self.report_fd.write("max_features: ")
                     for x in max_features:
-                        report_fd.write(str(x))
-                        report_fd.write(" ")
-                    report_fd.write("\n")
+                        self.report_fd.write(str(x))
+                        self.report_fd.write(" ")
+                    self.report_fd.write("\n")
 
                 # recover hyper-parameter search space from config file
                 hyper_param_grid = {
@@ -654,7 +656,7 @@ class MLPipeline:
                     'alpha' : alphas_lst,
                 }
                 
-                gs = GridSearchCV(MLPClassifier(random_state=_rand_state_), hyper_param_grid, cv=int(hp_cfg['cv_k_folds']), n_jobs=-1, scoring=hp_cfg['scoring'])
+                gs = GridSearchCV(MLPClassifier(random_state=_rand_state_), hyper_param_grid, cv=int(self.hp_cfg['cv_k_folds']), n_jobs=-1, scoring=self.hp_cfg['scoring'])
      
             elif self.hp_cfg['model'] == 'AdaBoost':
                 
@@ -712,11 +714,17 @@ class MLPipeline:
             dummy_clf.fit(train_dataset, train_labels)
             self.trained_classifiers['baseline'][baseline_name] = dummy_clf
             
-        clf = None
+        self.report_fd.write("main model: " + str(self.model_name) + "\n")
         
+        clf = None
         if self.best_hparams != None:
+            
+            self.report_fd.write("[auto hyper-parameters search]" + "\n")
+            self.report_fd.write("param: " + str(self.best_hparams) + "\n")
+            
             if self.model_name == 'SVC':
                 clf = SVC(**self.best_hparams)
+                clf.set_params(probability=True)
             elif self.model_name == 'DT':
                 clf = DecisionTreeClassifier(**self.best_hparams)
             elif self.model_name == 'RFC':
@@ -727,12 +735,56 @@ class MLPipeline:
                 clf = AdaBoostClassifier(**self.best_hparams)
         else:
             # use default values
+
+            self.report_fd.write("[default parameters]" + "\n")
+
             if self.model_name == 'SVC':
                 clf = SVC()
+                clf.set_params(probability=True)
             elif self.model_name == 'DT':
-                clf = DecisionTreeClassifier()
+
+                max_d = None
+                min_s_leaf = 1
+                min_s_split = 0.2
+                max_f = None
+                if 'max_depth' in self.train_cfg:
+                    max_d = int(self.train_cfg['max_depth'])
+                if 'min_samples_leaf' in self.train_cfg:
+                    min_s_leaf = int(self.train_cfg['min_samples_leaf'])
+                if 'min_samples_split' in self.train_cfg:
+                    min_s_split = int(self.train_cfg['min_samples_split'])
+                if 'max_features' in self.train_cfg:
+                    max_f = int(self.train_cfg['max_features'])
+
+                clf = DecisionTreeClassifier(max_depth=max_d, 
+                        min_samples_split=min_s_split, 
+                        random_state=_rand_state_, 
+                        min_samples_leaf=min_s_leaf,
+                        max_features=max_f)
+                self.report_fd.write("param: " + str(clf.get_params()) + "\n")
+
             elif self.model_name == 'RFC':
-                clf = RandomForestClassifier()
+                
+                n_est = 100
+                max_d = None
+                min_s_leaf = 1
+                min_s_split = 0.2
+                if 'n_estimators' in self.train_cfg:
+                    n_est = int(self.train_cfg['n_estimators'])
+                if 'max_depth' in self.train_cfg:
+                    max_d = int(self.train_cfg['max_depth'])
+                if 'min_samples_leaf' in self.train_cfg:
+                    min_s_leaf = int(self.train_cfg['min_samples_leaf'])
+                if 'min_samples_split' in self.train_cfg:
+                    min_s_split = float(self.train_cfg['min_samples_split'])
+                
+                clf = RandomForestClassifier(n_estimators=n_est,
+                        max_depth=max_d, 
+                        min_samples_split=min_s_split, 
+                        random_state=_rand_state_, 
+                        min_samples_leaf=min_s_leaf)
+                self.report_fd.write("param: " + str(clf.get_params()) + "\n")
+
             elif self.model_name == 'MLP':
                 clf = MLPClassifier()
             elif self.model_name == 'AdaBoost':
@@ -740,7 +792,7 @@ class MLPipeline:
 
         clf.set_params(random_state=_rand_state_)
 
-        clf.fit(train_dataset, train_labels)
+        clf.fit(self.train_features, self.train_labels)
         
         self.trained_classifiers[self.model_name] = clf
         
@@ -843,7 +895,7 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
         preds = predictions[cfg['model_testing']['model']]
 
         probs = None
-        if test_cfg['model'] in ['DT','RFC']:
+        if test_cfg['model'] in ['DT','RFC','SVC','AdaBoost','MLP']:
             probs = preds[PROBABILITY_IDX]
         
         preds = preds[CLASS_IDX]
@@ -1111,17 +1163,30 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
         preds = predictions[cfg['model_testing']['model']]
 
         probs = None
-        if test_cfg['model'] in ['DT','RFC']:
+        if test_cfg['model'] in ['DT','RFC','SVC','AdaBoost','MLP']:
             probs = preds[PROBABILITY_IDX]
         
         preds = preds[CLASS_IDX]
 
         # put loops into different buckets dependent on oracle predictions
-        parallel_par = set()
-        parallel_npar = set()
 
-        nparallel_par = set()
         nparallel_npar = set()
+        nparallel_par = set()
+
+        parallel_npar = set()
+        parallel_par = set()
+
+        nparallel_npar_prob0 = []
+        nparallel_npar_prob1 = []
+
+        nparallel_par_prob0 = []
+        nparallel_par_prob1 = []
+
+        parallel_npar_prob0 = []
+        parallel_npar_prob1 = []
+
+        parallel_par_prob0 = []
+        parallel_par_prob1 = []
 
         for i in range(0,tests):
             pred = preds[i]
@@ -1132,25 +1197,43 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
             if pred == 0:
                 if par == 0:
                     nparallel_npar.add(str(test_loop_locations[i]) + ":" + str(prob_0) + ":" + str(prob_1))
+                    nparallel_npar_prob0.append(prob_0)
+                    nparallel_npar_prob1.append(prob_1)
                 else:
                     nparallel_par.add(str(test_loop_locations[i]) + ":" + str(prob_0) + ":" + str(prob_1))
+                    nparallel_par_prob0.append(prob_0)
+                    nparallel_par_prob1.append(prob_1)
             else:
                 if par == 0:
                     parallel_npar.add(str(test_loop_locations[i]) + ":" + str(prob_0) + ":" + str(prob_1))
+                    parallel_npar_prob0.append(prob_0)
+                    parallel_npar_prob1.append(prob_1)
                 else:
                     parallel_par.add(str(test_loop_locations[i]) + ":" + str(prob_0) + ":" + str(prob_1))
-    
+                    parallel_par_prob0.append(prob_0)
+                    parallel_par_prob1.append(prob_1)
+   
         # oracle guidance
+        total_cases = len(nparallel_npar) + len(nparallel_par) + len(parallel_npar) + len(parallel_par)
         oracle_report_fd.write("Table" + "\n")
+        oracle_report_fd.write("total-num: " + "{}".format(total_cases) + "\n")
         oracle_report_fd.write("========" + "\n")
         oracle_report_fd.write("=== case [nparallel / npar] ===" + "\n")
         oracle_report_fd.write("num: " + "{}".format(len(nparallel_npar)) + "\n")
+        oracle_report_fd.write("mean-prob-0: " + "{0:.3f}".format(pd.Series(nparallel_npar_prob0).mean()*100) + "\n")
+        oracle_report_fd.write("mean-prob-1: " + "{0:.3f}".format(pd.Series(nparallel_npar_prob1).mean()*100) + "\n")
         oracle_report_fd.write("=== case [nparallel / par] ===" + "\n")
         oracle_report_fd.write("num: " + "{}".format(len(nparallel_par)) + "\n")
+        oracle_report_fd.write("mean-prob-0: " + "{0:.3f}".format(pd.Series(nparallel_par_prob0).mean()*100) + "\n")
+        oracle_report_fd.write("mean-prob-1: " + "{0:.3f}".format(pd.Series(nparallel_par_prob1).mean()*100) + "\n")
         oracle_report_fd.write("=== case [parallel / npar] ===" + "\n")
         oracle_report_fd.write("num: " + "{}".format(len(parallel_npar)) + "\n")
+        oracle_report_fd.write("mean-prob-0: " + "{0:.3f}".format(pd.Series(parallel_npar_prob0).mean()*100) + "\n")
+        oracle_report_fd.write("mean-prob-1: " + "{0:.3f}".format(pd.Series(parallel_npar_prob1).mean()*100) + "\n")
         oracle_report_fd.write("=== case [parallel / par] ===" + "\n")
         oracle_report_fd.write("num: " + "{}".format(len(parallel_par)) + "\n")
+        oracle_report_fd.write("mean-prob-0: " + "{0:.3f}".format(pd.Series(parallel_par_prob0).mean()*100) + "\n")
+        oracle_report_fd.write("mean-prob-1: " + "{0:.3f}".format(pd.Series(parallel_par_prob1).mean()*100) + "\n")
         oracle_report_fd.write("========" + "\n")
         oracle_report_fd.write("\n")
 

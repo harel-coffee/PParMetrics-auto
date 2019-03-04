@@ -364,6 +364,7 @@ class MLPipeline:
                     estimator = RandomForestClassifier()
                 else:
                     sys.exit("error: feature selection: " + "method " + str(i) + "has unrecognised model: " + str(model))
+                estimator.set_params(random_state=_rand_state_)
 
                 if median == '':
                     median=0.9

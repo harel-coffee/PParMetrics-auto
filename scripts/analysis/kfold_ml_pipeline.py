@@ -69,8 +69,12 @@ if __name__ == "__main__":
         sys.exit("error: " + pipeline_cfg_filename + " has a wrong format!")
 
     # create and open report file
+    report_fds = {}
     report_filename = report_folder + "ml_pipeline" + ".report"
     report_fd = open(report_filename,'w')
+    report_fds['ml_pipeline'] = report_fd
+    report_fds['accuracy'] = report_fd
+    report_fds['oracle'] = report_fd
 
     # prepare K-fold cross validation
     K = 10
@@ -136,7 +140,7 @@ if __name__ == "__main__":
         ml_pl.run()
         preds = ml_pl.predict()
 
-        acc = ml_pipeline.report_results(pl_cfg, report_fd, preds, test_loop_locations, test_par_labels, test_icc_labels)
+        acc = ml_pipeline.report_results(pl_cfg, report_fds, preds, test_loop_locations, test_par_labels, test_icc_labels)
  
         for baseline_name, baseline_acc in acc['baseline'].items():
             baseline_accuracies[baseline_name].append(baseline_acc['accuracy'])

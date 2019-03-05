@@ -7,6 +7,7 @@ import configparser
 
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
 
 # preprocessing
 from sklearn import preprocessing
@@ -288,6 +289,7 @@ class MLPipeline:
                     self.report_fd.write("median: " + str(median) + "\n")
            
                 clf = None
+
                 if model == 'RFC':
                     n_est = 100
                     max_d = None
@@ -801,7 +803,7 @@ class MLPipeline:
             self.report_fd.write("= ======================== =" + "\n")
             self.report_fd.write("\n")
 
-def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_labels, test_icc_labels):
+def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_labels, test_icc_labels, test_omp_labels):
 
     report_cfg = cfg['report']
     test_cfg = cfg['model_testing']
@@ -1194,6 +1196,7 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
             prob_0 = probs[i][0]
             prob_1 = probs[i][1]
             par = test_par_labels[i]
+            omp = test_omp_labels[i]
 
             if pred == 0:
                 if par == 0:
@@ -1266,6 +1269,40 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
                 oracle_report_fd.write(loop + "\n")
             oracle_report_fd.write("===================" + "\n")
             oracle_report_fd.write("\n")
+
+    if report_cfg['plot_oracle_loop_rank'] == 'true':
+
+        colors = []
+        probabilities = []
+
+        for i in range(0,tests):
+            prob_1 = probs[i][1]
+            par = test_par_labels[i]
+            omp = test_omp_labels[i]
+
+            if par == 1:
+                if omp == 1:
+                    colors.append('blue')
+                else:
+                    colors.append('green')
+            else:
+                if omp == 1:
+                    colors.append('blue')
+                else:
+                    colors.append('red')
+            
+            probabilities.append(prob_1)
+
+        probabilities, colors = zip(*sorted(zip(probabilities,colors)))
+
+        plt.bar(x=np.array(range(len(probs))), height=probabilities, align='center', color=colors)
+        plt.ylabel('probability')
+        plt.xlabel('loops')
+
+        filename = os.path.realpath(oracle_report_fd.name)
+        filename = os.path.dirname(filename)
+        filename += str('/' + 'oracle_loop_rank.eps')
+        plt.savefig(filename, format='eps', dpi=1000)
 
     if verbose > 0:
         pl_report_fd.write("==============================================================" + "\n")

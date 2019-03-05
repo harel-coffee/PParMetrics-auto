@@ -59,8 +59,10 @@ if __name__ == "__main__":
     train_par_labels = train_data['parallel']
     # prepare loop icc labels
     train_icc_labels = train_data['icc']
+    # prepare loop omp labels
+    train_omp_labels = train_data['omp']
     # prepare statistical learning features 
-    train_features = train_data.drop(['loop-location','parallel','icc'], axis=1)
+    train_features = train_data.drop(['loop-location','parallel','icc','omp'], axis=1)
     # cast all integer features to float
     train_features = train_features.astype('float64')
 
@@ -75,8 +77,10 @@ if __name__ == "__main__":
     test_par_labels = test_data['parallel']
     # prepare loop icc labels
     test_icc_labels = test_data['icc']
+    # prepare loop omp labels
+    test_omp_labels = test_data['omp']
     # prepare statistical learning features 
-    test_features = test_data.drop(['loop-location','parallel','icc'], axis=1)
+    test_features = test_data.drop(['loop-location','parallel','icc','omp'], axis=1)
     # cast all integer features to float
     test_features = test_features.astype('float64')
   
@@ -113,7 +117,7 @@ if __name__ == "__main__":
     ml_pl.run()
     preds = ml_pl.predict()
 
-    acc = ml_pipeline.report_results(pl_cfg, report_fds, preds, test_loop_locations, test_par_labels, test_icc_labels)
+    acc = ml_pipeline.report_results(pl_cfg, report_fds, preds, test_loop_locations, test_par_labels, test_icc_labels, test_omp_labels)
 
     report_fd = report_fds['accuracy']
 

@@ -1,0 +1,186 @@
+Table
+========
+=== case [0 / 0] ===
+num: 6
+par: 0
+non-par: 6
+=== case [0 / 1] ===
+num: 8
+par: 2
+non-par: 6
+=== case [1 / 0] ===
+num: 0
+par: 0
+non-par: 0
+=== case [1 / 1] ===
+num: 6
+par: 6
+non-par: 0
+========
+
+=== case [0 / 0] ===
+= parallelisible =
+= non-parallelisible =
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(322): 0 [0.7988188962863183]: 1 [0.20118110371368156]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(317): 0 [0.7988188962863183]: 1 [0.20118110371368156]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(446): 0 [0.8270551095094545]: 1 [0.17294489049054548]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(987): 0 [0.6505204870003599]: 1 [0.34947951299964]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(392): 0 [0.8661568363855663]: 1 [0.13384316361443369]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(707): 0 [0.6663548403386302]: 1 [0.33364515966136987]
+===================
+
+=== case [0 / 1] ===
+= parallelisible =
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(669): 0 [0.20183203816414055]: 1 [0.7981679618358595]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(649): 0 [0.20004218771194004]: 1 [0.7999578122880598]
+= non-parallelisible =
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(538): 0 [0.23216663944386912]: 1 [0.7678333605561309]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(693): 0 [0.25187996413582947]: 1 [0.7481200358641705]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(658): 0 [0.05425794069793855]: 1 [0.9457420593020616]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(764): 0 [0.08580096781821817]: 1 [0.9141990321817821]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(535): 0 [0.18123266909293437]: 1 [0.8187673309070657]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(715): 0 [0.16013299001067474]: 1 [0.8398670099893251]
+===================
+
+=== case [1 / 0] ===
+= parallelisible =
+= non-parallelisible =
+===================
+
+=== case [1 / 1] ===
+= parallelisible =
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(644): 0 [0.05831759641085645]: 1 [0.9416824035891435]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(922): 0 [0.03399158766422817]: 1 [0.966008412335772]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(575): 0 [0.1927156824416043]: 1 [0.8072843175583959]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(495): 0 [0.05831759641085645]: 1 [0.9416824035891435]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(698): 0 [0.06698587480791529]: 1 [0.9330141251920846]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(612): 0 [0.06308131900189723]: 1 [0.9369186809981025]
+= non-parallelisible =
+===================
+
+Mispredictions: 6
+
+Accuracy
+========
+tests: 20
+mispredicts: 6
+accuracy-rate: -2.00
+error-rate: 3.00
+safe-mispredicts: 0
+unsafe-mispredicts: 6
+safe-error-rate: 0.00
+unsafe-error-rate: 1.00
+========
+
+ICC competition
+========
+icc-discrepancies: 8
+icc-wins: 2
+icc-losses: 6
+win-rate: 0.25
+loss-rate: 0.75
+========
+
+loop:pred:label:safe
+Mispredicted loops:
+===================
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(764):1:0:unsafe: 0 [0.08580096781821817]: 1 [0.9141990321817821]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(693):1:0:unsafe: 0 [0.25187996413582947]: 1 [0.7481200358641705]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(538):1:0:unsafe: 0 [0.23216663944386912]: 1 [0.7678333605561309]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(535):1:0:unsafe: 0 [0.18123266909293437]: 1 [0.8187673309070657]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(658):1:0:unsafe: 0 [0.05425794069793855]: 1 [0.9457420593020616]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(715):1:0:unsafe: 0 [0.16013299001067474]: 1 [0.8398670099893251]
+===================
+
+Predicted loops:
+===================
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(987):0:0: 0 [0.6505204870003599]: 1 [0.34947951299964]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(707):0:0: 0 [0.6663548403386302]: 1 [0.33364515966136987]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(322):0:0: 0 [0.7988188962863183]: 1 [0.20118110371368156]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(644):1:1: 0 [0.05831759641085645]: 1 [0.9416824035891435]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(575):1:1: 0 [0.1927156824416043]: 1 [0.8072843175583959]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(612):1:1: 0 [0.06308131900189723]: 1 [0.9369186809981025]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(446):0:0: 0 [0.8270551095094545]: 1 [0.17294489049054548]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(649):1:1: 0 [0.20004218771194004]: 1 [0.7999578122880598]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(495):1:1: 0 [0.05831759641085645]: 1 [0.9416824035891435]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(317):0:0: 0 [0.7988188962863183]: 1 [0.20118110371368156]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(698):1:1: 0 [0.06698587480791529]: 1 [0.9330141251920846]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(392):0:0: 0 [0.8661568363855663]: 1 [0.13384316361443369]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(669):1:1: 0 [0.20183203816414055]: 1 [0.7981679618358595]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(922):1:1: 0 [0.03399158766422817]: 1 [0.966008412335772]
+===================
+
+loop:pred:icc:result
+Win over ICC loops:
+===================
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(649):1:0:win: 0 [0.20004218771194004]: 1 [0.7999578122880598]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(669):1:0:win: 0 [0.20183203816414055]: 1 [0.7981679618358595]
+===================
+
+Loss to ICC loops:
+===================
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(538):1:0:loss: 0 [0.23216663944386912]: 1 [0.7678333605561309]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(658):1:0:loss: 0 [0.05425794069793855]: 1 [0.9457420593020616]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(693):1:0:loss: 0 [0.25187996413582947]: 1 [0.7481200358641705]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(764):1:0:loss: 0 [0.08580096781821817]: 1 [0.9141990321817821]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(535):1:0:loss: 0 [0.18123266909293437]: 1 [0.8187673309070657]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(715):1:0:loss: 0 [0.16013299001067474]: 1 [0.8398670099893251]
+===================
+
+Table
+total-num: 20
+========
+=== case [nparallel / npar] ===
+num: 6
+mean-prob-0: 76.795
+mean-prob-1: 23.205
+=== case [nparallel / par] ===
+num: 0
+mean-prob-0: nan
+mean-prob-1: nan
+=== case [parallel / npar] ===
+num: 6
+mean-prob-0: 16.091
+mean-prob-1: 83.909
+=== case [parallel / par] ===
+num: 8
+mean-prob-0: 10.941
+mean-prob-1: 89.059
+========
+
+=== case [nparallel / npar] ===
+loop-location:prob_0:prob_1
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(392):0.8661568363855663:0.13384316361443369
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(707):0.6663548403386302:0.33364515966136987
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(317):0.7988188962863183:0.20118110371368156
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(446):0.8270551095094545:0.17294489049054548
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(322):0.7988188962863183:0.20118110371368156
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(987):0.6505204870003599:0.34947951299964
+===================
+
+=== case [nparallel / par] ===
+loop-location:prob_0:prob_1
+===================
+
+=== case [parallel / npar] ===
+loop-location:prob_0:prob_1
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(693):0.25187996413582947:0.7481200358641705
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(535):0.18123266909293437:0.8187673309070657
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(764):0.08580096781821817:0.9141990321817821
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(538):0.23216663944386912:0.7678333605561309
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(658):0.05425794069793855:0.9457420593020616
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(715):0.16013299001067474:0.8398670099893251
+===================
+
+=== case [parallel / par] ===
+loop-location:prob_0:prob_1
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(649):0.20004218771194004:0.7999578122880598
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(575):0.1927156824416043:0.8072843175583959
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(698):0.06698587480791529:0.9330141251920846
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(612):0.06308131900189723:0.9369186809981025
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(922):0.03399158766422817:0.966008412335772
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(495):0.05831759641085645:0.9416824035891435
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(669):0.20183203816414055:0.7981679618358595
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(644):0.05831759641085645:0.9416824035891435
+===================
+

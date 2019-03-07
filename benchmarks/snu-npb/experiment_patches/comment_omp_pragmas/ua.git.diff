@@ -1,0 +1,1061 @@
+diff --git a/NPB3.3-OMP-C/UA/src/adapt.c b/NPB3.3-OMP-C/UA/src/adapt.c
+index b19eb79..823b892 100644
+--- a/NPB3.3-OMP-C/UA/src/adapt.c
++++ b/NPB3.3-OMP-C/UA/src/adapt.c
+@@ -109,7 +109,7 @@ void adaptation(logical *ifmortar, int step)
+ 
+   // skip[iel]=true indicates an element no longer exists (because it
+   // got merged)
+-  #pragma omp parallel for default(shared) private(iel)
++  //#pragma omp parallel for default(shared) private(iel)
+   for (iel = 0; iel < nelt; iel++) {
+     skip[iel] = false;
+   }
+@@ -145,7 +145,7 @@ void adaptation(logical *ifmortar, int step)
+   //                element index
+   // id_to_mt(iel)  takes as argument the actual element index and returns the
+   //                morton index
+-  #pragma omp parallel for default(shared) private(miel,iel)
++  //#pragma omp parallel for default(shared) private(miel,iel)
+   for (miel = 0; miel < nelt; miel++) {
+     iel = mt_to_id[miel];
+     id_to_mt[iel] = miel;
+@@ -184,14 +184,14 @@ static void do_coarsen(logical *if_coarsen, int *icoarsen, int neltold)
+   // ifcoa[miel]=true refers to element miel(mortar index) will be
+   //                  coarsened
+ 
+-  #pragma omp parallel default(shared) private(iel)
++  //#pragma omp parallel default(shared) private(iel)
+   {
+-    #pragma omp for nowait
++    //#pragma omp for nowait
+     for (iel = 0; iel < nelt; iel++) {
+       mt_to_id_old[iel] = mt_to_id[iel];
+       mt_to_id[iel] = -1;
+     }
+-    #pragma omp for nowait
++    //#pragma omp for nowait
+     for (iel = 0; iel < neltold; iel++) {
+       ifcoa_id[iel] = false;
+     }
+@@ -199,7 +199,7 @@ static void do_coarsen(logical *if_coarsen, int *icoarsen, int neltold)
+ 
+   // Check whether the potential coarsening will make neighbor, 
+   // and neighbor's neighbor....break grid restriction
+-  #pragma omp parallel for default(shared) private(miel,iel,ic, \
++  //#pragma omp parallel for default(shared) private(miel,iel,ic, \
+           ntp,parent,test,test1,i,test2,test3) shared(if_coarsen)
+   for (miel = 0; miel < nelt; miel++) {
+     ifcoa[miel] = false;
+@@ -282,7 +282,7 @@ static void do_coarsen(logical *if_coarsen, int *icoarsen, int neltold)
+   // element's front-left-bottom-child) to be coarsened.
+ 
+   // create array mt_to_id to convert actual element index to morton index
+-  #pragma omp parallel for default(shared) private(miel,iel,mielnew)
++  //#pragma omp parallel for default(shared) private(miel,iel,mielnew)
+   for (miel = 0; miel < nelt; miel++) {
+     iel = mt_to_id_old[miel];
+     if (!skip[iel]) {
+@@ -297,7 +297,7 @@ static void do_coarsen(logical *if_coarsen, int *icoarsen, int neltold)
+   }
+ 
+   // perform the coarsening procedure (potentially in parallel)
+-  #pragma omp parallel for default(shared) private(index,miel,iel,ntp)
++  //#pragma omp parallel for default(shared) private(index,miel,iel,ntp)
+   for (index = 0; index < num_coarsen; index++) {
+     miel = action[index];
+     iel = mt_to_id_old[miel];
+@@ -334,7 +334,7 @@ static void do_refine(logical *ifmortar, int *irefine)
+   int cb, cbctemp[6];
+ 
+   // initialize
+-  #pragma omp parallel for default(shared) private(miel)
++  //#pragma omp parallel for default(shared) private(miel)
+   for (miel = 0; miel < nelt; miel++) {
+     mt_to_id_old[miel] = mt_to_id[miel];
+     mt_to_id[miel] = -1;
+@@ -354,7 +354,7 @@ static void do_refine(logical *ifmortar, int *irefine)
+   num_refine = front[nelt-1];
+ 
+   // action[i] records the morton index of the  i'th element to be refined
+-  #pragma omp parallel for default(shared) private(miel,iel)
++  //#pragma omp parallel for default(shared) private(miel,iel)
+   for (miel = 0; miel < nelt; miel++) {
+     iel = mt_to_id_old[miel];
+     if (ich[iel] == 4) {
+@@ -365,7 +365,7 @@ static void do_refine(logical *ifmortar, int *irefine)
+   // Compute array mt_to_id to convert the element index to morton index.
+   // ref_front_id[iel] records how many elements with index less than
+   // iel (actual element index, not morton index), will be refined.
+-  #pragma omp parallel for default(shared) private(miel,iel,ntemp,mielnew)
++  //#pragma omp parallel for default(shared) private(miel,iel,ntemp,mielnew)
+   for (miel = 0; miel < nelt; miel++) {
+     iel = mt_to_id_old[miel];
+     if (ich[iel] == 4) {
+@@ -392,7 +392,7 @@ static void do_refine(logical *ifmortar, int *irefine)
+     *ifmortar = true;
+   }
+ 
+-  #pragma omp parallel for default(shared) private(index,miel,mielnew,iel, \
++  //#pragma omp parallel for default(shared) private(index,miel,mielnew,iel, \
+               nelt,treetemp,xctemp,yctemp,zctemp,cbctemp,sjetemp,ta1temp, \
+               ii,jj,ntemp,xleft,xright,xhalf,yleft,yright,yhalf,zleft,zright,\
+               zhalf,ndir,facedir,jface,cb,le,ne,n1,n2,i,j,k)
+@@ -732,7 +732,7 @@ static void find_coarsen(logical *if_coarsen, int neltold)
+ 
+   *if_coarsen = false;
+ 
+-  #pragma omp parallel for default(shared) private(iel,i,iftemp) \
++  //#pragma omp parallel for default(shared) private(iel,i,iftemp) \
+                        shared(if_coarsen)
+   for (iel = 0; iel < neltold; iel++) {
+     if (!skip[iel]) {
+@@ -766,7 +766,7 @@ static void find_refine(logical *if_refine)
+ 
+   *if_refine = false;
+ 
+-  #pragma omp parallel for default(shared) private(iel) shared(if_refine)
++  //#pragma omp parallel for default(shared) private(iel) shared(if_refine)
+   for (iel = 0; iel < nelt; iel++) {
+     ich[iel] = 0;
+     if (iftouch(iel)) {
+@@ -791,7 +791,7 @@ static void check_refine(logical *ifrepeat)
+ 
+   *ifrepeat = false;
+ 
+-  #pragma omp parallel for default(shared) private(iel,i,jface,ntemp, \
++  //#pragma omp parallel for default(shared) private(iel,i,jface,ntemp, \
+                            iface,nntemp) shared(ifrepeat)
+   for (iel = 0; iel < nelt; iel++) {
+     // if iel is marked to be refined
+diff --git a/NPB3.3-OMP-C/UA/src/convect.c b/NPB3.3-OMP-C/UA/src/convect.c
+index 854489c..7476cbb 100644
+--- a/NPB3.3-OMP-C/UA/src/convect.c
++++ b/NPB3.3-OMP-C/UA/src/convect.c
+@@ -68,7 +68,7 @@ void convect(logical ifmortar)
+     zz0[substep] = Z00+VELZ*subtime[substep];
+   }
+ 
+-  #pragma omp parallel for default(shared) private(rk4,rk3,rk2,temp,rk1,dtx3,\
++  //#pragma omp parallel for default(shared) private(rk4,rk3,rk2,temp,rk1,dtx3,\
+           dtx2,dtx1,iside,ip,sum,src,r2,i,j,k,isize,iel,tempa,xloc,yloc,zloc)
+   for (iel = 0; iel < nelt; iel++) {
+     isize = size_e[iel];
+@@ -243,7 +243,7 @@ void convect(logical ifmortar)
+   }
+   if (timeron) timer_stop(t_transfb_c);
+ 
+-  #pragma omp parallel for default(shared) private(i)
++  //#pragma omp parallel for default(shared) private(i)
+   for (i = 0; i < nmor; i++) {
+     tmort[i] = tmort[i] / mormult[i];
+   }
+diff --git a/NPB3.3-OMP-C/UA/src/diffuse.c b/NPB3.3-OMP-C/UA/src/diffuse.c
+index f6f576f..732e980 100644
+--- a/NPB3.3-OMP-C/UA/src/diffuse.c
++++ b/NPB3.3-OMP-C/UA/src/diffuse.c
+@@ -53,7 +53,7 @@ void diffusion(logical ifmortar)
+   // arrays t and umor are accumlators of (am pm) in the CG algorithm
+   // (see the specification)
+   r_init_omp((double *)t, ntot, 0.0);
+-  #pragma omp parallel for default(shared) private(i)
++  //#pragma omp parallel for default(shared) private(i)
+   for (i = 0; i < nmor; i++) {
+     umor[i] = 0.0;
+   }
+@@ -64,9 +64,9 @@ void diffusion(logical ifmortar)
+   // pdiff and pmorx are combined to generate q0 in the CG algorithm.
+   // rho1 is  (qm,rm) in the CG algorithm.
+   rho1 = 0.0;
+-  #pragma omp parallel default(shared) private(im,ie,i,j,k) reduction(+:rho1)
++  //#pragma omp parallel default(shared) private(im,ie,i,j,k) reduction(+:rho1)
+   {
+-  #pragma omp for nowait 
++  //#pragma omp for nowait 
+   for (ie = 0; ie < nelt; ie++) {
+     for (k = 0; k < LX1; k++) {
+       for (j = 0; j < LX1; j++) {
+@@ -79,7 +79,7 @@ void diffusion(logical ifmortar)
+     }
+   }
+ 
+-  #pragma omp for nowait 
++  //#pragma omp for nowait 
+   for (im = 0; im < nmor; im++) {
+     pmorx[im] = dpcmor[im]*rmor[im];
+     rho1      = rho1 + rmor[im]*pmorx[im];
+@@ -92,12 +92,12 @@ void diffusion(logical ifmortar)
+   for (iter = 1; iter <= nmxh; iter++) {
+     if (iter > 1) {
+       rho_aux = 0.0;
+-      #pragma omp parallel default(shared) private(im,ie,i,j,k) \
++      //#pragma omp parallel default(shared) private(im,ie,i,j,k) \
+                                            reduction(+:rho_aux)
+       {
+       // pdiffp and ppmor are combined to generate q_m+1 in the specification
+       // rho_aux is (q_m+1,r_m+1)
+-      #pragma omp for nowait
++      //#pragma omp for nowait
+       for (ie = 0; ie < nelt; ie++) {
+         for (k = 0; k < LX1; k++) {
+           for (j = 0; j < LX1; j++) {
+@@ -110,7 +110,7 @@ void diffusion(logical ifmortar)
+         }
+       }
+ 
+-      #pragma omp for nowait
++      //#pragma omp for nowait
+       for (im = 0; im < nmor; im++) {
+         ppmor[im] = dpcmor[im]*rmor[im];
+         rho_aux = rho_aux + rmor[im]*ppmor[im];
+@@ -133,7 +133,7 @@ void diffusion(logical ifmortar)
+     if (timeron) timer_stop(t_transf);
+ 
+     // compute pdiffp which is (A theta pm) in the specification
+-    #pragma omp parallel for default(shared) private(ie) 
++    //#pragma omp parallel for default(shared) private(ie) 
+     for (ie = 0; ie < nelt; ie++) {
+       laplacian(pdiffp[ie], pdiff[ie], size_e[ie]);
+     }
+@@ -145,7 +145,7 @@ void diffusion(logical ifmortar)
+     if (timeron) timer_stop(t_transfb);
+ 
+     // apply boundary condition
+-    #pragma omp parallel for default(shared) private(ie,iside)
++    //#pragma omp parallel for default(shared) private(ie,iside)
+     for (ie = 0; ie < nelt; ie++) {
+       for (iside = 0; iside < NSIDES; iside++) {
+         if(cbc[ie][iside] == 0) {
+@@ -156,10 +156,10 @@ void diffusion(logical ifmortar)
+ 
+     // compute cona which is (pm,theta T A theta pm)
+     cona = 0.0;
+-    #pragma omp parallel default(shared) private(im,ie,i,j,k) \
++    //#pragma omp parallel default(shared) private(im,ie,i,j,k) \
+                                          reduction(+:cona)
+     {
+-    #pragma omp for nowait
++    //#pragma omp for nowait
+     for (ie = 0; ie < nelt; ie++) {
+       for (k = 0; k < LX1; k++) {
+         for (j = 0; j < LX1; j++) {
+@@ -171,7 +171,7 @@ void diffusion(logical ifmortar)
+       }
+     }
+ 
+-    #pragma omp for nowait
++    //#pragma omp for nowait
+     for (im = 0; im < nmor; im++) {
+       ppmor[im] = ppmor[im]*tmmor[im];
+       cona = cona + pmorx[im]*ppmor[im];
+diff --git a/NPB3.3-OMP-C/UA/src/mason.c b/NPB3.3-OMP-C/UA/src/mason.c
+index 240e320..2df921f 100644
+--- a/NPB3.3-OMP-C/UA/src/mason.c
++++ b/NPB3.3-OMP-C/UA/src/mason.c
+@@ -78,7 +78,7 @@ void mortar()
+   count = -1;
+ 
+   // assign mortar point indices to element vertices
+-  #pragma omp parallel for default(shared) private(iel,sumcb,ij1,ij2, \
++  //#pragma omp parallel for default(shared) private(iel,sumcb,ij1,ij2, \
+                            cb,cb1,cb2,ntemp,ntemp1)
+   for (iel = 0; iel < nelt; iel++) {
+ 
+@@ -748,7 +748,7 @@ void mortar()
+   // new mortar point indices are to be generated from element 0 to iel.
+   // front[iel]=newc[0]+newc[1]+...+newc[iel]
+ 
+-  #pragma omp parallel for default(shared) private(iel)
++  //#pragma omp parallel for default(shared) private(iel)
+   for (iel = 0; iel < nelt; iel++) {
+     front[iel] = newc[iel];
+   }
+@@ -760,7 +760,7 @@ void mortar()
+   // is shared by several elements, the mortar point index of it will only
+   // be generated on the element with the lowest element index. 
+ 
+-  #pragma omp parallel for default(shared) private(iel,i,count)
++  //#pragma omp parallel for default(shared) private(iel,i,count)
+   for (iel = 0; iel < nelt; iel++) {
+     // compute the starting vertex mortar point index in element iel
+     front[iel] = front[iel]-newc[iel];
+@@ -807,7 +807,7 @@ void mortar()
+   //            to the right or top part of edge n.
+   // if_1_edge[iel][n]=true indicates that the size of iel is smaller than 
+   //            that of its neighbor connected, neighbored by edge n only
+-  #pragma omp parallel for default(shared) private(iel,cb1,cb2,cb3,cb4,cb5 \
++  //#pragma omp parallel for default(shared) private(iel,cb1,cb2,cb3,cb4,cb5 \
+                                                   ,cb6,ntemp)
+   for (iel = 0; iel < nelt; iel++) {
+     newc[iel] = 0;
+@@ -1350,7 +1350,7 @@ void mortar()
+   // edges and conforming face interiors) from element 0 to iel.
+   // front[iel]=newc[0]+newc[1]+...+newc[iel]
+ 
+-  #pragma omp parallel for default(shared) private(iel)
++  //#pragma omp parallel for default(shared) private(iel)
+   for (iel = 0; iel < nelt; iel++) {
+     front[iel] = newc[iel];
+   }
+@@ -1363,7 +1363,7 @@ void mortar()
+   // Generate (potentially in parallel) new mortar point indices on 
+   // each conforming element face. On each face, first visit all 
+   // conforming edges, and then the face interior.
+-  #pragma omp parallel for default(shared) private(iel,count,i,cb1,ne, \
++  //#pragma omp parallel for default(shared) private(iel,count,i,cb1,ne, \
+               space,ie,edge_g,face2,ie2,ntemp,ii,jj,jface,cb,mor_v)
+   for (iel = 0; iel < nelt; iel++) {
+     front[iel] = front[iel]-newc[iel];
+@@ -1481,7 +1481,7 @@ void mortar()
+ 
+   // for edges on nonconforming faces, copy the mortar points indices
+   // from neighbors.
+-  #pragma omp parallel for default(shared) \
++  //#pragma omp parallel for default(shared) \
+               private(iel,i,cb,jface,iii,jjj,ntemp,ii,jj)
+   for (iel = 0; iel < nelt; iel++) {
+     for (i = 0; i < 6; i++) {
+diff --git a/NPB3.3-OMP-C/UA/src/move.c b/NPB3.3-OMP-C/UA/src/move.c
+index 2d0ad6e..0fd7d16 100644
+--- a/NPB3.3-OMP-C/UA/src/move.c
++++ b/NPB3.3-OMP-C/UA/src/move.c
+@@ -47,10 +47,10 @@ void move()
+   nr_init_omp((int *)sje_new, n1, -1);
+   nr_init_omp((int *)ijel_new, n2, -1);
+ 
+-  #pragma omp parallel default(shared) private(iel,i,iside,jface,cb,ntemp, \
++  //#pragma omp parallel default(shared) private(iel,i,iside,jface,cb,ntemp, \
+                                                ii1,ii2) 
+   {
+-  #pragma omp for
++  //#pragma omp for
+   for (iel = 0; iel < nelt; iel++) {
+     i = mt_to_id[iel];
+     treenew[iel] = tree[i];
+@@ -99,7 +99,7 @@ void move()
+     copy(ta2[iel][0][0], ta1[i][0][0], NXYZ);
+   }
+ 
+-  #pragma omp for
++  //#pragma omp for
+   for (iel = 0; iel < nelt; iel++) {
+     copy(xc[iel], xc_new[iel], 8);
+     copy(yc[iel], yc_new[iel], 8);
+diff --git a/NPB3.3-OMP-C/UA/src/precond.c b/NPB3.3-OMP-C/UA/src/precond.c
+index e023ca8..8ef56d1 100644
+--- a/NPB3.3-OMP-C/UA/src/precond.c
++++ b/NPB3.3-OMP-C/UA/src/precond.c
+@@ -58,7 +58,7 @@ void setuppc()
+ 
+   rdtime = 1.0/dtime;
+ 
+-  #pragma omp parallel for default(shared) private(ie,isize,i,j,k,q) 
++  //#pragma omp parallel for default(shared) private(ie,isize,i,j,k,q) 
+   for (ie = 0; ie < nelt; ie++) {
+     r_init(dpcelm[ie][0][0], NXYZ, 0.0);
+     isize = size_e[ie];
+@@ -86,7 +86,7 @@ void setuppc()
+ 
+   // compute preconditioner on mortar points. NOTE:  dpcmor for 
+   // nonconforming cases will be corrected in subroutine setpcmo 
+-  #pragma omp parallel for default(shared) private(i)
++  //#pragma omp parallel for default(shared) private(i)
+   for (i = 0; i < nmor; i++) {
+     dpcmor[i] = 1.0/dpcmor[i];
+   }
+@@ -129,7 +129,7 @@ void setpcmo_pre()
+     }
+   }
+ 
+-  #pragma omp parallel for default(shared) private(element_size,i,j,p,temp, \
++  //#pragma omp parallel for default(shared) private(element_size,i,j,p,temp, \
+                                            mtemp,temp1,p0,ii,jj)
+   for (element_size = 0; element_size < REFINE_MAX; element_size++) {
+     // for conforming cases
+@@ -438,14 +438,14 @@ void setpcmo()
+ {
+   int face2, nb1, nb2, sizei, imor, _enum, i, j, iel, iside, nn1, nn2;
+ 
+-  #pragma omp parallel default(shared) private(imor,iel,iside,i) 
++  //#pragma omp parallel default(shared) private(imor,iel,iside,i) 
+   {
+-    #pragma omp for nowait
++    //#pragma omp for nowait
+     for (imor = 0; imor < nvertex; imor++) {
+       ifpcmor[imor] = false;
+     }
+ 
+-    #pragma omp for
++    //#pragma omp for
+     for (iel = 0; iel < nelt; iel++) {
+       for (iside = 0; iside < NSIDES; iside++) {
+         for (i = 0; i < 4; i++) {
+@@ -455,7 +455,7 @@ void setpcmo()
+     } 
+   } //end parallel
+ 
+-  #pragma omp parallel for default(shared) private(iel,iside,sizei, \
++  //#pragma omp parallel for default(shared) private(iel,iside,sizei, \
+                            imor,_enum,face2,nb1,nb2,i,j,nn1,nn2) 
+   for (iel = 0; iel < nelt; iel++) {
+     for (iside = 0; iside < NSIDES; iside++) {
+diff --git a/NPB3.3-OMP-C/UA/src/setup.c b/NPB3.3-OMP-C/UA/src/setup.c
+index 4892d1c..1f4eaa3 100644
+--- a/NPB3.3-OMP-C/UA/src/setup.c
++++ b/NPB3.3-OMP-C/UA/src/setup.c
+@@ -238,7 +238,7 @@ void geom1()
+     xfrac[i] = zgm1[i]*0.5 + 0.5;
+   }
+ 
+-  #pragma omp parallel for default(shared) private(isize,temp,temp1,temp2, \
++  //#pragma omp parallel for default(shared) private(isize,temp,temp1,temp2, \
+                                                    k,j,i,dtemp)
+   for (isize = 0; isize < REFINE_MAX; isize++) {
+     temp = pow(2.0, (-isize-2));
+@@ -261,7 +261,7 @@ void geom1()
+     }
+   }
+ 
+-  #pragma omp parallel for default(shared) private(ntemp,i,j,iel)
++  //#pragma omp parallel for default(shared) private(ntemp,i,j,iel)
+   for (iel = 0; iel < LELT; iel++) {
+     ntemp = LX1*LX1*LX1*iel;
+     for (j = 0; j < LX1; j++) {
+@@ -310,17 +310,17 @@ void prepwork()
+   ntot = nelt*NXYZ;
+   rdlog2 = 1.0/log(2.0);
+ 
+-  #pragma omp parallel default(shared) private(i,j,iel,iface,cb)
++  //#pragma omp parallel default(shared) private(i,j,iel,iface,cb)
+   {
+ 
+   // calculate the refinement levels of each element
+-  #pragma omp for nowait
++  //#pragma omp for nowait
+   for (iel = 0; iel < nelt; iel++) {
+     size_e[iel] = (int)(-log(xc[iel][1]-xc[iel][0])*rdlog2+1.e-8) - 1;
+   }
+ 
+   // mask matrix for element boundary
+-  #pragma omp for nowait
++  //#pragma omp for nowait
+   for (iel = 0; iel < nelt; iel++) {
+     r_init(tmult[iel][0][0], NXYZ, 1.0);
+     for (iface = 0; iface < NSIDES; iface++) {
+@@ -329,12 +329,12 @@ void prepwork()
+   }
+ 
+   // masks for domain boundary at mortar 
+-  #pragma omp for
++  //#pragma omp for
+   for (iel = 0; iel < nmor; iel++) {
+     tmmor[iel] = 1.0;
+   }
+ 
+-  #pragma omp for nowait
++  //#pragma omp for nowait
+   for (iel = 0; iel < nelt; iel++) {
+     for (iface = 0; iface < NSIDES; iface++) {
+       cb = cbc[iel][iface];
+diff --git a/NPB3.3-OMP-C/UA/src/transfer.c b/NPB3.3-OMP-C/UA/src/transfer.c
+index a303c83..ab37e85 100644
+--- a/NPB3.3-OMP-C/UA/src/transfer.c
++++ b/NPB3.3-OMP-C/UA/src/transfer.c
+@@ -42,7 +42,7 @@ void init_locks()
+   int i;
+ 
+   // initialize locks in parallel
+-  #pragma omp parallel for default(shared) private(i)
++  //#pragma omp parallel for default(shared) private(i)
+   for (i = 0; i < LMOR; i++) {
+     omp_init_lock(&tlock[i]);
+   }
+@@ -61,7 +61,7 @@ void transf(double tmor[], double tx[])
+   // zero out tx on element boundaries
+   col2(tx, (double *)tmult, ntot);
+ 
+-  #pragma omp parallel for default(shared) private(il,j,ig,i,col,ije2,ije1, \
++  //#pragma omp parallel for default(shared) private(il,j,ig,i,col,ije2,ije1, \
+                        ig4,ig3,ig2,ig1,nnje,il4,il3,il2,il1,iface,ie,tmp)
+   for (ie = 0; ie < nelt; ie++) {
+     for (iface = 0; iface < NSIDES; iface++) {
+@@ -280,16 +280,16 @@ void transfb(double tmor[], double tx[])
+   int il1, il2, il3, il4, ig1, ig2, ig3, ig4, ie, iface, nnje;
+   int ije1, ije2, col, i, j, ije, ig, il;
+ 
+-  #pragma omp parallel default(shared) private(il,j,ig,i,col,ije2,ije1,ig4, \
++  //#pragma omp parallel default(shared) private(il,j,ig,i,col,ije2,ije1,ig4, \
+       ig3,ig2,ig1,nnje,il4,il3,il2,il1,iface,ie,ije,tmp,shift,temp,top,tmp1)
+   {
+ 
+-  #pragma omp for
++  //#pragma omp for
+   for (ie = 0; ie < nmor; ie++) {
+     tmor[ie] = 0.0;
+   }
+ 
+-  #pragma omp for nowait
++  //#pragma omp for nowait
+   for (ie = 0; ie < nelt; ie++) {
+     for (iface = 0; iface < NSIDES; iface++) {
+       // nnje=1 for conforming faces, nnje=2 for nonconforming faces
+@@ -838,15 +838,15 @@ void transfb_c(double tx[])
+   const double third = 1.0/3.0;
+   int il1, il2, il3, il4, ig1, ig2, ig3, ig4, ie, iface, col, j, ig, il;
+ 
+-  #pragma omp parallel default(shared) private(ie,iface,il1,il2, \
++  //#pragma omp parallel default(shared) private(ie,iface,il1,il2, \
+                                        il3,il4,ig1,ig2,ig3,ig4,col,j,ig,il) 
+   {
+-  #pragma omp for
++  //#pragma omp for
+   for (j = 0; j < nmor; j++) {
+     tmort[j] = 0.0;
+   }
+ 
+-  #pragma omp for nowait
++  //#pragma omp for nowait
+   for (ie = 0; ie < nelt; ie++) {
+     for (iface = 0; iface < NSIDES; iface++) {
+       if (cbc[ie][iface] != 3) {
+@@ -947,20 +947,20 @@ void transfb_c_2(double tx[])
+   const double third = 1.0/3.0;
+   int il1, il2, il3, il4, ig1, ig2, ig3, ig4, ie, iface, col, j, ig, il;
+ 
+-  #pragma omp parallel default(shared) private(ie,iface,il1,il2, \
++  //#pragma omp parallel default(shared) private(ie,iface,il1,il2, \
+                                        il3,il4,ig1,ig2,ig3,ig4,col,j,ig,il)
+   {
+ 
+-  #pragma omp for nowait
++  //#pragma omp for nowait
+   for (j = 0; j < nmor; j++) {
+     tmort[j] = 0.0;
+   }
+-  #pragma omp for
++  //#pragma omp for
+   for (j = 0; j < nmor; j++) {
+     mormult[j] = 0.0;
+   }
+ 
+-  #pragma omp for nowait
++  //#pragma omp for nowait
+   for (ie = 0; ie < nelt; ie++) {
+     for (iface = 0; iface < NSIDES; iface++) {
+ 
+diff --git a/NPB3.3-OMP-C/UA/src/transfer_au.c b/NPB3.3-OMP-C/UA/src/transfer_au.c
+index 7e0b3e5..5928d3f 100644
+--- a/NPB3.3-OMP-C/UA/src/transfer_au.c
++++ b/NPB3.3-OMP-C/UA/src/transfer_au.c
+@@ -44,7 +44,7 @@ void init_locks()
+   int i;
+ 
+   // initialize locks in parallel
+-  #pragma omp parallel for default(shared) private(i)
++  //#pragma omp parallel for default(shared) private(i)
+   for (i = 0; i < 8*LELT; i++) {
+     omp_init_lock(&tlock[i]);
+   }
+@@ -63,7 +63,7 @@ void transf(double tmor[], double tx[])
+   // zero out tx on element boundaries
+   col2(tx, (double *)tmult, ntot);
+ 
+-  #pragma omp parallel for default(shared) private(il,j,ig,i,col,ije2,ije1, \
++  //#pragma omp parallel for default(shared) private(il,j,ig,i,col,ije2,ije1, \
+                        ig4,ig3,ig2,ig1,nnje,il4,il3,il2,il1,iface,ie,tmp)
+   for (ie = 0; ie < nelt; ie++) {
+     for (iface = 0; iface < NSIDES; iface++) {
+@@ -282,16 +282,16 @@ void transfb(double tmor[], double tx[])
+   int il1, il2, il3, il4, ig1, ig2, ig3, ig4, ie, iface, nnje;
+   int ije1, ije2, col, i, j, ije, ig, il;
+ 
+-  #pragma omp parallel default(shared) private(il,j,ig,i,col,ije2,ije1,ig4, \
++  //#pragma omp parallel default(shared) private(il,j,ig,i,col,ije2,ije1,ig4, \
+       ig3,ig2,ig1,nnje,il4,il3,il2,il1,iface,ie,ije,tmp,shift,temp,top,tmp1)
+   {
+ 
+-  #pragma omp for
++  //#pragma omp for
+   for (ie = 0; ie < nmor; ie++) {
+     tmor[ie] = 0.0;
+   }
+ 
+-  #pragma omp for nowait
++  //#pragma omp for nowait
+   for (ie = 0; ie < nelt; ie++) {
+     for (iface = 0; iface < NSIDES; iface++) {
+       // nnje=1 for conforming faces, nnje=2 for nonconforming faces
+@@ -316,16 +316,16 @@ void transfb(double tmor[], double tx[])
+       // sum the values from tx to tmor for these four local corners
+       // only 1/3 of the value is summed, since there will be two duplicated
+       // contributions from the other two faces sharing this vertex
+-      #pragma omp atomic
++      //#pragma omp atomic
+       tmor[ig1] += tx[il1]*third;
+ 
+-      #pragma omp atomic
++      //#pragma omp atomic
+       tmor[ig2] += tx[il2]*third;
+ 
+-      #pragma omp atomic
++      //#pragma omp atomic
+       tmor[ig3] += tx[il3]*third;
+ 
+-      #pragma omp atomic
++      //#pragma omp atomic
+       tmor[ig4] += tx[il4]*third;
+ 
+       // for nonconforming faces
+@@ -380,7 +380,7 @@ void transfb(double tmor[], double tx[])
+ 
+               ig = idmo[ie][iface][ije2][ije1][col][v_end[ije2]];
+ 
+-              #pragma omp atomic
++              //#pragma omp atomic
+               tmor[ig] += temp[ije1][col][v_end[ije2]]*0.5;
+ 
+               // In each row of collocation points on a piece of mortar,
+@@ -393,7 +393,7 @@ void transfb(double tmor[], double tx[])
+                 }
+                 ig = idmo[ie][iface][ije2][ije1][col][j];
+ 
+-                #pragma omp atomic
++                //#pragma omp atomic
+                 tmor[ig] += tmp;
+               }
+             }
+@@ -406,7 +406,7 @@ void transfb(double tmor[], double tx[])
+             col = v_end[ije1];
+             ig = idmo[ie][iface][ije2][ije1][col][v_end[ije2]];
+ 
+-            #pragma omp atomic
++            //#pragma omp atomic
+             tmor[ig] += top[ije1][v_end[ije2]]*0.5;
+             for (j = 0; j < LX1; j++) {
+               tmp = 0.0;
+@@ -417,7 +417,7 @@ void transfb(double tmor[], double tx[])
+               }
+               ig = idmo[ie][iface][ije2][ije1][col][j];
+ 
+-              #pragma omp atomic
++              //#pragma omp atomic
+               tmor[ig] += tmp*0.5+tmp1;
+             }
+           }
+@@ -432,7 +432,7 @@ void transfb(double tmor[], double tx[])
+             il = idel[ie][iface][col][j];
+             ig = idmo[ie][iface][0][0][col][j];
+ 
+-            #pragma omp atomic
++            //#pragma omp atomic
+             tmor[ig] += tx[il];
+           }
+         }
+@@ -450,7 +450,7 @@ void transfb(double tmor[], double tx[])
+               }
+               ig = idmo[ie][iface][ije][0][0][j];
+ 
+-              #pragma omp atomic
++              //#pragma omp atomic
+               tmor[ig] += tmp*0.5;
+             }
+           }
+@@ -461,7 +461,7 @@ void transfb(double tmor[], double tx[])
+             il = idel[ie][iface][0][j];
+             ig = idmo[ie][iface][0][0][0][j];
+ 
+-            #pragma omp atomic
++            //#pragma omp atomic
+             tmor[ig] += tx[il]*0.5;
+           }
+         }
+@@ -477,7 +477,7 @@ void transfb(double tmor[], double tx[])
+               }
+               ig = idmo[ie][iface][1][ije][j][LX1-1];
+ 
+-              #pragma omp atomic
++              //#pragma omp atomic
+               tmor[ig] += tmp*0.5;
+             }
+           }
+@@ -488,7 +488,7 @@ void transfb(double tmor[], double tx[])
+             il = idel[ie][iface][j][LX1-1];
+             ig = idmo[ie][iface][0][0][j][LX1-1];
+ 
+-            #pragma omp atomic
++            //#pragma omp atomic
+             tmor[ig] += tx[il]*0.5;
+           }
+         }
+@@ -504,7 +504,7 @@ void transfb(double tmor[], double tx[])
+               }
+               ig = idmo[ie][iface][ije][1][LX1-1][j];
+ 
+-              #pragma omp atomic
++              //#pragma omp atomic
+               tmor[ig] += tmp*0.5;
+             }
+           }
+@@ -515,7 +515,7 @@ void transfb(double tmor[], double tx[])
+             il = idel[ie][iface][LX1-1][j];
+             ig = idmo[ie][iface][0][0][LX1-1][j];
+ 
+-            #pragma omp atomic
++            //#pragma omp atomic
+             tmor[ig] += tx[il]*0.5;
+           }
+         }
+@@ -531,7 +531,7 @@ void transfb(double tmor[], double tx[])
+               }
+               ig = idmo[ie][iface][0][ije][j][0];
+ 
+-              #pragma omp atomic
++              //#pragma omp atomic
+               tmor[ig] += tmp*0.5;
+             }
+           }
+@@ -542,7 +542,7 @@ void transfb(double tmor[], double tx[])
+             il = idel[ie][iface][j][0];
+             ig = idmo[ie][iface][0][0][j][0];
+ 
+-            #pragma omp atomic
++            //#pragma omp atomic
+             tmor[ig] += tx[il]*0.5;
+           }
+         }
+@@ -823,15 +823,15 @@ void transfb_c(double tx[])
+   const double third = 1.0/3.0;
+   int il1, il2, il3, il4, ig1, ig2, ig3, ig4, ie, iface, col, j, ig, il;
+ 
+-  #pragma omp parallel default(shared) private(ie,iface,il1,il2, \
++  //#pragma omp parallel default(shared) private(ie,iface,il1,il2, \
+                                        il3,il4,ig1,ig2,ig3,ig4,col,j,ig,il) 
+   {
+-  #pragma omp for
++  //#pragma omp for
+   for (j = 0; j < nmor; j++) {
+     tmort[j] = 0.0;
+   }
+ 
+-  #pragma omp for nowait
++  //#pragma omp for nowait
+   for (ie = 0; ie < nelt; ie++) {
+     for (iface = 0; iface < NSIDES; iface++) {
+       if (cbc[ie][iface] != 3) {
+@@ -844,16 +844,16 @@ void transfb_c(double tx[])
+         ig3 = idmo[ie][iface][0][1][LX1-1][0];
+         ig4 = idmo[ie][iface][1][1][LX1-1][LX1-1];
+ 
+-        #pragma omp atomic
++        //#pragma omp atomic
+         tmort[ig1] += tx[il1]*third;
+ 
+-        #pragma omp atomic
++        //#pragma omp atomic
+         tmort[ig2] += tx[il2]*third;
+ 
+-        #pragma omp atomic
++        //#pragma omp atomic
+         tmort[ig3] += tx[il3]*third;
+ 
+-        #pragma omp atomic
++        //#pragma omp atomic
+         tmort[ig4] += tx[il4]*third;
+ 
+         for (col = 1; col < LX1-1; col++) {
+@@ -861,7 +861,7 @@ void transfb_c(double tx[])
+             il = idel[ie][iface][col][j];
+             ig = idmo[ie][iface][0][0][col][j];
+ 
+-            #pragma omp atomic
++            //#pragma omp atomic
+             tmort[ig] += tx[il];
+           }
+         }
+@@ -871,7 +871,7 @@ void transfb_c(double tx[])
+             il = idel[ie][iface][0][j];
+             ig = idmo[ie][iface][0][0][0][j];
+ 
+-            #pragma omp atomic
++            //#pragma omp atomic
+             tmort[ig] += tx[il]*0.5;
+           }
+         }
+@@ -881,7 +881,7 @@ void transfb_c(double tx[])
+             il = idel[ie][iface][j][LX1-1];
+             ig = idmo[ie][iface][0][0][j][LX1-1];
+ 
+-            #pragma omp atomic
++            //#pragma omp atomic
+             tmort[ig] += tx[il]*0.5;
+           }
+         }
+@@ -891,7 +891,7 @@ void transfb_c(double tx[])
+             il = idel[ie][iface][LX1-1][j];
+             ig = idmo[ie][iface][0][0][LX1-1][j];
+ 
+-            #pragma omp atomic
++            //#pragma omp atomic
+             tmort[ig] += tx[il]*0.5;
+           }
+         }
+@@ -901,7 +901,7 @@ void transfb_c(double tx[])
+             il = idel[ie][iface][j][0];
+             ig = idmo[ie][iface][0][0][j][0];
+ 
+-            #pragma omp atomic
++            //#pragma omp atomic
+             tmort[ig] += tx[il]*0.5;
+           }
+         }
+@@ -923,20 +923,20 @@ void transfb_c_2(double tx[])
+   const double third = 1.0/3.0;
+   int il1, il2, il3, il4, ig1, ig2, ig3, ig4, ie, iface, col, j, ig, il;
+ 
+-  #pragma omp parallel default(shared) private(ie,iface,il1,il2, \
++  //#pragma omp parallel default(shared) private(ie,iface,il1,il2, \
+                                        il3,il4,ig1,ig2,ig3,ig4,col,j,ig,il)
+   {
+ 
+-  #pragma omp for nowait
++  //#pragma omp for nowait
+   for (j = 0; j < nmor; j++) {
+     tmort[j] = 0.0;
+   }
+-  #pragma omp for
++  //#pragma omp for
+   for (j = 0; j < nmor; j++) {
+     mormult[j] = 0.0;
+   }
+ 
+-  #pragma omp for nowait
++  //#pragma omp for nowait
+   for (ie = 0; ie < nelt; ie++) {
+     for (iface = 0; iface < NSIDES; iface++) {
+ 
+@@ -950,22 +950,22 @@ void transfb_c_2(double tx[])
+         ig3 = idmo[ie][iface][0][1][LX1-1][0];
+         ig4 = idmo[ie][iface][1][1][LX1-1][LX1-1];
+ 
+-        #pragma omp atomic
++        //#pragma omp atomic
+         tmort[ig1] += tx[il1]*third;
+-        #pragma omp atomic
++        //#pragma omp atomic
+         tmort[ig2] += tx[il2]*third;
+-        #pragma omp atomic
++        //#pragma omp atomic
+         tmort[ig3] += tx[il3]*third;
+-        #pragma omp atomic
++        //#pragma omp atomic
+         tmort[ig4] += tx[il4]*third;
+ 
+-        #pragma omp atomic
++        //#pragma omp atomic
+         mormult[ig1] += third;
+-        #pragma omp atomic
++        //#pragma omp atomic
+         mormult[ig2] += third;
+-        #pragma omp atomic
++        //#pragma omp atomic
+         mormult[ig3] += third;
+-        #pragma omp atomic
++        //#pragma omp atomic
+         mormult[ig4] += third;
+ 
+         for (col = 1; col < LX1-1; col++) {
+@@ -973,9 +973,9 @@ void transfb_c_2(double tx[])
+             il = idel[ie][iface][col][j];
+             ig = idmo[ie][iface][0][0][col][j];
+ 
+-            #pragma omp atomic
++            //#pragma omp atomic
+             tmort[ig] += tx[il];
+-            #pragma omp atomic
++            //#pragma omp atomic
+             mormult[ig] += 1.0;
+           }
+         }
+@@ -985,9 +985,9 @@ void transfb_c_2(double tx[])
+             il = idel[ie][iface][0][j];
+             ig = idmo[ie][iface][0][0][0][j];
+ 
+-            #pragma omp atomic
++            //#pragma omp atomic
+             tmort[ig] += tx[il]*0.5;
+-            #pragma omp atomic
++            //#pragma omp atomic
+             mormult[ig] += 0.5;
+           }
+         }
+@@ -997,9 +997,9 @@ void transfb_c_2(double tx[])
+             il = idel[ie][iface][j][LX1-1];
+             ig = idmo[ie][iface][0][0][j][LX1-1];
+ 
+-            #pragma omp atomic
++            //#pragma omp atomic
+             tmort[ig] += tx[il]*0.5;
+-            #pragma omp atomic
++            //#pragma omp atomic
+             mormult[ig] += 0.5;
+           }
+         }
+@@ -1009,9 +1009,9 @@ void transfb_c_2(double tx[])
+             il = idel[ie][iface][LX1-1][j];
+             ig = idmo[ie][iface][0][0][LX1-1][j];
+ 
+-            #pragma omp atomic
++            //#pragma omp atomic
+             tmort[ig] += tx[il]*0.5;
+-            #pragma omp atomic
++            //#pragma omp atomic
+             mormult[ig] += 0.5;
+           }
+         }
+@@ -1021,9 +1021,9 @@ void transfb_c_2(double tx[])
+             il = idel[ie][iface][j][0];
+             ig = idmo[ie][iface][0][0][j][0];
+ 
+-            #pragma omp atomic
++            //#pragma omp atomic
+             tmort[ig] += tx[il]*0.5;
+-            #pragma omp atomic
++            //#pragma omp atomic
+             mormult[ig] += 0.5;
+           }
+         }
+diff --git a/NPB3.3-OMP-C/UA/src/ua.c b/NPB3.3-OMP-C/UA/src/ua.c
+index 0f8b41d..6d1f602 100644
+--- a/NPB3.3-OMP-C/UA/src/ua.c
++++ b/NPB3.3-OMP-C/UA/src/ua.c
+@@ -367,15 +367,15 @@ int main(int argc, char *argv[])
+     // compute residual for diffusion term based on intital guess
+ 
+     // compute the left hand side of equation, lapacian t
+-    #pragma omp parallel default(shared) private(ie,k,j,i) 
++    //#pragma omp parallel default(shared) private(ie,k,j,i) 
+     {
+-    #pragma omp for
++    //#pragma omp for
+     for (ie = 0; ie < nelt; ie++) {
+       laplacian(ta2[ie], ta1[ie], size_e[ie]);
+     }
+ 
+     // compute the residual 
+-    #pragma omp for
++    //#pragma omp for
+     for (ie = 0; ie < nelt; ie++) {
+       for (k = 0; k < LX1; k++) {
+         for (j = 0; j < LX1; j++) {
+@@ -394,7 +394,7 @@ int main(int argc, char *argv[])
+     // apply boundary condition: zero out the residual on domain boundaries
+ 
+     // apply boundary conidtion to trhs
+-    #pragma omp parallel for default(shared) private(ie,iside)
++    //#pragma omp parallel for default(shared) private(ie,iside)
+     for (ie = 0; ie < nelt; ie++) {
+       for (iside = 0; iside < NSIDES; iside++) {
+         if (cbc[ie][iside] == 0) {
+diff --git a/NPB3.3-OMP-C/UA/src/utils.c b/NPB3.3-OMP-C/UA/src/utils.c
+index 95b1129..1a9186b 100644
+--- a/NPB3.3-OMP-C/UA/src/utils.c
++++ b/NPB3.3-OMP-C/UA/src/utils.c
+@@ -41,7 +41,7 @@ void reciprocal(double a[], int n)
+ {
+   int i;
+ 
+-  #pragma omp parallel for default(shared) private(i)
++  //#pragma omp parallel for default(shared) private(i)
+   for (i = 0; i < n; i++) {
+     a[i] = 1.0/a[i];
+   }
+@@ -55,7 +55,7 @@ void r_init_omp(double a[], int n, double _const)
+ {
+   int i;
+ 
+-  #pragma omp parallel for default(shared) private(i)
++  //#pragma omp parallel for default(shared) private(i)
+   for (i = 0; i < n; i++) {
+     a[i] = _const;
+   }
+@@ -82,7 +82,7 @@ void nr_init_omp(int a[], int n, int _const)
+ {
+   int i;
+ 
+-  #pragma omp parallel for default(shared) private(i)
++  //#pragma omp parallel for default(shared) private(i)
+   for (i = 0; i < n; i++) {
+     a[i] = _const;
+   }
+@@ -109,7 +109,7 @@ void l_init_omp(logical a[], int n, logical _const)
+ {
+   int i;
+ 
+-  #pragma omp parallel for default(shared) private(i)
++  //#pragma omp parallel for default(shared) private(i)
+   for (i = 0; i < n; i++) {
+     a[i] = _const;
+   }
+@@ -161,7 +161,7 @@ void copy(double a[], double b[], int n)
+ void adds2m1(double a[], double b[], double c1, int n)
+ {
+   int i;
+-  #pragma omp parallel for default(shared) private(i)
++  //#pragma omp parallel for default(shared) private(i)
+   for (i = 0; i < n; i++) {
+     a[i] = a[i]+c1*b[i];
+   }
+@@ -174,7 +174,7 @@ void adds2m1(double a[], double b[], double c1, int n)
+ void adds1m1(double a[], double b[], double c1, int n)
+ {
+   int i;
+-  #pragma omp parallel for default(shared) private(i)
++  //#pragma omp parallel for default(shared) private(i)
+   for (i = 0; i < n; i++) {
+     a[i] = c1*a[i]+b[i];
+   }
+@@ -188,7 +188,7 @@ void col2(double a[], double b[], int n)
+ {
+   int i;
+ 
+-  #pragma omp parallel for default(shared) private(i)
++  //#pragma omp parallel for default(shared) private(i)
+   for (i = 0; i < n; i++) {
+     a[i] = a[i]*b[i];
+   }
+@@ -214,7 +214,7 @@ void nrzero(int na[], int n)
+ void add2(double a[], double b[], int n)
+ {
+   int i;
+-  #pragma omp parallel for default(shared) private(i)
++  //#pragma omp parallel for default(shared) private(i)
+   for (i = 0; i < n; i++) {
+     a[i] = a[i]+b[i];
+   }
+@@ -231,7 +231,7 @@ double calc_norm()
+ 
+   total = 0.0;
+ 
+-  #pragma omp parallel for default(shared) private(i,j,k,isize,ieltotal,iel) \
++  //#pragma omp parallel for default(shared) private(i,j,k,isize,ieltotal,iel) \
+                                            reduction(+:total)
+   for (iel = 0; iel < nelt; iel++) {
+     ieltotal = 0.0;
+@@ -269,7 +269,7 @@ void parallel_add(int frontier[])
+   ntemp = 1;
+   for (i = 0; i < nellog; i++) {
+     n1 = ntemp*2;
+-    #pragma omp parallel for default(shared) private(ahead,ii,iel)
++    //#pragma omp parallel for default(shared) private(ahead,ii,iel)
+     for (iel = n1; iel <= nelt; iel += n1) {
+       ahead = frontier[iel-ntemp-1];
+       for (ii = ntemp-1; ii >= 0; ii--) {
+@@ -281,7 +281,7 @@ void parallel_add(int frontier[])
+     ntemp1 = iel-nelt;
+     if (ntemp1 < ntemp) {
+       ahead = frontier[iel-ntemp-1];
+-      #pragma omp parallel for default(shared) private(ii)
++      //#pragma omp parallel for default(shared) private(ii)
+       for (ii = ntemp-1; ii >= ntemp1; ii--) {
+         frontier[iel-ii-1] = frontier[iel-ii-1]+ahead;
+       }

@@ -1,0 +1,65 @@
+diff --git a/NPB3.3-OMP-C/LU/src/buts.c b/NPB3.3-OMP-C/LU/src/buts.c
+index e688402..b483b85 100644
+--- a/NPB3.3-OMP-C/LU/src/buts.c
++++ b/NPB3.3-OMP-C/LU/src/buts.c
+@@ -78,7 +78,7 @@ void buts(int ldmx, int ldmy, int ldmz, int nx, int ny, int nz, int k,
+     }
+   }
+ 
+-  #pragma omp for schedule(static) nowait
++  //#pragma omp for schedule(static) nowait
+   for (j = jend - 1; j >= jst; j--) {
+     for (i = iend - 1; i >= ist; i--) {
+       for (m = 0; m < 5; m++) {
+diff --git a/NPB3.3-OMP-C/LU/src/jacld.c b/NPB3.3-OMP-C/LU/src/jacld.c
+index c51141f..19e87b9 100644
+--- a/NPB3.3-OMP-C/LU/src/jacld.c
++++ b/NPB3.3-OMP-C/LU/src/jacld.c
+@@ -52,7 +52,7 @@ void jacld(int k)
+   c1345 = C1 * C3 * C4 * C5;
+   c34 = C3 * C4;
+ 
+-  #pragma omp for schedule(static) nowait
++  //#pragma omp for schedule(static) nowait
+   for (j = jst; j < jend; j++) {
+     for (i = ist; i < iend; i++) {
+       //---------------------------------------------------------------------
+diff --git a/NPB3.3-OMP-C/LU/src/jacu.c b/NPB3.3-OMP-C/LU/src/jacu.c
+index 4e03cde..94dafa8 100644
+--- a/NPB3.3-OMP-C/LU/src/jacu.c
++++ b/NPB3.3-OMP-C/LU/src/jacu.c
+@@ -52,7 +52,7 @@ void jacu(int k)
+   c1345 = C1 * C3 * C4 * C5;
+   c34 = C3 * C4;
+ 
+-  #pragma omp for schedule(static) nowait
++  //#pragma omp for schedule(static) nowait
+   for (j = jend - 1; j >= jst; j--) {
+     for (i = iend - 1; i >= ist; i--) {
+       //---------------------------------------------------------------------
+diff --git a/NPB3.3-OMP-C/LU/src/pintgr.c b/NPB3.3-OMP-C/LU/src/pintgr.c
+index cfdbb8b..bb88ab9 100644
+--- a/NPB3.3-OMP-C/LU/src/pintgr.c
++++ b/NPB3.3-OMP-C/LU/src/pintgr.c
+@@ -60,7 +60,7 @@ void pintgr()
+   #pragma omp parallel default(shared) private(i,j,k) \
+                        shared(ki1,ki2,ifin,ibeg,jfin,jbeg,ifin1,jfin1)
+   {
+-  #pragma omp for nowait
++  //#pragma omp for nowait
+   for (j = jbeg; j < jfin; j++) {
+     for (i = ibeg; i < ifin; i++) {
+       k = ki1;
+diff --git a/NPB3.3-OMP-C/LU/src/setiv.c b/NPB3.3-OMP-C/LU/src/setiv.c
+index ad16d7e..62ade97 100644
+--- a/NPB3.3-OMP-C/LU/src/setiv.c
++++ b/NPB3.3-OMP-C/LU/src/setiv.c
+@@ -51,7 +51,7 @@ void setiv()
+   double ue_1jk[5], ue_nx0jk[5], ue_i1k[5];
+   double ue_iny0k[5], ue_ij1[5], ue_ijnz[5];
+ 
+-  #pragma omp parallel for default(shared) private(i,j,k,m,pxi,peta,pzeta, \
++  //#pragma omp parallel for default(shared) private(i,j,k,m,pxi,peta,pzeta, \
+               xi,eta,zeta,ue_ijnz,ue_ij1,ue_iny0k,ue_i1k,ue_nx0jk,ue_1jk)  \
+               shared(nx0,ny0,nz)
+   for (k = 1; k < nz - 1; k++) {

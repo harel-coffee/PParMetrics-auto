@@ -1,0 +1,66 @@
+diff --git a/NPB3.3-OMP-C/CG/src/cg.c b/NPB3.3-OMP-C/CG/src/cg.c
+index 21e32b0..34a029f 100644
+--- a/NPB3.3-OMP-C/CG/src/cg.c
++++ b/NPB3.3-OMP-C/CG/src/cg.c
+@@ -283,7 +283,7 @@ int main(int argc, char *argv[])
+     //---------------------------------------------------------------------
+     norm_temp1 = 0.0;
+     norm_temp2 = 0.0;
+-    #pragma omp parallel for default(shared) private(j) \
++    //#pragma omp parallel for default(shared) private(j) \
+                              reduction(+:norm_temp1,norm_temp2)
+     for (j = 0; j < lastcol - firstcol + 1; j++) {
+       norm_temp1 = norm_temp1 + x[j] * z[j];
+@@ -339,7 +339,7 @@ int main(int argc, char *argv[])
+     //---------------------------------------------------------------------
+     norm_temp1 = 0.0;
+     norm_temp2 = 0.0;
+-    #pragma omp parallel for default(shared) private(j) \
++    //#pragma omp parallel for default(shared) private(j) \
+                              reduction(+:norm_temp1,norm_temp2)
+     for (j = 0; j < lastcol - firstcol + 1; j++) {
+       norm_temp1 = norm_temp1 + x[j]*z[j];
+@@ -505,7 +505,7 @@ static void conj_grad(int colidx[],
+     //       The unrolled-by-8 version below is significantly faster
+     //       on the Cray t3d - overall speed of code is 1.5 times faster.
+ 
+-    #pragma omp for
++    //#pragma omp for
+     for (j = 0; j < lastrow - firstrow + 1; j++) {
+       suml = 0.0;
+       for (k = rowstr[j]; k < rowstr[j+1]; k++) {
+@@ -555,7 +555,7 @@ static void conj_grad(int colidx[],
+     //---------------------------------------------------------------------
+     // Obtain p.q
+     //---------------------------------------------------------------------
+-    #pragma omp for reduction(+:d)
++    //#pragma omp for reduction(+:d)
+     for (j = 0; j < lastcol - firstcol + 1; j++) {
+       d = d + p[j]*q[j];
+     }
+@@ -589,7 +589,7 @@ static void conj_grad(int colidx[],
+     //---------------------------------------------------------------------
+     // p = r + beta*p
+     //---------------------------------------------------------------------
+-    #pragma omp for
++    //#pragma omp for
+     for (j = 0; j < lastcol - firstcol + 1; j++) {
+       p[j] = r[j] + beta*p[j];
+     }
+@@ -764,6 +764,7 @@ static void sparse(double a[],
+   //---------------------------------------------------------------------
+   // ...count the number of triples in each row
+   //---------------------------------------------------------------------
++  #pragma omp for
+   for (j = j1; j < j2; j++) {
+     rowstr[j] = 0;
+   }
+@@ -914,7 +915,7 @@ static void sparse(double a[],
+   }
+   #pragma omp barrier
+ 
+-  #pragma omp for
++  //#pragma omp for
+   for (j = 0; j < nrows; j++) {
+     if (j > 0) {
+       j1 = rowstr[j] - nzloc[j-1];

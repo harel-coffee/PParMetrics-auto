@@ -1,0 +1,12 @@
+diff --git a/NPB3.3-OMP-C/IS/src/is.c b/NPB3.3-OMP-C/IS/src/is.c
+index 75afcd9..0dcda25 100644
+--- a/NPB3.3-OMP-C/IS/src/is.c
++++ b/NPB3.3-OMP-C/IS/src/is.c
+@@ -641,6 +641,7 @@ void rank( int iteration )
+     work_buff = bucket_size[myid];
+ 
+ /*  Initialize */
++    #pragma omp for schedule(static)
+     for( i=0; i<NUM_BUCKETS; i++ )  
+         work_buff[i] = 0;
+ 

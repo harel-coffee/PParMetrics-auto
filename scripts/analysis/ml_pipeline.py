@@ -1270,7 +1270,7 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
             oracle_report_fd.write("===================" + "\n")
             oracle_report_fd.write("\n")
 
-    if report_cfg['plot_oracle_loop_rank'] == 'true':
+    if report_cfg['plot_oracle_loop_rank'] == 'true' and cfg['header']['type'] == 'tt':
 
         colors = []
         probabilities = []

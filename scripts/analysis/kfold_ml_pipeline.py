@@ -57,8 +57,10 @@ if __name__ == "__main__":
     par_labels = raw_data['parallel']
     # prepare loop icc labels
     icc_labels = raw_data['icc']
+    # prepare loop omp labels
+    omp_labels = raw_data['omp']
     # prepare statistical learning features 
-    features = raw_data.drop(['loop-location','parallel','icc'], axis=1)
+    features = raw_data.drop(['loop-location','parallel','icc','omp'], axis=1)
     # cast all integer features to float
     features = features.astype('float64')
 
@@ -77,7 +79,7 @@ if __name__ == "__main__":
     report_fds['oracle'] = report_fd
 
     # prepare K-fold cross validation
-    K = 10
+    K = 5
     N = 1
     kf = KFold(n_splits=K)
     rkf = RepeatedKFold(n_splits=K, n_repeats=N, random_state=ml_pipeline.get_random_state())
@@ -115,6 +117,8 @@ if __name__ == "__main__":
         test_icc_labels = icc_labels.iloc[test]
         train_par_labels = par_labels.iloc[train]
         test_par_labels = par_labels.iloc[test]
+        train_omp_labels = omp_labels.iloc[train]
+        test_omp_labels = omp_labels.iloc[test]
         train_loop_locations = loop_locations.iloc[train]
         test_loop_locations = loop_locations.iloc[test]
 
@@ -126,6 +130,9 @@ if __name__ == "__main__":
 
         train_icc_labels = train_icc_labels.reset_index(drop=True)
         test_icc_labels = test_icc_labels.reset_index(drop=True)
+
+        train_omp_labels = train_omp_labels.reset_index(drop=True)
+        test_omp_labels = test_omp_labels.reset_index(drop=True)
 
         train_par_labels = train_par_labels.reset_index(drop=True)
         test_par_labels = test_par_labels.reset_index(drop=True)
@@ -140,7 +147,7 @@ if __name__ == "__main__":
         ml_pl.run()
         preds = ml_pl.predict()
 
-        acc = ml_pipeline.report_results(pl_cfg, report_fds, preds, test_loop_locations, test_par_labels, test_icc_labels)
+        acc = ml_pipeline.report_results(pl_cfg, report_fds, preds, test_loop_locations, test_par_labels, test_icc_labels, test_omp_labels)
  
         for baseline_name, baseline_acc in acc['baseline'].items():
             baseline_accuracies[baseline_name].append(baseline_acc['accuracy'])

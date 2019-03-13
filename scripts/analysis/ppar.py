@@ -21,6 +21,15 @@ if __name__ != "__main__":
     # prepare a set of metrics for further reference
     # each metric group contains a list of its metrics
     metric_groups = {}
+    metric_groups['dynamic'] = ['loop-abs-time', 
+                                'loop-app-frac-time', 
+                                'loop-abs-time-self',
+                                'loop-app-frac-time-self',
+                                'loop-entries-num',
+                                'loop-exits-num',
+                                'loop-min-iter-num',
+                                'loop-avg-iter-num',
+                                'loop-max-iter-num']
     metric_groups['loop-proportion'] = ['loop-absolute-size', 
                                         'loop-iterator-size', 
                                         'loop-payload-fraction', 

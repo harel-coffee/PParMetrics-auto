@@ -61,6 +61,8 @@ if __name__ == "__main__":
     train_icc_labels = train_data['icc']
     # prepare loop omp labels
     train_omp_labels = train_data['omp']
+    # loop application fraction times
+    train_loop_times = train_data['loop-app-frac-time']
     # prepare statistical learning features 
     train_features = train_data.drop(['loop-location','parallel','icc','omp'], axis=1)
     # cast all integer features to float
@@ -79,6 +81,8 @@ if __name__ == "__main__":
     test_icc_labels = test_data['icc']
     # prepare loop omp labels
     test_omp_labels = test_data['omp']
+    # loop application fraction times
+    test_loop_times = test_data['loop-app-frac-time']
     # prepare statistical learning features 
     test_features = test_data.drop(['loop-location','parallel','icc','omp'], axis=1)
     # cast all integer features to float
@@ -91,6 +95,18 @@ if __name__ == "__main__":
     pl_cfg.read(pipeline_cfg_filename)
     if ml_pipeline_config.check_ml_pipeline_config(pl_cfg) != True:
         sys.exit("error: " + pipeline_cfg_filename + " has a wrong format!")
+
+    header_cfg = pl_cfg['header']
+    if header_cfg['feature_type'] == 'static':
+        # drop all dymanic features
+        test_features = test_features.drop(ppar.metric_groups['dynamic'], axis=1)
+        train_features = train_features.drop(ppar.metric_groups['dynamic'], axis=1)
+    elif header_cfg['feature_type'] == 'dynamic':
+        # drop all dymanic features
+        test_features = test_features[ppar.metric_groups['dynamic']]
+        train_features = train_features[ppar.metric_groups['dynamic']]
+    elif header_cfg['feature_type'] != 'all':
+        sys.exit("error: configuration file " + pipeline_cfg_filename + " has a wrong feature_type in its header!")
 
     ###
     # Prepare and open all report files to write
@@ -117,7 +133,7 @@ if __name__ == "__main__":
     ml_pl.run()
     preds = ml_pl.predict()
 
-    acc = ml_pipeline.report_results(pl_cfg, report_fds, preds, test_loop_locations, test_par_labels, test_icc_labels, test_omp_labels)
+    acc = ml_pipeline.report_results(pl_cfg, report_fds, preds, test_loop_locations, test_par_labels, test_icc_labels, test_omp_labels, test_loop_times)
 
     report_fd = report_fds['accuracy']
 

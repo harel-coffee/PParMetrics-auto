@@ -57,6 +57,16 @@ if [[ -e ${NAS_ICC_REPORT_RUN_DIR} ]]; then
 fi
 mkdir ${NAS_ICC_REPORT_RUN_DIR}
 
+if [[ -e ${NAS_ICC_PAR_REPORT_RUN_DIR} ]]; then
+    rm -rf ${NAS_ICC_PAR_REPORT_RUN_DIR}
+fi
+mkdir ${NAS_ICC_PAR_REPORT_RUN_DIR}
+
+if [[ -e ${NAS_ICC_PROF_REPORT_RUN_DIR} ]]; then
+    rm -rf ${NAS_ICC_PROF_REPORT_RUN_DIR}
+fi
+mkdir ${NAS_ICC_PROF_REPORT_RUN_DIR}
+
 if [[ -e ${NAS_ICC_PERF_RUN_DIR} ]]; then
     rm -rf ${NAS_ICC_PERF_RUN_DIR}
 fi
@@ -68,9 +78,14 @@ cd ${NAS_PPAR_METRICS_RUN_DIR}
 build-llvm-ppar-metrics.sh
 
 echo "=> Generating CMake-based system for compiling SNU NPB benchmarks with ICC compiler optimization reports"
-echo "DIR: ${NAS_ICC_REPORT_RUN_DIR}"
-cd ${NAS_ICC_REPORT_RUN_DIR} 
+echo "DIR: ${NAS_ICC_PAR_REPORT_RUN_DIR}"
+cd ${NAS_ICC_PAR_REPORT_RUN_DIR} 
 build-icc-ppar-report.sh
+
+echo "=> Generating CMake-based system for compiling SNU NPB benchmarks with ICC compiler profiling reports"
+echo "DIR: ${NAS_ICC_PROF_REPORT_RUN_DIR}"
+cd ${NAS_ICC_PROF_REPORT_RUN_DIR} 
+build-icc-loop-profile.sh
 
 if [[ -e ${NAS_ICC_PERF_SER_DIR} ]]; then
     rm -rf ${NAS_ICC_PERF_SER_DIR}

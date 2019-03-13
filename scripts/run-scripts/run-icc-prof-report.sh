@@ -28,6 +28,7 @@ echo "=> Cleaning NAS benchmarks ICC running directory of previous profiling rep
 make clean
 echo "Removing ./loop_prof_*"
 rm -rf ./loop_prof_*
+rm -rf ./loops_profile.report
 for BenchmarkFolderName in ${NAS_BENCHMARK_UPPER_CASE_NAMES[@]}; do
     echo "Removing ${BenchmarkFolderName}/loop_prof_*"
     rm -rf ${BenchmarkFolderName}/loop_prof_*
@@ -45,8 +46,8 @@ for BenchmarkFolderName in ${NAS_BENCHMARK_UPPER_CASE_NAMES[@]}; do
     BENCHMARK_LOWER=$(echo "$BENCHMARK_UPPER" | tr '[:upper:]' '[:lower:]')
     echo "Running Benchmark: ${BenchmarkFolderName}"
     ./${BENCHMARK_UPPER}/${BENCHMARK_LOWER}
-    cat ./${BENCHMARK_UPPER}/loop_prof_loops_* >> ./loops_profile.report
 done
+cat ./${BENCHMARK_UPPER}/loop_prof_loops_* >> ./loops_profile.report
 cp ./loops_profile.report ${NAS_ICC_REPORTS_DIR}/loops_profile.report
 )
 

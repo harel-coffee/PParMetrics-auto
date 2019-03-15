@@ -27,10 +27,10 @@ non-par: 0
 === case [0 / 1] ===
 = parallelisible =
 = non-parallelisible =
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(317): 0 [0.5]: 1 [0.5]
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(538): 0 [0.421500971832903]: 1 [0.578499028167097]
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(322): 0 [0.5]: 1 [0.5]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(538): 0 [0.421500971832903]: 1 [0.578499028167097]
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(446): 0 [0.2405372002717969]: 1 [0.7594627997282032]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(317): 0 [0.5]: 1 [0.5]
 ===================
 
 === case [1 / 0] ===
@@ -72,11 +72,11 @@ loss-rate: 1.00
 loop:pred:label:safe
 Mispredicted loops:
 ===================
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(322):1:0:unsafe: 0 [0.5]: 1 [0.5]
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(446):1:0:unsafe: 0 [0.2405372002717969]: 1 [0.7594627997282032]
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(538):1:0:unsafe: 0 [0.421500971832903]: 1 [0.578499028167097]
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(317):1:0:unsafe: 0 [0.5]: 1 [0.5]
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(575):0:1:safe: 0 [0.597268489288415]: 1 [0.40273151071158503]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(322):1:0:unsafe: 0 [0.5]: 1 [0.5]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(538):1:0:unsafe: 0 [0.421500971832903]: 1 [0.578499028167097]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(446):1:0:unsafe: 0 [0.2405372002717969]: 1 [0.7594627997282032]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(317):1:0:unsafe: 0 [0.5]: 1 [0.5]
 ===================
 
 Predicted loops:
@@ -93,11 +93,11 @@ Win over ICC loops:
 
 Loss to ICC loops:
 ===================
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(575):0:1:loss: 0 [0.597268489288415]: 1 [0.40273151071158503]
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(538):1:0:loss: 0 [0.421500971832903]: 1 [0.578499028167097]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(317):1:0:loss: 0 [0.5]: 1 [0.5]
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(446):1:0:loss: 0 [0.2405372002717969]: 1 [0.7594627997282032]
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(322):1:0:loss: 0 [0.5]: 1 [0.5]
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(317):1:0:loss: 0 [0.5]: 1 [0.5]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(538):1:0:loss: 0 [0.421500971832903]: 1 [0.578499028167097]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(575):0:1:loss: 0 [0.597268489288415]: 1 [0.40273151071158503]
 ===================
 
 Table
@@ -133,10 +133,10 @@ loop-location:prob_0:prob_1
 
 === case [parallel / npar] ===
 loop-location:prob_0:prob_1
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(317):0.5:0.5
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(322):0.5:0.5
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(446):0.2405372002717969:0.7594627997282032
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(538):0.421500971832903:0.578499028167097
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(317):0.5:0.5
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(446):0.2405372002717969:0.7594627997282032
 ===================
 
 === case [parallel / par] ===

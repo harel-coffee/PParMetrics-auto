@@ -1283,7 +1283,7 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
         loop_times = []
         products = []
 
-        delta = 1
+        delta = 0
 
         for i in range(0,tests):
             prob_1 = probs[i][1]
@@ -1328,7 +1328,7 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
         loop_times = []
         products = []
 
-        delta = 1
+        delta = 0
 
         for i in range(0,tests):
             prob_1 = probs[i][1]
@@ -1369,15 +1369,24 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
         
         loop_times, probabilities, products, colors = zip(*sorted(zip(loop_times, probabilities, products, colors)))
 
+        # ICC subplot
+        plt.subplot(2, 1, 1)
         plt.bar(x=np.array(range(len(loop_times))), height=loop_times, align='center', color=colors)
+        plt.title("Loop Running Time Ranking")
+        plt.ylabel('time')
+        plt.xlabel('loops')
 
-        plt.title("Loop App Time Fraction")
+        products, probabilities, loop_times, colors = zip(*sorted(zip(products, probabilities, loop_times, colors)))
+
+        plt.subplot(2, 1, 2)
+        plt.bar(x=np.array(range(len(products))), height=products, align='center', color=colors)
+        plt.title("Loop Product Ranking")
         plt.ylabel('time')
         plt.xlabel('loops')
 
         filename = os.path.realpath(oracle_report_fd.name)
         filename = os.path.dirname(filename)
-        filename += str('/' + 'time_loop_rank.eps')
+        filename += str('/' + 'runtime_vs_product_loop_rank.eps')
         plt.savefig(filename, format='eps', dpi=1000)
 
         # [3] Plot loop product ranking
@@ -1399,14 +1408,14 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
 
         # [3] Plot icc, predictor and real parallelisability vs loop running time
         
-        plt.figure(3)
+        plt.figure(4)
 
         colors_icc = []
         colors_par = []
         colors_pred = []
         loop_times = []
 
-        delta = 3
+        delta = 0
 
         for i in range(0,tests):
             pred = preds[i]
@@ -1488,6 +1497,109 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
         filename = os.path.realpath(oracle_report_fd.name)
         filename = os.path.dirname(filename)
         filename += str('/' + 'time_parallel_loop_rank.eps')
+        plt.savefig(filename, format='eps', dpi=1000)
+
+        # [1] Plot loop probabilistic ranking
+        
+        plt.figure(5)
+
+        colors = []
+        probabilities = []
+        loop_times = []
+        products = []
+
+        delta = 0
+
+        for i in range(0,tests):
+            prob_1 = probs[i][1]
+            par = test_par_labels[i]
+            omp = test_omp_labels[i]
+            loop_time = test_times[i]
+
+            if par == 1:
+                if omp == 1:
+                    colors.append('blue')
+                else:
+                    colors.append('green')
+            else:
+                colors.append('red')
+            
+            probabilities.append(prob_1)
+            if loop_time == 0:
+                loop_time += delta
+            loop_times.append(loop_time/100)
+            products.append(loop_time*prob_1)
+        
+        probabilities, loop_times, products, colors = zip(*sorted(zip(probabilities, loop_times, products, colors)))
+
+        plt.bar(x=np.array(range(len(probabilities))), height=probabilities, alpha=0.4, align='center', color=colors)
+        plt.ylabel('probability')
+        plt.xlabel('loops')
+
+        plt.bar(x=np.array(range(len(loop_times))), height=loop_times, alpha=0.4, align='center', fill=False, hatch='', edgecolor='black')
+        plt.ylabel('time')
+        plt.xlabel('loops')
+
+        filename = os.path.realpath(oracle_report_fd.name)
+        filename = os.path.dirname(filename)
+        filename += str('/' + 'time_prob_loop_rank.eps')
+        plt.savefig(filename, format='eps', dpi=1000)
+
+        # [2] Plot loop runtime ranking
+        
+        plt.figure(6)
+
+        colors = []
+        probabilities = []
+        loop_times = []
+        products = []
+
+        delta = 1
+        factor = 2
+
+        for i in range(0,tests):
+            prob_1 = probs[i][1]
+            pred = preds[i]
+            par = test_par_labels[i]
+            omp = test_omp_labels[i]
+            loop_time = test_times[i]
+
+            color = ''
+            if par == 1:
+                if omp == 1:
+                    color = 'blue'
+                else:
+                    color = 'green'
+            else:
+                color = 'red'
+            colors.append(color)
+            
+            probabilities.append(prob_1)
+            if loop_time == 0:
+                loop_time += delta
+            loop_times.append(3*loop_time)
+            products.append(3*loop_time*prob_1)
+        
+        loop_times, probabilities, products, colors = zip(*sorted(zip(loop_times, probabilities, products, colors)))
+
+        # ICC subplot
+        plt.subplot(2, 1, 1)
+        plt.bar(x=np.array(range(len(loop_times))), height=loop_times, align='center', color=colors)
+        plt.title("Loop Running Time Ranking")
+        plt.ylabel('time')
+        plt.xlabel('loops')
+
+        products, probabilities, loop_times, colors = zip(*sorted(zip(products, probabilities, loop_times, colors)))
+
+        plt.subplot(2, 1, 2)
+        plt.bar(x=np.array(range(len(products))), height=products, align='center', color=colors)
+        plt.title("Loop Product Ranking")
+        plt.ylabel('time')
+        plt.xlabel('loops')
+
+        filename = os.path.realpath(oracle_report_fd.name)
+        filename = os.path.dirname(filename)
+        filename += str('/' + 'runtime_vs_product_loop_parallel_rank.eps')
         plt.savefig(filename, format='eps', dpi=1000)
 
     if verbose > 0:

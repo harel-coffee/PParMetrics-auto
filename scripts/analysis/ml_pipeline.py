@@ -803,6 +803,9 @@ class MLPipeline:
             self.report_fd.write("= ======================== =" + "\n")
             self.report_fd.write("\n")
 
+def product_func(rt, prob):
+    return np.power(rt,1.0/3.0)*1/(1+np.exp(-5*(prob-0.5)))
+
 def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_labels, test_icc_labels, test_omp_labels, test_times):
 
     report_cfg = cfg['report']
@@ -1297,16 +1300,13 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
                 else:
                     colors.append('green')
             else:
-                if omp == 1:
-                    colors.append('yellow')
-                else:
-                    colors.append('red')
+                colors.append('red')
             
             probabilities.append(prob_1)
             if loop_time == 0:
                 loop_time += delta
             loop_times.append(loop_time)
-            products.append(loop_time*prob_1)
+            products.append(product_func(loop_time,prob_1))
         
         probabilities, loop_times, products, colors = zip(*sorted(zip(probabilities, loop_times, products, colors)))
 
@@ -1365,7 +1365,7 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
             if loop_time == 0:
                 loop_time += delta
             loop_times.append(loop_time)
-            products.append(loop_time*prob_1)
+            products.append(product_func(loop_time,prob_1))
         
         loop_times, probabilities, products, colors = zip(*sorted(zip(loop_times, probabilities, products, colors)))
 
@@ -1527,8 +1527,8 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
             probabilities.append(prob_1)
             if loop_time == 0:
                 loop_time += delta
-            loop_times.append(loop_time/100)
-            products.append(loop_time*prob_1)
+            loop_times.append(loop_time)
+            products.append(product_func(loop_time,prob_1))
         
         probabilities, loop_times, products, colors = zip(*sorted(zip(probabilities, loop_times, products, colors)))
 
@@ -1554,8 +1554,8 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
         loop_times = []
         products = []
 
-        delta = 1
-        factor = 2
+        delta = 0
+        factor = 0
 
         for i in range(0,tests):
             prob_1 = probs[i][1]
@@ -1577,8 +1577,64 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
             probabilities.append(prob_1)
             if loop_time == 0:
                 loop_time += delta
-            loop_times.append(3*loop_time)
-            products.append(3*loop_time*prob_1)
+            loop_times.append(loop_time)
+            products.append(product_func(loop_time,prob_1))
+        
+        loop_times, probabilities, products, colors = zip(*sorted(zip(loop_times, probabilities, products, colors)))
+
+        # ICC subplot
+        plt.subplot(2, 1, 1)
+        plt.bar(x=np.array(range(len(loop_times))), height=loop_times, align='center', color=colors)
+        plt.title("Loop Running Time Ranking")
+        plt.ylabel('time')
+        plt.xlabel('loops')
+
+#        products, probabilities, loop_times, colors = zip(*sorted(zip(products, probabilities, loop_times, colors)))
+
+        plt.subplot(2, 1, 2)
+        plt.bar(x=np.array(range(len(products))), height=products, align='center', color=colors)
+        plt.title("Loop Product Ranking")
+        plt.ylabel('time')
+        plt.xlabel('loops')
+
+        filename = os.path.realpath(oracle_report_fd.name)
+        filename = os.path.dirname(filename)
+        filename += str('/' + 'runtime_vs_product_loop_parallel_rank.eps')
+        plt.savefig(filename, format='eps', dpi=1000)
+
+        # [2] Plot loop runtime ranking
+        
+        plt.figure(7)
+
+        colors = []
+        probabilities = []
+        loop_times = []
+        products = []
+
+        delta = 0
+
+        for i in range(0,tests):
+            prob_1 = probs[i][1]
+            pred = preds[i]
+            par = test_par_labels[i]
+            omp = test_omp_labels[i]
+            loop_time = test_times[i]
+
+            color = ''
+            if par == 1:
+                if omp == 1:
+                    color = 'blue'
+                else:
+                    color = 'green'
+            else:
+                color = 'red'
+            colors.append(color)
+            
+            probabilities.append(prob_1)
+            if loop_time == 0:
+                loop_time += delta
+            loop_times.append(loop_time)
+            products.append(product_func(loop_time,prob_1))
         
         loop_times, probabilities, products, colors = zip(*sorted(zip(loop_times, probabilities, products, colors)))
 
@@ -1599,7 +1655,7 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
 
         filename = os.path.realpath(oracle_report_fd.name)
         filename = os.path.dirname(filename)
-        filename += str('/' + 'runtime_vs_product_loop_parallel_rank.eps')
+        filename += str('/' + 'rt_vs_tool_loop_rank.eps')
         plt.savefig(filename, format='eps', dpi=1000)
 
     if verbose > 0:

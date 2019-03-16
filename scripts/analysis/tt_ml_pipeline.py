@@ -83,6 +83,7 @@ if __name__ == "__main__":
     test_omp_labels = test_data['omp']
     # loop application fraction times
     test_loop_times = test_data['loop-app-frac-time']
+    test_loop_times /= 100
     # prepare statistical learning features 
     test_features = test_data.drop(['loop-location','parallel','icc','omp'], axis=1)
     # cast all integer features to float

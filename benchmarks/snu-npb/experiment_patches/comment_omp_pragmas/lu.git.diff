@@ -1,0 +1,580 @@
+diff --git a/NPB3.3-OMP-C/LU/src/applu.incl b/NPB3.3-OMP-C/LU/src/applu.incl
+index ad2173c..e3dcaec 100644
+--- a/NPB3.3-OMP-C/LU/src/applu.incl
++++ b/NPB3.3-OMP-C/LU/src/applu.incl
+@@ -113,7 +113,7 @@ extern double ce[5][13];
+ extern int isync[ISIZ2+1];
+ /* common /threadinfo2/ */
+ extern int mthreadnum, iam;
+-#pragma omp threadprivate(mthreadnum,iam)
++//#pragma omp threadprivate(mthreadnum,iam)
+ 
+ 
+ //---------------------------------------------------------------------
+diff --git a/NPB3.3-OMP-C/LU/src/blts.c b/NPB3.3-OMP-C/LU/src/blts.c
+index 63e3329..5be437a 100644
+--- a/NPB3.3-OMP-C/LU/src/blts.c
++++ b/NPB3.3-OMP-C/LU/src/blts.c
+@@ -66,7 +66,7 @@ void blts(int ldmx, int ldmy, int ldmz, int nx, int ny, int nz, int k,
+   double (*vk)[ldmx/2*2+1][5] = v[k];
+   double (*vkm1)[ldmx/2*2+1][5] = v[k-1];
+ 
+-  #pragma omp for schedule(static) nowait
++  //#pragma omp for schedule(static) nowait
+   for (j = jst; j < jend; j++) {
+     for (i = ist; i < iend; i++) {
+       for (m = 0; m < 5; m++) {
+@@ -81,7 +81,7 @@ void blts(int ldmx, int ldmy, int ldmz, int nx, int ny, int nz, int k,
+   }
+ 
+ 
+-  #pragma omp for schedule(static) nowait
++  //#pragma omp for schedule(static) nowait
+   for (j = jst; j < jend; j++) {
+     for (i = ist; i < iend; i++) {
+       for (m = 0; m < 5; m++) {
+diff --git a/NPB3.3-OMP-C/LU/src/buts.c b/NPB3.3-OMP-C/LU/src/buts.c
+index e688402..ddd018a 100644
+--- a/NPB3.3-OMP-C/LU/src/buts.c
++++ b/NPB3.3-OMP-C/LU/src/buts.c
+@@ -64,7 +64,7 @@ void buts(int ldmx, int ldmy, int ldmz, int nx, int ny, int nz, int k,
+ 
+   sync_left( ldmx, ldmy, ldmz, v );
+ 
+-  #pragma omp for schedule(static) nowait
++  //#pragma omp for schedule(static) nowait
+   for (j = jend - 1; j >= jst; j--) {
+     for (i = iend - 1; i >= ist; i--) {
+       for (m = 0; m < 5; m++) {
+@@ -78,7 +78,7 @@ void buts(int ldmx, int ldmy, int ldmz, int nx, int ny, int nz, int k,
+     }
+   }
+ 
+-  #pragma omp for schedule(static) nowait
++  //#pragma omp for schedule(static) nowait
+   for (j = jend - 1; j >= jst; j--) {
+     for (i = iend - 1; i >= ist; i--) {
+       for (m = 0; m < 5; m++) {
+diff --git a/NPB3.3-OMP-C/LU/src/erhs.c b/NPB3.3-OMP-C/LU/src/erhs.c
+index 066d9c1..5b46e78 100644
+--- a/NPB3.3-OMP-C/LU/src/erhs.c
++++ b/NPB3.3-OMP-C/LU/src/erhs.c
+@@ -56,12 +56,12 @@ void erhs()
+   double u21jm1, u31jm1, u41jm1, u51jm1;
+   double u21km1, u31km1, u41km1, u51km1;
+ 
+-  #pragma omp parallel default(shared) private(i,j,k,m,xi,eta,zeta,tmp,q,\
++  //#pragma omp parallel default(shared) private(i,j,k,m,xi,eta,zeta,tmp,q,\
+               flux,u51im1,u41im1,u31im1,u21im1,u51i,u41i,u31i,u21i,u21,\
+                    u51jm1,u41jm1,u31jm1,u21jm1,u51j,u41j,u31j,u21j,u31,\
+                    u51km1,u41km1,u31km1,u21km1,u51k,u41k,u31k,u21k,u41)
+   {
+-  #pragma omp for schedule(static) nowait
++  //#pragma omp for schedule(static) nowait
+   for (k = 0; k < nz; k++) {
+     for (j = 0; j < ny; j++) {
+       for (i = 0; i < nx; i++) {
+@@ -72,7 +72,7 @@ void erhs()
+     }
+   }
+ 
+-  #pragma omp for schedule(static)
++  //#pragma omp for schedule(static)
+   for (k = 0; k < nz; k++) {
+     zeta = ( (double)k ) / ( nz - 1 );
+     for (j = 0; j < ny; j++) {
+@@ -101,7 +101,7 @@ void erhs()
+   //---------------------------------------------------------------------
+   // xi-direction flux differences
+   //---------------------------------------------------------------------
+-  #pragma omp for schedule(static) nowait
++  //#pragma omp for schedule(static) nowait
+   for (k = 1; k < nz - 1; k++) {
+     for (j = jst; j < jend; j++) {
+       for (i = 0; i < nx; i++) {
+@@ -219,7 +219,7 @@ void erhs()
+   //---------------------------------------------------------------------
+   // eta-direction flux differences
+   //---------------------------------------------------------------------
+-  #pragma omp for schedule(static)
++  //#pragma omp for schedule(static)
+   for (k = 1; k < nz - 1; k++) {
+     for (i = ist; i < iend; i++) {
+       for (j = 0; j < ny; j++) {
+@@ -338,7 +338,7 @@ void erhs()
+   //---------------------------------------------------------------------
+   // zeta-direction flux differences
+   //---------------------------------------------------------------------
+-  #pragma omp for schedule(static) nowait
++  //#pragma omp for schedule(static) nowait
+   for (j = jst; j < jend; j++) {
+     for (i = ist; i < iend; i++) {
+       for (k = 0; k < nz; k++) {
+diff --git a/NPB3.3-OMP-C/LU/src/error.c b/NPB3.3-OMP-C/LU/src/error.c
+index ec9dd0d..7cd77a7 100644
+--- a/NPB3.3-OMP-C/LU/src/error.c
++++ b/NPB3.3-OMP-C/LU/src/error.c
+@@ -55,12 +55,12 @@ void error()
+     errnm[m] = 0.0;
+   }
+ 
+-  #pragma omp parallel default(shared) private(i,j,k,m,tmp,u000ijk,errnm_local)
++  //#pragma omp parallel default(shared) private(i,j,k,m,tmp,u000ijk,errnm_local)
+   {
+   for (m = 0; m < 5; m++) {
+     errnm_local[m] = 0.0;
+   }
+-  #pragma omp for nowait
++  //#pragma omp for nowait
+   for (k = 1; k < nz-1; k++) {
+     for (j = jst; j < jend; j++) {
+       for (i = ist; i < iend; i++) {
+@@ -73,7 +73,7 @@ void error()
+     }
+   }
+   for (m = 0; m < 5; m++) {
+-    #pragma omp atomic
++    //#pragma omp atomic
+     errnm[m] += errnm_local[m];
+   }
+   } //end parallel
+diff --git a/NPB3.3-OMP-C/LU/src/jacld.c b/NPB3.3-OMP-C/LU/src/jacld.c
+index c51141f..19e87b9 100644
+--- a/NPB3.3-OMP-C/LU/src/jacld.c
++++ b/NPB3.3-OMP-C/LU/src/jacld.c
+@@ -52,7 +52,7 @@ void jacld(int k)
+   c1345 = C1 * C3 * C4 * C5;
+   c34 = C3 * C4;
+ 
+-  #pragma omp for schedule(static) nowait
++  //#pragma omp for schedule(static) nowait
+   for (j = jst; j < jend; j++) {
+     for (i = ist; i < iend; i++) {
+       //---------------------------------------------------------------------
+diff --git a/NPB3.3-OMP-C/LU/src/jacu.c b/NPB3.3-OMP-C/LU/src/jacu.c
+index 4e03cde..94dafa8 100644
+--- a/NPB3.3-OMP-C/LU/src/jacu.c
++++ b/NPB3.3-OMP-C/LU/src/jacu.c
+@@ -52,7 +52,7 @@ void jacu(int k)
+   c1345 = C1 * C3 * C4 * C5;
+   c34 = C3 * C4;
+ 
+-  #pragma omp for schedule(static) nowait
++  //#pragma omp for schedule(static) nowait
+   for (j = jend - 1; j >= jst; j--) {
+     for (i = iend - 1; i >= ist; i--) {
+       //---------------------------------------------------------------------
+diff --git a/NPB3.3-OMP-C/LU/src/l2norm.c b/NPB3.3-OMP-C/LU/src/l2norm.c
+index 5884075..c4a33e0 100644
+--- a/NPB3.3-OMP-C/LU/src/l2norm.c
++++ b/NPB3.3-OMP-C/LU/src/l2norm.c
+@@ -56,12 +56,12 @@ void l2norm (int ldx, int ldy, int ldz, int nx0, int ny0, int nz0,
+     sum[m] = 0.0;
+   }
+ 
+-  #pragma omp parallel default(shared) private(i,j,k,m,sum_local)
++  //#pragma omp parallel default(shared) private(i,j,k,m,sum_local)
+   {
+   for (m = 0; m < 5; m++) {
+     sum_local[m] = 0.0;
+   }
+-  #pragma omp for nowait
++  //#pragma omp for nowait
+   for (k = 1; k < nz0-1; k++) {
+     for (j = jst; j < jend; j++) {
+       for (i = ist; i < iend; i++) {
+@@ -72,7 +72,7 @@ void l2norm (int ldx, int ldy, int ldz, int nx0, int ny0, int nz0,
+     }
+   }
+   for (m = 0; m < 5; m++) {
+-    #pragma omp atomic
++    //#pragma omp atomic
+     sum[m] += sum_local[m];
+   }
+   } //end parallel
+diff --git a/NPB3.3-OMP-C/LU/src/pintgr.c b/NPB3.3-OMP-C/LU/src/pintgr.c
+index cfdbb8b..a77e338 100644
+--- a/NPB3.3-OMP-C/LU/src/pintgr.c
++++ b/NPB3.3-OMP-C/LU/src/pintgr.c
+@@ -57,10 +57,10 @@ void pintgr()
+   ifin1 = ifin - 1;
+   jfin1 = jfin - 1;
+ 
+-  #pragma omp parallel default(shared) private(i,j,k) \
++  //#pragma omp parallel default(shared) private(i,j,k) \
+                        shared(ki1,ki2,ifin,ibeg,jfin,jbeg,ifin1,jfin1)
+   {
+-  #pragma omp for nowait
++  //#pragma omp for nowait
+   for (j = jbeg; j < jfin; j++) {
+     for (i = ibeg; i < ifin; i++) {
+       k = ki1;
+@@ -81,10 +81,10 @@ void pintgr()
+     }
+   }
+ 
+-  #pragma omp single
++  //#pragma omp single
+   frc1 = 0.0;
+   
+-  #pragma omp for reduction(+:frc1)
++  //#pragma omp for reduction(+:frc1)
+   for (j = jbeg; j < jfin1; j++) {
+     for (i = ibeg; i < ifin1; i++) {
+       frc1 = frc1 + (  phi1[j][i]
+@@ -98,10 +98,10 @@ void pintgr()
+     }
+   }
+ 
+-  #pragma omp single nowait
++  //#pragma omp single nowait
+   frc1 = dxi * deta * frc1;
+ 
+-  #pragma omp for nowait
++  //#pragma omp for nowait
+   for (k = ki1; k < ki2; k++) {
+     for (i = ibeg; i < ifin; i++) {
+       phi1[k][i] = C2*(  u[k][jbeg][i][4]
+@@ -112,7 +112,7 @@ void pintgr()
+     }
+   }
+ 
+-  #pragma omp for nowait
++  //#pragma omp for nowait
+   for (k = ki1; k < ki2; k++) {
+     for (i = ibeg; i < ifin; i++) {
+       phi2[k][i] = C2*(  u[k][jfin-1][i][4]
+@@ -123,10 +123,10 @@ void pintgr()
+     }
+   }
+ 
+-  #pragma omp single
++  //#pragma omp single
+   frc2 = 0.0;
+ 
+-  #pragma omp for reduction(+:frc2)
++  //#pragma omp for reduction(+:frc2)
+   for (k = ki1; k < ki2-1; k++) {
+     for (i = ibeg; i < ifin1; i++) {
+       frc2 = frc2 + (  phi1[k][i]
+@@ -140,10 +140,10 @@ void pintgr()
+     }
+   }
+ 
+-  #pragma omp single nowait
++  //#pragma omp single nowait
+   frc2 = dxi * dzeta * frc2;
+ 
+-  #pragma omp for nowait
++  //#pragma omp for nowait
+   for (k = ki1; k < ki2; k++) {
+     for (j = jbeg; j < jfin; j++) {
+       phi1[k][j] = C2*(  u[k][j][ibeg][4]
+@@ -154,7 +154,7 @@ void pintgr()
+     }
+   }
+ 
+-  #pragma omp for nowait
++  //#pragma omp for nowait
+   for (k = ki1; k < ki2; k++) {
+     for (j = jbeg; j < jfin; j++) {
+       phi2[k][j] = C2*(  u[k][j][ifin-1][4]
+@@ -165,10 +165,10 @@ void pintgr()
+     }
+   }
+ 
+-  #pragma omp single
++  //#pragma omp single
+   frc3 = 0.0;
+ 
+-  #pragma omp for reduction(+:frc3)
++  //#pragma omp for reduction(+:frc3)
+   for (k = ki1; k < ki2-1; k++) {
+     for (j = jbeg; j < jfin1; j++) {
+       frc3 = frc3 + (  phi1[k][j]
+@@ -182,7 +182,7 @@ void pintgr()
+     }
+   }
+ 
+-  #pragma omp single nowait
++  //#pragma omp single nowait
+   frc3 = deta * dzeta * frc3;
+   } //end parallel
+ 
+diff --git a/NPB3.3-OMP-C/LU/src/rhs.c b/NPB3.3-OMP-C/LU/src/rhs.c
+index a74965c..152f277 100644
+--- a/NPB3.3-OMP-C/LU/src/rhs.c
++++ b/NPB3.3-OMP-C/LU/src/rhs.c
+@@ -55,12 +55,12 @@ void rhs()
+   double u21km1, u31km1, u41km1, u51km1;
+ 
+   if (timeron) timer_start(t_rhs);
+-  #pragma omp parallel default(shared) private(i,j,k,m,q,flux,tmp,utmp,rtmp,\
++  //#pragma omp parallel default(shared) private(i,j,k,m,q,flux,tmp,utmp,rtmp,\
+               u51im1,u41im1,u31im1,u21im1,u51i,u41i,u31i,u21i,u21, \
+               u51jm1,u41jm1,u31jm1,u21jm1,u51j,u41j,u31j,u21j,u31, \
+               u51km1,u41km1,u31km1,u21km1,u51k,u41k,u31k,u21k,u41)
+   {
+-  #pragma omp for schedule(static)
++  //#pragma omp for schedule(static)
+   for (k = 0; k < nz; k++) {
+     for (j = 0; j < ny; j++) {
+       for (i = 0; i < nx; i++) {
+@@ -77,12 +77,12 @@ void rhs()
+     }
+   }
+ 
+-  #pragma omp master
++  //#pragma omp master
+   if (timeron) timer_start(t_rhsx);
+   //---------------------------------------------------------------------
+   // xi-direction flux differences
+   //---------------------------------------------------------------------
+-  #pragma omp for schedule(static) nowait
++  //#pragma omp for schedule(static) nowait
+   for (k = 1; k < nz - 1; k++) {
+     for (j = jst; j < jend; j++) {
+       for (i = 0; i < nx; i++) {
+@@ -198,7 +198,7 @@ void rhs()
+ 
+     }
+   }
+-  #pragma omp master
++  //#pragma omp master
+   {
+   if (timeron) timer_stop(t_rhsx);
+ 
+@@ -207,7 +207,7 @@ void rhs()
+   //---------------------------------------------------------------------
+   // eta-direction flux differences
+   //---------------------------------------------------------------------
+-  #pragma omp for schedule(static)
++  //#pragma omp for schedule(static)
+   for (k = 1; k < nz - 1; k++) {
+     for (i = ist; i < iend; i++) {
+       for (j = 0; j < ny; j++) {
+@@ -331,7 +331,7 @@ void rhs()
+     }
+ 
+   }
+-  #pragma omp master
++  //#pragma omp master
+   {
+   if (timeron) timer_stop(t_rhsy);
+ 
+@@ -340,7 +340,7 @@ void rhs()
+   //---------------------------------------------------------------------
+   // zeta-direction flux differences
+   //---------------------------------------------------------------------
+-  #pragma omp for schedule(static) nowait
++  //#pragma omp for schedule(static) nowait
+   for (j = jst; j < jend; j++) {
+     for (i = ist; i < iend; i++) {
+       for (k = 0; k < nz; k++) {
+diff --git a/NPB3.3-OMP-C/LU/src/setbv.c b/NPB3.3-OMP-C/LU/src/setbv.c
+index 4770a7e..d51dab2 100644
+--- a/NPB3.3-OMP-C/LU/src/setbv.c
++++ b/NPB3.3-OMP-C/LU/src/setbv.c
+@@ -48,10 +48,10 @@ void setbv()
+   //---------------------------------------------------------------------
+   // set the dependent variable values along the top and bottom faces
+   //---------------------------------------------------------------------
+-  #pragma omp parallel default(shared) private(i,j,k,m,temp1,temp2) \
++  //#pragma omp parallel default(shared) private(i,j,k,m,temp1,temp2) \
+                                        shared(nx,ny,nz)
+   {
+-  #pragma omp for schedule(static)
++  //#pragma omp for schedule(static)
+   for (j = 0; j < ny; j++) {
+     for (i = 0; i < nx; i++) {
+       exact( i, j, 0, temp1 );
+@@ -66,7 +66,7 @@ void setbv()
+   //---------------------------------------------------------------------
+   // set the dependent variable values along north and south faces
+   //---------------------------------------------------------------------
+-  #pragma omp for schedule(static) nowait
++  //#pragma omp for schedule(static) nowait
+   for (k = 0; k < nz; k++) {
+     for (i = 0; i < nx; i++) {
+       exact( i, 0, k, temp1 );
+@@ -81,7 +81,7 @@ void setbv()
+   //---------------------------------------------------------------------
+   // set the dependent variable values along east and west faces
+   //---------------------------------------------------------------------
+-  #pragma omp for schedule(static) nowait
++  //#pragma omp for schedule(static) nowait
+   for (k = 0; k < nz; k++) {
+     for (j = 0; j < ny; j++) {
+       exact( 0, j, k, temp1 );
+diff --git a/NPB3.3-OMP-C/LU/src/setiv.c b/NPB3.3-OMP-C/LU/src/setiv.c
+index ad16d7e..62ade97 100644
+--- a/NPB3.3-OMP-C/LU/src/setiv.c
++++ b/NPB3.3-OMP-C/LU/src/setiv.c
+@@ -51,7 +51,7 @@ void setiv()
+   double ue_1jk[5], ue_nx0jk[5], ue_i1k[5];
+   double ue_iny0k[5], ue_ij1[5], ue_ijnz[5];
+ 
+-  #pragma omp parallel for default(shared) private(i,j,k,m,pxi,peta,pzeta, \
++  //#pragma omp parallel for default(shared) private(i,j,k,m,pxi,peta,pzeta, \
+               xi,eta,zeta,ue_ijnz,ue_ij1,ue_iny0k,ue_i1k,ue_nx0jk,ue_1jk)  \
+               shared(nx0,ny0,nz)
+   for (k = 1; k < nz - 1; k++) {
+diff --git a/NPB3.3-OMP-C/LU/src/ssor.c b/NPB3.3-OMP-C/LU/src/ssor.c
+index d10d135..6115515 100644
+--- a/NPB3.3-OMP-C/LU/src/ssor.c
++++ b/NPB3.3-OMP-C/LU/src/ssor.c
+@@ -45,7 +45,7 @@
+ /* common /threadinfo1/ */
+ int isync[ISIZ2+1];
+ /* common /threadinfo2/ */
+-#pragma omp threadprivate(mthreadnum,iam)
++//#pragma omp threadprivate(mthreadnum,iam)
+ int mthreadnum, iam;
+ 
+ 
+@@ -72,9 +72,9 @@ void ssor(int niter)
+   // initialize a,b,c,d to zero (guarantees that page tables have been
+   // formed, if applicable on given architecture, before timestepping).
+   //---------------------------------------------------------------------
+-  #pragma omp parallel default(shared) private(m,n,i,j)
++  //#pragma omp parallel default(shared) private(m,n,i,j)
+   {
+-  #pragma omp for nowait
++  //#pragma omp for nowait
+   for (j = jst; j < jend; j++) {
+     for (i = ist; i < iend; i++) {
+       for (n = 0; n < 5; n++) {
+@@ -87,7 +87,7 @@ void ssor(int niter)
+       }
+     }
+   }
+-  #pragma omp for nowait
++  //#pragma omp for nowait
+   for (j = jend - 1; j >= jst; j--) {
+     for (i = iend - 1; i >= ist; i--) {
+       for (n = 0; n < 5; n++) {
+@@ -132,13 +132,13 @@ void ssor(int niter)
+     //---------------------------------------------------------------------
+     // perform SSOR iteration
+     //---------------------------------------------------------------------
+-    #pragma omp parallel default(shared) private(i,j,k,m,tmp2) \
++    //#pragma omp parallel default(shared) private(i,j,k,m,tmp2) \
+                 shared(ist,iend,jst,jend,nx,ny,nz,nx0,ny0,omega)
+     {
+-    #pragma omp master
++    //#pragma omp master
+     if (timeron) timer_start(t_rhs);
+     tmp2 = dt;
+-    #pragma omp for nowait
++    //#pragma omp for nowait
+     for (k = 1; k < nz - 1; k++) {
+       for (j = jst; j < jend; j++) {
+         for (i = ist; i < iend; i++) {
+@@ -148,7 +148,7 @@ void ssor(int niter)
+         }
+       }
+     }
+-    #pragma omp master
++    //#pragma omp master
+     if (timeron) timer_stop(t_rhs);
+ 
+     mthreadnum = 0;
+@@ -157,16 +157,16 @@ void ssor(int niter)
+     iam = 0;
+     iam = omp_get_thread_num();
+     if (iam <= mthreadnum) isync[iam] = 0;
+-    #pragma omp barrier
++    //#pragma omp barrier
+ 
+     for (k = 1; k < nz -1; k++) {
+       //---------------------------------------------------------------------
+       // form the lower triangular part of the jacobian matrix
+       //---------------------------------------------------------------------
+-      #pragma omp master
++      //#pragma omp master
+       if (timeron) timer_start(t_jacld);
+       jacld(k);
+-      #pragma omp master
++      //#pragma omp master
+       {
+       if (timeron) timer_stop(t_jacld);
+ 
+@@ -182,19 +182,19 @@ void ssor(int niter)
+             a, b, c, d,
+             ist, iend, jst, jend, 
+             nx0, ny0 );
+-      #pragma omp master
++      //#pragma omp master
+       if (timeron) timer_stop(t_blts);
+     }
+-    #pragma omp barrier
++    //#pragma omp barrier
+  
+     for (k = nz - 2; k > 0; k--) {
+       //---------------------------------------------------------------------
+       // form the strictly upper triangular part of the jacobian matrix
+       //---------------------------------------------------------------------
+-      #pragma omp master
++      //#pragma omp master
+       if (timeron) timer_start(t_jacu);
+       jacu(k);
+-      #pragma omp master
++      //#pragma omp master
+       {
+       if (timeron) timer_stop(t_jacu);
+ 
+@@ -210,18 +210,18 @@ void ssor(int niter)
+             du, au, bu, cu,
+             ist, iend, jst, jend,
+             nx0, ny0 );
+-      #pragma omp master
++      //#pragma omp master
+       if (timeron) timer_stop(t_buts);
+     }
+-    #pragma omp barrier
++    //#pragma omp barrier
+ 
+     //---------------------------------------------------------------------
+     // update the variables
+     //---------------------------------------------------------------------
+-    #pragma omp master
++    //#pragma omp master
+     if (timeron) timer_start(t_add);
+     tmp2 = tmp;
+-    #pragma omp for nowait
++    //#pragma omp for nowait
+     for (k = 1; k < nz-1; k++) {
+       for (j = jst; j < jend; j++) {
+         for (i = ist; i < iend; i++) {
+diff --git a/NPB3.3-OMP-C/LU/src/syncs.c b/NPB3.3-OMP-C/LU/src/syncs.c
+index 41c4b15..f65f82a 100644
+--- a/NPB3.3-OMP-C/LU/src/syncs.c
++++ b/NPB3.3-OMP-C/LU/src/syncs.c
+@@ -45,10 +45,10 @@ void sync_left(int ldmx, int ldmy, int ldmz,
+   if (iam > 0 && iam <= mthreadnum) {
+     neigh = iam - 1;
+     while (isync[neigh] == 0) {
+-      #pragma omp flush(isync)
++      //#pragma omp flush(isync)
+     }
+     isync[neigh] = 0;
+-    #pragma omp flush(isync,v)
++    //#pragma omp flush(isync,v)
+   }
+ }
+ 
+@@ -60,11 +60,11 @@ void sync_right(int ldmx, int ldmy, int ldmz,
+                 double v[ldmz][ldmy/2*2+1][ldmx/2*2+1][5])
+ {
+   if (iam < mthreadnum) {
+-    #pragma omp flush(isync,v)
++    //#pragma omp flush(isync,v)
+     while (isync[iam] == 1) {
+-      #pragma omp flush(isync)
++      //#pragma omp flush(isync)
+     }
+     isync[iam] = 1;
+-    #pragma omp flush(isync)
++    //#pragma omp flush(isync)
+   }
+ }

@@ -1,0 +1,39 @@
+diff --git a/NPB3.3-OMP-C/BT/src/x_solve.c b/NPB3.3-OMP-C/BT/src/x_solve.c
+index e82f613..8e99d8c 100644
+--- a/NPB3.3-OMP-C/BT/src/x_solve.c
++++ b/NPB3.3-OMP-C/BT/src/x_solve.c
+@@ -68,7 +68,7 @@ void x_solve()
+   //---------------------------------------------------------------------
+   // determine a (labeled f) and n jacobians
+   //---------------------------------------------------------------------
+-  #pragma omp parallel for default(shared) shared(isize) private(i,j,k,m,n)
++  //#pragma omp parallel for default(shared) shared(isize) private(i,j,k,m,n)
+   for (k = 1; k <= grid_points[2]-2; k++) {
+     for (j = 1; j <= grid_points[1]-2; j++) {
+       for (i = 0; i <= isize; i++) {
+diff --git a/NPB3.3-OMP-C/BT/src/y_solve.c b/NPB3.3-OMP-C/BT/src/y_solve.c
+index fbb54db..a38791f 100644
+--- a/NPB3.3-OMP-C/BT/src/y_solve.c
++++ b/NPB3.3-OMP-C/BT/src/y_solve.c
+@@ -67,7 +67,7 @@ void y_solve()
+   // Compute the indices for storing the tri-diagonal matrix;
+   // determine a (labeled f) and n jacobians for cell c
+   //---------------------------------------------------------------------
+-  #pragma omp parallel for default(shared) shared(jsize) private(i,j,k,m,n)
++  //#pragma omp parallel for default(shared) shared(jsize) private(i,j,k,m,n)
+   for (k = 1; k <= grid_points[2]-2; k++) {
+     for (i = 1; i <= grid_points[0]-2; i++) {
+       for (j = 0; j <= jsize; j++) {
+diff --git a/NPB3.3-OMP-C/BT/src/z_solve.c b/NPB3.3-OMP-C/BT/src/z_solve.c
+index 3625606..50ef64c 100644
+--- a/NPB3.3-OMP-C/BT/src/z_solve.c
++++ b/NPB3.3-OMP-C/BT/src/z_solve.c
+@@ -67,7 +67,7 @@ void z_solve()
+   // Compute the indices for storing the block-diagonal matrix;
+   // determine c (labeled f) and s jacobians
+   //---------------------------------------------------------------------
+-  #pragma omp parallel for default(shared) shared(ksize) private(i,j,k,m,n)
++  //#pragma omp parallel for default(shared) shared(ksize) private(i,j,k,m,n)
+   for (j = 1; j <= grid_points[1]-2; j++) {
+     for (i = 1; i <= grid_points[0]-2; i++) {
+       for (k = 0; k <= ksize; k++) {

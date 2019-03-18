@@ -2,6 +2,7 @@
 
 import sys
 import os
+import random
 
 import configparser
 
@@ -804,7 +805,8 @@ class MLPipeline:
             self.report_fd.write("\n")
 
 def product_func(rt, prob):
-    return np.power(rt,1.0/3.0)*1/(1+np.exp(-5*(prob-0.5)))
+    return np.power(rt,1.0)*1/(1+np.exp(-7*(prob-0.5)))
+#    return np.power(rt,1.0)*np.power(prob,1.0)
 
 def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_labels, test_icc_labels, test_omp_labels, test_times):
 
@@ -1194,12 +1196,23 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
         parallel_par_prob0 = []
         parallel_par_prob1 = []
 
+        loop_times = []
+        products = []
+        loop_locations = []
+        loop_parallel = []
+
         for i in range(0,tests):
             pred = preds[i]
             prob_0 = probs[i][0]
             prob_1 = probs[i][1]
             par = test_par_labels[i]
             omp = test_omp_labels[i]
+            loop_time = test_times[i]
+
+            loop_times.append(loop_time)
+            products.append(product_func(loop_time,prob_1))
+            loop_locations.append(str(test_loop_locations[i]))
+            loop_parallel.append(par)
 
             if pred == 0:
                 if par == 0:
@@ -1272,6 +1285,55 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
                 oracle_report_fd.write(loop + "\n")
             oracle_report_fd.write("===================" + "\n")
             oracle_report_fd.write("\n")
+
+        if report_cfg['loop_locations'] == 'true':
+            oracle_report_fd.write("\n")
+            oracle_report_fd.write("=== Loop Ranking Schemes ===" + "\n")
+            oracle_report_fd.write("\n")
+
+            oracle_report_fd.write("= Loop App Time Fraction =" + "\n")
+            oracle_report_fd.write("==========================" + "\n")
+
+            loop_times, products, loop_locations, loop_parallel = zip(*sorted(zip(loop_times, products, loop_locations, loop_parallel)))
+
+            oracle_report_fd.write("loop-location:time:par" + "\n")
+            for i in range(len(loop_locations)):
+                oracle_report_fd.write(str(loop_locations[i]) + ":" + str(loop_times[i]) + ":" + str(loop_parallel[i]) + "\n")
+            oracle_report_fd.write("===================" + "\n")
+            oracle_report_fd.write("\n")
+
+            oracle_report_fd.write("= Loop Product =" + "\n")
+            oracle_report_fd.write("================" + "\n")
+
+            products, loop_times, loop_locations, loop_parallel = zip(*sorted(zip(products, loop_times, loop_locations, loop_parallel)))
+
+            oracle_report_fd.write("loop-location:time:par" + "\n")
+            for i in range(len(loop_locations)):
+                oracle_report_fd.write(str(loop_locations[i]) + ":" + str(products[i]) + ":" + str(loop_parallel[i]) + "\n")
+            oracle_report_fd.write("===================" + "\n")
+            oracle_report_fd.write("\n")
+
+            oracle_report_fd.write("= Loop Random =" + "\n")
+            oracle_report_fd.write("===============" + "\n")
+            oracle_report_fd.write("\n")
+
+            test_size = len(loop_locations)
+            test_size = int(test_size*0.1) 
+            num_rands = 10
+
+            for i in range(num_rands):
+                oracle_report_fd.write("Loop Random [" + str(i) + "]" + "\n")
+                oracle_report_fd.write("===============" + "\n")
+
+                tmp = list(zip(products, loop_times, loop_locations, loop_parallel))
+                random.shuffle(tmp)
+                products, loop_times, loop_locations, loop_parallel = zip(*tmp)
+
+                oracle_report_fd.write("loop-location:time:product:par" + "\n")
+                for i in range(test_size):
+                    oracle_report_fd.write(str(loop_locations[i]) + ":" + str(loop_times[i]) + ":" + str(products[i]) + ":" + str(loop_parallel[i]) + "\n")
+                oracle_report_fd.write("===================" + "\n")
+                oracle_report_fd.write("\n")
 
     if report_cfg['plot_oracle_loop_rank'] == 'true' and cfg['header']['type'] == 'tt':
 

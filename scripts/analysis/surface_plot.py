@@ -8,7 +8,7 @@ import numpy as np
 import math
 
 def sigmoid(x):
-    return 1/(1 + np.exp(10*(-x+0.5)))
+    return 1/(1 + np.exp(7*(-x+0.5)))
 
 fig = plt.figure()
 ax = fig.gca(projection='3d')
@@ -17,7 +17,7 @@ ax = fig.gca(projection='3d')
 prob = np.arange(0, 1, 0.05)
 rt = np.arange(0, 1, 0.05)
 prob, rt = np.meshgrid(prob, rt)
-Z = np.power(rt,1.0/3.0)*sigmoid(prob)
+Z = np.power(rt,1.0)*sigmoid(prob)
 
 # Plot the surface.
 surf = ax.plot_surface(prob, rt, Z, cmap=cm.coolwarm, linewidth=0, antialiased=False)

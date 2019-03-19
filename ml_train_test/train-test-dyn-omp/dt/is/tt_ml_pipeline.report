@@ -1,0 +1,157 @@
+= MLPipeline (<ml_pipeline.MLPipeline object at 0x7f3c0dc1b748>) =
+= MLPipeline (<ml_pipeline.MLPipeline object at 0x7f3c0dc1b748>): [1] Feature Preprocessing Stage =
+= =============================== =
+
+scaler: StandardScaler( scale=True mean=True )
+features fitted and transformed
+= =============================== =
+
+= [2] Feature Selection Stage =
+= =========================== =
+
+3 selectors specified
+
+[ VarianceThreshold ]
+threshold: 0.16
+
+selected features num: 73
+dropped features num: 1
+dropped features [
+	loop-proper-sccs-mdg-number
+]
+[ SelectFromModel ]
+median: 0.1
+model: DT
+
+selected features num: 45
+dropped features num: 28
+dropped features [
+	loop-iterator-size
+	loop-proper-sccs-number
+	loop-proper-sccs-number-diff
+	loop-proper-sccs-ddg-number-diff
+	iterator-total-dependencies-number
+	iterator-true-dependencies-number
+	iterator-anti-dependencies-number
+	iterator-output-dependencies-number
+	iterator-cross-dependencies-number
+	iterator-conf-dependencies-number
+	iterator-reg-dependencies-number
+	iterator-mem-dependencies-number
+	iterator-cntl-dependencies-number
+	payload-cross-dependencies-number
+	payload-conf-dependencies-number
+	critical-payload-total-dependencies-number
+	critical-payload-true-dependencies-number
+	critical-payload-anti-dependencies-number
+	iterator-mem-write-count
+	iterator-call-count
+	iterator-call-fraction
+	iterator-branch-count
+	iterator-getelemptr-count
+	critical-payload-mem-read-count
+	critical-payload-mem-read-fraction
+	critical-payload-call-count
+	critical-payload-branch-count
+	critical-payload-getelemptr-fraction
+]
+[ RFECV ]
+median: 0.8
+model: DT
+
+selected features num: 42
+dropped features num: 3
+dropped features [
+	iterator-payload-mem-cohesion
+	iterator-mem-read-count
+	critical-payload-call-fraction
+]
+= Final feature selection =
+selected features num: 42
+selected features [
+	loop-absolute-size
+	loop-payload-fraction
+	loop-proper-sccs-ddg-number
+	loop-critical-payload-fraction
+	loop-depth
+	loop-inner-loop-num
+	iterator-payload-total-cohesion
+	iterator-payload-non-cf-cohesion
+	critical-payload-total-cohesion
+	critical-payload-non-cf-cohesion
+	critical-payload-mem-cohesion
+	payload-total-dependencies-number
+	payload-true-dependencies-number
+	payload-anti-dependencies-number
+	payload-output-dependencies-number
+	payload-reg-dependencies-number
+	payload-mem-dependencies-number
+	payload-cntl-dependencies-number
+	critical-payload-output-dependencies-number
+	critical-payload-cross-dependencies-number
+	critical-payload-conf-dependencies-number
+	critical-payload-reg-dependencies-number
+	critical-payload-mem-dependencies-number
+	critical-payload-cntl-dependencies-number
+	iterator-mem-write-fraction
+	iterator-mem-read-fraction
+	iterator-branch-fraction
+	iterator-getelemptr-fraction
+	payload-mem-write-count
+	payload-mem-write-fraction
+	payload-mem-read-count
+	payload-mem-read-fraction
+	payload-call-count
+	payload-call-fraction
+	payload-branch-count
+	payload-branch-fraction
+	payload-getelemptr-count
+	payload-getelemptr-fraction
+	critical-payload-mem-write-count
+	critical-payload-mem-write-fraction
+	critical-payload-branch-fraction
+	critical-payload-getelemptr-count
+]
+= =========================== =
+
+= [3] Model Hyper-Parameter Selection Stage =
+= ========================================= =
+
+= Automatic model hyper-parameter selection =
+method: GridSearchCV
+model: DT
+= hyper-parameter grid search space =
+max_depths: None 1 2 3 4 5 10 15 20 30 50 
+min_samples_split: 0.05 0.1 0.2 0.5 0.7 0.9 
+min_samples_leaf: 1 5 10 15 30 50 60 70 100 
+= =
+max_features: 1 5 10 15 30 
+
+{'max_depth': 5, 'max_features': 5, 'min_samples_leaf': 30, 'min_samples_split': 0.05}
+= ========================================= =
+
+= [4] Model Training Stage =
+= ======================== =
+
+main model: DT
+[auto hyper-parameters search]
+param: {'max_depth': 5, 'max_features': 5, 'min_samples_leaf': 30, 'min_samples_split': 0.05}
+= ======================== =
+
+= MLPipeline (<ml_pipeline.MLPipeline object at 0x7f3c0dc1b748>) Prediction =
+= ========================== =
+
+stratified baseline tested
+most_frequent baseline tested
+prior baseline tested
+uniform baseline tested
+constant baseline tested
+= ========================== =
+
+= [6] Model Report Stage =
+= ====================== =
+
+==============================================================
+
+
+

@@ -1,5 +1,5 @@
-= MLPipeline (<ml_pipeline.MLPipeline object at 0x7f56481115c0>) =
-= MLPipeline (<ml_pipeline.MLPipeline object at 0x7f56481115c0>): [1] Feature Preprocessing Stage =
+= MLPipeline (<ml_pipeline.MLPipeline object at 0x7f3768799828>) =
+= MLPipeline (<ml_pipeline.MLPipeline object at 0x7f3768799828>): [1] Feature Preprocessing Stage =
 = =============================== =
 
 scaler: StandardScaler( scale=True mean=True )
@@ -14,18 +14,16 @@ features fitted and transformed
 [ VarianceThreshold ]
 threshold: 0.16
 
-selected features num: 71
-dropped features num: 3
+selected features num: 73
+dropped features num: 1
 dropped features [
 	loop-proper-sccs-mdg-number
-	iterator-anti-dependencies-number
-	iterator-cross-dependencies-number
 ]
 [ SelectFromModel ]
-median: 0.5
+median: 0.2
 model: DT
 
-selected features num: 71
+selected features num: 73
 dropped features num: 0
 dropped features [
 ]
@@ -33,25 +31,14 @@ dropped features [
 median: 0.8
 model: DT
 
-selected features num: 58
-dropped features num: 13
+selected features num: 71
+dropped features num: 2
 dropped features [
 	loop-absolute-size
 	loop-iterator-size
-	payload-total-dependencies-number
-	critical-payload-true-dependencies-number
-	critical-payload-anti-dependencies-number
-	critical-payload-output-dependencies-number
-	critical-payload-cross-dependencies-number
-	critical-payload-conf-dependencies-number
-	critical-payload-reg-dependencies-number
-	critical-payload-mem-dependencies-number
-	iterator-getelemptr-fraction
-	payload-mem-read-count
-	critical-payload-getelemptr-fraction
 ]
 = Final feature selection =
-selected features num: 58
+selected features num: 71
 selected features [
 	loop-payload-fraction
 	loop-proper-sccs-number
@@ -69,11 +56,14 @@ selected features [
 	critical-payload-mem-cohesion
 	iterator-total-dependencies-number
 	iterator-true-dependencies-number
+	iterator-anti-dependencies-number
 	iterator-output-dependencies-number
+	iterator-cross-dependencies-number
 	iterator-conf-dependencies-number
 	iterator-reg-dependencies-number
 	iterator-mem-dependencies-number
 	iterator-cntl-dependencies-number
+	payload-total-dependencies-number
 	payload-true-dependencies-number
 	payload-anti-dependencies-number
 	payload-output-dependencies-number
@@ -83,6 +73,13 @@ selected features [
 	payload-mem-dependencies-number
 	payload-cntl-dependencies-number
 	critical-payload-total-dependencies-number
+	critical-payload-true-dependencies-number
+	critical-payload-anti-dependencies-number
+	critical-payload-output-dependencies-number
+	critical-payload-cross-dependencies-number
+	critical-payload-conf-dependencies-number
+	critical-payload-reg-dependencies-number
+	critical-payload-mem-dependencies-number
 	critical-payload-cntl-dependencies-number
 	iterator-mem-write-count
 	iterator-mem-write-fraction
@@ -93,8 +90,10 @@ selected features [
 	iterator-branch-count
 	iterator-branch-fraction
 	iterator-getelemptr-count
+	iterator-getelemptr-fraction
 	payload-mem-write-count
 	payload-mem-write-fraction
+	payload-mem-read-count
 	payload-mem-read-fraction
 	payload-call-count
 	payload-call-fraction
@@ -111,6 +110,7 @@ selected features [
 	critical-payload-branch-count
 	critical-payload-branch-fraction
 	critical-payload-getelemptr-count
+	critical-payload-getelemptr-fraction
 ]
 = =========================== =
 
@@ -122,7 +122,7 @@ method: GridSearchCV
 model: SVC
 = hyper-parameter grid search space =
 kernels: rbf 
-gammas: 1.0 0.1 
+gammas: 1.0 0.1 0.01 0.001 0.0001 
 Cs: 1 10 
 = =
 
@@ -137,7 +137,7 @@ main model: SVC
 param: {'C': 1, 'gamma': 0.1, 'kernel': 'rbf'}
 = ======================== =
 
-= MLPipeline (<ml_pipeline.MLPipeline object at 0x7f56481115c0>) Prediction =
+= MLPipeline (<ml_pipeline.MLPipeline object at 0x7f3768799828>) Prediction =
 = ========================== =
 
 stratified baseline tested

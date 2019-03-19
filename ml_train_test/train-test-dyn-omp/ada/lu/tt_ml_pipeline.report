@@ -1,0 +1,80 @@
+= MLPipeline (<ml_pipeline.MLPipeline object at 0x7ffad325d5f8>) =
+= MLPipeline (<ml_pipeline.MLPipeline object at 0x7ffad325d5f8>): [1] Feature Preprocessing Stage =
+= =============================== =
+
+scaler: StandardScaler( scale=True mean=True )
+features fitted and transformed
+= =============================== =
+
+= [2] Feature Selection Stage =
+= =========================== =
+
+3 selectors specified
+
+[ VarianceThreshold ]
+threshold: 0.16
+
+[ SelectFromModel ]
+median: 4.0
+model: RFC
+
+[ RFECV ]
+median: 0.9
+model: RFC
+
+= Final feature selection =
+selected features num: 13
+selected features [
+	iterator-payload-total-cohesion
+	iterator-payload-non-cf-cohesion
+	payload-conf-dependencies-number
+	payload-mem-dependencies-number
+	critical-payload-output-dependencies-number
+	payload-mem-read-fraction
+	payload-call-count
+	payload-call-fraction
+	payload-branch-fraction
+	payload-getelemptr-count
+	payload-getelemptr-fraction
+	critical-payload-getelemptr-count
+	critical-payload-getelemptr-fraction
+]
+= =========================== =
+
+= [3] Model Hyper-Parameter Selection Stage =
+= ========================================= =
+
+= Automatic model hyper-parameter selection =
+method: GridSearchCV
+model: AdaBoost
+= hyper-parameter grid search space =
+n_estimators: 1 2 5 10 20 50 100 
+
+{'n_estimators': 100}
+= ========================================= =
+
+= [4] Model Training Stage =
+= ======================== =
+
+main model: AdaBoost
+[auto hyper-parameters search]
+param: {'n_estimators': 100}
+= ======================== =
+
+= MLPipeline (<ml_pipeline.MLPipeline object at 0x7ffad325d5f8>) Prediction =
+= ========================== =
+
+stratified baseline tested
+most_frequent baseline tested
+prior baseline tested
+uniform baseline tested
+constant baseline tested
+= ========================== =
+
+= [6] Model Report Stage =
+= ====================== =
+
+==============================================================
+
+
+

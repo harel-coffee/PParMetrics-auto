@@ -1,5 +1,5 @@
-= MLPipeline (<ml_pipeline.MLPipeline object at 0x7ff093954860>) =
-= MLPipeline (<ml_pipeline.MLPipeline object at 0x7ff093954860>): [1] Feature Preprocessing Stage =
+= MLPipeline (<ml_pipeline.MLPipeline object at 0x7f71399a27f0>) =
+= MLPipeline (<ml_pipeline.MLPipeline object at 0x7f71399a27f0>): [1] Feature Preprocessing Stage =
 = =============================== =
 
 scaler: StandardScaler( scale=True mean=True )
@@ -61,25 +61,22 @@ dropped features [
 median: 0.8
 model: DT
 
-selected features num: 35
-dropped features num: 8
+selected features num: 39
+dropped features num: 4
 dropped features [
 	loop-iterator-size
-	loop-inner-loop-num
-	payload-true-dependencies-number
-	payload-cntl-dependencies-number
 	critical-payload-true-dependencies-number
 	critical-payload-reg-dependencies-number
 	iterator-getelemptr-count
-	critical-payload-mem-read-count
 ]
 = Final feature selection =
-selected features num: 35
+selected features num: 39
 selected features [
 	loop-absolute-size
 	loop-payload-fraction
 	loop-proper-sccs-ddg-number
 	loop-depth
+	loop-inner-loop-num
 	iterator-payload-total-cohesion
 	iterator-payload-non-cf-cohesion
 	iterator-payload-mem-cohesion
@@ -89,9 +86,11 @@ selected features [
 	iterator-total-dependencies-number
 	iterator-conf-dependencies-number
 	payload-total-dependencies-number
+	payload-true-dependencies-number
 	payload-anti-dependencies-number
 	payload-reg-dependencies-number
 	payload-mem-dependencies-number
+	payload-cntl-dependencies-number
 	critical-payload-total-dependencies-number
 	critical-payload-cross-dependencies-number
 	critical-payload-conf-dependencies-number
@@ -109,6 +108,7 @@ selected features [
 	payload-branch-count
 	payload-getelemptr-count
 	payload-getelemptr-fraction
+	critical-payload-mem-read-count
 	critical-payload-mem-read-fraction
 	critical-payload-getelemptr-count
 ]
@@ -137,7 +137,7 @@ main model: SVC
 param: {'C': 1, 'gamma': 0.1, 'kernel': 'rbf'}
 = ======================== =
 
-= MLPipeline (<ml_pipeline.MLPipeline object at 0x7ff093954860>) Prediction =
+= MLPipeline (<ml_pipeline.MLPipeline object at 0x7f71399a27f0>) Prediction =
 = ========================== =
 
 stratified baseline tested

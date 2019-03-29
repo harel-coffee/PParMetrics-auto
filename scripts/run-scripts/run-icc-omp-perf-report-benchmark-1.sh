@@ -54,7 +54,7 @@ make ${BENCHMARK_LOWER}
 echo "=> Running benchmark binaries to produce openmp performance report"
 echo "=> Running ${BENCHMARK_UPPER}"
 echo -n "${BENCHMARK_UPPER}: " >> openmp.perf.report
-for ((j=0;j<3;++j)); do
+for ((j=0;j<1;++j)); do
     echo "=> ${BENCHMARK_UPPER}#${j}"
     amplxe-cl -collect hotspots ./${BENCHMARK_UPPER}/${BENCHMARK_LOWER} > "./${BENCHMARK_UPPER}/${BENCHMARK_LOWER}.out" 2>&1
     #grep "Time in seconds" ./${BENCHMARK_UPPER}/${BENCHMARK_LOWER}.out | sed -e 's/[^0-9|.]//g' >> openmp.perf.report

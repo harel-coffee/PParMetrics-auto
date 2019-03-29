@@ -8,9 +8,6 @@ echo "=> Running Intel C/C++ compiler on NAS benchmarks in order to produce coll
 # first we need to set VTune amplifier variables
 source /opt/intel/vtune_amplifier_2019/amplxe-vars.sh
 
-BENCHMARK_UPPER=$1
-BENCHMARK_LOWER=$(echo "$BENCHMARK_UPPER" | tr '[:upper:]' '[:lower:]')
-
 if [[ ! -e ${NAS_ICC_PERF_RUN_DIR} ]]; then
     ERROR_MSG="Error: NAS benchmarks ICC run directory ${NAS_ICC_PERF_RUN_DIR} has not been found! Run ICC on NAS benchmarks building script first."
     error_exit "${ERROR_MSG}" 
@@ -42,28 +39,34 @@ cd ${NAS_ICC_PERF_OMP_DIR}
 
 echo "=> Cleaning openmp ICC run directory of previous performance reports"
 make clean
-echo "Removing ${BENCHMARK_UPPER}/${BENCHMARK_UPPER}.out"
-rm -rf ${BENCHMARK_UPPER}/${BENCHMARK_UPPER}.out
+for BenchmarkFolderName in ${NAS_BENCHMARK_UPPER_CASE_NAMES[@]}; do
+    echo "Removing ${BenchmarkFolderName}/${BenchmarkFolderName}.out"
+    rm -rf ${BenchmarkFolderName}/${BenchmarkFolderName}.out
+done
 echo "Removing openmp.perf.report"
 rm -rf openmp.perf.report
 
 echo "=> Building benchmark binaries with Intel C/C++ compiler on NAS benchmarks"
-echo "make ${BENCHMARK_LOWER}"
-make ${BENCHMARK_LOWER}
+for BenchmarkName in ${NAS_BENCHMARK_LOWER_CASE_NAMES[@]}; do
+    echo "make ${BenchmarkName}"
+    make ${BenchmarkName}
+done
 
 echo "=> Running benchmark binaries to produce openmp performance report"
-echo "=> Running ${BENCHMARK_UPPER}"
-echo -n "${BENCHMARK_UPPER}: " >> openmp.perf.report
-for ((j=0;j<3;++j)); do
-    echo "=> ${BENCHMARK_UPPER}#${j}"
-    amplxe-cl -collect hotspots ./${BENCHMARK_UPPER}/${BENCHMARK_LOWER} > "./${BENCHMARK_UPPER}/${BENCHMARK_LOWER}.out" 2>&1
-    #grep "Time in seconds" ./${BENCHMARK_UPPER}/${BENCHMARK_LOWER}.out | sed -e 's/[^0-9|.]//g' >> openmp.perf.report
-    grep "Elapsed Time" ./${BENCHMARK_UPPER}/${BENCHMARK_LOWER}.out | sed -e 's/[^0-9|.]//g' | tr -d '\n' >> openmp.perf.report
-    echo -n ":" >> openmp.perf.report
+for ((i=0;i<${#NAS_BENCHMARK_UPPER_CASE_NAMES[@]};++i)); do
+    echo "=> Running ${NAS_BENCHMARK_UPPER_CASE_NAMES[i]}"
+    echo -n "${NAS_BENCHMARK_UPPER_CASE_NAMES[i]}: " >> openmp.perf.report
+    for ((j=0;j<3;++j)); do
+        echo "=> ${NAS_BENCHMARK_UPPER_CASE_NAMES[i]}#${j}"
+        amplxe-cl -collect hotspots ./${NAS_BENCHMARK_UPPER_CASE_NAMES[i]}/${NAS_BENCHMARK_LOWER_CASE_NAMES[i]} > "./${NAS_BENCHMARK_UPPER_CASE_NAMES[i]}/${NAS_BENCHMARK_LOWER_CASE_NAMES[i]}.out" 2>&1
+        #grep "Time in seconds" ./${NAS_BENCHMARK_UPPER_CASE_NAMES[i]}/${NAS_BENCHMARK_LOWER_CASE_NAMES[i]}.out | sed -e 's/[^0-9|.]//g' >> openmp.perf.report
+        grep "Elapsed Time" ./${NAS_BENCHMARK_UPPER_CASE_NAMES[i]}/${NAS_BENCHMARK_LOWER_CASE_NAMES[i]}.out | sed -e 's/[^0-9|.]//g' | tr -d '\n' >> openmp.perf.report
+        echo -n ":" >> openmp.perf.report
+    done
+    echo "" >> openmp.perf.report
 done
-echo "" >> openmp.perf.report
 
-cp openmp.perf.report ${NAS_ICC_PERF_REPORTS_DIR}
+cp openmp.perf.report ${NAS_ICC_PERF_REPORTS_DIR} 
 )
 
 echo "=> NAS benchmarks performance running script finished!"

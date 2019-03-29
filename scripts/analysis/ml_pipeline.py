@@ -901,6 +901,7 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
     
     if report_cfg['icc_competition'] == 'true':
         preds = predictions[cfg['model_testing']['model']]
+        icc_comp_report = accuracy_report['icc_competition']
 
         probs = None
         if test_cfg['model'] in ['DT','RFC','SVC','AdaBoost','MLP']:
@@ -936,6 +937,11 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
         case_10_npar = 0
         case_11_npar = 0
 
+        prob_00_avg = 0.0
+        prob_01_avg = 0.0
+        prob_10_avg = 0.0
+        prob_11_avg = 0.0
+
         cases_00_par = set()
         cases_01_par = set()
         cases_10_par = set()
@@ -967,6 +973,7 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
                     elif par == 1:
                         case_00_par += 1
                         cases_00_par.add(str(test_loop_locations[i]) + ": 0 [" + str(prob_0) + "]" + ": 1 [" + str(prob_1) + "]")
+                    prob_00_avg += prob_1
                 elif pred == 1:
                     case_01_num += 1
                     if par == 0:
@@ -975,6 +982,7 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
                     elif par == 1:
                         case_01_par += 1
                         cases_01_par.add(str(test_loop_locations[i]) + ": 0 [" + str(prob_0) + "]" + ": 1 [" + str(prob_1) + "]")
+                    prob_01_avg += prob_1
             elif icc == 1:
                 if pred == 0:
                     case_10_num += 1
@@ -984,6 +992,7 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
                     elif par == 1:
                         case_10_par += 1
                         cases_10_par.add(str(test_loop_locations[i]) + ": 0 [" + str(prob_0) + "]" + ": 1 [" + str(prob_1) + "]")
+                    prob_10_avg += prob_1
                 elif pred == 1:
                     case_11_num += 1
                     if par == 0:
@@ -992,6 +1001,7 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
                     elif par == 1:
                         case_11_par += 1
                         cases_11_par.add(str(test_loop_locations[i]) + ": 0 [" + str(prob_0) + "]" + ": 1 [" + str(prob_1) + "]")
+                    prob_11_avg += prob_1
          
             if pred != par:
                 # misprediction
@@ -1012,7 +1022,52 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
                 else:
                     icc_losses += 1
                     icc_loss_loops.add(str(test_loop_locations[i]) + ":" + str(preds[i]) + ":" + str(test_icc_labels[i]) + ":loss" + ": 0 [" + str(prob_0) + "]" + ": 1 [" + str(prob_1) + "]")
-    
+       
+        if case_00_num != 0:
+            prob_00_avg /= case_00_num
+        else:
+            prob_00_avg = 0.0
+
+        if case_01_num != 0:
+            prob_01_avg /= case_01_num
+        else:
+            prob_01_avg = 0.0
+
+        if case_10_num != 0:
+            prob_10_avg /= case_10_num
+        else:
+            prob_10_avg = 0.0
+
+        if case_11_num != 0:
+            prob_11_avg /= case_11_num
+        else:
+            prob_11_avg = 0.0
+
+        icc_comp_report['00'] = {} 
+        icc_comp_report['01'] = {}
+        icc_comp_report['10'] = {}
+        icc_comp_report['11'] = {}
+
+        icc_comp_report['00']['prob'] = prob_00_avg
+        icc_comp_report['00']['num'] = case_00_num
+        icc_comp_report['00']['par'] = case_00_par
+        icc_comp_report['00']['npar'] = case_00_npar
+
+        icc_comp_report['01']['prob'] = prob_01_avg
+        icc_comp_report['01']['num'] = case_01_num
+        icc_comp_report['01']['par'] = case_01_par
+        icc_comp_report['01']['npar'] = case_01_npar
+
+        icc_comp_report['10']['prob'] = prob_10_avg
+        icc_comp_report['10']['num'] = case_10_num
+        icc_comp_report['10']['par'] = case_10_par
+        icc_comp_report['10']['npar'] = case_10_npar
+
+        icc_comp_report['11']['prob'] = prob_11_avg
+        icc_comp_report['11']['num'] = case_11_num
+        icc_comp_report['11']['par'] = case_11_par
+        icc_comp_report['11']['npar'] = case_11_npar
+
         # Table
         # 0 0
         # 0 1
@@ -1114,9 +1169,9 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
         oracle_report_fd.write("========" + "\n")
         oracle_report_fd.write("\n")
         
-        accuracy_report['safe'] = safe_mispredict_rate
-        accuracy_report['unsafe'] = unsafe_mispredict_rate
-            
+        icc_comp_report['safe'] = safe_mispredict_rate
+        icc_comp_report['unsafe'] = unsafe_mispredict_rate
+
         oracle_report_fd.write("ICC competition" + "\n")
         oracle_report_fd.write("========" + "\n")
         oracle_report_fd.write("icc-discrepancies: " + "{}".format(icc_disagreements) + "\n")
@@ -1127,8 +1182,8 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
         oracle_report_fd.write("========" + "\n")
         oracle_report_fd.write("\n")
 
-        accuracy_report['icc-win'] = icc_win_rate
-        accuracy_report['icc-loss'] = icc_loss_rate
+        icc_comp_report['icc-win'] = icc_win_rate
+        icc_comp_report['icc-loss'] = icc_loss_rate
 
         if report_cfg['loop_locations'] == 'true':
             oracle_report_fd.write("loop:pred:label:safe\n")
@@ -1169,6 +1224,7 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
 
     if report_cfg['oracle_guide'] == 'true':
         preds = predictions[cfg['model_testing']['model']]
+        oracle_report = accuracy_report['oracle']
 
         probs = None
         if test_cfg['model'] in ['DT','RFC','SVC','AdaBoost','MLP']:
@@ -1232,6 +1288,11 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
                     parallel_par.add(str(test_loop_locations[i]) + ":" + str(prob_0) + ":" + str(prob_1))
                     parallel_par_prob0.append(prob_0)
                     parallel_par_prob1.append(prob_1)
+
+        oracle_report['n_npar'] = pd.Series(nparallel_npar_prob1).mean()
+        oracle_report['n_par'] = pd.Series(nparallel_par_prob1).mean()
+        oracle_report['p_npar'] = pd.Series(parallel_npar_prob1).mean()
+        oracle_report['p_par'] = pd.Series(parallel_par_prob1).mean()
    
         # oracle guidance
         total_cases = len(nparallel_npar) + len(nparallel_par) + len(parallel_npar) + len(parallel_par)

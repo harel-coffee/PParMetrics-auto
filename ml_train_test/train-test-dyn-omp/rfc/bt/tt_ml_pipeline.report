@@ -1,5 +1,5 @@
-= MLPipeline (<ml_pipeline.MLPipeline object at 0x7fdaf416c6d8>) =
-= MLPipeline (<ml_pipeline.MLPipeline object at 0x7fdaf416c6d8>): [1] Feature Preprocessing Stage =
+= MLPipeline (<ml_pipeline.MLPipeline object at 0x7fedba050748>) =
+= MLPipeline (<ml_pipeline.MLPipeline object at 0x7fedba050748>): [1] Feature Preprocessing Stage =
 = =============================== =
 
 scaler: StandardScaler( scale=True mean=True )
@@ -64,27 +64,32 @@ dropped features [
 median: 0.8
 model: DT
 
-selected features num: 37
-dropped features num: 3
+selected features num: 32
+dropped features num: 8
 dropped features [
 	loop-iterator-size
+	iterator-mem-dependencies-number
 	payload-output-dependencies-number
+	payload-reg-dependencies-number
+	payload-mem-write-count
 	payload-mem-read-count
+	payload-call-count
+	payload-branch-count
 ]
 [ RFECV ]
 median: 0.9
 model: DT
 
-selected features num: 33
+selected features num: 28
 dropped features num: 4
 dropped features [
-	iterator-mem-dependencies-number
-	payload-reg-dependencies-number
-	payload-mem-write-count
-	payload-call-count
+	payload-true-dependencies-number
+	payload-anti-dependencies-number
+	critical-payload-cross-dependencies-number
+	critical-payload-getelemptr-count
 ]
 = Final feature selection =
-selected features num: 33
+selected features num: 28
 selected features [
 	loop-absolute-size
 	loop-payload-fraction
@@ -101,10 +106,7 @@ selected features [
 	iterator-anti-dependencies-number
 	iterator-conf-dependencies-number
 	payload-total-dependencies-number
-	payload-true-dependencies-number
-	payload-anti-dependencies-number
 	payload-mem-dependencies-number
-	critical-payload-cross-dependencies-number
 	critical-payload-conf-dependencies-number
 	critical-payload-reg-dependencies-number
 	critical-payload-cntl-dependencies-number
@@ -112,12 +114,10 @@ selected features [
 	payload-mem-write-fraction
 	payload-mem-read-fraction
 	payload-call-fraction
-	payload-branch-count
 	payload-branch-fraction
 	payload-getelemptr-count
 	payload-getelemptr-fraction
 	critical-payload-mem-write-fraction
-	critical-payload-getelemptr-count
 	critical-payload-getelemptr-fraction
 ]
 = =========================== =
@@ -136,7 +136,7 @@ min_samples_leaf: 1 5 10 30 50 100
 = =
 max_features: auto sqrt 
 
-{'max_depth': None, 'max_features': 'auto', 'min_samples_leaf': 1, 'min_samples_split': 0.05, 'n_estimators': 50}
+{'max_depth': 10, 'max_features': 'auto', 'min_samples_leaf': 5, 'min_samples_split': 0.05, 'n_estimators': 5}
 = ========================================= =
 
 = [4] Model Training Stage =
@@ -144,10 +144,10 @@ max_features: auto sqrt
 
 main model: RFC
 [auto hyper-parameters search]
-param: {'max_depth': None, 'max_features': 'auto', 'min_samples_leaf': 1, 'min_samples_split': 0.05, 'n_estimators': 50}
+param: {'max_depth': 10, 'max_features': 'auto', 'min_samples_leaf': 5, 'min_samples_split': 0.05, 'n_estimators': 5}
 = ======================== =
 
-= MLPipeline (<ml_pipeline.MLPipeline object at 0x7fdaf416c6d8>) Prediction =
+= MLPipeline (<ml_pipeline.MLPipeline object at 0x7fedba050748>) Prediction =
 = ========================== =
 
 stratified baseline tested

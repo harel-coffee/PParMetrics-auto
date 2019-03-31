@@ -1,5 +1,5 @@
-= MLPipeline (<ml_pipeline.MLPipeline object at 0x7f3f98632668>) =
-= MLPipeline (<ml_pipeline.MLPipeline object at 0x7f3f98632668>): [1] Feature Preprocessing Stage =
+= MLPipeline (<ml_pipeline.MLPipeline object at 0x7f49361486a0>) =
+= MLPipeline (<ml_pipeline.MLPipeline object at 0x7f49361486a0>): [1] Feature Preprocessing Stage =
 = =============================== =
 
 scaler: StandardScaler( scale=True mean=True )
@@ -23,11 +23,14 @@ median: 0.9
 model: RFC
 
 = Final feature selection =
-selected features num: 11
+selected features num: 14
 selected features [
+	loop-absolute-size
 	loop-payload-fraction
+	iterator-payload-total-cohesion
 	iterator-payload-non-cf-cohesion
 	payload-conf-dependencies-number
+	critical-payload-cntl-dependencies-number
 	payload-mem-read-fraction
 	payload-call-count
 	payload-call-fraction
@@ -48,7 +51,7 @@ model: AdaBoost
 = hyper-parameter grid search space =
 n_estimators: 1 2 5 10 20 50 100 
 
-{'n_estimators': 10}
+{'n_estimators': 50}
 = ========================================= =
 
 = [4] Model Training Stage =
@@ -56,10 +59,10 @@ n_estimators: 1 2 5 10 20 50 100
 
 main model: AdaBoost
 [auto hyper-parameters search]
-param: {'n_estimators': 10}
+param: {'n_estimators': 50}
 = ======================== =
 
-= MLPipeline (<ml_pipeline.MLPipeline object at 0x7f3f98632668>) Prediction =
+= MLPipeline (<ml_pipeline.MLPipeline object at 0x7f49361486a0>) Prediction =
 = ========================== =
 
 stratified baseline tested

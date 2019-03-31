@@ -1,5 +1,5 @@
-= MLPipeline (<ml_pipeline.MLPipeline object at 0x7fcb7dec6748>) =
-= MLPipeline (<ml_pipeline.MLPipeline object at 0x7fcb7dec6748>): [1] Feature Preprocessing Stage =
+= MLPipeline (<ml_pipeline.MLPipeline object at 0x7f1848534748>) =
+= MLPipeline (<ml_pipeline.MLPipeline object at 0x7f1848534748>): [1] Feature Preprocessing Stage =
 = =============================== =
 
 scaler: StandardScaler( scale=True mean=True )
@@ -136,7 +136,7 @@ min_samples_leaf: 1 5 10 30 50 100
 = =
 max_features: auto sqrt 
 
-{'max_depth': 10, 'max_features': 'auto', 'min_samples_leaf': 1, 'min_samples_split': 0.05, 'n_estimators': 10}
+{'max_depth': None, 'max_features': 'auto', 'min_samples_leaf': 10, 'min_samples_split': 0.05, 'n_estimators': 5}
 = ========================================= =
 
 = [4] Model Training Stage =
@@ -144,10 +144,10 @@ max_features: auto sqrt
 
 main model: RFC
 [auto hyper-parameters search]
-param: {'max_depth': 10, 'max_features': 'auto', 'min_samples_leaf': 1, 'min_samples_split': 0.05, 'n_estimators': 10}
+param: {'max_depth': None, 'max_features': 'auto', 'min_samples_leaf': 10, 'min_samples_split': 0.05, 'n_estimators': 5}
 = ======================== =
 
-= MLPipeline (<ml_pipeline.MLPipeline object at 0x7fcb7dec6748>) Prediction =
+= MLPipeline (<ml_pipeline.MLPipeline object at 0x7f1848534748>) Prediction =
 = ========================== =
 
 stratified baseline tested

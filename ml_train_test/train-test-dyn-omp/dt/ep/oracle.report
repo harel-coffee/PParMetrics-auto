@@ -41,10 +41,10 @@ non-par: 0
 === case [1 / 1] ===
 = parallelisible =
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(237): 0 [0.05733333333333333]: 1 [0.9426666666666667]
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(179): 0 [0.05733333333333333]: 1 [0.9426666666666667]
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(165): 0 [0.05733333333333333]: 1 [0.9426666666666667]
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(132): 0 [0.05733333333333333]: 1 [0.9426666666666667]
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(231): 0 [0.05733333333333333]: 1 [0.9426666666666667]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(179): 0 [0.05733333333333333]: 1 [0.9426666666666667]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(132): 0 [0.05733333333333333]: 1 [0.9426666666666667]
 = non-parallelisible =
 ===================
 
@@ -79,14 +79,14 @@ Mispredicted loops:
 
 Predicted loops:
 ===================
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(191):0:0: 0 [0.8688524590163934]: 1 [0.13114754098360656]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(155):0:0: 0 [0.8688524590163934]: 1 [0.13114754098360656]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(165):1:1: 0 [0.05733333333333333]: 1 [0.9426666666666667]
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(132):1:1: 0 [0.05733333333333333]: 1 [0.9426666666666667]
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(213):0:0: 0 [0.8688524590163934]: 1 [0.13114754098360656]
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(285):0:0: 0 [0.5849056603773585]: 1 [0.41509433962264153]
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(165):1:1: 0 [0.05733333333333333]: 1 [0.9426666666666667]
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(231):1:1: 0 [0.05733333333333333]: 1 [0.9426666666666667]
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(155):0:0: 0 [0.8688524590163934]: 1 [0.13114754098360656]
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(237):1:1: 0 [0.05733333333333333]: 1 [0.9426666666666667]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(191):0:0: 0 [0.8688524590163934]: 1 [0.13114754098360656]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(285):0:0: 0 [0.5849056603773585]: 1 [0.41509433962264153]
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(231):1:1: 0 [0.05733333333333333]: 1 [0.9426666666666667]
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(179):1:1: 0 [0.05733333333333333]: 1 [0.9426666666666667]
 ===================
 
@@ -122,10 +122,10 @@ mean-prob-1: 94.267
 
 === case [nparallel / npar] ===
 loop-location:prob_0:prob_1
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(285):0.5849056603773585:0.41509433962264153
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(155):0.8688524590163934:0.13114754098360656
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(213):0.8688524590163934:0.13114754098360656
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(191):0.8688524590163934:0.13114754098360656
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(155):0.8688524590163934:0.13114754098360656
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(285):0.5849056603773585:0.41509433962264153
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(213):0.8688524590163934:0.13114754098360656
 ===================
 
 === case [nparallel / par] ===
@@ -139,11 +139,11 @@ loop-location:prob_0:prob_1
 
 === case [parallel / par] ===
 loop-location:prob_0:prob_1
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(165):0.05733333333333333:0.9426666666666667
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(231):0.05733333333333333:0.9426666666666667
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(132):0.05733333333333333:0.9426666666666667
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(179):0.05733333333333333:0.9426666666666667
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(237):0.05733333333333333:0.9426666666666667
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(165):0.05733333333333333:0.9426666666666667
 ===================
 
 
@@ -156,12 +156,12 @@ loop-location:time:par
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(155):0.0:0
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(165):0.0:1
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(179):0.0:1
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(184):0.0:1
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(191):0.0:0
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(213):0.0:0
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(231):0.0:1
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(237):0.0:1
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(285):0.0:0
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(213):0.264:0
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(184):1.0:1
 ===================
 
 = Loop Product =
@@ -171,12 +171,12 @@ loop-location:time:par
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(155):0.0:0
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(165):0.0:1
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(179):0.0:1
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(184):0.0:1
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(191):0.0:0
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(213):0.0:0
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(231):0.0:1
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(237):0.0:1
 /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(285):0.0:0
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(213):0.01856132140525804:0
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(184):0.07030803562597743:1
 ===================
 
 = Loop Random =
@@ -185,60 +185,60 @@ loop-location:time:par
 Loop Random [0]
 ===============
 loop-location:time:product:par
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(285):0.0:0.0:0
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(231):0.0:0.0:1
 ===================
 
 Loop Random [1]
 ===============
 loop-location:time:product:par
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(191):0.0:0.0:0
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(179):0.0:0.0:1
 ===================
 
 Loop Random [2]
 ===============
 loop-location:time:product:par
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(165):0.0:0.0:1
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(231):0.0:0.0:1
 ===================
 
 Loop Random [3]
 ===============
 loop-location:time:product:par
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(213):0.0:0.0:0
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(231):0.0:0.0:1
 ===================
 
 Loop Random [4]
 ===============
 loop-location:time:product:par
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(155):0.0:0.0:0
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(184):1.0:0.07030803562597743:1
 ===================
 
 Loop Random [5]
 ===============
 loop-location:time:product:par
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(132):0.0:0.0:1
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(237):0.0:0.0:1
 ===================
 
 Loop Random [6]
 ===============
 loop-location:time:product:par
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(184):0.0:0.0:1
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(179):0.0:0.0:1
 ===================
 
 Loop Random [7]
 ===============
 loop-location:time:product:par
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(155):0.0:0.0:0
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(191):0.0:0.0:0
 ===================
 
 Loop Random [8]
 ===============
 loop-location:time:product:par
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(179):0.0:0.0:1
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(165):0.0:0.0:1
 ===================
 
 Loop Random [9]
 ===============
 loop-location:time:product:par
-/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(165):0.0:0.0:1
+/home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/EP/src/ep.c(231):0.0:0.0:1
 ===================
 

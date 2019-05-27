@@ -1,0 +1,108 @@
+
+\documentclass{acaces}
+
+\begin{document}
+
+
+\title{"\textit{Smart}" Manual Software Parallelisation Assistant}
+
+\author{
+Aleksandr~Maramzin\addressnum{1}\extranum{1},
+Bj\"{o}rn Franke\addressnum{1}\extranum{2},
+Murray Cole\addressnum{1}\extranum{2}
+}
+
+\address{1}{
+Institute For Computing Systems Architecture, 
+Informatics Forum, 
+The University of Edinburgh, 
+10 Crichton Street, 
+Edinburgh, 
+UK
+}
+
+\extra{1}{E-mail: s1736883@sms.ed.ac.uk}
+\extra{2}{E-mail: \{bfranke,mic\}@inf.ed.ac.uk}
+
+\pagestyle{empty}
+
+
+\begin{abstract}
+\quad Since automatically parallelizing compilers have failed to deliver significant performance improvements, programmers are still forced to parallelize legacy software manually for all but some niche domains. Rather than hoping for an elegant silver bullet, we acknowledge the role of a human expert in the parallelization process and develop a \textit{smart} parallelization assistant.\newline\null
+\quad In its essence our assistant is yet another application of machine learning techniques to the field of optimizing compilers, which tries to predict the parallelisability property of program loops. We use Seoul National University version of NAS Parallel Benchmarks (NPB) \cite{nasa-parallel-benchmarks}, \cite{snu-npb-benchmarks} hand-annotated with OpenMP parallelisation pragmas to train our ML model. We show that the loop parallelisability classification problem can be successfully tackled with machine learning techniques (using only static code features) achieveing accuracy of around 90\% and outperforming all available baseline random predictors working at an accuracy ranging between 40\% and 70\%.\newline\null
+\quad To get a real practical application of our techniques, we integrate our trained ML model into an assistant scheme, designed to mitigate the effects of ineradicable statistical errors and make them less critical. Taking application profile our assistant directs a programmer's efforts by pointing the loops, which are highly likely to be parallelisible and profitable as well. Thus, decreasing the efforts and time it takes to parallelize a program manually. As a side effect our assistant extends the capabilities of Intel C/C++ compiler in the task of parallelism discovery by increasing the amount of parallelism found in SNU NPB benchmarks from 81\% to 96\%.
+\end{abstract}
+
+\keywords{ACACES; poster session; software engineering; parallel programming; compilers; static program dependence analysis; loop iterator recognition; machine learning; programmer feedback;}
+
+\section{Introduction}
+This document ({\tt guide.pdf}) describes {\tt acaces.cls}, the
+\LaTeX~\cite{latex} style file to be used for the abstract of your 
+\href{http://www.hipeac.net/acaces2006/}{ACACES} poster. The document
+you are reading right now was also produced with that style file.
+You are strongly advised to use \LaTeX{} for preparing your camera-ready paper.
+If this is impossible, please try to mimic the layout of this document as
+closely as possible. Word users can use the {\tt
+ACACEStemplate.doc} template.
+
+The remainder of this document assumes you use \LaTeX{} with the
+{\tt acaces.cls} style file.
+
+Using the style file is pretty straightforward, just have a look to the source of this file 
+({\tt guide.tex}).
+
+\section{Learning Loop Parallelisability Property}
+
+
+\section{Typesetter}
+
+
+\section{Assistant Scheme Evaluation}
+
+
+\section{Typesetter}
+
+Use {\tt pdflatex guide.tex} to generate a PDF file, don't use {\tt latex} to
+produce a dvi file and then {\tt dvipdf} or {\tt dvips} followed by {\tt
+ps2pdf} or {\tt pdftopdf} as this results in ugly looking PDF.
+
+\section{Figures} 
+Your figures should also be made in PDF. Unfortunately, not a
+lot of drawing applications allow you to write a PDF file. You can however
+create EPS files and transform the resulting files to PDF using {\tt epstopdf
+figure.eps}. Figure~\ref{logo} shows an example of a figure.
+Please bear in mind that your paper will be reduced to 70\% of its
+original size.
+
+
+\begin{figure}
+\centering
+\includegraphics{hipeac-logo-bw}
+\caption{An example of a Figure: the HiPEAC logo.}
+\label{logo}
+\end{figure}
+
+
+\section{Fonts}
+Please make sure that your PDF file only contains Type1 fonts. This should be
+no problem if you use pdflatex and the {\tt acaces.cls} style file. If you use
+another typesetting system, please check if the resulting PDF file only uses
+Type1 fonts.  You can check this using Acrobat Reader: open your file and
+check all fonts using File$\rightarrow$Document Properties$\rightarrow$Fonts\ldots
+
+\section{Final submission}
+Make sure that your PDF file does not contain page numbers, is
+up to 4 pages long and is formatted for an A4 page.
+Upload the final version before June 8 on the website.
+
+\section{About this style}
+You are encouraged to send bug reports, remarks, \ldots about this style to
+\href{mailto:ronsse@elis.UGent.be}{ronsse@elis.UGent.be}.
+
+\section{End}
+This is the end! \label{end}
+
+\bibliography{guide}
+
+\end{document}
+

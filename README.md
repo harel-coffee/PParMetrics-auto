@@ -8,7 +8,10 @@ This is a research project on the possibility of using machine learning (ML) tec
 # Project directory layout
 The project consists of several components wrapped up together with Bash scripts. The main components are:
 1) LLVM-based library module (include/, src/) computing ML feature vectors for program loops
-2) Intel C/C++ Compiler (ICC) optimization report parser (scripts/icc/), extracting loop classification labels 
+2) Intel C/C++ Compiler (ICC) optimization report parser.
+scripts/icc/
+https://github.com/av-maramzin/icc-opt-report-compiler.git
+
 3) ML scripts
 
 # Typical workflows

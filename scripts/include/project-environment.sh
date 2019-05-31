@@ -12,8 +12,12 @@ error_exit() {
     exit 1
 }
 
+STATUS_MSG=""
+
 # [1] check that script is being launched from the project root directory;
 # stop and redirect the user to the right directory otherwise; 
+STATUS_MSG="Checking script launch directory"
+echo $STATUS_MSG
 declare -a PROJECT_ROOT_SIGNS=("CMakeLists.txt" # PPar tool buildsystem generation CMake rules 
                                "README.md" # GitHub's README file 
                                ".gitmodules") # Git repository stuff
@@ -24,6 +28,8 @@ for file in ${PROJECT_ROOT_SIGNS[@]}; do
         error_exit "${ERROR_MSG}"
     fi
 done
+STATUS_MSG="Script launch directory: OK"
+echo $STATUS_MSG
 
 # project directory layout information
 PROJECT_ROOT_DIR="${PWD}" # project root directory
@@ -42,7 +48,9 @@ SCRIPTS_DIR="${PROJECT_ROOT_DIR}/scripts"
 DOCUMENTS_DIR="${PROJECT_ROOT_DIR}/doc"
 
 # [2] perform a quick repository integrity check;
-# stop and complain if some necessary repository piece is missing; 
+# stop and complain if some necessary repository pieces are missing; 
+STATUS_MSG="Checking repository integrity"
+echo $STATUS_MSG
 declare -a PROJECT_SOURCE_DIRS=("${BENCHMARKS_DIR}"
                                 "${NAS_BENCHMARKS_DIR}"
                                 "${SPEC_CPU2006_BENCHMARKS_DIR}"
@@ -62,6 +70,8 @@ for dir in ${PROJECT_SOURCE_DIRS[@]}; do
         error_exit "${ERROR_MSG}"
     fi
 done
+STATUS_MSG="Repository integrity: OK"
+echo $STATUS_MSG
 
 # project auto-generated build files, results, stuff to be cleaned and reobtained, etc.
 

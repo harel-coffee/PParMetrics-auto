@@ -21,16 +21,21 @@ if __name__ == "__main__":
     print("==== Machine Learning K-Fold Pipeline Run ====")
     print("==============================================")
 
-    if len(sys.argv) != 4:
+    if len(sys.argv) != 5:
         sys.exit("error: use ./train_test_pipeline.py " +
+                 "[K]" + 
                  "[TRAIN/TEST data file]" + 
                  "[Pipeline Configuration INI file]" + 
                  "[REPORT folder]")
 
     # get command line arguments and check that provided files exist
-    raw_data_filename = sys.argv[1]
-    pipeline_cfg_filename = sys.argv[2]
-    report_folder = sys.argv[3] + "/"
+    K = int(sys.argv[1])
+    raw_data_filename = sys.argv[2]
+    pipeline_cfg_filename = sys.argv[3]
+    report_folder = sys.argv[4] + "/"
+
+    if K <= 1:
+        sys.exit("error: " + str(K) + " is not a valid K-fold parameter!")
 
     if not os.path.exists(raw_data_filename):
         sys.exit("error: " + raw_data_filename + " TRAIN/TEST data file does not exist!")
@@ -41,6 +46,7 @@ if __name__ == "__main__":
     if not os.path.exists(report_folder):
         sys.exit("error: " + report_folder + " REPORT folder does not exist!")
 
+    print("K: " + str(K))
     print("Raw data file: " + raw_data_filename)
     print("ML Pipeline Config: " + pipeline_cfg_filename)
     print("REPORT folder: " + report_folder)
@@ -91,8 +97,7 @@ if __name__ == "__main__":
     report_fds['oracle'] = report_fd
 
     # prepare K-fold cross validation
-    K = 30
-    N = 1
+    N = 3
     kf = KFold(n_splits=K)
     rkf = RepeatedKFold(n_splits=K, n_repeats=N, random_state=ml_pipeline.get_random_state())
 

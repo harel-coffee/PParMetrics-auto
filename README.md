@@ -1,9 +1,9 @@
 # PParMetrics (Pervasive Parallelism Software Metrics)
 
-Software Metrics for Parallelism
+"Smart" Parallelisation Assistant (Software Metrics for Parallelism)
 
-# [Brief project description]
-This project is an endeavour to develop a machine learning based tool for software source code parallelisability analysis and prediction.    
+# Brief project description
+This is a research project on the possibility of using machine learning techniques in order to assist a programmer in the task of manual software parallelisation. This is not a final product quality tool, but rather a playground for the proof of concept and the assessment of idea's practical usefullness. 
 
 # [Project requirements]
 The project uses and is dependent upon a number of software libraries, software frameworks tools and technologies:

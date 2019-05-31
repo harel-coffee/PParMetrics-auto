@@ -3,7 +3,13 @@
 "Smart" Parallelisation Assistant (Software Metrics for Parallelism)
 
 # Brief project description
-This is a research project on the possibility of using machine learning techniques in order to assist a programmer in the task of manual software parallelisation. This is not a final product quality tool, but rather a playground for the proof of concept and the assessment of idea's practical usefullness. 
+This is a research project on the possibility of using machine learning (ML) techniques in order to assist a programmer in the task of manual software parallelisation. This is not a final product quality tool, but rather a playground for the proof of concept and the assessment of idea's practical usefullness. 
+
+# Project directory layout
+The project consists of several components wrapped up together with Bash scripts. The main components are:
+1) LLVM-based library module (include/, src/) computing ML feature vectors for program loops
+2) Intel C/C++ Compiler (ICC) optimization report parser (scripts/icc/), extracting loop classification labels 
+3) ML scripts
 
 # [Project requirements]
 The project uses and is dependent upon a number of software libraries, software frameworks tools and technologies:

@@ -6,13 +6,20 @@
 This is a research project on the possibility of using machine learning (ML) techniques in order to assist a programmer in the task of manual software parallelisation. This is not a final production quality tool, but rather a playground for the proof of concept and the assessment of idea's practical usefullness. 
 
 # Project directory layout
-The project consists of several components wrapped up together with Bash scripts. The main components are:
-1) LLVM-based library module (include/, src/) computing ML feature vectors for program loops
-2) Intel C/C++ Compiler (ICC) optimization report parser.
-scripts/icc/
-https://github.com/av-maramzin/icc-opt-report-compiler.git
+The project consists of several components wrapped up together with the help of Bash scripts (_scripts/_). The main project components are:
 
-3) ML scripts
+1) LLVM-based PParTool (_include/_, _src/_) computing ML feature vectors for program loops. 
+
+2) Intel C/C++ Compiler (ICC) optimization report parser (_scripts/icc/_) pulled from the 
+https://github.com/av-maramzin/icc-opt-report-compiler.git repository. The parser is used to extract the list of loop classification labels.  
+
+3) ML train/test pipeline scripts (_scripts/ml_). 
+
+4) Benchmarks _benchmarks/_ include SNU NAS Parallel Benchmarks (benchmarks/snu-npb) and SPEC CPU2006 (benchmarks/spec-cpu2006/), although only SNU NPB are currectly used for a research.
+
+5) The _playground/_ folder is used for a quick experimentation with toy examples. Initial implementation and debugging.
+
+6) Documents _doc_ gather all presentations, posters, texts, etc. from several events and meetings. 
 
 # Typical workflows
 The whole end-to-end process is not fully automated and requires several separate steps to perform.

@@ -1447,6 +1447,7 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
         plt.figure(2)
 
         colors = []
+        patterns = []
         probabilities = []
         loop_times = []
         products = []
@@ -1529,7 +1530,7 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
         filename += str('/' + 'product_loop_rank.eps')
         plt.savefig(filename, format='eps', dpi=1000)
 
-        # [3] Plot icc, predictor and real parallelisability vs loop running time
+        # [4] Plot icc, predictor and real parallelisability vs loop running time
         
         plt.figure(4)
 
@@ -1622,7 +1623,7 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
         filename += str('/' + 'time_parallel_loop_rank.eps')
         plt.savefig(filename, format='eps', dpi=1000)
 
-        # [1] Plot loop probabilistic ranking
+        # [5] Plot loop probabilistic ranking
         
         plt.figure(5)
 
@@ -1668,11 +1669,13 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
         filename += str('/' + 'time_prob_loop_rank.eps')
         plt.savefig(filename, format='eps', dpi=1000)
 
-        # [2] Plot loop runtime ranking
+        # [6] Plot loop runtime ranking
         
         plt.figure(6)
 
         colors = []
+        edgecolors = []
+        patterns = []
         probabilities = []
         loop_times = []
         products = []
@@ -1688,14 +1691,27 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
             loop_time = test_times[i]
 
             color = ''
+            edgecolor = ''
+            pattern = ''
             if par == 1:
                 if omp == 1:
-                    color = 'blue'
+                    #color = 'blue'
+                    color = 'grey'
+                    edgecolor = 'black'
+                    pattern = ''
                 else:
-                    color = 'green'
+                    #color = 'green'
+                    color = 'none'
+                    edgecolor = 'black'
+                    pattern = ''
             else:
-                color = 'red'
+                #color = 'red'
+                color = 'black'
+                edgecolor = 'black'
+                pattern = ''
             colors.append(color)
+            edgecolors.append(edgecolor)
+            patterns.append(pattern)
             
             probabilities.append(prob_1)
             if loop_time == 0:
@@ -1703,21 +1719,27 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
             loop_times.append(loop_time)
             products.append(product_func(loop_time,prob_1))
         
-        loop_times, probabilities, products, colors = zip(*sorted(zip(loop_times, probabilities, products, colors)))
+        loop_times, probabilities, products, colors, edgecolors, patterns = zip(*sorted(zip(loop_times, probabilities, products, colors, edgecolors, patterns)))
 
         # ICC subplot
         plt.subplot(2, 1, 1)
-        plt.bar(x=np.array(range(len(loop_times))), height=loop_times, align='center', color=colors)
-        plt.title("Loop Running Time Ranking")
-        plt.ylabel('time')
-        plt.xlabel('loops')
+        bar = plt.bar(x=np.array(range(len(loop_times))), height=loop_times, align='center', color=colors, edgecolor=edgecolors)
+        
+        # Loop over the bars
+        for i,thisbar in enumerate(bar.patches):
+            # Set a different hatch for each bar
+            thisbar.set_hatch(patterns[i])
+
+        #plt.title("Loop Running Time vs. Product Ranking")
+        plt.ylabel('runtime')
+#        plt.xlabel('loops')
 
 #        products, probabilities, loop_times, colors = zip(*sorted(zip(products, probabilities, loop_times, colors)))
 
         plt.subplot(2, 1, 2)
-        plt.bar(x=np.array(range(len(products))), height=products, align='center', color=colors)
-        plt.title("Loop Product Ranking")
-        plt.ylabel('time')
+        plt.bar(x=np.array(range(len(products))), height=products, align='center', color=colors, edgecolor=edgecolors)
+#        plt.title("Loop Product Ranking")
+        plt.ylabel('product')
         plt.xlabel('loops')
 
         filename = os.path.realpath(oracle_report_fd.name)
@@ -1725,11 +1747,13 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
         filename += str('/' + 'runtime_vs_product_loop_parallel_rank.eps')
         plt.savefig(filename, format='eps', dpi=1000)
 
-        # [2] Plot loop runtime ranking
+        # [7] Plot loop runtime ranking
         
         plt.figure(7)
 
         colors = []
+        edgecolors = []
+        patterns = []
         probabilities = []
         loop_times = []
         products = []
@@ -1744,14 +1768,23 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
             loop_time = test_times[i]
 
             color = ''
+            pattern = ''
             if par == 1:
                 if omp == 1:
-                    color = 'blue'
+                    color = 'grey'
+                    edgecolor = 'black'
+                    pattern = ''
                 else:
-                    color = 'green'
+                    color = 'none'
+                    edgecolor = 'black'
+                    pattern = ''
             else:
-                color = 'red'
+                color = 'black'
+                edgecolor = 'black'
+                pattern = ''
             colors.append(color)
+            edgecolors.append(edgecolor)
+            patterns.append(pattern)
             
             probabilities.append(prob_1)
             if loop_time == 0:
@@ -1759,21 +1792,31 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
             loop_times.append(loop_time)
             products.append(product_func(loop_time,prob_1))
         
-        loop_times, probabilities, products, colors = zip(*sorted(zip(loop_times, probabilities, products, colors)))
+        loop_times, probabilities, products, colors, edgecolors, patterns = zip(*sorted(zip(loop_times, probabilities, products, colors, edgecolors, patterns)))
 
         # ICC subplot
         plt.subplot(2, 1, 1)
-        plt.bar(x=np.array(range(len(loop_times))), height=loop_times, align='center', color=colors)
-        plt.title("Loop Running Time Ranking")
-        plt.ylabel('time')
-        plt.xlabel('loops')
+        bar = plt.bar(x=np.array(range(len(loop_times))), height=loop_times, align='center', color=colors, edgecolor=edgecolors, hatch=patterns)
 
-        products, probabilities, loop_times, colors = zip(*sorted(zip(products, probabilities, loop_times, colors)))
+        # Loop over the bars
+        for i,thisbar in enumerate(bar.patches):
+            # Set a different hatch for each bar
+            thisbar.set_hatch(patterns[i])
+
+        #plt.title("Loop Running Time vs. Product Ranking")
+        plt.ylabel('runtime')
+
+        products, probabilities, loop_times, colors, edgecolors, patterns = zip(*sorted(zip(products, probabilities, loop_times, colors, edgecolors, patterns)))
 
         plt.subplot(2, 1, 2)
-        plt.bar(x=np.array(range(len(products))), height=products, align='center', color=colors)
-        plt.title("Loop Product Ranking")
-        plt.ylabel('time')
+        bar = plt.bar(x=np.array(range(len(products))), height=products, align='center', color=colors, edgecolor=edgecolors, hatch=patterns)
+        
+        # Loop over the bars
+        for i,thisbar in enumerate(bar.patches):
+            # Set a different hatch for each bar
+            thisbar.set_hatch(patterns[i])
+
+        plt.ylabel('product')
         plt.xlabel('loops')
 
         filename = os.path.realpath(oracle_report_fd.name)

@@ -1,0 +1,28 @@
+= Split 0 =
+= ========= =
+Training data size: 5
+Testing data size: 5
+
+= MLPipeline (<ml_pipeline.MLPipeline object at 0x7f36b1f4c390>) =
+= MLPipeline (<ml_pipeline.MLPipeline object at 0x7f36b1f4c390>): [1] Feature Preprocessing Stage =
+= =============================== =
+
+scaler: StandardScaler( scale=True mean=True )
+features fitted and transformed
+= =============================== =
+
+= [2] Feature Selection Stage =
+= =========================== =
+
+4 selectors specified
+
+[ VarianceThreshold ]
+threshold: 0.16
+
+[ SelectFromModel ]
+median: 0.05
+model: DT
+
+[ RFECV ]
+median: 0.9
+model: DT

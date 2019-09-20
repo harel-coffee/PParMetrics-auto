@@ -1,0 +1,64 @@
+= Split 0 =
+= ========= =
+Training data size: 10
+Testing data size: 10
+
+= MLPipeline (<ml_pipeline.MLPipeline object at 0x7f0f1c5e8390>) =
+= MLPipeline (<ml_pipeline.MLPipeline object at 0x7f0f1c5e8390>): [1] Feature Preprocessing Stage =
+= =============================== =
+
+scaler: StandardScaler( scale=True mean=True )
+features fitted and transformed
+= =============================== =
+
+= [2] Feature Selection Stage =
+= =========================== =
+
+4 selectors specified
+
+[ VarianceThreshold ]
+threshold: 0.16
+
+selected features num: 46
+dropped features num: 28
+dropped features [
+	loop-iterator-size
+	loop-proper-sccs-mdg-number
+	loop-depth
+	iterator-payload-mem-cohesion
+	iterator-total-dependencies-number
+	iterator-true-dependencies-number
+	iterator-anti-dependencies-number
+	iterator-output-dependencies-number
+	iterator-cross-dependencies-number
+	iterator-conf-dependencies-number
+	iterator-reg-dependencies-number
+	iterator-mem-dependencies-number
+	iterator-cntl-dependencies-number
+	critical-payload-anti-dependencies-number
+	critical-payload-cross-dependencies-number
+	iterator-mem-write-count
+	iterator-mem-write-fraction
+	iterator-mem-read-count
+	iterator-mem-read-fraction
+	iterator-call-count
+	iterator-call-fraction
+	iterator-branch-count
+	iterator-branch-fraction
+	iterator-getelemptr-count
+	iterator-getelemptr-fraction
+	critical-payload-call-count
+	critical-payload-call-fraction
+	critical-payload-branch-fraction
+]
+[ SelectFromModel ]
+median: 0.2
+model: DT
+
+selected features num: 46
+dropped features num: 0
+dropped features [
+]
+[ RFECV ]
+median: 0.8
+model: DT

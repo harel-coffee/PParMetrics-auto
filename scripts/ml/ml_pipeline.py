@@ -1671,7 +1671,7 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
 
         # [6] Plot loop runtime ranking
         
-        plt.figure(6)
+        plt.figure(6,figsize=(10,12))
 
         colors = []
         edgecolors = []
@@ -1696,17 +1696,17 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
             if par == 1:
                 if omp == 1:
                     #color = 'blue'
-                    color = 'grey'
+                    color = 'blue'
                     edgecolor = 'black'
                     pattern = ''
                 else:
-                    #color = 'green'
-                    color = 'none'
+                    color = 'blue'
+                    #color = 'none'
                     edgecolor = 'black'
                     pattern = ''
             else:
-                #color = 'red'
-                color = 'black'
+                color = 'lightgrey'
+                #color = 'black'
                 edgecolor = 'black'
                 pattern = ''
             colors.append(color)
@@ -1719,33 +1719,72 @@ def report_results(cfg, report_fds, predictions, test_loop_locations, test_par_l
             loop_times.append(loop_time)
             products.append(product_func(loop_time,prob_1))
         
-        loop_times, probabilities, products, colors, edgecolors, patterns = zip(*sorted(zip(loop_times, probabilities, products, colors, edgecolors, patterns)))
+        loop_times, probabilities, products, colors, edgecolors, patterns = zip(*sorted(zip(loop_times, probabilities, products, colors, edgecolors, patterns),reverse=True))
+        products = products[:30]
+        loop_times = loop_times[:30]
+        probabilities = probabilities[:30]
+        colors = colors[:30]
+        edgecolors = edgecolors[:30]
+        patterns = patterns[:30]
 
         # ICC subplot
-        plt.subplot(2, 1, 1)
-        bar = plt.bar(x=np.array(range(len(loop_times))), height=loop_times, align='center', color=colors, edgecolor=edgecolors)
-        
+        plt.subplot(3, 1, 1)
+        bar = plt.bar(x=np.array(range(1,len(loop_times)+1)), height=loop_times, align='center', color=colors, edgecolor=edgecolors, linewidth=0.1)
+        x=np.array(range(1,len(loop_times)+1))
+        plt.xticks([1,10,20,30])
+        plt.tick_params(axis="x", labelsize=16)
+        plt.tick_params(axis="y", labelsize=16)
+
         # Loop over the bars
         for i,thisbar in enumerate(bar.patches):
             # Set a different hatch for each bar
             thisbar.set_hatch(patterns[i])
 
         #plt.title("Loop Running Time vs. Product Ranking")
-        plt.ylabel('runtime')
-#        plt.xlabel('loops')
+        plt.ylabel('profiler score', fontsize=16)
+        plt.xlabel('profiler loop ranking',fontsize=16)
+
 
 #        products, probabilities, loop_times, colors = zip(*sorted(zip(products, probabilities, loop_times, colors)))
 
-        plt.subplot(2, 1, 2)
-        plt.bar(x=np.array(range(len(products))), height=products, align='center', color=colors, edgecolor=edgecolors)
+        plt.subplot(3, 1, 2)
+        plt.bar(x=np.array(range(1,len(products)+1)), height=products, align='center', color=colors, edgecolor=edgecolors, linewidth=0.1)
 #        plt.title("Loop Product Ranking")
-        plt.ylabel('product')
-        plt.xlabel('loops')
+        plt.xticks([1,10,20,30])
+        plt.tick_params(axis="x", labelsize=16)
+        plt.tick_params(axis="y", labelsize=16)
+
+        # Loop over the bars
+        for i,thisbar in enumerate(bar.patches):
+            # Set a different hatch for each bar
+            thisbar.set_hatch(patterns[i])
+
+        plt.ylabel('assistant score',fontsize=16)
+        plt.xlabel('profiler loop ranking',fontsize=16)
+
+        products, loop_times, probabilities, colors, edgecolors, patterns = zip(*sorted(zip(products, loop_times, probabilities, colors, edgecolors, patterns),reverse=True))
+        
+        plt.subplot(3, 1, 3)
+        plt.bar(x=np.array(range(1,len(products)+1)), height=products, align='center', color=colors, edgecolor=edgecolors, linewidth=0.1)
+#        plt.title("Loop Product Ranking")
+        plt.xticks([1,10,20,30])
+        plt.tick_params(axis="x", labelsize=16)
+        plt.tick_params(axis="y", labelsize=16)
+
+        # Loop over the bars
+        for i,thisbar in enumerate(bar.patches):
+            # Set a different hatch for each bar
+            thisbar.set_hatch(patterns[i])
+
+        plt.ylabel('assistant score',fontsize=16)
+        plt.xlabel('assistant loop ranking',fontsize=16)
+
+        plt.tight_layout()
 
         filename = os.path.realpath(oracle_report_fd.name)
         filename = os.path.dirname(filename)
         filename += str('/' + 'runtime_vs_product_loop_parallel_rank.eps')
-        plt.savefig(filename, format='eps', dpi=1000)
+        plt.savefig(filename, format='eps', dpi=2000)
 
         # [7] Plot loop runtime ranking
         

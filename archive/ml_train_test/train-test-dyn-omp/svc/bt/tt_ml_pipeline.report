@@ -1,0 +1,156 @@
+= MLPipeline (<ml_pipeline.MLPipeline object at 0x7fe7e2c30828>) =
+= MLPipeline (<ml_pipeline.MLPipeline object at 0x7fe7e2c30828>): [1] Feature Preprocessing Stage =
+= =============================== =
+
+scaler: StandardScaler( scale=True mean=True )
+features fitted and transformed
+= =============================== =
+
+= [2] Feature Selection Stage =
+= =========================== =
+
+3 selectors specified
+
+[ VarianceThreshold ]
+threshold: 0.16
+
+selected features num: 73
+dropped features num: 1
+dropped features [
+	loop-proper-sccs-mdg-number
+]
+[ SelectFromModel ]
+median: 0.2
+model: DT
+
+selected features num: 40
+dropped features num: 33
+dropped features [
+	loop-proper-sccs-number
+	loop-proper-sccs-number-diff
+	loop-proper-sccs-ddg-number
+	iterator-payload-mem-cohesion
+	iterator-total-dependencies-number
+	iterator-output-dependencies-number
+	iterator-cross-dependencies-number
+	iterator-reg-dependencies-number
+	iterator-cntl-dependencies-number
+	payload-cross-dependencies-number
+	payload-conf-dependencies-number
+	payload-cntl-dependencies-number
+	critical-payload-total-dependencies-number
+	critical-payload-true-dependencies-number
+	critical-payload-anti-dependencies-number
+	critical-payload-output-dependencies-number
+	critical-payload-mem-dependencies-number
+	iterator-mem-write-count
+	iterator-mem-write-fraction
+	iterator-mem-read-count
+	iterator-call-count
+	iterator-call-fraction
+	iterator-branch-count
+	iterator-branch-fraction
+	iterator-getelemptr-count
+	iterator-getelemptr-fraction
+	critical-payload-mem-write-count
+	critical-payload-mem-read-count
+	critical-payload-mem-read-fraction
+	critical-payload-call-count
+	critical-payload-call-fraction
+	critical-payload-branch-count
+	critical-payload-branch-fraction
+]
+[ RFECV ]
+median: 0.8
+model: DT
+
+selected features num: 32
+dropped features num: 8
+dropped features [
+	loop-iterator-size
+	iterator-mem-dependencies-number
+	payload-output-dependencies-number
+	payload-reg-dependencies-number
+	payload-mem-write-count
+	payload-mem-read-count
+	payload-call-count
+	payload-branch-count
+]
+= Final feature selection =
+selected features num: 32
+selected features [
+	loop-absolute-size
+	loop-payload-fraction
+	loop-proper-sccs-ddg-number-diff
+	loop-critical-payload-fraction
+	loop-depth
+	loop-inner-loop-num
+	iterator-payload-total-cohesion
+	iterator-payload-non-cf-cohesion
+	critical-payload-total-cohesion
+	critical-payload-non-cf-cohesion
+	critical-payload-mem-cohesion
+	iterator-true-dependencies-number
+	iterator-anti-dependencies-number
+	iterator-conf-dependencies-number
+	payload-total-dependencies-number
+	payload-true-dependencies-number
+	payload-anti-dependencies-number
+	payload-mem-dependencies-number
+	critical-payload-cross-dependencies-number
+	critical-payload-conf-dependencies-number
+	critical-payload-reg-dependencies-number
+	critical-payload-cntl-dependencies-number
+	iterator-mem-read-fraction
+	payload-mem-write-fraction
+	payload-mem-read-fraction
+	payload-call-fraction
+	payload-branch-fraction
+	payload-getelemptr-count
+	payload-getelemptr-fraction
+	critical-payload-mem-write-fraction
+	critical-payload-getelemptr-count
+	critical-payload-getelemptr-fraction
+]
+= =========================== =
+
+= [3] Model Hyper-Parameter Selection Stage =
+= ========================================= =
+
+= Automatic model hyper-parameter selection =
+method: GridSearchCV
+model: SVC
+= hyper-parameter grid search space =
+kernels: rbf 
+gammas: 1.0 0.1 0.01 0.001 0.0001 
+Cs: 1 10 
+= =
+
+{'C': 1, 'gamma': 0.1, 'kernel': 'rbf'}
+= ========================================= =
+
+= [4] Model Training Stage =
+= ======================== =
+
+main model: SVC
+[auto hyper-parameters search]
+param: {'C': 1, 'gamma': 0.1, 'kernel': 'rbf'}
+= ======================== =
+
+= MLPipeline (<ml_pipeline.MLPipeline object at 0x7fe7e2c30828>) Prediction =
+= ========================== =
+
+stratified baseline tested
+most_frequent baseline tested
+prior baseline tested
+uniform baseline tested
+constant baseline tested
+= ========================== =
+
+= [6] Model Report Stage =
+= ====================== =
+
+==============================================================
+
+
+

@@ -1,0 +1,630 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+Intel(R) C Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 19.0.0.117 Build 20180804
+
+Compiler options: -O3 -g -parallel -vec -ipo -ip-no-inlining -unroll0 -mcmodel=medium -xHost -qopt-report=5 -qopt-report-phase=vec,par,loop,ipo -qopt-report-file=report.txt -qopenmp-stubs -debug inline-debug-info -g -rdynamic -o setparams
+
+    Report from: Interprocedural optimizations [ipo]
+
+  WHOLE PROGRAM (SAFE) [EITHER METHOD]: false
+  WHOLE PROGRAM (SEEN) [TABLE METHOD]: false
+  WHOLE PROGRAM (READ) [OBJECT READER METHOD]: false
+
+INLINING OPTION VALUES:
+  -inline-factor: 100
+  -inline-min-size: 30
+  -inline-max-size: 230
+  -inline-max-total-size: 2000
+  -inline-max-per-routine: disabled
+  -inline-max-per-compile: disabled
+
+In the inlining report below:
+   "sz" refers to the "size" of the routine. The smaller a routine's size,
+      the more likely it is to be inlined.
+   "isz" refers to the "inlined size" of the routine. This is the amount
+      the calling routine will grow if the called routine is inlined into it.
+      The compiler generally limits the amount a routine can grow by having
+      routines inlined into it.
+
+Begin optimization report for: main(int, char **)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (main(int, char **)) [1/26=3.8%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(86,1)
+  -> EXTERN: (91,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (92,5) exit(int)
+  -> (96,3) get_info(char **, int *, char *) (isz = 220) (sz = 229)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (102,5) check_info(int, char) (isz = 69) (sz = 76)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (106,3) read_info(int, char *) (isz = 66) (sz = 74)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> EXTERN: (115,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (127,5) exit(int)
+  -> (135,5) write_info(int, char) (isz = 165) (sz = 172)
+     [[ Callee not marked with inlining pragma  <1>]]
+
+===========================================================================
+
+Begin optimization report for: get_info(char **, int *, char *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (get_info(char **, int *, char *)) [2/26=7.7%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(151,1)
+  -> EXTERN: (155,13) strcmp(const char *, const char *)
+  -> EXTERN: (155,39) strcmp(const char *, const char *)
+  -> EXTERN: (156,13) strcmp(const char *, const char *)
+  -> EXTERN: (156,39) strcmp(const char *, const char *)
+  -> EXTERN: (157,13) strcmp(const char *, const char *)
+  -> EXTERN: (157,39) strcmp(const char *, const char *)
+  -> EXTERN: (158,13) strcmp(const char *, const char *)
+  -> EXTERN: (158,39) strcmp(const char *, const char *)
+  -> EXTERN: (159,13) strcmp(const char *, const char *)
+  -> EXTERN: (159,39) strcmp(const char *, const char *)
+  -> EXTERN: (160,13) strcmp(const char *, const char *)
+  -> EXTERN: (160,39) strcmp(const char *, const char *)
+  -> EXTERN: (161,13) strcmp(const char *, const char *)
+  -> EXTERN: (161,39) strcmp(const char *, const char *)
+  -> EXTERN: (162,13) strcmp(const char *, const char *)
+  -> EXTERN: (162,39) strcmp(const char *, const char *)
+  -> EXTERN: (163,13) strcmp(const char *, const char *)
+  -> EXTERN: (163,39) strcmp(const char *, const char *)
+  -> EXTERN: (164,13) strcmp(const char *, const char *)
+  -> EXTERN: (164,39) strcmp(const char *, const char *)
+  -> EXTERN: (166,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (167,5) exit(int)
+
+===========================================================================
+
+Begin optimization report for: check_info(int, char)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (check_info(int, char)) [3/26=11.5%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(176,1)
+  -> EXTERN: (186,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (187,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (188,5) exit(int)
+  -> EXTERN: (192,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (193,5) exit(int)
+  -> EXTERN: (196,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (197,5) exit(int)
+
+===========================================================================
+
+Begin optimization report for: read_info(int, char *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (read_info(int, char *)) [4/26=15.4%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(212,1)
+  -> EXTERN: (215,8) fopen(const char *__restrict__, const char *__restrict__)
+  -> EXTERN: (234,19) fscanf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (236,13) printf(const char *__restrict__, ...)
+  -> EXTERN: (242,19) fscanf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (244,13) printf(const char *__restrict__, ...)
+  -> EXTERN: (250,9) printf(const char *__restrict__, ...)
+  -> EXTERN: (251,9) exit(int)
+  -> EXTERN: (254,3) fclose(FILE *)
+
+===========================================================================
+
+Begin optimization report for: write_info(int, char)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (write_info(int, char)) [5/26=19.2%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(273,1)
+  -> EXTERN: (275,8) fopen(const char *__restrict__, const char *__restrict__)
+  -> EXTERN: (277,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (278,5) exit(int)
+  -> EXTERN: (291,11) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (293,11) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (301,11) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (302,11) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (310,11) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (311,11) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (321,11) printf(const char *__restrict__, ...)
+  -> EXTERN: (323,11) exit(int)
+  -> (329,5) write_sp_info(FILE *, char) (isz = 92) (sz = 99)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (332,5) write_bt_info(FILE *, char) (isz = 92) (sz = 99)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (335,5) write_dc_info(FILE *, char) (isz = 30) (sz = 37)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (338,5) write_lu_info(FILE *, char) (isz = 123) (sz = 130)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (341,5) write_mg_info(FILE *, char) (isz = 135) (sz = 142)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (344,5) write_is_info(FILE *, char) (isz = 25) (sz = 32)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (347,5) write_ft_info(FILE *, char) (isz = 139) (sz = 146)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (350,5) write_ep_info(FILE *, char) (isz = 66) (sz = 73)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (353,5) write_cg_info(FILE *, char) (isz = 119) (sz = 126)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (356,5) write_ua_info(FILE *, char) (isz = 127) (sz = 134)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> EXTERN: (359,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (360,5) exit(int)
+  -> (362,3) write_convertdouble_info(int, FILE *) (isz = 12) (sz = 19)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (363,3) write_compiler_info(int, FILE *) (isz = 416) (sz = 423)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> EXTERN: (364,3) fclose(FILE *)
+
+===========================================================================
+
+Begin optimization report for: write_dc_info(FILE *, char)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (write_dc_info(FILE *, char)) [6/26=23.1%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(423,1)
+  -> EXTERN: (430,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (431,5) exit(int)
+  -> EXTERN: (433,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+
+===========================================================================
+
+Begin optimization report for: write_convertdouble_info(int, FILE *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (write_convertdouble_info(int, FILE *)) [7/26=26.9%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(1013,1)
+  -> EXTERN: (1026,5) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+
+===========================================================================
+
+Begin optimization report for: write_compiler_info(int, FILE *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (write_compiler_info(int, FILE *)) [8/26=30.8%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(701,1)
+  -> EXTERN: (709,13) fopen(const char *__restrict__, const char *__restrict__)
+  -> EXTERN: (711,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (716,5) exit(int)
+  -> EXTERN: (718,3) memcpy
+  -> EXTERN: (719,3) memcpy
+  -> EXTERN: (720,3) memcpy
+  -> EXTERN: (721,3) memcpy
+  -> EXTERN: (722,3) memcpy
+  -> EXTERN: (723,3) memcpy
+  -> EXTERN: (724,3) memcpy
+  -> EXTERN: (725,3) memcpy
+  -> EXTERN: (726,3) memcpy
+  -> EXTERN: (727,3) memcpy
+  -> EXTERN: (728,3) memcpy
+  -> EXTERN: (729,3) memcpy
+  -> EXTERN: (730,3) memcpy
+  -> EXTERN: (732,10) fgets(char *__restrict__, int, FILE *__restrict__)
+  -> EXTERN: (732,10) fgets(char *__restrict__, int, FILE *__restrict__)
+  -> (735,5) check_line(char *, char *, char *) (isz = 244) (sz = 257)
+     [[ Inlining would exceed -inline-max-size value (257>230) <2>]]
+  -> (736,5) check_line(char *, char *, char *) (isz = 244) (sz = 257)
+     [[ Inlining would exceed -inline-max-size value (257>230) <2>]]
+  -> (737,5) check_line(char *, char *, char *) (isz = 244) (sz = 257)
+     [[ Inlining would exceed -inline-max-size value (257>230) <2>]]
+  -> (738,5) check_line(char *, char *, char *) (isz = 244) (sz = 257)
+     [[ Inlining would exceed -inline-max-size value (257>230) <2>]]
+  -> (739,5) check_line(char *, char *, char *) (isz = 244) (sz = 257)
+     [[ Inlining would exceed -inline-max-size value (257>230) <2>]]
+  -> (740,5) check_line(char *, char *, char *) (isz = 244) (sz = 257)
+     [[ Inlining would exceed -inline-max-size value (257>230) <2>]]
+  -> (741,5) check_line(char *, char *, char *) (isz = 244) (sz = 257)
+     [[ Inlining would exceed -inline-max-size value (257>230) <2>]]
+  -> (742,5) check_line(char *, char *, char *) (isz = 244) (sz = 257)
+     [[ Inlining would exceed -inline-max-size value (257>230) <2>]]
+  -> (743,5) check_line(char *, char *, char *) (isz = 244) (sz = 257)
+     [[ Inlining would exceed -inline-max-size value (257>230) <2>]]
+  -> (744,5) check_line(char *, char *, char *) (isz = 244) (sz = 257)
+     [[ Inlining would exceed -inline-max-size value (257>230) <2>]]
+  -> (745,5) check_line(char *, char *, char *) (isz = 244) (sz = 257)
+     [[ Inlining would exceed -inline-max-size value (257>230) <2>]]
+  -> (746,5) check_line(char *, char *, char *) (isz = 244) (sz = 257)
+     [[ Inlining would exceed -inline-max-size value (257>230) <2>]]
+  -> (747,5) check_line(char *, char *, char *) (isz = 244) (sz = 257)
+     [[ Inlining would exceed -inline-max-size value (257>230) <2>]]
+  -> EXTERN: (751,10) time(time_t *)
+  -> EXTERN: (752,9) localtime(const time_t *)
+  -> EXTERN: (753,10) strftime(char *__restrict__, size_t, const char *__restrict__, const struct tm *__restrict__)
+  -> (765,11) put_def_string(FILE *, char *, char *) (isz = 23) (sz = 32)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (766,11) put_def_string(FILE *, char *, char *) (isz = 23) (sz = 32)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (767,11) put_def_string(FILE *, char *, char *) (isz = 23) (sz = 32)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (768,11) put_def_string(FILE *, char *, char *) (isz = 23) (sz = 32)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (769,11) put_def_string(FILE *, char *, char *) (isz = 23) (sz = 32)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (770,11) put_def_string(FILE *, char *, char *) (isz = 23) (sz = 32)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (771,11) put_def_string(FILE *, char *, char *) (isz = 23) (sz = 32)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (772,11) put_def_string(FILE *, char *, char *) (isz = 23) (sz = 32)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (773,4) put_def_string(FILE *, char *, char *) (isz = 23) (sz = 32)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (777,11) put_def_string(FILE *, char *, char *) (isz = 23) (sz = 32)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (778,11) put_def_string(FILE *, char *, char *) (isz = 23) (sz = 32)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (779,11) put_def_string(FILE *, char *, char *) (isz = 23) (sz = 32)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (780,11) put_def_string(FILE *, char *, char *) (isz = 23) (sz = 32)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (781,11) put_def_string(FILE *, char *, char *) (isz = 23) (sz = 32)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (782,11) put_def_string(FILE *, char *, char *) (isz = 23) (sz = 32)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (783,11) put_def_string(FILE *, char *, char *) (isz = 23) (sz = 32)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (784,11) put_def_string(FILE *, char *, char *) (isz = 23) (sz = 32)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> EXTERN: (787,11) printf(const char *__restrict__, ...)
+  -> EXTERN: (789,11) exit(int)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(732,3)
+   remark #17102: loop was not parallelized: not a parallelization candidate
+   remark #15521: loop was not vectorized: loop control variable was not identified. Explicitly compute the iteration count before executing the loop or try using canonical loop form from OpenMP specification
+LOOP END
+===========================================================================
+
+Begin optimization report for: put_def_string(FILE *, char *, char *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (put_def_string(FILE *, char *, char *)) [9/26=34.6%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(907,1)
+  -> CP_CLONE (910,9) fix_string_quote..0(char *, char *, int) (isz = 37) (sz = 48)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> EXTERN: (918,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+
+===========================================================================
+
+Begin optimization report for: fix_string_quote..0(char *, char *, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (fix_string_quote..0(char *, char *, int)) [10/26=38.5%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(890,1)
+  CLONED FROM: fix_string_quote(char *, char *, int)(X,X,48)
+  -> EXTERN: (893,9) strlen(const char *)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(895,3)
+   remark #17102: loop was not parallelized: not a parallelization candidate
+   remark #15521: loop was not vectorized: loop control variable was not identified. Explicitly compute the iteration count before executing the loop or try using canonical loop form from OpenMP specification
+LOOP END
+===========================================================================
+
+Begin optimization report for: check_line(char *, char *, char *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (check_line(char *, char *, char *)) [11/26=42.3%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(795,1)
+  -> EXTERN: (806,8) __ctype_b_loc(void)
+  -> EXTERN: (808,10) __ctype_b_loc(void)
+  -> EXTERN: (808,10) __ctype_b_loc(void)
+  -> EXTERN: (812,10) __ctype_b_loc(void)
+  -> EXTERN: (812,10) __ctype_b_loc(void)
+  -> EXTERN: (816,3) strcpy(char *__restrict__, const char *__restrict__)
+  -> EXTERN: (818,7) strlen(const char *)
+  -> EXTERN: (824,28) fgets(char *__restrict__, int, FILE *__restrict__)
+  -> EXTERN: (826,13) __ctype_b_loc(void)
+  -> EXTERN: (826,13) __ctype_b_loc(void)
+  -> EXTERN: (827,10) __ctype_b_loc(void)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(800,3)
+   remark #17102: loop was not parallelized: not a parallelization candidate
+   remark #15523: loop was not vectorized: loop control variable label was found, but loop iteration count cannot be computed before executing the loop
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(808,3)
+   remark #17102: loop was not parallelized: not a parallelization candidate
+   remark #15523: loop was not vectorized: loop control variable line was found, but loop iteration count cannot be computed before executing the loop
+   remark #25456: Number of Array Refs Scalar Replaced In Loop: 1
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(812,3)
+   remark #17102: loop was not parallelized: not a parallelization candidate
+   remark #15523: loop was not vectorized: loop control variable line was found, but loop iteration count cannot be computed before executing the loop
+   remark #25456: Number of Array Refs Scalar Replaced In Loop: 1
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(824,3)
+   remark #17102: loop was not parallelized: not a parallelization candidate
+   remark #15521: loop was not vectorized: loop control variable was not identified. Explicitly compute the iteration count before executing the loop or try using canonical loop form from OpenMP specification
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(826,6)
+      remark #17102: loop was not parallelized: not a parallelization candidate
+      remark #15523: loop was not vectorized: loop control variable line was found, but loop iteration count cannot be computed before executing the loop
+      remark #25456: Number of Array Refs Scalar Replaced In Loop: 1
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(828,6)
+      remark #17102: loop was not parallelized: not a parallelization candidate
+      remark #15523: loop was not vectorized: loop control variable n was found, but loop iteration count cannot be computed before executing the loop
+   LOOP END
+LOOP END
+===========================================================================
+
+Begin optimization report for: write_bt_info(FILE *, char)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (write_bt_info(FILE *, char)) [12/26=46.2%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(398,1)
+  -> EXTERN: (409,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (410,5) exit(int)
+  -> EXTERN: (412,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (413,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (414,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+
+===========================================================================
+
+Begin optimization report for: write_ua_info(FILE *, char)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (write_ua_info(FILE *, char)) [13/26=50.0%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(584,1)
+  -> EXTERN: (603,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (604,5) exit(int)
+  -> EXTERN: (607,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (608,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (609,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (610,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (611,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (612,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (613,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (614,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+
+===========================================================================
+
+Begin optimization report for: write_cg_info(FILE *, char)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (write_cg_info(FILE *, char)) [14/26=53.8%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(541,1)
+  -> EXTERN: (569,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (570,5) exit(int)
+  -> EXTERN: (572,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (573,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (574,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (575,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (576,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+
+===========================================================================
+
+Begin optimization report for: write_ep_info(FILE *, char)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (write_ep_info(FILE *, char)) [15/26=57.7%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(659,1)
+  -> EXTERN: (673,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (674,5) exit(int)
+  -> EXTERN: (677,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (678,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+
+===========================================================================
+
+Begin optimization report for: write_is_info(FILE *, char)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (write_is_info(FILE *, char)) [16/26=61.5%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(522,1)
+  -> EXTERN: (530,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (531,5) exit(int)
+
+===========================================================================
+
+Begin optimization report for: write_ft_info(FILE *, char)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (write_ft_info(FILE *, char)) [17/26=65.4%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(622,1)
+  -> EXTERN: (636,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (637,5) exit(int)
+  -> EXTERN: (643,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (644,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (645,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (646,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (647,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (648,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (649,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (650,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (651,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+
+===========================================================================
+
+Begin optimization report for: write_mg_info(FILE *, char)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (write_mg_info(FILE *, char)) [18/26=69.2%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(479,1)
+  -> EXTERN: (491,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (492,5) exit(int)
+  -> (494,15) ilog2(int) (isz = 18) (sz = 27)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> EXTERN: (503,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (504,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (505,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (506,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (507,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (508,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (509,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (510,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (511,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (512,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (513,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+
+===========================================================================
+
+Begin optimization report for: ilog2(int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (ilog2(int)) [19/26=73.1%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(973,1)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(978,3)
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #17106: parallel dependence: assumed ANTI dependence between exp2 (979:5) and exp2 (981:5)
+   remark #17106: parallel dependence: assumed FLOW dependence between exp2 (981:5) and exp2 (979:5)
+   remark #17106: parallel dependence: assumed ANTI dependence between exp2 (979:5) and exp2 (981:5)
+   remark #15520: loop was not vectorized: loop with multiple exits cannot be vectorized unless it meets search loop idiom criteria   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(979,26) ]
+LOOP END
+===========================================================================
+
+Begin optimization report for: write_lu_info(FILE *, char)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (write_lu_info(FILE *, char)) [20/26=76.9%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(442,1)
+  -> EXTERN: (454,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (455,5) exit(int)
+  -> EXTERN: (462,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (463,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (464,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (465,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (467,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (468,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (469,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (471,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+
+===========================================================================
+
+Begin optimization report for: write_sp_info(FILE *, char)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (write_sp_info(FILE *, char)) [21/26=80.8%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(374,1)
+  -> EXTERN: (385,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (386,5) exit(int)
+  -> EXTERN: (388,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (389,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (390,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+
+===========================================================================
+
+Begin optimization report for: check_include_line(char *, char *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (check_include_line(char *, char *)) [22/26=84.6%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(848,1)
+  -> EXTERN: (857,8) __ctype_b_loc(void)
+  -> EXTERN: (859,10) __ctype_b_loc(void)
+  -> EXTERN: (859,10) __ctype_b_loc(void)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(851,3)
+   remark #17102: loop was not parallelized: not a parallelization candidate
+   remark #15523: loop was not vectorized: loop control variable include_string was found, but loop iteration count cannot be computed before executing the loop
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(859,3)
+   remark #17102: loop was not parallelized: not a parallelization candidate
+   remark #15523: loop was not vectorized: loop control variable line was found, but loop iteration count cannot be computed before executing the loop
+   remark #25456: Number of Array Refs Scalar Replaced In Loop: 1
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(863,3)
+   remark #17102: loop was not parallelized: not a parallelization candidate
+   remark #15523: loop was not vectorized: loop control variable filename was found, but loop iteration count cannot be computed before executing the loop
+LOOP END
+===========================================================================
+
+Begin optimization report for: put_string(FILE *, char *, char *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (put_string(FILE *, char *, char *)) [23/26=88.5%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(874,1)
+  -> EXTERN: (876,9) strlen(const char *)
+  -> EXTERN: (884,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (885,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+
+===========================================================================
+
+Begin optimization report for: fix_string_quote(char *, char *, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (fix_string_quote(char *, char *, int)) [24/26=92.3%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(890,1)
+  -> EXTERN: (893,9) strlen(const char *)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(895,3)
+   remark #17102: loop was not parallelized: not a parallelization candidate
+   remark #15521: loop was not vectorized: loop control variable was not identified. Explicitly compute the iteration count before executing the loop or try using canonical loop form from OpenMP specification
+LOOP END
+===========================================================================
+
+Begin optimization report for: put_def_variable(FILE *, char *, char *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (put_def_variable(FILE *, char *, char *)) [25/26=96.2%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(922,1)
+  -> EXTERN: (924,9) strlen(const char *)
+  -> EXTERN: (932,3) fprintf(FILE *__restrict__, const char *__restrict__, ...)
+
+===========================================================================
+
+Begin optimization report for: power(double, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (power(double, int)) [26/26=100.0%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(995,1)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(1004,3)
+   remark #17108: loop was not parallelized: insufficient computational work
+   remark #15305: vectorization support: vector length 4
+   remark #15309: vectorization support: normalized vectorization overhead 4.000
+   remark #15300: LOOP WAS VECTORIZED
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 4 
+   remark #15477: vector cost: 1.250 
+   remark #15478: estimated potential speedup: 3.030 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/sys/setparams.c(1004,3)
+<Remainder loop for vectorization>
+LOOP END
+===========================================================================
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINING FOOTNOTES:
+
+<1> The compiler's heuristics indicate that the function is not profitable to 
+    inline.  Override this decision by adding "inline 
+    __attribute__((always_inline))" to the declaration of the called function, 
+    or add "#pragma forceinline" before the call site.
+
+<2> The function is larger than the inliner would normally inline.  Use the
+    option -inline-max-size to increase the size of any function that would
+    normally be inlined, add "inline __attribute__((always_inline))" to the
+    declaration of the called function, or add "#pragma forceinline" before
+    the call site.
+

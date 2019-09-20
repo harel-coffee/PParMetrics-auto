@@ -1,0 +1,1797 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+Intel(R) C Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 19.0.0.117 Build 20180804
+
+Compiler options: -O3 -g -parallel -vec -ipo -ip-no-inlining -unroll0 -mcmodel=medium -xHost -qopt-report=5 -qopt-report-phase=vec,par,loop,ipo -qopt-report-file=report.txt -qopenmp-stubs -debug inline-debug-info -g -rdynamic -o mg -lm
+
+    Report from: Interprocedural optimizations [ipo]
+
+  WHOLE PROGRAM (SAFE) [EITHER METHOD]: false
+  WHOLE PROGRAM (SEEN) [TABLE METHOD]: false
+  WHOLE PROGRAM (READ) [OBJECT READER METHOD]: false
+
+INLINING OPTION VALUES:
+  -inline-factor: 100
+  -inline-min-size: 30
+  -inline-max-size: 230
+  -inline-max-total-size: 2000
+  -inline-max-per-routine: disabled
+  -inline-max-per-compile: disabled
+
+In the inlining report below:
+   "sz" refers to the "size" of the routine. The smaller a routine's size,
+      the more likely it is to be inlined.
+   "isz" refers to the "inlined size" of the routine. This is the amount
+      the calling routine will grow if the called routine is inlined into it.
+      The compiler generally limits the amount a routine can grow by having
+      routines inlined into it.
+
+Begin optimization report for: timer_read(int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (timer_read(int)) [1/28=3.6%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/common/c_timers.c(72,1)
+
+===========================================================================
+
+Begin optimization report for: print_results(char *, char, int, int, int, int, double, double, char *, logical, char *, char *, char *, char *, char *, char *, char *, char *, char *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (print_results(char *, char, int, int, int, int, double, double, char *, logical, char *, char *, char *, char *, char *, char *, char *, char *, char *)) [2/28=7.1%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/common/print_results.c(14,1)
+  -> EXTERN: (33,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (34,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (43,7) sprintf(char *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (43,33) exp2
+  -> EXTERN: (50,7) printf(const char *__restrict__, ...)
+  -> EXTERN: (52,7) printf(const char *__restrict__, ...)
+  -> EXTERN: (55,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (58,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (59,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (61,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (62,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (66,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (67,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (69,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (71,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (73,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (74,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (75,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (77,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (79,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (80,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (81,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (82,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (83,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (84,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (86,3) printf(const char *__restrict__, ...)
+
+===========================================================================
+
+Begin optimization report for: wtime_(double *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (wtime_(double *)) [3/28=10.7%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/common/wtime.c(8,1)
+  -> EXTERN: (12,4) gettimeofday(struct timeval *__restrict__, __timezone_ptr_t)
+
+===========================================================================
+
+Begin optimization report for: elapsed_time(void)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (elapsed_time(void)) [4/28=14.3%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/common/c_timers.c(15,1)
+  -> (22,5) wtime_(double *) (isz = 15) (sz = 20)
+     [[ Callee not marked with inlining pragma  <1>]]
+
+===========================================================================
+
+Begin optimization report for: timer_stop(int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (timer_stop(int)) [5/28=17.9%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/common/c_timers.c(57,1)
+  -> (60,11) elapsed_time(void) (isz = 2) (sz = 7)
+     [[ Callee not marked with inlining pragma  <1>]]
+
+===========================================================================
+
+Begin optimization report for: timer_start(int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (timer_start(int)) [6/28=21.4%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/common/c_timers.c(48,1)
+  -> (49,16) elapsed_time(void) (isz = 2) (sz = 7)
+     [[ Callee not marked with inlining pragma  <1>]]
+
+===========================================================================
+
+Begin optimization report for: norm2u3(void *, int, int, int, double *, double *, int, int, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (norm2u3(void *, int, int, int, double *, double *, int, int, int)) [7/28=25.0%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(859,1)
+  -> (867,16) timer_start(int) (isz = 2) (sz = 7)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> EXTERN: (879,19) pow(double, double)
+  -> (895,16) timer_stop(int) (isz = 12) (sz = 17)
+     [[ Callee not marked with inlining pragma  <1>]]
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(876,5)
+   remark #25101: Loop Interchange not done due to: Original Order seems proper
+   remark #25452: Original Order found to be proper, but by a close margin
+   remark #17109: LOOP WAS AUTO-PARALLELIZED
+   remark #17101: parallel loop shared={ .2 } private={ } firstprivate={ n3 i2 i1 U4a_V U48_V or n1 n2 i3 } lastprivate={ } firstlastprivate={ } reduction={ my_rnmu s }
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(877,7)
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(878,9)
+      <Peeled loop for vectorization>
+         remark #25456: Number of Array Refs Scalar Replaced In Loop: 1
+         remark #25015: Estimate of max trip count of loop=3
+      LOOP END
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(878,9)
+         remark #25427: Loop Statements Reordered
+         remark #15389: vectorization support: reference or[i3][i2][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(880,20) ]
+         remark #15389: vectorization support: reference or[i3][i2][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(879,23) ]
+         remark #15381: vectorization support: unaligned access used inside loop body
+         remark #15305: vectorization support: vector length 4
+         remark #15309: vectorization support: normalized vectorization overhead 1.938
+         remark #15300: LOOP WAS VECTORIZED
+         remark #15442: entire loop may be executed in remainder
+         remark #15450: unmasked unaligned unit stride loads: 1 
+         remark #15475: --- begin vector cost summary ---
+         remark #15476: scalar cost: 21 
+         remark #15477: vector cost: 4.000 
+         remark #15478: estimated potential speedup: 4.840 
+         remark #15488: --- end vector cost summary ---
+         remark #25456: Number of Array Refs Scalar Replaced In Loop: 1
+      LOOP END
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(878,9)
+      <Remainder loop for vectorization>
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(876,5)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(877,7)
+      remark #17107: loop was not parallelized: inner loop
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(878,9)
+      <Peeled loop for vectorization>
+         remark #25456: Number of Array Refs Scalar Replaced In Loop: 1
+         remark #25015: Estimate of max trip count of loop=3
+      LOOP END
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(878,9)
+         remark #17107: loop was not parallelized: inner loop
+         remark #25427: Loop Statements Reordered
+         remark #15389: vectorization support: reference or[i3][i2][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(880,20) ]
+         remark #15389: vectorization support: reference or[i3][i2][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(879,23) ]
+         remark #15381: vectorization support: unaligned access used inside loop body
+         remark #15305: vectorization support: vector length 4
+         remark #15309: vectorization support: normalized vectorization overhead 1.938
+         remark #15300: LOOP WAS VECTORIZED
+         remark #15442: entire loop may be executed in remainder
+         remark #15450: unmasked unaligned unit stride loads: 1 
+         remark #15475: --- begin vector cost summary ---
+         remark #15476: scalar cost: 21 
+         remark #15477: vector cost: 4.000 
+         remark #15478: estimated potential speedup: 4.840 
+         remark #15488: --- end vector cost summary ---
+         remark #25456: Number of Array Refs Scalar Replaced In Loop: 1
+      LOOP END
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(878,9)
+      <Remainder loop for vectorization>
+      LOOP END
+   LOOP END
+LOOP END
+===========================================================================
+
+Begin optimization report for: showall(void *, int, int, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (showall(void *, int, int, int)) [8/28=28.6%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1179,1)
+  -> EXTERN: (1189,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (1193,9) printf(const char *__restrict__, ...)
+  -> EXTERN: (1195,7) printf(const char *__restrict__, ...)
+  -> EXTERN: (1197,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (1199,3) printf(const char *__restrict__, ...)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1190,3)
+   remark #25096: Loop Interchange not done due to: Imperfect Loop Nest (Either at Source or due to other Compiler Transformations)
+   remark #25451: Advice: Loop Interchange, if possible, might help loopnest. Suggested Permutation : ( 1 2 3 ) --> ( 1 3 2 ) 
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #17106: parallel dependence: assumed OUTPUT dependence between call:printf(const char *__restrict__, ...) (1193:9) and call:printf(const char *__restrict__, ...) (1197:5)
+   remark #17106: parallel dependence: assumed OUTPUT dependence between call:printf(const char *__restrict__, ...) (1197:5) and call:printf(const char *__restrict__, ...) (1193:9)
+   remark #15382: vectorization support: call to function printf(const char *__restrict__, ...) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1193,9) ]
+   remark #15382: vectorization support: call to function printf(const char *__restrict__, ...) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1195,7) ]
+   remark #15382: vectorization support: call to function printf(const char *__restrict__, ...) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1197,5) ]
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+   remark #15346: vector dependence: assumed OUTPUT dependence between call:printf(const char *__restrict__, ...) (1193:9) and call:printf(const char *__restrict__, ...) (1197:5)
+   remark #15346: vector dependence: assumed OUTPUT dependence between call:printf(const char *__restrict__, ...) (1197:5) and call:printf(const char *__restrict__, ...) (1193:9)
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1191,5)
+      remark #25096: Loop Interchange not done due to: Imperfect Loop Nest (Either at Source or due to other Compiler Transformations)
+      remark #25451: Advice: Loop Interchange, if possible, might help loopnest. Suggested Permutation : ( 1 2 ) --> ( 2 1 ) 
+      remark #17104: loop was not parallelized: existence of parallel dependence
+      remark #17106: parallel dependence: assumed OUTPUT dependence between call:printf(const char *__restrict__, ...) (1193:9) and call:printf(const char *__restrict__, ...) (1195:7)
+      remark #17106: parallel dependence: assumed OUTPUT dependence between call:printf(const char *__restrict__, ...) (1195:7) and call:printf(const char *__restrict__, ...) (1193:9)
+      remark #15382: vectorization support: call to function printf(const char *__restrict__, ...) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1193,9) ]
+      remark #15382: vectorization support: call to function printf(const char *__restrict__, ...) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1195,7) ]
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization
+      remark #15346: vector dependence: assumed OUTPUT dependence between call:printf(const char *__restrict__, ...) (1193:9) and call:printf(const char *__restrict__, ...) (1195:7)
+      remark #15346: vector dependence: assumed OUTPUT dependence between call:printf(const char *__restrict__, ...) (1195:7) and call:printf(const char *__restrict__, ...) (1193:9)
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1192,7)
+         remark #17104: loop was not parallelized: existence of parallel dependence
+         remark #15382: vectorization support: call to function printf(const char *__restrict__, ...) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1193,9) ]
+         remark #15344: loop was not vectorized: vector dependence prevents vectorization
+      LOOP END
+   LOOP END
+LOOP END
+===========================================================================
+
+Begin optimization report for: rep_nrm(void *, int, int, int, char *, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (rep_nrm(void *, int, int, int, char *, int)) [9/28=32.1%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(903,1)
+  -> (906,3) norm2u3(void *, int, int, int, double *, double *, int, int, int) (isz = 84) (sz = 105)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> EXTERN: (907,3) printf(const char *__restrict__, ...)
+
+===========================================================================
+
+Begin optimization report for: comm3(void *, int, int, int, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (comm3(void *, int, int, int, int)) [10/28=35.7%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(915,1)
+  -> (920,16) timer_start(int) (isz = 2) (sz = 7)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (946,16) timer_stop(int) (isz = 12) (sz = 17)
+     [[ Callee not marked with inlining pragma  <1>]]
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(924,3)
+   remark #17108: loop was not parallelized: insufficient computational work
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(925,5)
+      remark #17108: loop was not parallelized: insufficient computational work
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #15329: vectorization support: non-unit strided store was emulated for the variable <ou[i3][i2][0]>, stride is unknown to compiler   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(926,7) ]
+      remark #15328: vectorization support: non-unit strided load was emulated for the variable <ou[i3][i2][n1-2]>, stride is unknown to compiler   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(926,25) ]
+      remark #15329: vectorization support: non-unit strided store was emulated for the variable <ou[i3][i2][n1-1]>, stride is unknown to compiler   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(927,7) ]
+      remark #15328: vectorization support: non-unit strided load was emulated for the variable <ou[i3][i2][1]>, stride is unknown to compiler   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(927,25) ]
+      remark #15305: vectorization support: vector length 2
+      remark #15309: vectorization support: normalized vectorization overhead 0.250
+      remark #15452: unmasked strided loads: 2 
+      remark #15453: unmasked strided stores: 2 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 7 
+      remark #15477: vector cost: 8.000 
+      remark #15478: estimated potential speedup: 0.870 
+      remark #15488: --- end vector cost summary ---
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(932,5)
+   <Peeled loop for vectorization>
+      remark #25015: Estimate of max trip count of loop=3
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(932,5)
+      remark #17108: loop was not parallelized: insufficient computational work
+      remark #15389: vectorization support: reference ou[i3][0][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(933,7) ]
+      remark #15389: vectorization support: reference ou[i3][n2-2][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(933,25) ]
+      remark #15389: vectorization support: reference ou[i3][n2-1][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(934,7) ]
+      remark #15389: vectorization support: reference ou[i3][1][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(934,25) ]
+      remark #15381: vectorization support: unaligned access used inside loop body
+      remark #15305: vectorization support: vector length 4
+      remark #15309: vectorization support: normalized vectorization overhead 1.900
+      remark #15300: LOOP WAS VECTORIZED
+      remark #15442: entire loop may be executed in remainder
+      remark #15450: unmasked unaligned unit stride loads: 2 
+      remark #15451: unmasked unaligned unit stride stores: 2 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 7 
+      remark #15477: vector cost: 2.500 
+      remark #15478: estimated potential speedup: 2.660 
+      remark #15488: --- end vector cost summary ---
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(932,5)
+   <Remainder loop for vectorization>
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(939,3)
+   remark #17108: loop was not parallelized: insufficient computational work
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(940,5)
+   <Peeled loop for vectorization>
+      remark #25015: Estimate of max trip count of loop=3
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(940,5)
+      remark #17108: loop was not parallelized: insufficient computational work
+      remark #15389: vectorization support: reference ou[0][i2][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(941,7) ]
+      remark #15389: vectorization support: reference ou[n3-2][i2][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(941,25) ]
+      remark #15389: vectorization support: reference ou[n3-1][i2][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(942,7) ]
+      remark #15389: vectorization support: reference ou[1][i2][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(942,25) ]
+      remark #15381: vectorization support: unaligned access used inside loop body
+      remark #15305: vectorization support: vector length 4
+      remark #15309: vectorization support: normalized vectorization overhead 1.900
+      remark #15300: LOOP WAS VECTORIZED
+      remark #15442: entire loop may be executed in remainder
+      remark #15450: unmasked unaligned unit stride loads: 2 
+      remark #15451: unmasked unaligned unit stride stores: 2 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 7 
+      remark #15477: vector cost: 2.500 
+      remark #15478: estimated potential speedup: 2.660 
+      remark #15488: --- end vector cost summary ---
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(940,5)
+   <Remainder loop for vectorization>
+   LOOP END
+LOOP END
+===========================================================================
+
+Begin optimization report for: resid(void *, void *, void *, int, int, int, double *, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (resid(void *, void *, void *, int, int, int, double *, int)) [11/28=39.3%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(553,1)
+  -> (561,16) timer_start(int) (isz = 2) (sz = 7)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (585,16) timer_stop(int) (isz = 12) (sz = 17)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (590,3) comm3(void *, int, int, int, int) (isz = 145) (sz = 158)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (593,5) rep_nrm(void *, int, int, int, char *, int) (isz = 16) (sz = 31)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (597,5) showall(void *, int, int, int) (isz = 66) (sz = 77)
+     [[ Callee not marked with inlining pragma  <1>]]
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(563,3)
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #17106: parallel dependence: assumed FLOW dependence between u1[i1] (566:9) and u1[i1-1] (572:9)
+   remark #17106: parallel dependence: assumed ANTI dependence between u1[i1-1] (572:9) and u1[i1] (566:9)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(564,5)
+      remark #17104: loop was not parallelized: existence of parallel dependence
+      remark #17106: parallel dependence: assumed FLOW dependence between u1[i1] (566:9) and u1[i1-1] (572:9)
+      remark #17106: parallel dependence: assumed ANTI dependence between u1[i1-1] (572:9) and u1[i1] (566:9)
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(565,7)
+      <Peeled, Peeled loop for vectorization>
+         remark #25015: Estimate of max trip count of loop=3
+      LOOP END
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(565,7)
+      <Peeled>
+         remark #17108: loop was not parallelized: insufficient computational work
+         remark #15388: vectorization support: reference u1[i1] has aligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(566,9) ]
+         remark #15389: vectorization support: reference ou[i3][i2-1][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(566,18) ]
+         remark #15389: vectorization support: reference ou[i3][i2+1][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(566,36) ]
+         remark #15389: vectorization support: reference ou[i3-1][i2][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(567,18) ]
+         remark #15389: vectorization support: reference ou[i3+1][i2][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(567,36) ]
+         remark #15388: vectorization support: reference u2[i1] has aligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(568,9) ]
+         remark #15389: vectorization support: reference ou[i3-1][i2-1][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(568,18) ]
+         remark #15389: vectorization support: reference ou[i3-1][i2+1][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(568,38) ]
+         remark #15389: vectorization support: reference ou[i3+1][i2-1][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(569,18) ]
+         remark #15389: vectorization support: reference ou[i3+1][i2+1][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(569,38) ]
+         remark #15381: vectorization support: unaligned access used inside loop body
+         remark #15305: vectorization support: vector length 4
+         remark #15309: vectorization support: normalized vectorization overhead 1.308
+         remark #15300: LOOP WAS VECTORIZED
+         remark #15449: unmasked aligned unit stride stores: 2 
+         remark #15450: unmasked unaligned unit stride loads: 8 
+         remark #15475: --- begin vector cost summary ---
+         remark #15476: scalar cost: 23 
+         remark #15477: vector cost: 6.500 
+         remark #15478: estimated potential speedup: 3.370 
+         remark #15488: --- end vector cost summary ---
+         remark #25015: Estimate of max trip count of loop=64
+      LOOP END
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(565,7)
+      <Peeled, Remainder loop for vectorization>
+         remark #25015: Estimate of max trip count of loop=259
+      LOOP END
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(571,7)
+      <Peeled>
+         remark #17104: loop was not parallelized: existence of parallel dependence
+         remark #17106: parallel dependence: assumed FLOW dependence between or[i3][i2][i1] (572:9) and ov[i3][i2][i1] (572:9)
+         remark #17106: parallel dependence: assumed ANTI dependence between ov[i3][i2][i1] (572:9) and or[i3][i2][i1] (572:9)
+         remark #15344: loop was not vectorized: vector dependence prevents vectorization
+         remark #15346: vector dependence: assumed FLOW dependence between or[i3][i2][i1] (572:9) and ov[i3][i2][i1] (572:9)
+         remark #15346: vector dependence: assumed ANTI dependence between ov[i3][i2][i1] (572:9) and or[i3][i2][i1] (572:9)
+         remark #25456: Number of Array Refs Scalar Replaced In Loop: 3
+         remark #25015: Estimate of max trip count of loop=259
+      LOOP END
+   LOOP END
+LOOP END
+===========================================================================
+
+Begin optimization report for: psinv(void *, void *, int, int, int, double *, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (psinv(void *, void *, int, int, int, double *, int)) [12/28=42.9%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(490,1)
+  -> (498,16) timer_start(int) (isz = 2) (sz = 7)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (522,16) timer_stop(int) (isz = 12) (sz = 17)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (527,3) comm3(void *, int, int, int, int) (isz = 145) (sz = 158)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (530,5) rep_nrm(void *, int, int, int, char *, int) (isz = 16) (sz = 31)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (534,5) showall(void *, int, int, int) (isz = 66) (sz = 77)
+     [[ Callee not marked with inlining pragma  <1>]]
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(500,3)
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #17106: parallel dependence: assumed FLOW dependence between r1[i1] (503:9) and r1[i1-1] (509:9)
+   remark #17106: parallel dependence: assumed ANTI dependence between r1[i1-1] (509:9) and r1[i1] (503:9)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(501,5)
+      remark #17104: loop was not parallelized: existence of parallel dependence
+      remark #17106: parallel dependence: assumed FLOW dependence between r1[i1] (503:9) and r1[i1-1] (509:9)
+      remark #17106: parallel dependence: assumed ANTI dependence between r1[i1-1] (509:9) and r1[i1] (503:9)
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(502,7)
+      <Peeled, Peeled loop for vectorization>
+         remark #25015: Estimate of max trip count of loop=3
+      LOOP END
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(502,7)
+      <Peeled>
+         remark #17108: loop was not parallelized: insufficient computational work
+         remark #15388: vectorization support: reference r1[i1] has aligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(503,9) ]
+         remark #15389: vectorization support: reference or[i3][i2-1][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(503,18) ]
+         remark #15389: vectorization support: reference or[i3][i2+1][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(503,36) ]
+         remark #15389: vectorization support: reference or[i3-1][i2][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(504,18) ]
+         remark #15389: vectorization support: reference or[i3+1][i2][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(504,36) ]
+         remark #15388: vectorization support: reference r2[i1] has aligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(505,9) ]
+         remark #15389: vectorization support: reference or[i3-1][i2-1][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(505,18) ]
+         remark #15389: vectorization support: reference or[i3-1][i2+1][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(505,38) ]
+         remark #15389: vectorization support: reference or[i3+1][i2-1][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(506,18) ]
+         remark #15389: vectorization support: reference or[i3+1][i2+1][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(506,38) ]
+         remark #15381: vectorization support: unaligned access used inside loop body
+         remark #15305: vectorization support: vector length 4
+         remark #15309: vectorization support: normalized vectorization overhead 1.308
+         remark #15300: LOOP WAS VECTORIZED
+         remark #15449: unmasked aligned unit stride stores: 2 
+         remark #15450: unmasked unaligned unit stride loads: 8 
+         remark #15475: --- begin vector cost summary ---
+         remark #15476: scalar cost: 23 
+         remark #15477: vector cost: 6.500 
+         remark #15478: estimated potential speedup: 3.370 
+         remark #15488: --- end vector cost summary ---
+         remark #25015: Estimate of max trip count of loop=64
+      LOOP END
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(502,7)
+      <Peeled, Remainder loop for vectorization>
+         remark #25015: Estimate of max trip count of loop=259
+      LOOP END
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(508,7)
+      <Peeled>
+         remark #17108: loop was not parallelized: insufficient computational work
+         remark #15389: vectorization support: reference ou[i3][i2][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(509,9) ]
+         remark #15389: vectorization support: reference ou[i3][i2][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(509,25) ]
+         remark #15389: vectorization support: reference or[i3][i2][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(510,32) ]
+         remark #15389: vectorization support: reference or[i3][i2][i1-1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(511,34) ]
+         remark #15389: vectorization support: reference or[i3][i2][i1+1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(511,52) ]
+         remark #15389: vectorization support: reference r1[i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(512,34) ]
+         remark #15389: vectorization support: reference r2[i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(513,34) ]
+         remark #15388: vectorization support: reference r1[i1-1] has aligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(513,43) ]
+         remark #15389: vectorization support: reference r1[i1+1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(513,54) ]
+         remark #15381: vectorization support: unaligned access used inside loop body
+         remark #15305: vectorization support: vector length 4
+         remark #15309: vectorization support: normalized vectorization overhead 0.562
+         remark #15300: LOOP WAS VECTORIZED
+         remark #15448: unmasked aligned unit stride loads: 1 
+         remark #15450: unmasked unaligned unit stride loads: 7 
+         remark #15451: unmasked unaligned unit stride stores: 1 
+         remark #15475: --- begin vector cost summary ---
+         remark #15476: scalar cost: 28 
+         remark #15477: vector cost: 8.000 
+         remark #15478: estimated potential speedup: 3.370 
+         remark #15488: --- end vector cost summary ---
+         remark #25015: Estimate of max trip count of loop=64
+      LOOP END
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(508,7)
+      <Peeled, Remainder loop for vectorization>
+         remark #25015: Estimate of max trip count of loop=259
+      LOOP END
+   LOOP END
+LOOP END
+===========================================================================
+
+Begin optimization report for: interp(void *, int, int, int, void *, int, int, int, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (interp(void *, int, int, int, void *, int, int, int, int)) [13/28=46.4%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(696,1)
+  -> (708,16) timer_start(int) (isz = 2) (sz = 7)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (835,16) timer_stop(int) (isz = 12) (sz = 17)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (838,5) rep_nrm(void *, int, int, int, char *, int) (isz = 16) (sz = 31)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (839,5) rep_nrm(void *, int, int, int, char *, int) (isz = 16) (sz = 31)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (843,5) showall(void *, int, int, int) (isz = 66) (sz = 77)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (844,5) showall(void *, int, int, int) (isz = 66) (sz = 77)
+     [[ Callee not marked with inlining pragma  <1>]]
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(711,5)
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #17106: parallel dependence: assumed ANTI dependence between oz[i3][i2+1][i1] (714:11) and ou[i3*2+1][i2*2+1][i1*2+1] (740:11)
+   remark #17106: parallel dependence: assumed FLOW dependence between ou[i3*2+1][i2*2+1][i1*2+1] (740:11) and oz[i3][i2+1][i1] (714:11)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(712,7)
+      remark #17104: loop was not parallelized: existence of parallel dependence
+      remark #17106: parallel dependence: assumed ANTI dependence between oz[i3][i2+1][i1] (714:11) and ou[i3*2+1][i2*2+1][i1*2+1] (740:11)
+      remark #17106: parallel dependence: assumed FLOW dependence between ou[i3*2+1][i2*2+1][i1*2+1] (740:11) and oz[i3][i2+1][i1] (714:11)
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(713,9)
+         remark #17108: loop was not parallelized: insufficient computational work
+         remark #15388: vectorization support: reference z1[i1] has aligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(714,11) ]
+         remark #15389: vectorization support: reference oz[i3][i2+1][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(714,20) ]
+         remark #15389: vectorization support: reference oz[i3][i2][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(714,38) ]
+         remark #15388: vectorization support: reference z2[i1] has aligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(715,11) ]
+         remark #15389: vectorization support: reference oz[i3+1][i2][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(715,20) ]
+         remark #15389: vectorization support: reference oz[i3][i2][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(715,38) ]
+         remark #15388: vectorization support: reference z3[i1] has aligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(716,11) ]
+         remark #15389: vectorization support: reference oz[i3+1][i2+1][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(716,20) ]
+         remark #15389: vectorization support: reference oz[i3+1][i2][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(716,40) ]
+         remark #15388: vectorization support: reference z1[i1] has aligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(716,58) ]
+         remark #15381: vectorization support: unaligned access used inside loop body
+         remark #15305: vectorization support: vector length 4
+         remark #15309: vectorization support: normalized vectorization overhead 0.571
+         remark #15300: LOOP WAS VECTORIZED
+         remark #15448: unmasked aligned unit stride loads: 1 
+         remark #15449: unmasked aligned unit stride stores: 3 
+         remark #15450: unmasked unaligned unit stride loads: 4 
+         remark #15475: --- begin vector cost summary ---
+         remark #15476: scalar cost: 22 
+         remark #15477: vector cost: 5.250 
+         remark #15478: estimated potential speedup: 4.000 
+         remark #15488: --- end vector cost summary ---
+         remark #25456: Number of Array Refs Scalar Replaced In Loop: 3
+         remark #25015: Estimate of max trip count of loop=64
+      LOOP END
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(713,9)
+      <Remainder loop for vectorization>
+         remark #25015: Estimate of max trip count of loop=259
+      LOOP END
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(719,9)
+         remark #17104: loop was not parallelized: existence of parallel dependence
+         remark #17106: parallel dependence: assumed FLOW dependence between ou[i3*2][i2*2][i1*2] (720:11) and oz[i3][i2][i1+1] (722:11)
+         remark #17106: parallel dependence: assumed ANTI dependence between oz[i3][i2][i1+1] (722:11) and ou[i3*2][i2*2][i1*2] (720:11)
+         remark #15344: loop was not vectorized: vector dependence prevents vectorization
+         remark #15346: vector dependence: assumed FLOW dependence between ou[i3*2][i2*2][i1*2] (720:11) and oz[i3][i2][i1+1] (722:11)
+         remark #15346: vector dependence: assumed ANTI dependence between oz[i3][i2][i1+1] (722:11) and ou[i3*2][i2*2][i1*2] (720:11)
+      LOOP END
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(725,9)
+         remark #17108: loop was not parallelized: insufficient computational work
+         remark #15389: vectorization support: reference ou[i3*2][i2*2+1][i1*2] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(726,11) ]
+         remark #15389: vectorization support: reference ou[i3*2][i2*2+1][i1*2] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(726,35) ]
+         remark #15388: vectorization support: reference z1[i1] has aligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(727,41) ]
+         remark #15388: vectorization support: reference z1[i1] has aligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(729,45) ]
+         remark #15389: vectorization support: reference z1[i1+1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(729,54) ]
+         remark #15381: vectorization support: unaligned access used inside loop body
+         remark #15329: vectorization support: non-unit strided store was emulated for the variable <ou[i3*2][i2*2+1][i1*2]>, stride is 2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(726,11) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <ou[i3*2][i2*2+1][i1*2]>, stride is 2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(726,35) ]
+         remark #15329: vectorization support: non-unit strided store was emulated for the variable <ou[i3*2][i2*2+1][i1*2+1]>, stride is 2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(728,11) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <ou[i3*2][i2*2+1][i1*2+1]>, stride is 2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(728,37) ]
+         remark #15305: vectorization support: vector length 4
+         remark #15309: vectorization support: normalized vectorization overhead 0.207
+         remark #15300: LOOP WAS VECTORIZED
+         remark #15448: unmasked aligned unit stride loads: 1 
+         remark #15450: unmasked unaligned unit stride loads: 1 
+         remark #15452: unmasked strided loads: 2 
+         remark #15453: unmasked strided stores: 2 
+         remark #15475: --- begin vector cost summary ---
+         remark #15476: scalar cost: 19 
+         remark #15477: vector cost: 7.250 
+         remark #15478: estimated potential speedup: 2.560 
+         remark #15488: --- end vector cost summary ---
+         remark #25015: Estimate of max trip count of loop=64
+      LOOP END
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(725,9)
+      <Remainder loop for vectorization>
+         remark #25015: Estimate of max trip count of loop=259
+      LOOP END
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(731,9)
+         remark #25045: Fused Loops: ( 731 737 )
+
+         remark #17108: loop was not parallelized: insufficient computational work
+         remark #15389: vectorization support: reference ou[i3*2+1][i2*2][i1*2] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(732,11) ]
+         remark #15389: vectorization support: reference ou[i3*2+1][i2*2][i1*2] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(732,35) ]
+         remark #15388: vectorization support: reference z2[i1] has aligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(733,43) ]
+         remark #15388: vectorization support: reference z2[i1] has aligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(735,45) ]
+         remark #15389: vectorization support: reference z2[i1+1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(735,54) ]
+         remark #15389: vectorization support: reference ou[i3*2+1][i2*2+1][i1*2] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(738,11) ]
+         remark #15389: vectorization support: reference ou[i3*2+1][i2*2+1][i1*2] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(738,37) ]
+         remark #15388: vectorization support: reference z3[i1] has aligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(739,44) ]
+         remark #15388: vectorization support: reference z3[i1] has aligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(741,48) ]
+         remark #15389: vectorization support: reference z3[i1+1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(741,57) ]
+         remark #15381: vectorization support: unaligned access used inside loop body
+         remark #15329: vectorization support: non-unit strided store was emulated for the variable <ou[i3*2+1][i2*2][i1*2]>, stride is 2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(732,11) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <ou[i3*2+1][i2*2][i1*2]>, stride is 2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(732,35) ]
+         remark #15329: vectorization support: non-unit strided store was emulated for the variable <ou[i3*2+1][i2*2][i1*2+1]>, stride is 2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(734,11) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <ou[i3*2+1][i2*2][i1*2+1]>, stride is 2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(734,37) ]
+         remark #15329: vectorization support: non-unit strided store was emulated for the variable <ou[i3*2+1][i2*2+1][i1*2]>, stride is 2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(738,11) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <ou[i3*2+1][i2*2+1][i1*2]>, stride is 2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(738,37) ]
+         remark #15329: vectorization support: non-unit strided store was emulated for the variable <ou[i3*2+1][i2*2+1][i1*2+1]>, stride is 2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(740,11) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <ou[i3*2+1][i2*2+1][i1*2+1]>, stride is 2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(740,39) ]
+         remark #15305: vectorization support: vector length 4
+         remark #15309: vectorization support: normalized vectorization overhead 0.207
+         remark #15301: FUSED LOOP WAS VECTORIZED
+         remark #15448: unmasked aligned unit stride loads: 3 
+         remark #15450: unmasked unaligned unit stride loads: 2 
+         remark #15452: unmasked strided loads: 4 
+         remark #15453: unmasked strided stores: 4 
+         remark #15475: --- begin vector cost summary ---
+         remark #15476: scalar cost: 38 
+         remark #15477: vector cost: 14.500 
+         remark #15478: estimated potential speedup: 2.560 
+         remark #15488: --- end vector cost summary ---
+         remark #25015: Estimate of max trip count of loop=64
+      LOOP END
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(737,9)
+         remark #25046: Loop lost in Fusion 
+      LOOP END
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(731,9)
+      <Remainder loop for vectorization>
+         remark #25015: Estimate of max trip count of loop=259
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(773,5)
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #17106: parallel dependence: assumed FLOW dependence between ou[i3*2-d3-1][i2*2-d2-1][i1*2-d1-1] (776:11) and oz[i3-1][i2][i1] (793:11)
+   remark #17106: parallel dependence: assumed ANTI dependence between oz[i3-1][i2][i1] (793:11) and ou[i3*2-d3-1][i2*2-d2-1][i1*2-d1-1] (776:11)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+   remark #15346: vector dependence: assumed FLOW dependence between ou[i3*2-d3-1][i2*2-d2-1][i1*2-d1-1] (776:11) and oz[i3-1][i2][i1] (793:11)
+   remark #15346: vector dependence: assumed ANTI dependence between oz[i3-1][i2][i1] (793:11) and ou[i3*2-d3-1][i2*2-d2-1][i1*2-d1-1] (776:11)
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(774,7)
+      remark #17104: loop was not parallelized: existence of parallel dependence
+      remark #17106: parallel dependence: assumed FLOW dependence between ou[i3*2-d3-1][i2*2-d2-1][i1*2-d1-1] (776:11) and oz[i3-1][i2-1][i1] (781:11)
+      remark #17106: parallel dependence: assumed ANTI dependence between oz[i3-1][i2-1][i1] (781:11) and ou[i3*2-d3-1][i2*2-d2-1][i1*2-d1-1] (776:11)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization
+      remark #15346: vector dependence: assumed FLOW dependence between ou[i3*2-d3-1][i2*2-d2-1][i1*2-d1-1] (776:11) and oz[i3-1][i2-1][i1] (781:11)
+      remark #15346: vector dependence: assumed ANTI dependence between oz[i3-1][i2-1][i1] (781:11) and ou[i3*2-d3-1][i2*2-d2-1][i1*2-d1-1] (776:11)
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(775,9)
+         remark #17104: loop was not parallelized: existence of parallel dependence
+         remark #17106: parallel dependence: assumed FLOW dependence between ou[i3*2-d3-1][i2*2-d2-1][i1*2-d1-1] (776:11) and oz[i3-1][i2-1][i1-1] (776:11)
+         remark #17106: parallel dependence: assumed ANTI dependence between oz[i3-1][i2-1][i1-1] (776:11) and ou[i3*2-d3-1][i2*2-d2-1][i1*2-d1-1] (776:11)
+         remark #15344: loop was not vectorized: vector dependence prevents vectorization
+         remark #15346: vector dependence: assumed FLOW dependence between ou[i3*2-d3-1][i2*2-d2-1][i1*2-d1-1] (776:11) and oz[i3-1][i2-1][i1-1] (776:11)
+         remark #15346: vector dependence: assumed ANTI dependence between oz[i3-1][i2-1][i1-1] (776:11) and ou[i3*2-d3-1][i2*2-d2-1][i1*2-d1-1] (776:11)
+      LOOP END
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(780,9)
+         remark #17104: loop was not parallelized: existence of parallel dependence
+         remark #17106: parallel dependence: assumed FLOW dependence between ou[i3*2-d3-1][i2*2-d2-1][i1*2-t1-1] (781:11) and oz[i3-1][i2-1][i1] (781:11)
+         remark #17106: parallel dependence: assumed ANTI dependence between oz[i3-1][i2-1][i1] (781:11) and ou[i3*2-d3-1][i2*2-d2-1][i1*2-t1-1] (781:11)
+         remark #15344: loop was not vectorized: vector dependence prevents vectorization
+         remark #15346: vector dependence: assumed FLOW dependence between ou[i3*2-d3-1][i2*2-d2-1][i1*2-t1-1] (781:11) and oz[i3-1][i2-1][i1] (781:11)
+         remark #15346: vector dependence: assumed ANTI dependence between oz[i3-1][i2-1][i1] (781:11) and ou[i3*2-d3-1][i2*2-d2-1][i1*2-t1-1] (781:11)
+      LOOP END
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(786,7)
+      remark #17104: loop was not parallelized: existence of parallel dependence
+      remark #17106: parallel dependence: assumed FLOW dependence between ou[i3*2-d3-1][i2*2-t2-1][i1*2-d1-1] (788:11) and oz[i3-1][i2][i1] (793:11)
+      remark #17106: parallel dependence: assumed ANTI dependence between oz[i3-1][i2][i1] (793:11) and ou[i3*2-d3-1][i2*2-t2-1][i1*2-d1-1] (788:11)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization
+      remark #15346: vector dependence: assumed FLOW dependence between ou[i3*2-d3-1][i2*2-t2-1][i1*2-d1-1] (788:11) and oz[i3-1][i2][i1] (793:11)
+      remark #15346: vector dependence: assumed ANTI dependence between oz[i3-1][i2][i1] (793:11) and ou[i3*2-d3-1][i2*2-t2-1][i1*2-d1-1] (788:11)
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(787,9)
+         remark #17104: loop was not parallelized: existence of parallel dependence
+         remark #17106: parallel dependence: assumed FLOW dependence between ou[i3*2-d3-1][i2*2-t2-1][i1*2-d1-1] (788:11) and oz[i3-1][i2][i1-1] (788:11)
+         remark #17106: parallel dependence: assumed ANTI dependence between oz[i3-1][i2][i1-1] (788:11) and ou[i3*2-d3-1][i2*2-t2-1][i1*2-d1-1] (788:11)
+         remark #15344: loop was not vectorized: vector dependence prevents vectorization
+         remark #15346: vector dependence: assumed FLOW dependence between ou[i3*2-d3-1][i2*2-t2-1][i1*2-d1-1] (788:11) and oz[i3-1][i2][i1-1] (788:11)
+         remark #15346: vector dependence: assumed ANTI dependence between oz[i3-1][i2][i1-1] (788:11) and ou[i3*2-d3-1][i2*2-t2-1][i1*2-d1-1] (788:11)
+      LOOP END
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(792,9)
+         remark #17104: loop was not parallelized: existence of parallel dependence
+         remark #17106: parallel dependence: assumed FLOW dependence between ou[i3*2-d3-1][i2*2-t2-1][i1*2-t1-1] (793:11) and oz[i3-1][i2][i1] (793:11)
+         remark #17106: parallel dependence: assumed ANTI dependence between oz[i3-1][i2][i1] (793:11) and ou[i3*2-d3-1][i2*2-t2-1][i1*2-t1-1] (793:11)
+         remark #15344: loop was not vectorized: vector dependence prevents vectorization
+         remark #15346: vector dependence: assumed FLOW dependence between ou[i3*2-d3-1][i2*2-t2-1][i1*2-t1-1] (793:11) and oz[i3-1][i2][i1] (793:11)
+         remark #15346: vector dependence: assumed ANTI dependence between oz[i3-1][i2][i1] (793:11) and ou[i3*2-d3-1][i2*2-t2-1][i1*2-t1-1] (793:11)
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(802,5)
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #17106: parallel dependence: assumed FLOW dependence between ou[i3*2-t3-1][i2*2-d2-1][i1*2-d1-1] (805:11) and oz[i3][i2][i1] (824:11)
+   remark #17106: parallel dependence: assumed ANTI dependence between oz[i3][i2][i1] (824:11) and ou[i3*2-t3-1][i2*2-d2-1][i1*2-d1-1] (805:11)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+   remark #15346: vector dependence: assumed FLOW dependence between ou[i3*2-t3-1][i2*2-d2-1][i1*2-d1-1] (805:11) and oz[i3][i2][i1] (824:11)
+   remark #15346: vector dependence: assumed ANTI dependence between oz[i3][i2][i1] (824:11) and ou[i3*2-t3-1][i2*2-d2-1][i1*2-d1-1] (805:11)
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(803,7)
+      remark #17104: loop was not parallelized: existence of parallel dependence
+      remark #17106: parallel dependence: assumed FLOW dependence between ou[i3*2-t3-1][i2*2-d2-1][i1*2-d1-1] (805:11) and oz[i3][i2-1][i1] (810:11)
+      remark #17106: parallel dependence: assumed ANTI dependence between oz[i3][i2-1][i1] (810:11) and ou[i3*2-t3-1][i2*2-d2-1][i1*2-d1-1] (805:11)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization
+      remark #15346: vector dependence: assumed FLOW dependence between ou[i3*2-t3-1][i2*2-d2-1][i1*2-d1-1] (805:11) and oz[i3][i2-1][i1] (810:11)
+      remark #15346: vector dependence: assumed ANTI dependence between oz[i3][i2-1][i1] (810:11) and ou[i3*2-t3-1][i2*2-d2-1][i1*2-d1-1] (805:11)
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(804,9)
+         remark #17104: loop was not parallelized: existence of parallel dependence
+         remark #17106: parallel dependence: assumed FLOW dependence between ou[i3*2-t3-1][i2*2-d2-1][i1*2-d1-1] (805:11) and oz[i3][i2-1][i1-1] (805:11)
+         remark #17106: parallel dependence: assumed ANTI dependence between oz[i3][i2-1][i1-1] (805:11) and ou[i3*2-t3-1][i2*2-d2-1][i1*2-d1-1] (805:11)
+         remark #15344: loop was not vectorized: vector dependence prevents vectorization
+         remark #15346: vector dependence: assumed FLOW dependence between ou[i3*2-t3-1][i2*2-d2-1][i1*2-d1-1] (805:11) and oz[i3][i2-1][i1-1] (805:11)
+         remark #15346: vector dependence: assumed ANTI dependence between oz[i3][i2-1][i1-1] (805:11) and ou[i3*2-t3-1][i2*2-d2-1][i1*2-d1-1] (805:11)
+      LOOP END
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(809,9)
+         remark #17104: loop was not parallelized: existence of parallel dependence
+         remark #17106: parallel dependence: assumed FLOW dependence between ou[i3*2-t3-1][i2*2-d2-1][i1*2-t1-1] (810:11) and oz[i3][i2-1][i1] (810:11)
+         remark #17106: parallel dependence: assumed ANTI dependence between oz[i3][i2-1][i1] (810:11) and ou[i3*2-t3-1][i2*2-d2-1][i1*2-t1-1] (810:11)
+         remark #15344: loop was not vectorized: vector dependence prevents vectorization
+         remark #15346: vector dependence: assumed FLOW dependence between ou[i3*2-t3-1][i2*2-d2-1][i1*2-t1-1] (810:11) and oz[i3][i2-1][i1] (810:11)
+         remark #15346: vector dependence: assumed ANTI dependence between oz[i3][i2-1][i1] (810:11) and ou[i3*2-t3-1][i2*2-d2-1][i1*2-t1-1] (810:11)
+      LOOP END
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(816,7)
+      remark #17104: loop was not parallelized: existence of parallel dependence
+      remark #17106: parallel dependence: assumed FLOW dependence between ou[i3*2-t3-1][i2*2-t2-1][i1*2-d1-1] (818:11) and oz[i3][i2][i1] (824:11)
+      remark #17106: parallel dependence: assumed ANTI dependence between oz[i3][i2][i1] (824:11) and ou[i3*2-t3-1][i2*2-t2-1][i1*2-d1-1] (818:11)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization
+      remark #15346: vector dependence: assumed FLOW dependence between ou[i3*2-t3-1][i2*2-t2-1][i1*2-d1-1] (818:11) and oz[i3][i2][i1] (824:11)
+      remark #15346: vector dependence: assumed ANTI dependence between oz[i3][i2][i1] (824:11) and ou[i3*2-t3-1][i2*2-t2-1][i1*2-d1-1] (818:11)
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(817,9)
+         remark #17104: loop was not parallelized: existence of parallel dependence
+         remark #17106: parallel dependence: assumed FLOW dependence between ou[i3*2-t3-1][i2*2-t2-1][i1*2-d1-1] (818:11) and oz[i3][i2][i1-1] (818:11)
+         remark #17106: parallel dependence: assumed ANTI dependence between oz[i3][i2][i1-1] (818:11) and ou[i3*2-t3-1][i2*2-t2-1][i1*2-d1-1] (818:11)
+         remark #15344: loop was not vectorized: vector dependence prevents vectorization
+         remark #15346: vector dependence: assumed FLOW dependence between ou[i3*2-t3-1][i2*2-t2-1][i1*2-d1-1] (818:11) and oz[i3][i2][i1-1] (818:11)
+         remark #15346: vector dependence: assumed ANTI dependence between oz[i3][i2][i1-1] (818:11) and ou[i3*2-t3-1][i2*2-t2-1][i1*2-d1-1] (818:11)
+      LOOP END
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(823,9)
+         remark #17104: loop was not parallelized: existence of parallel dependence
+         remark #17106: parallel dependence: assumed FLOW dependence between ou[i3*2-t3-1][i2*2-t2-1][i1*2-t1-1] (824:11) and oz[i3][i2][i1] (824:11)
+         remark #17106: parallel dependence: assumed ANTI dependence between oz[i3][i2][i1] (824:11) and ou[i3*2-t3-1][i2*2-t2-1][i1*2-t1-1] (824:11)
+         remark #15344: loop was not vectorized: vector dependence prevents vectorization
+         remark #15346: vector dependence: assumed FLOW dependence between ou[i3*2-t3-1][i2*2-t2-1][i1*2-t1-1] (824:11) and oz[i3][i2][i1] (824:11)
+         remark #15346: vector dependence: assumed ANTI dependence between oz[i3][i2][i1] (824:11) and ou[i3*2-t3-1][i2*2-t2-1][i1*2-t1-1] (824:11)
+      LOOP END
+   LOOP END
+LOOP END
+===========================================================================
+
+Begin optimization report for: zero3(void *, int, int, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (zero3(void *, int, int, int)) [14/28=50.0%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1287,1)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1293,3)
+   remark #25101: Loop Interchange not done due to: Original Order seems proper
+   remark #25452: Original Order found to be proper, but by a close margin
+   remark #17109: LOOP WAS AUTO-PARALLELIZED
+   remark #17101: parallel loop shared={ .2 } private={ } firstprivate={ n3 i1 i2 U6c_V U6a_V oz n1 n2 i3 } lastprivate={ } firstlastprivate={ } reduction={ }
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1294,5)
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1295,7)
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+         remark #25015: Estimate of max trip count of loop=1
+
+         LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1295,7)
+            remark #15389: vectorization support: reference oz[i3][i2][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1296,9) ]
+            remark #15381: vectorization support: unaligned access used inside loop body
+            remark #15305: vectorization support: vector length 4
+            remark #15309: vectorization support: normalized vectorization overhead 0.600
+            remark #15300: LOOP WAS VECTORIZED
+            remark #15451: unmasked unaligned unit stride stores: 1 
+            remark #15475: --- begin vector cost summary ---
+            remark #15476: scalar cost: 3 
+            remark #15477: vector cost: 1.250 
+            remark #15478: estimated potential speedup: 2.000 
+            remark #15488: --- end vector cost summary ---
+            remark #25015: Estimate of max trip count of loop=3
+         LOOP END
+
+         LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1295,7)
+         <Remainder loop for vectorization>
+            remark #25015: Estimate of max trip count of loop=12
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1293,3)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1294,5)
+      remark #17107: loop was not parallelized: inner loop
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1295,7)
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+         remark #25015: Estimate of max trip count of loop=1
+
+         LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1295,7)
+            remark #15389: vectorization support: reference oz[i3][i2][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1296,9) ]
+            remark #15381: vectorization support: unaligned access used inside loop body
+            remark #15305: vectorization support: vector length 4
+            remark #15309: vectorization support: normalized vectorization overhead 0.600
+            remark #15300: LOOP WAS VECTORIZED
+            remark #15451: unmasked unaligned unit stride stores: 1 
+            remark #15475: --- begin vector cost summary ---
+            remark #15476: scalar cost: 3 
+            remark #15477: vector cost: 1.250 
+            remark #15478: estimated potential speedup: 2.000 
+            remark #15488: --- end vector cost summary ---
+            remark #25015: Estimate of max trip count of loop=3
+         LOOP END
+
+         LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1295,7)
+         <Remainder loop for vectorization>
+            remark #25015: Estimate of max trip count of loop=12
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+===========================================================================
+
+Begin optimization report for: rprj3(void *, int, int, int, void *, int, int, int, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (rprj3(void *, int, int, int, void *, int, int, int, int)) [15/28=53.6%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(613,1)
+  -> (621,16) timer_start(int) (isz = 2) (sz = 7)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (669,16) timer_stop(int) (isz = 12) (sz = 17)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (672,3) comm3(void *, int, int, int, int) (isz = 145) (sz = 158)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (675,5) rep_nrm(void *, int, int, int, char *, int) (isz = 16) (sz = 31)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (679,5) showall(void *, int, int, int) (isz = 66) (sz = 77)
+     [[ Callee not marked with inlining pragma  <1>]]
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(642,3)
+   remark #25101: Loop Interchange not done due to: Original Order seems proper
+   remark #25452: Original Order found to be proper, but by a close margin
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #17106: parallel dependence: assumed ANTI dependence between or[i3+1][i2][i1] (649:9) and os[j3][j2][j1] (661:9)
+   remark #17106: parallel dependence: assumed FLOW dependence between os[j3][j2][j1] (661:9) and or[i3+1][i2][i1] (649:9)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(644,5)
+      remark #17104: loop was not parallelized: existence of parallel dependence
+      remark #17106: parallel dependence: assumed ANTI dependence between or[i3+1][i2][i1] (649:9) and os[j3][j2][j1] (661:9)
+      remark #17106: parallel dependence: assumed FLOW dependence between os[j3][j2][j1] (661:9) and or[i3+1][i2][i1] (649:9)
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(647,7)
+         remark #17108: loop was not parallelized: insufficient computational work
+         remark #15329: vectorization support: non-unit strided store was emulated for the variable <x1[i1]>, stride is 2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(649,9) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <or[i3+1][i2][i1]>, stride is 2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(649,18) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <or[i3+1][i2+2][i1]>, stride is 2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(649,38) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <or[i3][i2+1][i1]>, stride is 2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(650,18) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <or[i3+2][i2+1][i1]>, stride is 2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(650,38) ]
+         remark #15329: vectorization support: non-unit strided store was emulated for the variable <y1[i1]>, stride is 2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(651,9) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <or[i3][i2][i1]>, stride is 2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(651,18) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <or[i3+2][i2][i1]>, stride is 2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(651,38) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <or[i3][i2+2][i1]>, stride is 2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(652,18) ]
+         remark #15328: vectorization support: non-unit strided load was emulated for the variable <or[i3+2][i2+2][i1]>, stride is 2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(652,38) ]
+         remark #15305: vectorization support: vector length 2
+         remark #15300: LOOP WAS VECTORIZED
+         remark #15452: unmasked strided loads: 8 
+         remark #15453: unmasked strided stores: 2 
+         remark #15475: --- begin vector cost summary ---
+         remark #15476: scalar cost: 23 
+         remark #15477: vector cost: 20.000 
+         remark #15478: estimated potential speedup: 1.140 
+         remark #15488: --- end vector cost summary ---
+         remark #25015: Estimate of max trip count of loop=64
+      LOOP END
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(647,7)
+      <Remainder loop for vectorization>
+         remark #25015: Estimate of max trip count of loop=129
+      LOOP END
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(655,7)
+         remark #17104: loop was not parallelized: existence of parallel dependence
+         remark #17106: parallel dependence: assumed FLOW dependence between os[j3][j2][j1] (661:9) and or[i3+1][i2+1][i1+1] (661:9)
+         remark #17106: parallel dependence: assumed ANTI dependence between or[i3+1][i2+1][i1+1] (661:9) and os[j3][j2][j1] (661:9)
+         remark #15344: loop was not vectorized: vector dependence prevents vectorization
+         remark #15346: vector dependence: assumed FLOW dependence between os[j3][j2][j1] (661:9) and or[i3+1][i2+1][i1+1] (661:9)
+         remark #15346: vector dependence: assumed ANTI dependence between or[i3+1][i2+1][i1+1] (661:9) and os[j3][j2][j1] (661:9)
+         remark #25456: Number of Array Refs Scalar Replaced In Loop: 2
+         remark #25015: Estimate of max trip count of loop=129
+      LOOP END
+   LOOP END
+LOOP END
+===========================================================================
+
+Begin optimization report for: mg3P(double *, double *, double *, double *, double *, int, int, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (mg3P(double *, double *, double *, double *, double *, int, int, int)) [16/28=57.1%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(429,1)
+  -> (438,5) rprj3(void *, int, int, int, void *, int, int, int, int) (isz = 303) (sz = 324)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (446,3) zero3(void *, int, int, int) (isz = 37) (sz = 48)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (447,3) psinv(void *, void *, int, int, int, double *, int) (isz = 205) (sz = 222)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (455,5) zero3(void *, int, int, int) (isz = 37) (sz = 48)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (456,5) interp(void *, int, int, int, void *, int, int, int, int) (isz = 1142) (sz = 1163)
+     [[ Inlining would exceed -inline-max-size value (1163>230) <2>]]
+  -> (461,5) resid(void *, void *, void *, int, int, int, double *, int) (isz = 197) (sz = 216)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (466,5) psinv(void *, void *, int, int, int, double *, int) (isz = 205) (sz = 222)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (471,3) interp(void *, int, int, int, void *, int, int, int, int) (isz = 1142) (sz = 1163)
+     [[ Inlining would exceed -inline-max-size value (1163>230) <2>]]
+  -> (472,3) resid(void *, void *, void *, int, int, int, double *, int) (isz = 197) (sz = 216)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (473,3) psinv(void *, void *, int, int, int, double *, int) (isz = 205) (sz = 222)
+     [[ Callee not marked with inlining pragma  <1>]]
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(436,3)
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #15382: vectorization support: call to function rprj3(void *, int, int, int, void *, int, int, int, int) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(438,5) ]
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+   remark #25015: Estimate of max trip count of loop=10
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(449,3)
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #15382: vectorization support: call to function zero3(void *, int, int, int) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(455,5) ]
+   remark #15382: vectorization support: call to function interp(void *, int, int, int, void *, int, int, int, int) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(456,5) ]
+   remark #15382: vectorization support: call to function resid(void *, void *, void *, int, int, int, double *, int) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(461,5) ]
+   remark #15382: vectorization support: call to function psinv(void *, void *, int, int, int, double *, int) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(466,5) ]
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+   remark #25015: Estimate of max trip count of loop=10
+LOOP END
+===========================================================================
+
+Begin optimization report for: timer_clear(int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (timer_clear(int)) [17/28=60.7%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/common/c_timers.c(38,1)
+
+===========================================================================
+
+Begin optimization report for: bubble..1(double (*)[2], int (*)[2], int (*)[2], int (*)[2], int, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (bubble..1(double (*)[2], int (*)[2], int (*)[2], int (*)[2], int, int)) [18/28=64.3%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1233,1)
+  CLONED FROM: bubble(double (*)[2], int (*)[2], int (*)[2], int (*)[2], int, int)(X,X,X,X,10,0)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1260,5)
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #17106: parallel dependence: assumed ANTI dependence between ten[i+1][0] (1261:7) and ten[i][0] (1265:9)
+   remark #17106: parallel dependence: assumed ANTI dependence between ten[i+1][0] (1263:9) and ten[i][0] (1265:9)
+   remark #17106: parallel dependence: assumed FLOW dependence between ten[i+1][0] (1264:9) and ten[i][0] (1264:9)
+   remark #17106: parallel dependence: assumed OUTPUT dependence between ten[i+1][0] (1264:9) and ten[i][0] (1265:9)
+   remark #15520: loop was not vectorized: loop with multiple exits cannot be vectorized unless it meets search loop idiom criteria   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1279,9) ]
+LOOP END
+===========================================================================
+
+Begin optimization report for: bubble..0(double (*)[2], int (*)[2], int (*)[2], int (*)[2], int, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (bubble..0(double (*)[2], int (*)[2], int (*)[2], int (*)[2], int, int)) [19/28=67.9%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1233,1)
+  CLONED FROM: bubble(double (*)[2], int (*)[2], int (*)[2], int (*)[2], int, int)(X,X,X,X,10,1)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1238,5)
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #17106: parallel dependence: assumed ANTI dependence between ten[i+1][1] (1239:7) and ten[i][1] (1242:9)
+   remark #17106: parallel dependence: assumed ANTI dependence between ten[i+1][1] (1240:9) and ten[i][1] (1242:9)
+   remark #17106: parallel dependence: assumed FLOW dependence between ten[i+1][1] (1241:9) and ten[i][1] (1241:9)
+   remark #17106: parallel dependence: assumed OUTPUT dependence between ten[i+1][1] (1241:9) and ten[i][1] (1242:9)
+   remark #15520: loop was not vectorized: loop with multiple exits cannot be vectorized unless it meets search loop idiom criteria   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1256,9) ]
+LOOP END
+===========================================================================
+
+Begin optimization report for: randlc(double *, double)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (randlc(double *, double)) [20/28=71.4%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/common/randdp.c(5,1)
+
+===========================================================================
+
+Begin optimization report for: vranlc(int, double *, double, double *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (vranlc(int, double *, double, double *)) [21/28=75.0%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/common/randdp.c(72,1)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/common/randdp.c(122,3)
+<Multiversioned v1>
+   remark #25228: Loop multiversioned for Data Dependence
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #17106: parallel dependence: assumed ANTI dependence between *x (129:5) and *x (136:6)
+   remark #17106: parallel dependence: assumed FLOW dependence between *x (136:6) and *x (129:5)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+   remark #15346: vector dependence: assumed ANTI dependence between *x (129:5) and *x (136:6)
+   remark #15346: vector dependence: assumed FLOW dependence between *x (136:6) and *x (129:5)
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/common/randdp.c(122,3)
+<Multiversioned v2>
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #17106: parallel dependence: assumed ANTI dependence between *x (129:5) and y[i] (137:5)
+   remark #17106: parallel dependence: assumed FLOW dependence between y[i] (137:5) and *x (129:5)
+   remark #15304: loop was not vectorized: non-vectorizable loop instance from multiversioning
+LOOP END
+===========================================================================
+
+Begin optimization report for: power(double, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (power(double, int)) [22/28=78.6%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1208,1)
+  -> (1219,33) randlc(double *, double) (isz = 45) (sz = 54)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (1220,14) randlc(double *, double) (isz = 45) (sz = 54)
+     [[ Callee not marked with inlining pragma  <1>]]
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1218,3)
+   remark #17102: loop was not parallelized: not a parallelization candidate
+   remark #15521: loop was not vectorized: loop control variable was not identified. Explicitly compute the iteration count before executing the loop or try using canonical loop form from OpenMP specification
+LOOP END
+===========================================================================
+
+Begin optimization report for: zran3(void *, int, int, int, int, int, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (zran3(void *, int, int, int, int, int, int)) [23/28=82.1%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(956,1)
+  -> (974,8) power(double, int) (isz = 24) (sz = 33)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (975,8) power(double, int) (isz = 24) (sz = 33)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (977,3) zero3(void *, int, int, int) (isz = 37) (sz = 48)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (981,8) power(double, int) (isz = 24) (sz = 33)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (987,12) randlc(double *, double) (isz = 45) (sz = 54)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (994,14) randlc(double *, double) (isz = 45) (sz = 54)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (1006,7) vranlc(int, double *, double, double *) (isz = 56) (sz = 67)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (1007,16) randlc(double *, double) (isz = 45) (sz = 54)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> CP_CLONE (1043,11) bubble..0(double (*)[2], int (*)[2], int (*)[2], int (*)[2], int, int) (isz = 209) (sz = 226)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> CP_CLONE (1050,11) bubble..1(double (*)[2], int (*)[2], int (*)[2], int (*)[2], int, int) (isz = 209) (sz = 226)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> EXTERN: (1062,10) omp_get_thread_num(void)
+  -> EXTERN: (1063,17) omp_get_num_threads(void)
+  -> (1170,3) comm3(void *, int, int, int, int) (isz = 145) (sz = 158)
+     [[ Callee not marked with inlining pragma  <1>]]
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(992,3)
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #17106: parallel dependence: assumed ANTI dependence between x0 (993:5) and x0 (994:14)
+   remark #17106: parallel dependence: assumed FLOW dependence between x0 (994:14) and x0 (993:5)
+   remark #15382: vectorization support: call to function randlc(double *, double) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(994,14) ]
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+   remark #15346: vector dependence: assumed ANTI dependence between x0 (993:5) and x0 (994:14)
+   remark #15346: vector dependence: assumed FLOW dependence between x0 (994:14) and x0 (993:5)
+   remark #25015: Estimate of max trip count of loop=258
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1002,3)
+   remark #25096: Loop Interchange not done due to: Imperfect Loop Nest (Either at Source or due to other Compiler Transformations)
+   remark #25451: Advice: Loop Interchange, if possible, might help loopnest. Suggested Permutation : ( 1 2 ) --> ( 2 1 ) 
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #17106: parallel dependence: assumed OUTPUT dependence between x1 (1003:5) and x1 (1007:16)
+   remark #17106: parallel dependence: assumed OUTPUT dependence between x1 (1007:16) and x1 (1003:5)
+   remark #15382: vectorization support: call to function vranlc(int, double *, double, double *) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1006,7) ]
+   remark #15382: vectorization support: call to function randlc(double *, double) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1007,16) ]
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+   remark #15346: vector dependence: assumed OUTPUT dependence between x1 (1003:5) and x1 (1007:16)
+   remark #15346: vector dependence: assumed OUTPUT dependence between x1 (1007:16) and x1 (1003:5)
+   remark #25015: Estimate of max trip count of loop=258
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1004,5)
+      remark #17104: loop was not parallelized: existence of parallel dependence
+      remark #17106: parallel dependence: assumed OUTPUT dependence between xx (1005:7) and x1 (1007:16)
+      remark #17106: parallel dependence: assumed OUTPUT dependence between x1 (1007:16) and xx (1005:7)
+      remark #15382: vectorization support: call to function vranlc(int, double *, double, double *) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1006,7) ]
+      remark #15382: vectorization support: call to function randlc(double *, double) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1007,16) ]
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization
+      remark #15346: vector dependence: assumed OUTPUT dependence between xx (1005:7) and x1 (1007:16)
+      remark #15346: vector dependence: assumed OUTPUT dependence between x1 (1007:16) and xx (1005:7)
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1022,3)
+   remark #17108: loop was not parallelized: insufficient computational work
+   remark #15389: vectorization support: reference ten[i][0] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1027,5) ]
+   remark #15389: vectorization support: reference j1[i][0] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1028,5) ]
+   remark #15389: vectorization support: reference j2[i][0] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1029,5) ]
+   remark #15389: vectorization support: reference j3[i][0] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1030,5) ]
+   remark #15381: vectorization support: unaligned access used inside loop body
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <ten[i][1]>, stride is 2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1023,5) ]
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <j1[i][1]>, stride is 2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1024,5) ]
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <j2[i][1]>, stride is 2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1025,5) ]
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <j3[i][1]>, stride is 2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1026,5) ]
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <ten[i][0]>, stride is 2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1027,5) ]
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <j1[i][0]>, stride is 2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1028,5) ]
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <j2[i][0]>, stride is 2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1029,5) ]
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <j3[i][0]>, stride is 2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1030,5) ]
+   remark #15305: vectorization support: vector length 8
+   remark #15309: vectorization support: normalized vectorization overhead 0.207
+   remark #15300: LOOP WAS VECTORIZED
+   remark #15453: unmasked strided stores: 8 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 19 
+   remark #15477: vector cost: 7.250 
+   remark #15478: estimated potential speedup: 1.750 
+   remark #15488: --- end vector cost summary ---
+   remark #25015: Estimate of max trip count of loop=1
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1022,3)
+<Remainder loop for vectorization>
+   remark #25015: Estimate of max trip count of loop=10
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1034,3)
+   remark #25096: Loop Interchange not done due to: Imperfect Loop Nest (Either at Source or due to other Compiler Transformations)
+   remark #25451: Advice: Loop Interchange, if possible, might help loopnest. Suggested Permutation : ( 1 2 3 ) --> ( 2 1 3 ) 
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #17106: parallel dependence: assumed ANTI dependence between oz[i3] (1035:25) and call:bubble..1(double (*)[2], int (*)[2], int (*)[2], int (*)[2] (1050:11)
+   remark #15382: vectorization support: call to function bubble..0(double (*)[2], int (*)[2], int (*)[2], int (*)[2], int, int) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1043,11) ]
+   remark #15382: vectorization support: call to function bubble..1(double (*)[2], int (*)[2], int (*)[2], int (*)[2], int, int) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1050,11) ]
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+   remark #15346: vector dependence: assumed ANTI dependence between oz[i3] (1035:25) and call:bubble..1(double (*)[2], int (*)[2], int (*)[2], int (*)[2] (1050:11)
+   remark #15346: vector dependence: assumed FLOW dependence between call:bubble..1(double (*)[2], int (*)[2], int (*)[2], int (*)[2] (1050:11) and oz[i3] (1035:25)
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1036,5)
+      remark #17104: loop was not parallelized: existence of parallel dependence
+      remark #17106: parallel dependence: assumed OUTPUT dependence between ten[0][1] (1039:11) and j3 (1050:11)
+      remark #17106: parallel dependence: assumed OUTPUT dependence between j3 (1050:11) and ten[0][1] (1039:11)
+      remark #15382: vectorization support: call to function bubble..0(double (*)[2], int (*)[2], int (*)[2], int (*)[2], int, int) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1043,11) ]
+      remark #15382: vectorization support: call to function bubble..1(double (*)[2], int (*)[2], int (*)[2], int (*)[2], int, int) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1050,11) ]
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization
+      remark #15346: vector dependence: assumed OUTPUT dependence between ten[0][1] (1039:11) and j3 (1050:11)
+      remark #15346: vector dependence: assumed OUTPUT dependence between j3 (1050:11) and ten[0][1] (1039:11)
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1037,7)
+         remark #17104: loop was not parallelized: existence of parallel dependence
+         remark #17106: parallel dependence: assumed OUTPUT dependence between ten[0][1] (1039:11) and j3 (1050:11)
+         remark #17106: parallel dependence: assumed OUTPUT dependence between j3 (1050:11) and ten[0][1] (1039:11)
+         remark #15382: vectorization support: call to function bubble..0(double (*)[2], int (*)[2], int (*)[2], int (*)[2], int, int) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1043,11) ]
+         remark #15382: vectorization support: call to function bubble..1(double (*)[2], int (*)[2], int (*)[2], int (*)[2], int, int) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1050,11) ]
+         remark #15344: loop was not vectorized: vector dependence prevents vectorization
+         remark #15346: vector dependence: assumed OUTPUT dependence between ten[0][1] (1039:11) and j3 (1050:11)
+         remark #15346: vector dependence: assumed OUTPUT dependence between j3 (1050:11) and ten[0][1] (1039:11)
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1064,3)
+   remark #25096: Loop Interchange not done due to: Imperfect Loop Nest (Either at Source or due to other Compiler Transformations)
+   remark #25451: Advice: Loop Interchange, if possible, might help loopnest. Suggested Permutation : ( 1 2 ) --> ( 2 1 ) 
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #17106: parallel dependence: assumed ANTI dependence between i1 (1079:9) and i1 (1094:7)
+   remark #17106: parallel dependence: assumed FLOW dependence between i1 (1094:7) and i1 (1079:9)
+   remark #17106: parallel dependence: assumed ANTI dependence between i1 (1079:9) and i1 (1094:7)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+   remark #15346: vector dependence: assumed ANTI dependence between i1 (1079:9) and i1 (1094:7)
+   remark #15346: vector dependence: assumed FLOW dependence between i1 (1094:7) and i1 (1079:9)
+   remark #15346: vector dependence: assumed FLOW dependence between i1 (1094:7) and i1 (1079:9)
+   remark #15346: vector dependence: assumed ANTI dependence between i1 (1079:9) and i1 (1094:7)
+   remark #25015: Estimate of max trip count of loop=10
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1076,5)
+      remark #17104: loop was not parallelized: existence of parallel dependence
+      remark #17106: parallel dependence: assumed OUTPUT dependence between jg[0][i][1] (1081:11) and jg[0][i][1] (1081:11)
+      remark #17106: parallel dependence: assumed OUTPUT dependence between jg[0][i][1] (1081:11) and jg[0][i][1] (1081:11)
+      remark #17106: parallel dependence: assumed OUTPUT dependence between jg[0][i][0] (1085:11) and jg[0][i][0] (1085:11)
+      remark #17106: parallel dependence: assumed OUTPUT dependence between jg[0][i][0] (1085:11) and jg[0][i][0] (1085:11)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization
+      remark #15346: vector dependence: assumed ANTI dependence between best1 (1079:9) and best1 (1080:11)
+      remark #15346: vector dependence: assumed FLOW dependence between best1 (1080:11) and best1 (1079:9)
+      remark #15346: vector dependence: assumed FLOW dependence between best1 (1080:11) and best1 (1079:9)
+      remark #15346: vector dependence: assumed ANTI dependence between best1 (1079:9) and best1 (1080:11)
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1157,3)
+   remark #25101: Loop Interchange not done due to: Original Order seems proper
+   remark #25452: Original Order found to be proper, but by a close margin
+   remark #17109: LOOP WAS AUTO-PARALLELIZED
+   remark #17101: parallel loop shared={ .2 } private={ } firstprivate={ n3 i1 i2 U5a_V U58_V oz n1 n2 i3 } lastprivate={ } firstlastprivate={ } reduction={ }
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1158,5)
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1159,7)
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+         remark #25015: Estimate of max trip count of loop=1
+
+         LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1159,7)
+            remark #15389: vectorization support: reference oz[i3][i2][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1160,9) ]
+            remark #15381: vectorization support: unaligned access used inside loop body
+            remark #15305: vectorization support: vector length 4
+            remark #15309: vectorization support: normalized vectorization overhead 0.600
+            remark #15300: LOOP WAS VECTORIZED
+            remark #15451: unmasked unaligned unit stride stores: 1 
+            remark #15475: --- begin vector cost summary ---
+            remark #15476: scalar cost: 3 
+            remark #15477: vector cost: 1.250 
+            remark #15478: estimated potential speedup: 2.000 
+            remark #15488: --- end vector cost summary ---
+            remark #25015: Estimate of max trip count of loop=3
+         LOOP END
+
+         LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1159,7)
+         <Remainder loop for vectorization>
+            remark #25015: Estimate of max trip count of loop=12
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1164,3)
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #17106: parallel dependence: assumed OUTPUT dependence between oz[jg[3][i][0]][jg[2][i][0]][jg[1][i][0]] (1165:5) and oz[jg[3][i][0]][jg[2][i][0]][jg[1][i][0]] (1165:5)
+   remark #17106: parallel dependence: assumed OUTPUT dependence between oz[jg[3][i][0]][jg[2][i][0]][jg[1][i][0]] (1165:5) and oz[jg[3][i][0]][jg[2][i][0]][jg[1][i][0]] (1165:5)
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <jg[3][i][0]>, stride is -2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1165,7) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <jg[2][i][0]>, stride is -2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1165,20) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <jg[1][i][0]>, stride is -2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1165,33) ]
+   remark #15329: vectorization support: irregularly indexed store was emulated for the variable <oz[jg[3][i][0]][jg[2][i][0]][jg[1][i][0]]>, 64-bit indexed, part of index is read from memory   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1165,5) ]
+   remark #15305: vectorization support: vector length 2
+   remark #15309: vectorization support: normalized vectorization overhead 0.036
+   remark #15452: unmasked strided loads: 3 
+   remark #15463: unmasked indexed (or scatter) stores: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 9 
+   remark #15477: vector cost: 27.500 
+   remark #15478: estimated potential speedup: 0.320 
+   remark #15487: type converts: 3 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1167,3)
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #17106: parallel dependence: assumed OUTPUT dependence between oz[jg[3][i][1]][jg[2][i][1]][jg[1][i][1]] (1168:5) and oz[jg[3][i][1]][jg[2][i][1]][jg[1][i][1]] (1168:5)
+   remark #17106: parallel dependence: assumed OUTPUT dependence between oz[jg[3][i][1]][jg[2][i][1]][jg[1][i][1]] (1168:5) and oz[jg[3][i][1]][jg[2][i][1]][jg[1][i][1]] (1168:5)
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <jg[3][i][1]>, stride is -2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1168,7) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <jg[2][i][1]>, stride is -2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1168,20) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <jg[1][i][1]>, stride is -2   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1168,33) ]
+   remark #15329: vectorization support: irregularly indexed store was emulated for the variable <oz[jg[3][i][1]][jg[2][i][1]][jg[1][i][1]]>, 64-bit indexed, part of index is read from memory   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1168,5) ]
+   remark #15305: vectorization support: vector length 2
+   remark #15309: vectorization support: normalized vectorization overhead 0.036
+   remark #15452: unmasked strided loads: 3 
+   remark #15463: unmasked indexed (or scatter) stores: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 9 
+   remark #15477: vector cost: 27.500 
+   remark #15478: estimated potential speedup: 0.320 
+   remark #15487: type converts: 3 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1157,3)
+   remark #15542: loop was not vectorized: inner loop was already vectorized
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1158,5)
+      remark #17107: loop was not parallelized: inner loop
+      remark #15542: loop was not vectorized: inner loop was already vectorized
+
+      LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1159,7)
+         remark #15542: loop was not vectorized: inner loop was already vectorized
+         remark #25015: Estimate of max trip count of loop=1
+
+         LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1159,7)
+            remark #15389: vectorization support: reference oz[i3][i2][i1] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1160,9) ]
+            remark #15381: vectorization support: unaligned access used inside loop body
+            remark #15305: vectorization support: vector length 4
+            remark #15309: vectorization support: normalized vectorization overhead 0.600
+            remark #15300: LOOP WAS VECTORIZED
+            remark #15451: unmasked unaligned unit stride stores: 1 
+            remark #15475: --- begin vector cost summary ---
+            remark #15476: scalar cost: 3 
+            remark #15477: vector cost: 1.250 
+            remark #15478: estimated potential speedup: 2.000 
+            remark #15488: --- end vector cost summary ---
+            remark #25015: Estimate of max trip count of loop=3
+         LOOP END
+
+         LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1159,7)
+         <Remainder loop for vectorization>
+            remark #25015: Estimate of max trip count of loop=12
+         LOOP END
+      LOOP END
+   LOOP END
+LOOP END
+===========================================================================
+
+Begin optimization report for: setup(int *, int *, int *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (setup(int *, int *, int *)) [24/28=85.7%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(369,1)
+  -> EXTERN: (416,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (417,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (418,5) printf(const char *__restrict__, ...)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(378,3)
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #17106: parallel dependence: assumed FLOW dependence between ng[k][ax] (380:7) and ng[k+1][ax] (380:7)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+   remark #15346: vector dependence: assumed FLOW dependence between ng[k][ax] (380:7) and ng[k+1][ax] (380:7)
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(379,5)
+      remark #17108: loop was not parallelized: insufficient computational work
+      remark #15389: vectorization support: reference ng[k][ax] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(380,7) ]
+      remark #15389: vectorization support: reference ng[k+1][ax] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(380,19) ]
+      remark #15389: vectorization support: reference ng[k+1][ax] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(380,19) ]
+      remark #15381: vectorization support: unaligned access used inside loop body
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #15305: vectorization support: vector length 2
+      remark #15309: vectorization support: normalized vectorization overhead 0.600
+      remark #15450: unmasked unaligned unit stride loads: 2 
+      remark #15451: unmasked unaligned unit stride stores: 1 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 8 
+      remark #15477: vector cost: 7.500 
+      remark #15478: estimated potential speedup: 0.750 
+      remark #15488: --- end vector cost summary ---
+      remark #25015: Estimate of max trip count of loop=3
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(383,3)
+   remark #17108: loop was not parallelized: insufficient computational work
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <nx[k]>, stride is -1   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(384,5) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <ng[k][0]>, stride is -3   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(384,13) ]
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <ny[k]>, stride is -1   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(385,5) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <ng[k][1]>, stride is -3   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(385,13) ]
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <nz[k]>, stride is -1   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(386,5) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <ng[k][2]>, stride is -3   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(386,13) ]
+   remark #15305: vectorization support: vector length 4
+   remark #15452: unmasked strided loads: 3 
+   remark #15453: unmasked strided stores: 3 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 11 
+   remark #15477: vector cost: 18.750 
+   remark #15478: estimated potential speedup: 0.630 
+   remark #15488: --- end vector cost summary ---
+   remark #25015: Estimate of max trip count of loop=10
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(389,3)
+   remark #17108: loop was not parallelized: insufficient computational work
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <mi[k][ax]>, stride is -3   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(391,7) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <ng[k][ax]>, stride is -3   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(391,23) ]
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <m1[k]>, stride is -1   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(394,5) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <mi[k][0]>, stride is -3   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(394,13) ]
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <m2[k]>, stride is -1   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(395,5) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <mi[k][1]>, stride is -3   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(395,13) ]
+   remark #15329: vectorization support: non-unit strided store was emulated for the variable <m3[k]>, stride is -1   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(396,5) ]
+   remark #15328: vectorization support: non-unit strided load was emulated for the variable <mi[k][2]>, stride is -3   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(396,13) ]
+   remark #15305: vectorization support: vector length 4
+   remark #15452: unmasked strided loads: 4 
+   remark #15453: unmasked strided stores: 4 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 16 
+   remark #15477: vector cost: 26.000 
+   remark #15478: estimated potential speedup: 0.660 
+   remark #15488: --- end vector cost summary ---
+   remark #25015: Estimate of max trip count of loop=10
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(390,5)
+      remark #17108: loop was not parallelized: insufficient computational work
+      remark #15389: vectorization support: reference mi[k][ax] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(391,7) ]
+      remark #15389: vectorization support: reference ng[k][ax] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(391,23) ]
+      remark #15381: vectorization support: unaligned access used inside loop body
+      remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+      remark #15305: vectorization support: vector length 2
+      remark #15309: vectorization support: normalized vectorization overhead 1.875
+      remark #15450: unmasked unaligned unit stride loads: 1 
+      remark #15451: unmasked unaligned unit stride stores: 1 
+      remark #15475: --- begin vector cost summary ---
+      remark #15476: scalar cost: 5 
+      remark #15477: vector cost: 4.000 
+      remark #15478: estimated potential speedup: 0.530 
+      remark #15488: --- end vector cost summary ---
+      remark #25015: Estimate of max trip count of loop=3
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(411,3)
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #17106: parallel dependence: assumed FLOW dependence between ir[j] (412:5) and ir[j+1] (412:5)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+   remark #15346: vector dependence: assumed FLOW dependence between ir[j] (412:5) and ir[j+1] (412:5)
+   remark #25456: Number of Array Refs Scalar Replaced In Loop: 1
+   remark #25015: Estimate of max trip count of loop=10
+LOOP END
+===========================================================================
+
+Begin optimization report for: main()
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (main()) [25/28=89.3%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(94,1)
+  -> (114,5) timer_clear(int) (isz = 2) (sz = 7)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (117,3) timer_start(int) (isz = 2) (sz = 7)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> EXTERN: (123,13) fopen(const char *__restrict__, const char *__restrict__)
+  -> EXTERN: (134,5) fclose(FILE *)
+  -> EXTERN: (139,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (141,13) fopen(const char *__restrict__, const char *__restrict__)
+  -> EXTERN: (143,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (144,14) fscanf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (145,12) fgetc(FILE *)
+  -> EXTERN: (145,12) fgetc(FILE *)
+  -> EXTERN: (146,14) fscanf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (147,12) fgetc(FILE *)
+  -> EXTERN: (147,12) fgetc(FILE *)
+  -> EXTERN: (148,14) fscanf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (149,12) fgetc(FILE *)
+  -> EXTERN: (149,12) fgetc(FILE *)
+  -> EXTERN: (151,16) fscanf(FILE *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (153,5) fclose(FILE *)
+  -> EXTERN: (155,5) printf(const char *__restrict__, ...)
+  -> (224,3) setup(int *, int *, int *) (isz = 211) (sz = 220)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (225,3) zero3(void *, int, int, int) (isz = 37) (sz = 48)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (226,3) zran3(void *, int, int, int, int, int, int) (isz = 444) (sz = 461)
+     [[ Inlining would exceed -inline-max-size value (461>230) <2>]]
+  -> (228,3) norm2u3(void *, int, int, int, double *, double *, int, int, int) (isz = 84) (sz = 105)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> EXTERN: (234,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (235,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (236,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (236,49) omp_get_max_threads(void)
+  -> EXTERN: (237,3) printf(const char *__restrict__, ...)
+  -> (239,3) resid(void *, void *, void *, int, int, int, double *, int) (isz = 197) (sz = 216)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (240,3) norm2u3(void *, int, int, int, double *, double *, int, int, int) (isz = 84) (sz = 105)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (247,3) mg3P(double *, double *, double *, double *, double *, int, int, int) (isz = 178) (sz = 197)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (248,3) resid(void *, void *, void *, int, int, int, double *, int) (isz = 197) (sz = 216)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (249,3) setup(int *, int *, int *) (isz = 211) (sz = 220)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (250,3) zero3(void *, int, int, int) (isz = 37) (sz = 48)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (251,3) zran3(void *, int, int, int, int, int, int) (isz = 444) (sz = 461)
+     [[ Inlining would exceed -inline-max-size value (461>230) <2>]]
+  -> (253,3) timer_stop(int) (isz = 12) (sz = 17)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (254,11) timer_read(int) (isz = 0) (sz = 6)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> EXTERN: (256,3) printf(const char *__restrict__, ...)
+  -> (259,5) timer_clear(int) (isz = 2) (sz = 7)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (262,3) timer_start(int) (isz = 2) (sz = 7)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (264,16) timer_start(int) (isz = 2) (sz = 7)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (265,3) resid(void *, void *, void *, int, int, int, double *, int) (isz = 197) (sz = 216)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (266,16) timer_stop(int) (isz = 12) (sz = 17)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (267,3) norm2u3(void *, int, int, int, double *, double *, int, int, int) (isz = 84) (sz = 105)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> EXTERN: (273,7) printf(const char *__restrict__, ...)
+  -> (275,18) timer_start(int) (isz = 2) (sz = 7)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (276,5) mg3P(double *, double *, double *, double *, double *, int, int, int) (isz = 178) (sz = 197)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (277,18) timer_stop(int) (isz = 12) (sz = 17)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (278,18) timer_start(int) (isz = 2) (sz = 7)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (279,5) resid(void *, void *, void *, int, int, int, double *, int) (isz = 197) (sz = 216)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (280,18) timer_stop(int) (isz = 12) (sz = 17)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (283,3) norm2u3(void *, int, int, int, double *, double *, int, int, int) (isz = 84) (sz = 105)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (285,3) timer_stop(int) (isz = 12) (sz = 17)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (287,7) timer_read(int) (isz = 0) (sz = 6)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> EXTERN: (292,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (315,7) printf(const char *__restrict__, ...)
+  -> EXTERN: (316,7) printf(const char *__restrict__, ...)
+  -> EXTERN: (317,7) printf(const char *__restrict__, ...)
+  -> EXTERN: (320,7) printf(const char *__restrict__, ...)
+  -> EXTERN: (321,7) printf(const char *__restrict__, ...)
+  -> EXTERN: (322,7) printf(const char *__restrict__, ...)
+  -> EXTERN: (326,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (327,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (328,5) printf(const char *__restrict__, ...)
+  -> (339,3) print_results(char *, char, int, int, int, int, double, double, char *, logical, char *, char *, char *, char *, char *, char *, char *, char *, char *) (isz = 148) (sz = 189)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (349,12) timer_read(int) (isz = 0) (sz = 6)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> EXTERN: (352,5) printf(const char *__restrict__, ...)
+  -> (354,11) timer_read(int) (isz = 0) (sz = 6)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (356,13) timer_read(int) (isz = 0) (sz = 6)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> EXTERN: (357,9) printf(const char *__restrict__, ...)
+  -> EXTERN: (359,9) printf(const char *__restrict__, ...)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(113,3)
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #15382: vectorization support: call to function timer_clear(int) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(114,5) ]
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(145,5)
+   remark #17102: loop was not parallelized: not a parallelization candidate
+   remark #15521: loop was not vectorized: loop control variable was not identified. Explicitly compute the iteration count before executing the loop or try using canonical loop form from OpenMP specification
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(147,5)
+   remark #17102: loop was not parallelized: not a parallelization candidate
+   remark #15521: loop was not vectorized: loop control variable was not identified. Explicitly compute the iteration count before executing the loop or try using canonical loop form from OpenMP specification
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(149,5)
+   remark #17102: loop was not parallelized: not a parallelization candidate
+   remark #15521: loop was not vectorized: loop control variable was not identified. Explicitly compute the iteration count before executing the loop or try using canonical loop form from OpenMP specification
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(150,5)
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #17106: parallel dependence: assumed OUTPUT dependence between debug_vec[i] (151:16) and debug_vec[i] (151:16)
+   remark #17106: parallel dependence: assumed OUTPUT dependence between debug_vec[i] (151:16) and debug_vec[i] (151:16)
+   remark #17106: parallel dependence: assumed OUTPUT dependence between call:fscanf(FILE *__restrict__, const char *__restrict__, ...) (151:16) and call:fscanf(FILE *__restrict__, const char *__restrict__, ...) (151:16)
+   remark #17106: parallel dependence: assumed OUTPUT dependence between call:fscanf(FILE *__restrict__, const char *__restrict__, ...) (151:16) and call:fscanf(FILE *__restrict__, const char *__restrict__, ...) (151:16)
+   remark #15527: loop was not vectorized: function call to fscanf(FILE *__restrict__, const char *__restrict__, ...) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(151,16) ]
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(161,5)
+   remark #17108: loop was not parallelized: insufficient computational work
+   remark #15388: vectorization support: reference debug_vec[i] has aligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(162,7) ]
+   remark #15305: vectorization support: vector length 8
+   remark #15427: loop was completely unrolled
+   remark #15300: LOOP WAS VECTORIZED
+   remark #15449: unmasked aligned unit stride stores: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 2 
+   remark #15477: vector cost: 0.370 
+   remark #15478: estimated potential speedup: 5.330 
+   remark #15488: --- end vector cost summary ---
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(258,3)
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #15382: vectorization support: call to function timer_clear(int) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(259,5) ]
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(271,3)
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #15382: vectorization support: call to function printf(const char *__restrict__, ...) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(273,7) ]
+   remark #15382: vectorization support: call to function timer_start(int) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(275,18) ]
+   remark #15382: vectorization support: call to function mg3P(double *, double *, double *, double *, double *, int, int, int) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(276,5) ]
+   remark #15382: vectorization support: call to function timer_stop(int) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(277,18) ]
+   remark #15382: vectorization support: call to function timer_start(int) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(278,18) ]
+   remark #15382: vectorization support: call to function resid(void *, void *, void *, int, int, int, double *, int) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(279,5) ]
+   remark #15382: vectorization support: call to function timer_stop(int) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(280,18) ]
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(353,5)
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #15382: vectorization support: call to function timer_read(int) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(354,11) ]
+   remark #15382: vectorization support: call to function timer_read(int) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(356,13) ]
+   remark #15382: vectorization support: call to function printf(const char *__restrict__, ...) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(357,9) ]
+   remark #15382: vectorization support: call to function printf(const char *__restrict__, ...) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(359,9) ]
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+LOOP END
+
+Fusion of IFs performed in main at line 277
+===========================================================================
+
+Begin optimization report for: bubble(double (*)[2], int (*)[2], int (*)[2], int (*)[2], int, int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+DEAD STATIC FUNCTION: (bubble(double (*)[2], int (*)[2], int (*)[2], int (*)[2], int, int)) /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/MG/src/mg.c(1233,1)
+
+===========================================================================
+
+Begin optimization report for: c_print_results(char *, char, int, int, int, int, double, double, char *, int, char *, char *, char *, char *, char *, char *, char *, char *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (c_print_results(char *, char, int, int, int, int, double, double, char *, int, char *, char *, char *, char *, char *, char *, char *, char *)) [27/28=96.4%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/common/c_print_results.c(28,1)
+  -> EXTERN: (46,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (48,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (53,9) printf(const char *__restrict__, ...)
+  -> EXTERN: (56,9) printf(const char *__restrict__, ...)
+  -> EXTERN: (58,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (60,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (62,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (64,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (69,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (71,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (74,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (77,9) printf(const char *__restrict__, ...)
+  -> EXTERN: (79,9) printf(const char *__restrict__, ...)
+  -> EXTERN: (81,9) printf(const char *__restrict__, ...)
+  -> EXTERN: (83,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (85,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (87,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (89,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (91,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (93,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (95,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (97,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (99,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (101,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (102,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (103,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (104,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (105,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (106,5) printf(const char *__restrict__, ...)
+
+===========================================================================
+
+Begin optimization report for: timer_count(int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (timer_count(int)) [28/28=100.0%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/common/c_timers.c(77,1)
+
+===========================================================================
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINING FOOTNOTES:
+
+<1> The compiler's heuristics indicate that the function is not profitable to 
+    inline.  Override this decision by adding "inline 
+    __attribute__((always_inline))" to the declaration of the called function, 
+    or add "#pragma forceinline" before the call site.
+
+<2> The function is larger than the inliner would normally inline.  Use the
+    option -inline-max-size to increase the size of any function that would
+    normally be inlined, add "inline __attribute__((always_inline))" to the
+    declaration of the called function, or add "#pragma forceinline" before
+    the call site.
+

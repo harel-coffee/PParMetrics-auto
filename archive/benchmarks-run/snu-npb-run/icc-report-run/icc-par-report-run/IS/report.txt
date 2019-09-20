@@ -1,0 +1,683 @@
+Intel(R) Advisor can now assist with vectorization and show optimization
+  report messages with your source code.
+See "https://software.intel.com/en-us/intel-advisor-xe" for details.
+
+Intel(R) C Intel(R) 64 Compiler for applications running on Intel(R) 64, Version 19.0.0.117 Build 20180804
+
+Compiler options: -O3 -g -parallel -vec -ipo -ip-no-inlining -unroll0 -mcmodel=medium -xHost -qopt-report=5 -qopt-report-phase=vec,par,loop,ipo -qopt-report-file=report.txt -qopenmp-stubs -debug inline-debug-info -g -rdynamic -o is -lm
+
+    Report from: Interprocedural optimizations [ipo]
+
+  WHOLE PROGRAM (SAFE) [EITHER METHOD]: false
+  WHOLE PROGRAM (SEEN) [TABLE METHOD]: false
+  WHOLE PROGRAM (READ) [OBJECT READER METHOD]: false
+
+INLINING OPTION VALUES:
+  -inline-factor: 100
+  -inline-min-size: 30
+  -inline-max-size: 230
+  -inline-max-total-size: 2000
+  -inline-max-per-routine: disabled
+  -inline-max-per-compile: disabled
+
+In the inlining report below:
+   "sz" refers to the "size" of the routine. The smaller a routine's size,
+      the more likely it is to be inlined.
+   "isz" refers to the "inlined size" of the routine. This is the amount
+      the calling routine will grow if the called routine is inlined into it.
+      The compiler generally limits the amount a routine can grow by having
+      routines inlined into it.
+
+Begin optimization report for: main(int, char **)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (main(int, char **)) [1/22=4.5%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(896,1)
+  -> EXTERN: (907,15) fopen(const char *__restrict__, const char *__restrict__)
+  -> EXTERN: (908,9) fclose(FILE *)
+  -> (911,5) timer_clear(int) (isz = 2) (sz = 7)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (913,9) timer_clear(int) (isz = 2) (sz = 7)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (914,9) timer_clear(int) (isz = 2) (sz = 7)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (915,9) timer_clear(int) (isz = 2) (sz = 7)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (918,19) timer_start(int) (isz = 2) (sz = 7)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> EXTERN: (954,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (956,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (957,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (961,5) printf(const char *__restrict__, ...)
+  -> (963,19) timer_start(int) (isz = 2) (sz = 7)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (966,5) create_seq(double, double) (isz = 49) (sz = 56)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (969,5) alloc_key_buff(void) (isz = 21) (sz = 24)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (970,19) timer_stop(int) (isz = 12) (sz = 17)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (975,5) rank(int) (isz = 245) (sz = 250)
+     [[ Inlining would exceed -inline-max-size value (250>230) <2>]]
+  -> EXTERN: (980,24) printf(const char *__restrict__, ...)
+  -> (983,5) timer_start(int) (isz = 2) (sz = 7)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> EXTERN: (989,28) printf(const char *__restrict__, ...)
+  -> (990,9) rank(int) (isz = 245) (sz = 250)
+     [[ Inlining would exceed -inline-max-size value (250>230) <2>]]
+  -> (995,5) timer_stop(int) (isz = 12) (sz = 17)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> CP_CLONE (996,19) timer_read..0(int) (isz = 0) (sz = 6)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (1001,19) timer_start(int) (isz = 2) (sz = 7)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (1002,5) full_verify(void) (isz = 65) (sz = 68)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (1003,19) timer_stop(int) (isz = 12) (sz = 17)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (1005,19) timer_stop(int) (isz = 12) (sz = 17)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (1011,5) c_print_results(char *, char, int, int, int, int, double, double, char *, int, char *, char *, char *, char *, char *, char *, char *, char *) (isz = 131) (sz = 170)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> CP_CLONE (1036,18) timer_read..1(int) (isz = 0) (sz = 6)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> EXTERN: (1037,8) printf(const char *__restrict__, ...)
+  -> EXTERN: (1038,8) printf(const char *__restrict__, ...)
+  -> CP_CLONE (1040,22) timer_read..3(int) (isz = 0) (sz = 6)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> EXTERN: (1042,8) printf(const char *__restrict__, ...)
+  -> CP_CLONE (1043,22) timer_read..0(int) (isz = 0) (sz = 6)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> EXTERN: (1045,8) printf(const char *__restrict__, ...)
+  -> CP_CLONE (1046,22) timer_read..2(int) (isz = 0) (sz = 6)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> EXTERN: (1048,8) printf(const char *__restrict__, ...)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(922,5)
+   remark #17108: loop was not parallelized: insufficient computational work
+   remark #15388: vectorization support: reference test_index_array[i] has aligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(938,17) ]
+   remark #15388: vectorization support: reference B_test_index_array[i] has aligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(938,39) ]
+   remark #15388: vectorization support: reference test_rank_array[i] has aligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(939,17) ]
+   remark #15388: vectorization support: reference B_test_rank_array[i] has aligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(939,39) ]
+   remark #15305: vectorization support: vector length 4
+   remark #15300: LOOP WAS VECTORIZED
+   remark #15448: unmasked aligned unit stride loads: 2 
+   remark #15449: unmasked aligned unit stride stores: 2 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 7 
+   remark #15477: vector cost: 1.500 
+   remark #15478: estimated potential speedup: 2.690 
+   remark #15488: --- end vector cost summary ---
+   remark #25015: Estimate of max trip count of loop=1
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(922,5)
+<Remainder loop for vectorization>
+   remark #25015: Estimate of max trip count of loop=5
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(987,5)
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #15382: vectorization support: call to function printf(const char *__restrict__, ...) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(989,28) ]
+   remark #15382: vectorization support: call to function rank(int) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(990,9) ]
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+   remark #25015: Estimate of max trip count of loop=10
+LOOP END
+===========================================================================
+
+Begin optimization report for: rank(int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (rank(int)) [2/22=9.1%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(595,1)
+  -> EXTERN: (872,17) printf(const char *__restrict__, ...)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(612,5)
+   remark #17108: loop was not parallelized: insufficient computational work
+   remark #15389: vectorization support: reference partial_verify_vals[i] has unaligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(613,9) ]
+   remark #15388: vectorization support: reference test_index_array[i] has aligned access   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(613,44) ]
+   remark #15381: vectorization support: unaligned access used inside loop body
+   remark #15335: loop was not vectorized: vectorization possible but seems inefficient. Use vector always directive or -vec-threshold0 to override 
+   remark #15328: vectorization support: irregularly indexed load was emulated for the variable <key_array[test_index_array[i]]>, part of index is read from memory   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(613,34) ]
+   remark #15305: vectorization support: vector length 2
+   remark #15309: vectorization support: normalized vectorization overhead 0.167
+   remark #15450: unmasked unaligned unit stride loads: 1 
+   remark #15451: unmasked unaligned unit stride stores: 1 
+   remark #15462: unmasked indexed (or gather) loads: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 6 
+   remark #15477: vector cost: 9.000 
+   remark #15478: estimated potential speedup: 0.660 
+   remark #15488: --- end vector cost summary ---
+   remark #25015: Estimate of max trip count of loop=5
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(644,5)
+   remark #25408: memset generated
+   remark #17108: loop was not parallelized: insufficient computational work
+   remark #15398: loop was not vectorized: loop was transformed to memset or memcpy
+   remark #25015: Estimate of max trip count of loop=1
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(649,5)
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #17106: parallel dependence: assumed FLOW dependence between work_buff[key_array[i]] (650:9) and work_buff[key_array[i]] (650:9)
+   remark #17106: parallel dependence: assumed ANTI dependence between work_buff[key_array[i]] (650:9) and work_buff[key_array[i]] (650:9)
+   remark #17106: parallel dependence: assumed OUTPUT dependence between work_buff[key_array[i]] (650:9) and work_buff[key_array[i]] (650:9)
+   remark #17106: parallel dependence: assumed OUTPUT dependence between work_buff[key_array[i]] (650:9) and work_buff[key_array[i]] (650:9)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+   remark #15346: vector dependence: assumed FLOW dependence between work_buff[key_array[i]] (650:9) and work_buff[key_array[i]] (650:9)
+   remark #15346: vector dependence: assumed ANTI dependence between work_buff[key_array[i]] (650:9) and work_buff[key_array[i]] (650:9)
+   remark #25456: Number of Array Refs Scalar Replaced In Loop: 1
+   remark #25015: Estimate of max trip count of loop=33554432
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(658,5)
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #17106: parallel dependence: assumed FLOW dependence between bucket_ptrs[i] (659:9) and bucket_ptrs[i-1] (659:9)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+   remark #15346: vector dependence: assumed FLOW dependence between bucket_ptrs[i] (659:9) and bucket_ptrs[i-1] (659:9)
+   remark #25456: Number of Array Refs Scalar Replaced In Loop: 2
+   remark #25015: Estimate of max trip count of loop=1023
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(669,5)
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #17106: parallel dependence: assumed ANTI dependence between bucket_ptrs[k] (672:19) and bucket_ptrs[k] (672:19)
+   remark #17106: parallel dependence: assumed FLOW dependence between bucket_ptrs[k] (672:19) and bucket_ptrs[k] (672:19)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+   remark #15346: vector dependence: assumed ANTI dependence between bucket_ptrs[k] (672:19) and bucket_ptrs[k] (672:19)
+   remark #15346: vector dependence: assumed FLOW dependence between bucket_ptrs[k] (672:19) and bucket_ptrs[k] (672:19)
+   remark #25015: Estimate of max trip count of loop=33554432
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(693,5)
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #17106: parallel dependence: assumed OUTPUT dependence between key_buff1[k] (698:9) and key_buff1[k] (716:13)
+   remark #17106: parallel dependence: assumed OUTPUT dependence between key_buff1[k] (716:13) and key_buff1[k] (698:9)
+   remark #15382: vectorization support: call to function ?1memset cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(698,9) ]
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+   remark #15346: vector dependence: assumed OUTPUT dependence between key_buff1[k] (698:9) and key_buff1[k] (716:13)
+   remark #15346: vector dependence: assumed OUTPUT dependence between key_buff1[k] (716:13) and key_buff1[k] (698:9)
+   remark #25015: Estimate of max trip count of loop=1024
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(698,9)
+      remark #25408: memset generated
+      remark #17108: loop was not parallelized: insufficient computational work
+      remark #15398: loop was not vectorized: loop was transformed to memset or memcpy
+      remark #25015: Estimate of max trip count of loop=1
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(707,9)
+      remark #17104: loop was not parallelized: existence of parallel dependence
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization
+      remark #15346: vector dependence: assumed FLOW dependence between key_buff1[key_buff2[k]] (708:13) and key_buff1[key_buff2[k]] (708:13)
+      remark #15346: vector dependence: assumed ANTI dependence between key_buff1[key_buff2[k]] (708:13) and key_buff1[key_buff2[k]] (708:13)
+      remark #25015: Estimate of max trip count of loop=33554432
+   LOOP END
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(715,9)
+      remark #17104: loop was not parallelized: existence of parallel dependence
+      remark #17106: parallel dependence: assumed FLOW dependence between key_buff1[k] (716:13) and key_buff1[k-1] (716:13)
+      remark #15344: loop was not vectorized: vector dependence prevents vectorization
+      remark #15346: vector dependence: assumed FLOW dependence between key_buff1[k] (716:13) and key_buff1[k-1] (716:13)
+      remark #25456: Number of Array Refs Scalar Replaced In Loop: 1
+      remark #25015: Estimate of max trip count of loop=2047
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(764,5)
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #17106: parallel dependence: assumed OUTPUT dependence between passed_verification (835:29) and passed_verification (828:29)
+   remark #17106: parallel dependence: assumed OUTPUT dependence between passed_verification (828:29) and passed_verification (835:29)
+   remark #15382: vectorization support: call to function printf(const char *__restrict__, ...) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(872,17) ]
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+   remark #15346: vector dependence: assumed OUTPUT dependence between passed_verification (835:29) and passed_verification (828:29)
+   remark #15346: vector dependence: assumed OUTPUT dependence between passed_verification (828:29) and passed_verification (835:29)
+   remark #25015: Estimate of max trip count of loop=5
+LOOP END
+===========================================================================
+
+Begin optimization report for: timer_start(int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (timer_start(int)) [3/22=13.6%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/common/c_timers.c(48,1)
+  -> (49,16) elapsed_time(void) (isz = 2) (sz = 7)
+     [[ Callee not marked with inlining pragma  <1>]]
+
+===========================================================================
+
+Begin optimization report for: elapsed_time(void)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (elapsed_time(void)) [4/22=18.2%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/common/c_timers.c(15,1)
+  -> (22,5) wtime_(double *) (isz = 15) (sz = 20)
+     [[ Callee not marked with inlining pragma  <1>]]
+
+===========================================================================
+
+Begin optimization report for: wtime_(double *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (wtime_(double *)) [5/22=22.7%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/common/wtime.c(8,1)
+  -> EXTERN: (12,4) gettimeofday(struct timeval *__restrict__, __timezone_ptr_t)
+
+===========================================================================
+
+Begin optimization report for: timer_clear(int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (timer_clear(int)) [6/22=27.3%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/common/c_timers.c(38,1)
+
+===========================================================================
+
+Begin optimization report for: create_seq(double, double)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (create_seq(double, double)) [7/22=31.8%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(416,1)
+  -> CP_CLONE (441,9) find_my_seed..0(int, int, long, double, double) (isz = 46) (sz = 62)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (448,11) randlc(double *, double *) (isz = 75) (sz = 84)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (449,12) randlc(double *, double *) (isz = 75) (sz = 84)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (450,12) randlc(double *, double *) (isz = 75) (sz = 84)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (451,12) randlc(double *, double *) (isz = 75) (sz = 84)
+     [[ Callee not marked with inlining pragma  <1>]]
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(446,5)
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #15382: vectorization support: call to function randlc(double *, double *) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(448,11) ]
+   remark #15382: vectorization support: call to function randlc(double *, double *) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(449,12) ]
+   remark #15382: vectorization support: call to function randlc(double *, double *) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(450,12) ]
+   remark #15382: vectorization support: call to function randlc(double *, double *) cannot be vectorized   [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(451,12) ]
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+LOOP END
+===========================================================================
+
+Begin optimization report for: randlc(double *, double *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (randlc(double *, double *)) [8/22=36.4%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(301,1)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(317,9)
+<Distributed chunk1>
+   remark #25084: Preprocess Loopnests: Moving Out Store    [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(319,11) ]
+   remark #25084: Preprocess Loopnests: Moving Out Store    [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(320,11) ]
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #17106: parallel dependence: assumed ANTI dependence between T23 (320:11) and T23 (320:11)
+   remark #17106: parallel dependence: assumed FLOW dependence between T23 (320:11) and T23 (320:11)
+   remark #17106: parallel dependence: assumed FLOW dependence between T23 (320:11) and T23 (320:11)
+   remark #17106: parallel dependence: assumed ANTI dependence between T23 (320:11) and T23 (320:11)
+   remark #17106: parallel dependence: assumed ANTI dependence between T23 (320:11) and T23 (320:11)
+   remark #17106: parallel dependence: assumed FLOW dependence between T23 (320:11) and T23 (320:11)
+   remark #17106: parallel dependence: assumed FLOW dependence between T23 (320:11) and T23 (320:11)
+   remark #17106: parallel dependence: assumed ANTI dependence between T23 (320:11) and T23 (320:11)
+   remark #25426: Loop Distributed (2 way) 
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+   remark #15346: vector dependence: assumed ANTI dependence between T23 (320:11) and T23 (320:11)
+   remark #15346: vector dependence: assumed FLOW dependence between T23 (320:11) and T23 (320:11)
+   remark #15346: vector dependence: assumed FLOW dependence between T23 (320:11) and T23 (320:11)
+   remark #15346: vector dependence: assumed ANTI dependence between T23 (320:11) and T23 (320:11)
+   remark #15346: vector dependence: assumed ANTI dependence between T23 (320:11) and T23 (320:11)
+   remark #15346: vector dependence: assumed FLOW dependence between T23 (320:11) and T23 (320:11)
+   remark #15346: vector dependence: assumed FLOW dependence between T23 (320:11) and T23 (320:11)
+   remark #15346: vector dependence: assumed ANTI dependence between T23 (320:11) and T23 (320:11)
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(317,9)
+<Distributed chunk2>
+   remark #15305: vectorization support: vector length 4
+   remark #15309: vectorization support: normalized vectorization overhead 3.800
+   remark #15301: PARTIAL LOOP WAS VECTORIZED
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 4 
+   remark #15477: vector cost: 1.250 
+   remark #15478: estimated potential speedup: 1.640 
+   remark #15488: --- end vector cost summary ---
+   remark #25015: Estimate of max trip count of loop=5
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(317,9)
+<Remainder loop for vectorization, Distributed chunk2>
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(322,9)
+   remark #25084: Preprocess Loopnests: Moving Out Store    [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(324,11) ]
+   remark #25084: Preprocess Loopnests: Moving Out Store    [ /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(325,11) ]
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #17106: parallel dependence: assumed ANTI dependence between T46 (325:11) and T46 (325:11)
+   remark #17106: parallel dependence: assumed FLOW dependence between T46 (325:11) and T46 (325:11)
+   remark #17106: parallel dependence: assumed FLOW dependence between T46 (325:11) and T46 (325:11)
+   remark #17106: parallel dependence: assumed ANTI dependence between T46 (325:11) and T46 (325:11)
+   remark #17106: parallel dependence: assumed ANTI dependence between T46 (325:11) and T46 (325:11)
+   remark #17106: parallel dependence: assumed FLOW dependence between T46 (325:11) and T46 (325:11)
+   remark #17106: parallel dependence: assumed FLOW dependence between T46 (325:11) and T46 (325:11)
+   remark #17106: parallel dependence: assumed ANTI dependence between T46 (325:11) and T46 (325:11)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+   remark #15346: vector dependence: assumed ANTI dependence between T46 (325:11) and T46 (325:11)
+   remark #15346: vector dependence: assumed FLOW dependence between T46 (325:11) and T46 (325:11)
+   remark #15346: vector dependence: assumed FLOW dependence between T46 (325:11) and T46 (325:11)
+   remark #15346: vector dependence: assumed ANTI dependence between T46 (325:11) and T46 (325:11)
+   remark #15346: vector dependence: assumed ANTI dependence between T46 (325:11) and T46 (325:11)
+   remark #15346: vector dependence: assumed FLOW dependence between T46 (325:11) and T46 (325:11)
+   remark #15346: vector dependence: assumed FLOW dependence between T46 (325:11) and T46 (325:11)
+   remark #15346: vector dependence: assumed ANTI dependence between T46 (325:11) and T46 (325:11)
+LOOP END
+===========================================================================
+
+Begin optimization report for: find_my_seed..0(int, int, long, double, double)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (find_my_seed..0(int, int, long, double, double)) [9/22=40.9%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(379,1)
+  CLONED FROM: find_my_seed(int, int, long, double, double)(0,1,0x08000000,0x00000000,X,X)
+  -> (395,19) randlc(double *, double *) (isz = 75) (sz = 84)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (399,19) randlc(double *, double *) (isz = 75) (sz = 84)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (403,13) randlc(double *, double *) (isz = 75) (sz = 84)
+     [[ Callee not marked with inlining pragma  <1>]]
+
+===========================================================================
+
+Begin optimization report for: alloc_key_buff(void)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (alloc_key_buff(void)) [10/22=45.5%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(476,1)
+  -> (488,32) alloc_mem(size_t) (isz = 9) (sz = 16)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (491,38) alloc_mem(size_t) (isz = 9) (sz = 16)
+     [[ Callee not marked with inlining pragma  <1>]]
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(495,5)
+   remark #25408: memset generated
+   remark #17108: loop was not parallelized: insufficient computational work
+   remark #15398: loop was not vectorized: loop was transformed to memset or memcpy
+   remark #25015: Estimate of max trip count of loop=1
+LOOP END
+===========================================================================
+
+Begin optimization report for: alloc_mem(size_t)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (alloc_mem(size_t)) [11/22=50.0%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(464,1)
+  -> EXTERN: (467,17) malloc(size_t)
+  -> EXTERN: (469,9) perror(const char *)
+  -> EXTERN: (470,9) exit(int)
+
+===========================================================================
+
+Begin optimization report for: full_verify(void)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (full_verify(void)) [12/22=54.5%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(518,1)
+  -> EXTERN: (580,9) printf(const char *__restrict__, ...)
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(535,5)
+   remark #17104: loop was not parallelized: existence of parallel dependence
+   remark #17106: parallel dependence: assumed ANTI dependence between key_buff_ptr_global[key_buff2[i]] (539:19) and key_buff_ptr_global[key_buff2[i]] (539:19)
+   remark #17106: parallel dependence: assumed FLOW dependence between key_buff_ptr_global[key_buff2[i]] (539:19) and key_buff_ptr_global[key_buff2[i]] (539:19)
+   remark #15344: loop was not vectorized: vector dependence prevents vectorization
+   remark #15346: vector dependence: assumed ANTI dependence between key_buff_ptr_global[key_buff2[i]] (539:19) and key_buff_ptr_global[key_buff2[i]] (539:19)
+   remark #15346: vector dependence: assumed FLOW dependence between key_buff_ptr_global[key_buff2[i]] (539:19) and key_buff_ptr_global[key_buff2[i]] (539:19)
+
+   LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(538,9)
+      remark #17102: loop was not parallelized: not a parallelization candidate
+      remark #15523: loop was not vectorized: loop control variable i was found, but loop iteration count cannot be computed before executing the loop
+      remark #25456: Number of Array Refs Scalar Replaced In Loop: 1
+   LOOP END
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(575,5)
+   remark #17109: LOOP WAS AUTO-PARALLELIZED
+   remark #17101: parallel loop shared={ } private={ } firstprivate={ i } lastprivate={ } firstlastprivate={ } reduction={ j }
+   remark #15305: vectorization support: vector length 8
+   remark #15309: vectorization support: normalized vectorization overhead 2.273
+   remark #15300: LOOP WAS VECTORIZED
+   remark #15448: unmasked aligned unit stride loads: 1 
+   remark #15450: unmasked unaligned unit stride loads: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 12 
+   remark #15477: vector cost: 1.370 
+   remark #15478: estimated potential speedup: 8.720 
+   remark #15488: --- end vector cost summary ---
+   remark #25015: Estimate of max trip count of loop=4194303
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(575,5)
+<Remainder loop for vectorization>
+   remark #25456: Number of Array Refs Scalar Replaced In Loop: 1
+   remark #25015: Estimate of max trip count of loop=33554431
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(575,5)
+<Peeled loop for vectorization>
+   remark #25456: Number of Array Refs Scalar Replaced In Loop: 1
+   remark #25015: Estimate of max trip count of loop=7
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(575,5)
+   remark #15305: vectorization support: vector length 8
+   remark #15309: vectorization support: normalized vectorization overhead 3.182
+   remark #15300: LOOP WAS VECTORIZED
+   remark #15448: unmasked aligned unit stride loads: 1 
+   remark #15450: unmasked unaligned unit stride loads: 1 
+   remark #15475: --- begin vector cost summary ---
+   remark #15476: scalar cost: 12 
+   remark #15477: vector cost: 1.370 
+   remark #15478: estimated potential speedup: 8.720 
+   remark #15488: --- end vector cost summary ---
+   remark #25015: Estimate of max trip count of loop=4194303
+LOOP END
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(575,5)
+<Remainder loop for vectorization>
+   remark #25015: Estimate of max trip count of loop=33554431
+LOOP END
+===========================================================================
+
+Begin optimization report for: c_print_results(char *, char, int, int, int, int, double, double, char *, int, char *, char *, char *, char *, char *, char *, char *, char *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (c_print_results(char *, char, int, int, int, int, double, double, char *, int, char *, char *, char *, char *, char *, char *, char *, char *)) [13/22=59.1%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/common/c_print_results.c(28,1)
+  -> EXTERN: (46,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (48,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (53,9) printf(const char *__restrict__, ...)
+  -> EXTERN: (56,9) printf(const char *__restrict__, ...)
+  -> EXTERN: (58,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (60,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (62,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (64,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (69,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (71,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (74,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (77,9) printf(const char *__restrict__, ...)
+  -> EXTERN: (79,9) printf(const char *__restrict__, ...)
+  -> EXTERN: (81,9) printf(const char *__restrict__, ...)
+  -> EXTERN: (83,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (85,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (87,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (89,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (91,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (93,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (95,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (97,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (99,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (101,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (102,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (103,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (104,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (105,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (106,5) printf(const char *__restrict__, ...)
+
+===========================================================================
+
+Begin optimization report for: timer_read..1(int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (timer_read..1(int)) [14/22=63.6%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/common/c_timers.c(72,1)
+  CLONED FROM: timer_read(int)(3)
+
+===========================================================================
+
+Begin optimization report for: timer_read..2(int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (timer_read..2(int)) [15/22=68.2%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/common/c_timers.c(72,1)
+  CLONED FROM: timer_read(int)(2)
+
+===========================================================================
+
+Begin optimization report for: timer_read..0(int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (timer_read..0(int)) [16/22=72.7%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/common/c_timers.c(72,1)
+  CLONED FROM: timer_read(int)(0)
+
+===========================================================================
+
+Begin optimization report for: timer_read..3(int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (timer_read..3(int)) [17/22=77.3%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/common/c_timers.c(72,1)
+  CLONED FROM: timer_read(int)(1)
+
+===========================================================================
+
+Begin optimization report for: timer_read(int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (timer_read(int)) [18/22=81.8%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/common/c_timers.c(72,1)
+
+===========================================================================
+
+Begin optimization report for: find_my_seed(int, int, long, double, double)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (find_my_seed(int, int, long, double, double)) [19/22=86.4%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(379,1)
+  -> (395,19) randlc(double *, double *) (isz = 75) (sz = 84)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (399,19) randlc(double *, double *) (isz = 75) (sz = 84)
+     [[ Callee not marked with inlining pragma  <1>]]
+  -> (403,13) randlc(double *, double *) (isz = 75) (sz = 84)
+     [[ Callee not marked with inlining pragma  <1>]]
+
+
+    Report from: Loop nest, Vector & Auto-parallelization optimizations [loop, vec, par]
+
+
+LOOP BEGIN at /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/IS/src/is.c(392,7)
+   remark #17102: loop was not parallelized: not a parallelization candidate
+   remark #15521: loop was not vectorized: loop control variable was not identified. Explicitly compute the iteration count before executing the loop or try using canonical loop form from OpenMP specification
+LOOP END
+===========================================================================
+
+Begin optimization report for: timer_count(int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (timer_count(int)) [20/22=90.9%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/common/c_timers.c(77,1)
+
+===========================================================================
+
+Begin optimization report for: print_results(char *, char, int, int, int, int, double, double, char *, logical, char *, char *, char *, char *, char *, char *, char *, char *, char *)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (print_results(char *, char, int, int, int, int, double, double, char *, logical, char *, char *, char *, char *, char *, char *, char *, char *, char *)) [21/22=95.5%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/common/print_results.c(14,1)
+  -> EXTERN: (33,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (34,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (43,7) sprintf(char *__restrict__, const char *__restrict__, ...)
+  -> EXTERN: (43,33) exp2
+  -> EXTERN: (50,7) printf(const char *__restrict__, ...)
+  -> EXTERN: (52,7) printf(const char *__restrict__, ...)
+  -> EXTERN: (55,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (58,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (59,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (61,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (62,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (66,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (67,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (69,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (71,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (73,5) printf(const char *__restrict__, ...)
+  -> EXTERN: (74,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (75,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (77,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (79,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (80,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (81,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (82,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (83,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (84,3) printf(const char *__restrict__, ...)
+  -> EXTERN: (86,3) printf(const char *__restrict__, ...)
+
+===========================================================================
+
+Begin optimization report for: timer_stop(int)
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINE REPORT: (timer_stop(int)) [22/22=100.0%] /home/s1736883/Work/PParMetrics/benchmarks/snu-npb/nauseous-omp/common/c_timers.c(57,1)
+  -> (60,11) elapsed_time(void) (isz = 2) (sz = 7)
+     [[ Callee not marked with inlining pragma  <1>]]
+
+===========================================================================
+
+    Report from: Interprocedural optimizations [ipo]
+
+INLINING FOOTNOTES:
+
+<1> The compiler's heuristics indicate that the function is not profitable to 
+    inline.  Override this decision by adding "inline 
+    __attribute__((always_inline))" to the declaration of the called function, 
+    or add "#pragma forceinline" before the call site.
+
+<2> The function is larger than the inliner would normally inline.  Use the
+    option -inline-max-size to increase the size of any function that would
+    normally be inlined, add "inline __attribute__((always_inline))" to the
+    declaration of the called function, or add "#pragma forceinline" before
+    the call site.
+
